@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoGovernance.Tests", "RepoGovernance.Tests\RepoGovernance.Tests.csproj", "{464FDE28-40EE-491F-97E4-ED2C44BE79E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoGovernance", "RepoGovernance\RepoGovernance.csproj", "{81AD8E3D-15D9-486F-81CE-D862BA28DB27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoGovernance.Web", "RepoGovernance.Web\RepoGovernance.Web.csproj", "{CECFA1A1-193E-4961-8E35-64CC78710131}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoGovernance.Service", "RepoGovernance.Service\RepoGovernance.Service.csproj", "{DE6D2B1A-60B0-4A95-B8C7-8AA4994B5315}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{464FDE28-40EE-491F-97E4-ED2C44BE79E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{464FDE28-40EE-491F-97E4-ED2C44BE79E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{464FDE28-40EE-491F-97E4-ED2C44BE79E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{464FDE28-40EE-491F-97E4-ED2C44BE79E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81AD8E3D-15D9-486F-81CE-D862BA28DB27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81AD8E3D-15D9-486F-81CE-D862BA28DB27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81AD8E3D-15D9-486F-81CE-D862BA28DB27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81AD8E3D-15D9-486F-81CE-D862BA28DB27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CECFA1A1-193E-4961-8E35-64CC78710131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CECFA1A1-193E-4961-8E35-64CC78710131}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CECFA1A1-193E-4961-8E35-64CC78710131}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CECFA1A1-193E-4961-8E35-64CC78710131}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE6D2B1A-60B0-4A95-B8C7-8AA4994B5315}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE6D2B1A-60B0-4A95-B8C7-8AA4994B5315}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE6D2B1A-60B0-4A95-B8C7-8AA4994B5315}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE6D2B1A-60B0-4A95-B8C7-8AA4994B5315}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
