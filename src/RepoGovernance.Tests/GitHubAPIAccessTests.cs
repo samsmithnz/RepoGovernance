@@ -37,6 +37,21 @@ public class GitHubAPIAccessTests : BaseAPIAccessTests
 
         //Assert
         Assert.IsNotNull(repos);
-        Assert.IsTrue(repos.Count > 0);
+        Assert.IsTrue(repos.Count >= 30);
+        bool foundPublicRepo = false;
+        bool foundPrivateRepo = false;
+        foreach (Repo repo in repos)
+        {
+            if (repo.visibility == "public")
+            {
+                foundPublicRepo = true;
+            }
+            else if (repo.visibility == "private")
+            {
+                foundPrivateRepo = true;
+            }
+        }
+        Assert.IsTrue(foundPublicRepo);
+        Assert.IsTrue(foundPrivateRepo);
     }
 }

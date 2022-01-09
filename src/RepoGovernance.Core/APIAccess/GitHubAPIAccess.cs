@@ -28,16 +28,17 @@ public static class GitHubAPIAccess
     //https://docs.github.com/en/rest/reference/repos#list-repositories-for-a-user
     public async static Task<List<Repo>> GetRepos(string? clientId, string? clientSecret, string owner)
     {
-        List<Repo> result = new List<Repo>();
+        List<Repo> result = new();
         if (clientId != null && clientSecret != null)
         {
-            string url = $"https://api.github.com/users/{owner}/repos";
+            string url = $"https://api.github.com/search/repositories?q=user:{owner}";
             string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
             if (string.IsNullOrEmpty(response) == false &&
                 response != @"{""message"":""Not Found"",""documentation_url"":""https://docs.github.com/rest/reference/repos#get-a-repository""}")
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-                result = JsonConvert.DeserializeObject<List<Repo>>(jsonObj?.ToString());
+                SearchResults searchResult = JsonConvert.DeserializeObject<SearchResults>(jsonObj?.ToString());
+                result = searchResult.items;
                 //result.RawJSON = jsonObj?.ToString();
             }
         }
