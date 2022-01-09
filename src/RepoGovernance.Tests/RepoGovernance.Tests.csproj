@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RepoGovernance.Core\RepoGovernance.Core.csproj" />
     <ProjectReference Include="..\RepoGovernance\RepoGovernance.csproj" />
   </ItemGroup>
 
