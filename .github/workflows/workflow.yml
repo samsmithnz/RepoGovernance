@@ -35,12 +35,12 @@ jobs:
     - name: .NET test
       run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj -c Release
     - name: .NET publish
-      run: dotnet publish src/RepoGovernance/RepoGovernance.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
+      run: dotnet publish src/RepoGovernance.Core/RepoGovernance.Core.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v2
       with:
         name: drop
-        path: src/RepoGovernance/bin/Release
+        path: src/RepoGovernance.Core/bin/Release
     - name: .NET publish
       run: dotnet publish src/RepoGovernance.Web/RepoGovernance.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
     - name: Upload package back to GitHub
