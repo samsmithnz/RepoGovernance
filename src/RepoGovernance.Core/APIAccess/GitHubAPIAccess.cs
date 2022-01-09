@@ -25,6 +25,25 @@ public static class GitHubAPIAccess
         return result;
     }
 
+    //https://docs.github.com/en/rest/reference/repos#list-repositories-for-a-user
+    public async static Task<List<Repo>> GetRepos(string? clientId, string? clientSecret, string owner)
+    {
+        List<Repo> result = new List<Repo>();
+        if (clientId != null && clientSecret != null)
+        {
+            string url = $"https://api.github.com/users/{owner}/repos";
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
+            if (string.IsNullOrEmpty(response) == false &&
+                response != @"{""message"":""Not Found"",""documentation_url"":""https://docs.github.com/rest/reference/repos#get-a-repository""}")
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                result = JsonConvert.DeserializeObject<List<Repo>>(jsonObj?.ToString());
+                //result.RawJSON = jsonObj?.ToString();
+            }
+        }
+        return result;
+    }
+
     //public async static Task<bool> CreateRepo(string? clientId, string? clientSecret,
     //    string repo,
     //    bool allowAutoMerge,
