@@ -32,6 +32,13 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+    - name: Variable Substitution appsettings file for tests
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: 'src/RepoGovernance.Tests/appsettings.json'
+      env:
+        AppSettings.GitHubClientId: "${{ secrets.GitHubClientId }}"
+        AppSettings.GitHubClientSecret: "${{ secrets.GitHubClientSecret }}" 
     - name: .NET test
       run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj -c Release
     - name: .NET publish
