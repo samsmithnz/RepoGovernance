@@ -31,14 +31,13 @@ public static class GitHubAPIAccess
         List<Repo> result = new();
         if (clientId != null && clientSecret != null)
         {
-            string url = $"https://api.github.com/search/repositories?q=user:{owner}";
+            string url = $"https://api.github.com/users/{owner}/repos";
             string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret, false);
             if (string.IsNullOrEmpty(response) == false &&
                 response != @"{""message"":""Not Found"",""documentation_url"":""https://docs.github.com/rest/reference/repos#get-a-repository""}")
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-                SearchResults searchResult = JsonConvert.DeserializeObject<SearchResults>(jsonObj?.ToString());
-                result = searchResult.items;
+                result = JsonConvert.DeserializeObject<List<Repo>>(jsonObj?.ToString());
                 //result.RawJSON = jsonObj?.ToString();
             }
         }
