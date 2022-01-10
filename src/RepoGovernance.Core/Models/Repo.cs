@@ -1,6 +1,6 @@
 ﻿namespace RepoGovernance.Core.Models
 {
-    public class Repo
+    public class Repo: BaseModel
     {
         public string? id { get; set; }
         public string? name { get; set; }

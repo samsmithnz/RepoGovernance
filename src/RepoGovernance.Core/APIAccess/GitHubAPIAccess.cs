@@ -19,7 +19,7 @@ public static class GitHubAPIAccess
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
                 result = JsonConvert.DeserializeObject<Repo>(jsonObj?.ToString());
-                //result.RawJSON = jsonObj?.ToString();
+                result.RawJSON = jsonObj?.ToString();
             }
         }
         return result;
@@ -37,7 +37,11 @@ public static class GitHubAPIAccess
                 response != @"{""message"":""Not Found"",""documentation_url"":""https://docs.github.com/rest/reference/repos#get-a-repository""}")
             {
                 dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-                result = JsonConvert.DeserializeObject<List<Repo>>(jsonObj?.ToString());
+                string? jsonString = jsonObj?.ToString();
+                if (jsonString != null)
+                {
+                    result = JsonConvert.DeserializeObject<List<Repo>>(jsonString);
+                }
                 //result.RawJSON = jsonObj?.ToString();
             }
         }
