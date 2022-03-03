@@ -8,9 +8,9 @@ namespace RepoGovernance.Service.Controllers
     [ApiController]
     public class GovernanceController : ControllerBase
     {
-        public async Task<List<SummaryItem>> GetSummaryItems()
+        public async Task<List<SummaryItem>> GetSummaryItems(string owner)
         {
-            return RepoGovernance.Core.APIAccess.DatabaseAccess.GetSummaryItems();
+            return RepoGovernance.Core.APIAccess.DatabaseAccess.GetSummaryItems(owner);
         }
     }
 }
