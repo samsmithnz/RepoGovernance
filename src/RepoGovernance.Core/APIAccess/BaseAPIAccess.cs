@@ -4,7 +4,6 @@ namespace RepoGovernance.Core.APIAccess;
 
 public static class BaseAPIAccess
 {
-
     public async static Task<string?> GetGitHubMessage(string url, string clientId, string clientSecret, bool processErrors = true)
     {
         HttpClient client = BuildHttpClient(url, clientId, clientSecret);

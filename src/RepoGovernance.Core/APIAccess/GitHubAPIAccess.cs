@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RepoGovernance.Core.Models;
+using System.Web;
 
 namespace RepoGovernance.Core.APIAccess;
 
@@ -129,23 +130,23 @@ public static class GitHubAPIAccess
     //    return result;
     //}
 
-    //public async static Task<GitHubFile[]?> GetFiles(string? clientId, string? clientSecret,
-    //    string owner, string repo, string path)
-    //{
-    //    GitHubFile[]? result = null;
-    //    if (clientId != null && clientSecret != null)
-    //    {
-    //        path = HttpUtility.UrlEncode(path);
-    //        string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
-    //        string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
-    //        if (string.IsNullOrEmpty(response) == false)
-    //        {
-    //            dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-    //            result = JsonConvert.DeserializeObject<GitHubFile[]>(jsonObj?.ToString());
-    //        }
-    //    }
-    //    return result;
-    //}
+    public async static Task<List<GitHubFile>?> GetFiles(string? clientId, string? clientSecret,
+        string owner, string repo, string path)
+    {
+        GitHubFile[]? result = null;
+        if (clientId != null && clientSecret != null)
+        {
+            path = HttpUtility.UrlEncode(path);
+            string url = $"https://api.github.com/repos/{owner}/{repo}/contents/{path}";
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
+            if (string.IsNullOrEmpty(response) == false)
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                result = JsonConvert.DeserializeObject<GitHubFile[]>(jsonObj?.ToString());
+            }
+        }
+        return result?.ToList();
+    }
 
     //public async static Task<BranchProtectionPolicy?> GetBranchProtectionPolicy(string? clientId, string? clientSecret,
     //    string owner, string repo, string branch)

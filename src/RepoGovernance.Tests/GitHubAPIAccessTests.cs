@@ -54,4 +54,22 @@ public class GitHubAPIAccessTests : BaseAPIAccessTests
         //Assert.IsTrue(foundPublicRepo);
         //Assert.IsTrue(foundPrivateRepo);
     }
+
+    [TestMethod]
+    public async Task GetFilesTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repo = "RepoGovernance";
+        string path = ".github/workflows";
+
+        //Act
+        List<GitHubFile>? files = await GitHubAPIAccess.GetFiles(base.GitHubId, base.GitHubSecret,
+              owner, repo, path);
+
+        //Assert
+        Assert.IsNotNull(files);
+        Assert.IsTrue(files.Count > 0);
+        Assert.AreEqual("workflow.yml", files[0].name);
+    }
 }

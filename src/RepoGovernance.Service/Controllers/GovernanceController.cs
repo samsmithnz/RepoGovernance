@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RepoGovernance.Core;
 using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Service.Controllers
@@ -10,7 +11,9 @@ namespace RepoGovernance.Service.Controllers
     {
         public async Task<List<SummaryItem>> GetSummaryItems(string owner)
         {
-            return RepoGovernance.Core.APIAccess.DatabaseAccess.GetSummaryItems(owner);
+            string clientId = "";
+            string clientSecret = "";
+            return await SummaryItemsController.GetSummaryItems(clientId, clientSecret, owner);
         }
     }
 }

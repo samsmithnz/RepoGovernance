@@ -1,37 +1,24 @@
-﻿using RepoGovernance.Core.Models;
+﻿using RepoGovernance.Core.Helpers;
+using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Core.APIAccess;
 
 public static class DatabaseAccess
 {
 
-    public static List<SummaryItem> GetSummaryItems(string owner)
+    public static List<string> GetRepos(string owner)
     {
         //TODO: move this into a database, and filter by owner
-        List<SummaryItem> results = new List<SummaryItem>()
+        List<string> results = new()
         {
-            new SummaryItem()
-            {
-                Repo = "AzurePipelinesToActions"
-            },
-            new SummaryItem()
-            {
-                Repo = "CustomQueue"
-            },
-            new SummaryItem()
-            {
-                Repo = "DevOpsMetrics"
-            },
-            new SummaryItem()
-            {
-                Repo = "RepoAutomation"
-            },
-            new SummaryItem()
-            {
-                Repo = "samsmithnz"
-            }
+            "AzurePipelinesToActions",
+            "CustomQueue",
+            "DevOpsMetrics",
+            "RepoAutomation",
+            "samsmithnz"
         };
+
         return results;
     }
 
-}
+    }

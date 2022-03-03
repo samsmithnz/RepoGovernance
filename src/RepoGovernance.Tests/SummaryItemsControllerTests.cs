@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RepoGovernance.Core;
 using RepoGovernance.Core.APIAccess;
 using RepoGovernance.Core.Models;
 using RepoGovernance.Tests.Helpers;
@@ -8,16 +9,16 @@ using System.Threading.Tasks;
 namespace RepoGovernance.Tests;
 
 [TestClass]
-public class DatabaseAccessTests : BaseAPIAccessTests
+public class SummaryItemsControllerTests : BaseAPIAccessTests
 {
     [TestMethod]
-    public void GetSummaryItems()
+    public async Task GetSummaryItemsTest()
     {
         //Arrange
         string owner = "samsmithnz";
 
         //Act
-        List<SummaryItem> summaryItems = DatabaseAccess.GetSummaryItems(owner);
+        List<SummaryItem> summaryItems = await SummaryItemsController.GetSummaryItems(base.GitHubId, base.GitHubSecret, owner);
 
         //Assert
         Assert.IsNotNull(summaryItems);

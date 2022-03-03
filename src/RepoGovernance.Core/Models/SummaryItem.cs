@@ -2,12 +2,13 @@
 {
     public class SummaryItem
     {
-        public SummaryItem()
+        public SummaryItem(string repo)
         {
-            Actions = new List<string>();
+            Repo = repo;
+            Actions = new();
         }
 
-        public string Repo { get; set; }
+        public string Repo { get; internal set; }
         public List<string> Actions { get; set; }
     }
 }
