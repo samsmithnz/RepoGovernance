@@ -15,7 +15,7 @@ public class GitHubAPIAccessTests : BaseAPIAccessTests
     {
         //Arrange
         string owner = "samsmithnz";
-        string repository = "RepoGovernance";
+        string repository = "TBS";
 
         //Act
         Repo? repo = await GitHubAPIAccess.GetRepo(base.GitHubId, base.GitHubSecret,
