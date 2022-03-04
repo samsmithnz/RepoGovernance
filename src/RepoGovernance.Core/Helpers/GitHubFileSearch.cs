@@ -33,7 +33,7 @@ namespace RepoGovernance.Core.Helpers
                             results.Add(gitHubFile.name);
                         }
                     }
-                    else
+                    else if (file == null && extension == null)
                     {
                         if (gitHubFile != null)
                         {

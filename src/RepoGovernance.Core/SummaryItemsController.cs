@@ -16,6 +16,7 @@ namespace RepoGovernance.Core
             foreach (string repo in repos)
             {
                 SummaryItem summaryItem = new(repo);
+                //Get any actions
                 List<string>? actions = await GitHubFileSearch.SearchForFiles(
                     clientId, secret,
                     owner, repo,
@@ -23,6 +24,15 @@ namespace RepoGovernance.Core
                 if (actions != null)
                 {
                     summaryItem.Actions = actions;
+                }
+                //Get any dependabot files
+                List<string>? dependabot = await GitHubFileSearch.SearchForFiles(
+                    clientId, secret,
+                    owner, repo,
+                    "dependabot.yml", null, ".github"); //"*.yml"
+                if (dependabot != null)
+                {
+                    summaryItem.Dependabot = dependabot;
                 }
                 results.Add(summaryItem);
             }
