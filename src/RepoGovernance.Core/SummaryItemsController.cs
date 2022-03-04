@@ -34,6 +34,18 @@ namespace RepoGovernance.Core
                 {
                     summaryItem.Dependabot = dependabot;
                 }
+
+                //Get branch policies
+                //Get Gitversion files
+                List<string>? gitversion = await GitHubFileSearch.SearchForFiles(
+                    clientId, secret,
+                    owner, repo,
+                    "GitVersion.yml", null, null); //"*.yml"
+                if (gitversion != null)
+                {
+                    summaryItem.GitVersion = gitversion;
+                }
+                //Get Frameworks
                 results.Add(summaryItem);
             }
 
