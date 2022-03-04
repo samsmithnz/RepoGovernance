@@ -23,9 +23,12 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //Assert
         Assert.IsNotNull(summaryItems);
         Assert.IsTrue(summaryItems.Count > 0);
-        Assert.AreEqual("AzurePipelinesToActions", summaryItems[0].Repo);
+        Assert.AreEqual("AzurePipelinesToGitHubActionsConverter", summaryItems[0].Repo);
         Assert.IsNotNull(summaryItems[0].Actions);
-        Assert.AreEqual(0, summaryItems[0].Actions.Count);
+        Assert.AreEqual(2, summaryItems[0].Actions.Count);
+        Assert.AreEqual("CustomQueue", summaryItems[1].Repo);
+        Assert.IsNotNull(summaryItems[1].Actions);
+        Assert.AreEqual(0, summaryItems[1].Actions.Count);
     }
 
 }

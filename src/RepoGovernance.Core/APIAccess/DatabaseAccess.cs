@@ -11,7 +11,7 @@ public static class DatabaseAccess
         //TODO: move this into a database, and filter by owner
         List<string> results = new()
         {
-            "AzurePipelinesToActions",
+            "AzurePipelinesToGitHubActionsConverter",
             "CustomQueue",
             "DevOpsMetrics",
             "RepoAutomation",

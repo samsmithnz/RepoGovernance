@@ -12,6 +12,13 @@ public static class BaseAPIAccess
         {
             response.EnsureSuccessStatusCode();
         }
+        else
+        {
+            if (response.IsSuccessStatusCode == false)
+            {
+                return null;
+            }
+        }
         return await response.Content.ReadAsStringAsync();
     }
 

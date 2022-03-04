@@ -19,11 +19,12 @@ namespace RepoGovernance.Core
                 List<string>? actions = await GitHubFileSearch.SearchForFiles(
                     clientId, secret,
                     owner, repo,
-                    null, ".yml", ".github/workflows");
+                    null, null, ".github/workflows"); //"*.yml"
                 if (actions != null)
                 {
                     summaryItem.Actions = actions;
                 }
+                results.Add(summaryItem);
             }
 
             return results;
