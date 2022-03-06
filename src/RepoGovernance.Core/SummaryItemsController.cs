@@ -36,6 +36,8 @@ namespace RepoGovernance.Core
                 }
 
                 //Get branch policies
+                summaryItem.BranchPolicies = await GitHubAPIAccess.GetBranchProtectionPolicy(clientId, secret, owner, repo, "main");
+
                 //Get Gitversion files
                 List<string>? gitversion = await GitHubFileSearch.SearchForFiles(
                     clientId, secret,

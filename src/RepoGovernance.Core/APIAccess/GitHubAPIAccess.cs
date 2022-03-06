@@ -148,23 +148,23 @@ public static class GitHubAPIAccess
         return result?.ToList();
     }
 
-    //public async static Task<BranchProtectionPolicy?> GetBranchProtectionPolicy(string? clientId, string? clientSecret,
-    //    string owner, string repo, string branch)
-    //{
-    //    BranchProtectionPolicy? result = null;
-    //    if (clientId != null && clientSecret != null)
-    //    {
-    //        string url = $"https://api.github.com/repos/{owner}/{repo}/branches/{branch}/protection";
-    //        string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
-    //        if (string.IsNullOrEmpty(response) == false)
-    //        {
-    //            dynamic? jsonObj = JsonConvert.DeserializeObject(response);
-    //            result = JsonConvert.DeserializeObject<BranchProtectionPolicy>(jsonObj?.ToString());
-    //            result.RawJSON = jsonObj?.ToString();
-    //        }
-    //    }
-    //    return result;
-    //}
+    public async static Task<BranchProtectionPolicy?> GetBranchProtectionPolicy(string? clientId, string? clientSecret,
+        string owner, string repo, string branch)
+    {
+        BranchProtectionPolicy? result = null;
+        if (clientId != null && clientSecret != null)
+        {
+            string url = $"https://api.github.com/repos/{owner}/{repo}/branches/{branch}/protection";
+            string? response = await BaseAPIAccess.GetGitHubMessage(url, clientId, clientSecret);
+            if (string.IsNullOrEmpty(response) == false)
+            {
+                dynamic? jsonObj = JsonConvert.DeserializeObject(response);
+                result = JsonConvert.DeserializeObject<BranchProtectionPolicy>(jsonObj?.ToString());
+                result.RawJSON = jsonObj?.ToString();
+            }
+        }
+        return result;
+    }
 
     //public async static Task<Release?> GetReleaseLatest(string? clientId, string? clientSecret,
     //    string owner, string repo)
