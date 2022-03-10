@@ -34,7 +34,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual("CustomQueue", summaryItems[1].Repo);
         Assert.AreEqual(0, summaryItems[1].Actions.Count);
         Assert.AreEqual(0, summaryItems[1].Dependabot.Count);
-        Assert.IsNotNull(summaryItems[1].BranchPolicies);
+        Assert.IsNull(summaryItems[1].BranchPolicies);
         Assert.AreEqual(0, summaryItems[1].GitVersion.Count);
         Assert.AreEqual(0, summaryItems[1].Frameworks.Count);
     }
