@@ -1,7 +1,4 @@
-﻿using RepoGovernance.Core.Helpers;
-using RepoGovernance.Core.Models;
-
-namespace RepoGovernance.Core.APIAccess;
+﻿namespace RepoGovernance.Core.APIAccess;
 
 public static class DatabaseAccess
 {

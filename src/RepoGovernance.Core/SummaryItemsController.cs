@@ -1,5 +1,5 @@
-﻿using RepoGovernance.Core.APIAccess;
-using RepoGovernance.Core.Helpers;
+﻿using RepoAutomation.Core.Helpers;
+using RepoGovernance.Core.APIAccess;
 using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Core
