@@ -1,4 +1,4 @@
-﻿
+﻿using RepoAutomation.Core.Models;
 using RepoGovernance.Core.APIAccess;
 using RepoGovernance.Core.Models;
 
@@ -9,7 +9,7 @@ namespace RepoGovernance.Core.Helpers
         public async static Task<List<string>?> SearchForFiles(string? clientId, string? secret,
             string owner, string repository, string? file, string? extension, string path)
         {
-            List<GitHubFile>? searchResult = await GitHubAPIAccess.GetFiles(clientId, secret,
+            GitHubFile[]? searchResult = await RepoAutomation.Core.APIAccess.GitHubAPIAccess.GetFiles(clientId, secret,
                 owner, repository, path);
 
             List<string> results = new();

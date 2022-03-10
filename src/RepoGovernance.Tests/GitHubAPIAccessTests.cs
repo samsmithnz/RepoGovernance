@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoGovernance.Core.APIAccess;
-using RepoGovernance.Core.Models;
+using RepoAutomation.Core.APIAccess;
+using RepoAutomation.Core.Models;
 using RepoGovernance.Tests.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -64,12 +64,12 @@ public class GitHubAPIAccessTests : BaseAPIAccessTests
         string path = ".github/workflows";
 
         //Act
-        List<GitHubFile>? files = await GitHubAPIAccess.GetFiles(base.GitHubId, base.GitHubSecret,
+        GitHubFile[]? files = await RepoAutomation.Core.APIAccess.GitHubAPIAccess.GetFiles(base.GitHubId, base.GitHubSecret,
               owner, repo, path);
 
         //Assert
         Assert.IsNotNull(files);
-        Assert.IsTrue(files.Count > 0);
+        Assert.IsTrue(files.Length > 0);
         Assert.AreEqual("workflow.yml", files[0].name);
     }
 }

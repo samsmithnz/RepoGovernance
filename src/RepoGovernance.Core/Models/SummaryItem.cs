@@ -1,4 +1,6 @@
-﻿namespace RepoGovernance.Core.Models
+﻿using RepoAutomation.Core.Models;
+
+namespace RepoGovernance.Core.Models
 {
     public class SummaryItem
     {
