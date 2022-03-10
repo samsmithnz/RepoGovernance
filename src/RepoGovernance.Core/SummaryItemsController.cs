@@ -1,4 +1,5 @@
-﻿using RepoAutomation.Core.Helpers;
+﻿using RepoAutomation.Core.APIAccess;
+using RepoAutomation.Core.Helpers;
 using RepoGovernance.Core.APIAccess;
 using RepoGovernance.Core.Models;
 
@@ -36,7 +37,7 @@ namespace RepoGovernance.Core
                 }
 
                 //Get branch policies
-                summaryItem.BranchPolicies = await RepoAutomation.Core.APIAccess.GitHubAPIAccess.GetBranchProtectionPolicy(clientId, secret, owner, repo, "main");
+                summaryItem.BranchPolicies = await GitHubAPIAccess.GetBranchProtectionPolicy(clientId, secret, owner, repo, "main");
 
                 //Get Gitversion files
                 List<string>? gitversion = await GitHubFileSearch.SearchForFiles(
