@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Diagnostics;
-
-namespace RepoGovernance.Core.TableStorage
+﻿namespace RepoGovernance.Core.TableStorage
 {
     public class AzureTableStorageDA //: IAzureTableStorageDA
     {

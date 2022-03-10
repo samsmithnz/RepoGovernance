@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RepoGovernance.Web.Models;
+using System.Diagnostics;
 
 namespace RepoGovernance.Web.Controllers;
 

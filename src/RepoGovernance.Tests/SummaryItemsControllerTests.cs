@@ -1,6 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoGovernance.Core;
-using RepoGovernance.Core.APIAccess;
 using RepoGovernance.Core.Models;
 using RepoGovernance.Tests.Helpers;
 using System.Collections.Generic;

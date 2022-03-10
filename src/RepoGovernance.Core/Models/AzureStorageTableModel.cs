@@ -1,5 +1,5 @@
-﻿using RepoGovernance.Core.TableStorage;
-using Microsoft.Azure.Cosmos.Table;
+﻿using Microsoft.Azure.Cosmos.Table;
+using RepoGovernance.Core.TableStorage;
 
 namespace RepoGovernance.Core.Models
 {

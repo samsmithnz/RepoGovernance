@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-
-
-namespace RepoGovernance.Tests.Helpers
+﻿namespace RepoGovernance.Tests.Helpers
 {
     public static class Utility
     {

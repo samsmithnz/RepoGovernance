@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using RepoGovernance.Core.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace RepoGovernance.Service.Controllers
 {
