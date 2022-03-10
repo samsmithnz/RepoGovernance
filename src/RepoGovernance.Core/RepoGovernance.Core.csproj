@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="RepoAutomation.Core" Version="0.8.5" />	  
+    <PackageReference Include="RepoAutomation.Core" Version="0.8.6" />	  
   </ItemGroup>
 
 </Project>
