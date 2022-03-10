@@ -32,15 +32,23 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
+    - name: Variable Substitution appsettings file for tests
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: 'src/RepoGovernance.Tests/appsettings.json'
+      env:
+        AppSettings.GitHubClientId: "${{ secrets.GitHubClientId }}"
+        AppSettings.GitHubClientSecret: "${{ secrets.GitHubClientSecret }}" 
+        AppSettings.StorageConnectionString: "${{ secrets.StorageConnectionString }}" 
     - name: .NET test
       run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj -c Release
     - name: .NET publish
-      run: dotnet publish src/RepoGovernance/RepoGovernance.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
+      run: dotnet publish src/RepoGovernance.Core/RepoGovernance.Core.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v2
       with:
         name: drop
-        path: src/RepoGovernance/bin/Release
+        path: src/RepoGovernance.Core/bin/Release
     - name: .NET publish
       run: dotnet publish src/RepoGovernance.Web/RepoGovernance.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
     - name: Upload package back to GitHub

@@ -1,23 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoGovernance.Tests", "RepoGovernance.Tests\RepoGovernance.Tests.csproj", "{464FDE28-40EE-491F-97E4-ED2C44BE79E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepoGovernance.Tests", "RepoGovernance.Tests\RepoGovernance.Tests.csproj", "{464FDE28-40EE-491F-97E4-ED2C44BE79E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoGovernance", "RepoGovernance\RepoGovernance.csproj", "{81AD8E3D-15D9-486F-81CE-D862BA28DB27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepoGovernance", "RepoGovernance\RepoGovernance.csproj", "{81AD8E3D-15D9-486F-81CE-D862BA28DB27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoGovernance.Web", "RepoGovernance.Web\RepoGovernance.Web.csproj", "{CECFA1A1-193E-4961-8E35-64CC78710131}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepoGovernance.Web", "RepoGovernance.Web\RepoGovernance.Web.csproj", "{CECFA1A1-193E-4961-8E35-64CC78710131}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoGovernance.Service", "RepoGovernance.Service\RepoGovernance.Service.csproj", "{DE6D2B1A-60B0-4A95-B8C7-8AA4994B5315}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepoGovernance.Service", "RepoGovernance.Service\RepoGovernance.Service.csproj", "{DE6D2B1A-60B0-4A95-B8C7-8AA4994B5315}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6C0ABC41-9811-4812-9C25-CC069654132F}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\autoupdate.yml = ..\.github\workflows\autoupdate.yml
+		..\.github\dependabot.yml = ..\.github\dependabot.yml
+		..\GitVersion.yml = ..\GitVersion.yml
+		..\README.md = ..\README.md
+		..\.github\workflows\workflow.yml = ..\.github\workflows\workflow.yml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepoGovernance.Core", "RepoGovernance.Core\RepoGovernance.Core.csproj", "{D31A8A23-B066-444F-B380-915170178E47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{464FDE28-40EE-491F-97E4-ED2C44BE79E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -36,5 +44,15 @@ Global
 		{DE6D2B1A-60B0-4A95-B8C7-8AA4994B5315}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE6D2B1A-60B0-4A95-B8C7-8AA4994B5315}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE6D2B1A-60B0-4A95-B8C7-8AA4994B5315}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D31A8A23-B066-444F-B380-915170178E47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D31A8A23-B066-444F-B380-915170178E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D31A8A23-B066-444F-B380-915170178E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D31A8A23-B066-444F-B380-915170178E47}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {672BB7A8-D685-4F7F-8FC0-E8821F252A3E}
 	EndGlobalSection
 EndGlobal
