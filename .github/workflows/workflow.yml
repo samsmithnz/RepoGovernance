@@ -40,7 +40,6 @@ jobs:
         AppSettings.GitHubClientId: "${{ secrets.GitHubClientId }}"
         AppSettings.GitHubClientSecret: "${{ secrets.GitHubClientSecret }}" 
         AppSettings.StorageConnectionString: "${{ secrets.StorageConnectionString }}" 
-    - run: echo "${{ secrets.GitHubClientId }}"
     - name: .NET test
       run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj -c Release
     - name: .NET publish

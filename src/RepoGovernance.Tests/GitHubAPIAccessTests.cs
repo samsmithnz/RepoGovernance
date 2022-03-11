@@ -72,4 +72,18 @@ public class GitHubAPIAccessTests : BaseAPIAccessTests
         Assert.IsTrue(files.Length > 0);
         Assert.AreEqual("workflow.yml", files[0].name);
     }
+
+
+
+    [TestMethod]
+    public async Task SecretsTest()
+    {
+        //Arrange
+
+        //Act
+
+
+        //Assert
+        Assert.AreEqual("",base.GitHubId);
+    }
 }
