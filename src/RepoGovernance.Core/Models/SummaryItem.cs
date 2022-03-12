@@ -82,11 +82,21 @@ namespace RepoGovernance.Core.Models
                     DependabotRecommendations.Add("Dependabot file exists, but is not configured to scan any manifest files");
                 }
                 int actionsCount = 0;
+                int maxPRsConfigured = 0;
+                int assigneeConfigured = 0;
                 foreach (Package? item in _dependabotRoot.updates)
                 {
                     if (item.package_ecosystem == "github-actions")
                     {
                         actionsCount++;
+                    }
+                    if (item.assignees == null || item.assignees.Count == 0)
+                    {
+                        DependabotRecommendations.Add("Consider adding an assignee to ensure the Dependabot PR has an owner to the " + item.directory + " project");
+                    }
+                    if (item.open_pull_requests_limit == null)
+                    {
+                        DependabotRecommendations.Add("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the " + item.directory + " project");
                     }
                 }
                 if (_actions.Count > 0 && actionsCount == 0)
