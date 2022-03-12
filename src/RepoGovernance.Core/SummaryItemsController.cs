@@ -1,5 +1,6 @@
 ﻿using RepoAutomation.Core.APIAccess;
 using RepoAutomation.Core.Helpers;
+using RepoAutomation.Core.Models;
 using RepoGovernance.Core.APIAccess;
 using RepoGovernance.Core.Models;
 
@@ -7,8 +8,9 @@ namespace RepoGovernance.Core
 {
     public static class SummaryItemsController
     {
-        public static async Task<List<SummaryItem>> GetSummaryItems(string clientId,
-            string secret,
+        public static async Task<List<SummaryItem>> GetSummaryItems(
+            string? clientId,
+            string? secret,
             string owner)
         {
             List<string> repos = DatabaseAccess.GetRepos(owner);
@@ -24,7 +26,7 @@ namespace RepoGovernance.Core
                     null, null, ".github/workflows"); //"*.yml"
                 if (actions != null)
                 {
-                    summaryItem.Actions = actions;                    
+                    summaryItem.Actions = actions;
                 }
                 //Get any dependabot files
                 List<string>? dependabot = await GitHubFiles.SearchForFiles(
@@ -34,6 +36,7 @@ namespace RepoGovernance.Core
                 if (dependabot != null)
                 {
                     summaryItem.Dependabot = dependabot;
+                    summaryItem.DependabotFile = await GitHubFiles.GetFileContents(clientId, secret, owner, repo, ".github/dependabot.yml");
                 }
 
                 //Get branch policies

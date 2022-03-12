@@ -9,7 +9,7 @@ namespace RepoGovernance.Core.Models
             Repo = repo;
             _actions = new();
             ActionRecommendations = new();
-            Dependabot = new();
+            _dependabot = new();
             DependabotRecommendations = new();
             BranchPolicies = new();
             BranchPoliciesRecommendations = new();
@@ -19,8 +19,10 @@ namespace RepoGovernance.Core.Models
             FrameworksRecommendations = new();
         }
 
-        public string Repo { get; internal set; }
         private List<string> _actions;
+        private List<string> _dependabot;
+
+        public string Repo { get; internal set; }
         public List<string> Actions
         {
             get
@@ -37,7 +39,33 @@ namespace RepoGovernance.Core.Models
             }
         }
         public List<string> ActionRecommendations { get; set; }
-        public List<string> Dependabot { get; set; }
+        public List<string> Dependabot
+        {
+            get
+            {
+                return _dependabot;
+            }
+            set
+            {
+                _dependabot = value;
+                if (_dependabot != null)
+                {
+                    if (_dependabot.Count == 0)
+                    {
+                        DependabotRecommendations.Add("Consider adding a Dependabot file to automatically update dependencies");
+                    }
+                    else if (_dependabot.Count > 1)
+                    {
+                        DependabotRecommendations.Add("Consider consilidating your Dependabot files to just one file");
+                    }
+                    else if (_dependabot.Count == 1)
+                    {
+                        //Scan the dependabot file
+                    }
+                }
+            }
+        }
+        public GitHubFile DependabotFile { get; set; }
         public List<string> DependabotRecommendations { get; set; }
         public BranchProtectionPolicy? BranchPolicies { get; set; }
         public List<string> BranchPoliciesRecommendations { get; set; }
