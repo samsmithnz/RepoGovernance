@@ -47,6 +47,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(null, item2.DependabotFile);
         Assert.AreEqual(null, item2.DependabotRoot);
         Assert.AreEqual(1, item2.DependabotRecommendations.Count);
+        Assert.AreEqual("Consider adding a Dependabot file to automatically update dependencies", item2.DependabotRecommendations[0]);
         //Assert.AreEqual("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the / project, github-actions ecosystem", item1.DependabotRecommendations[0]);
         //Assert.AreEqual("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the / project, github-actions ecosystem", item1.DependabotRecommendations[0]);
         Assert.IsNull(item2.BranchPolicies);
