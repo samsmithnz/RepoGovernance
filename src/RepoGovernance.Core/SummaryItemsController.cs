@@ -34,14 +34,15 @@ namespace RepoGovernance.Core
                     clientId, secret,
                     owner, repo,
                     "dependabot.yml", null, ".github"); //"*.yml"
-                if (dependabot != null)
+                if (dependabot == null)
                 {
-                    summaryItem.Dependabot = dependabot;
-                    if (dependabot.Count > 0)
-                    {
-                        summaryItem.DependabotFile = await GitHubFiles.GetFileContents(clientId, secret, owner, repo, ".github/dependabot.yml");
-                        summaryItem.DependabotRoot = DependabotSerialization.Deserialize(summaryItem.DependabotFile.content);
-                    }
+                    dependabot = new();
+                }
+                summaryItem.Dependabot = dependabot;
+                if (dependabot.Count > 0)
+                {
+                    summaryItem.DependabotFile = await GitHubFiles.GetFileContents(clientId, secret, owner, repo, ".github/dependabot.yml");
+                    summaryItem.DependabotRoot = DependabotSerialization.Deserialize(summaryItem.DependabotFile.content);
                 }
 
                 //Get branch policies
