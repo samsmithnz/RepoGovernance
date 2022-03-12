@@ -20,16 +20,17 @@ namespace RepoGovernance.Core
             foreach (string repo in repos)
             {
                 SummaryItem summaryItem = new(repo);
+
                 //Get any actions
                 List<string>? actions = await GitHubFiles.SearchForFiles(
                     clientId, secret,
                     owner, repo,
-                    null, null, ".github/workflows"); //"*.yml"
+                    null, null, ".github/workflows");
                 if (actions != null)
                 {
                     summaryItem.Actions = actions;
                 }
-                if (actions == null || actions.Count == 0)
+                if (summaryItem.Actions.Count == 0)
                 {
                     summaryItem.ActionRecommendations.Add("Consider adding an action to build your project");
                 }
@@ -38,57 +39,50 @@ namespace RepoGovernance.Core
                 List<string>? dependabot = await GitHubFiles.SearchForFiles(
                     clientId, secret,
                     owner, repo,
-                    "dependabot.yml", null, ".github"); //"*.yml"
-                if (dependabot == null)
+                    "dependabot.yml", null, ".github");
+                if (dependabot != null)
                 {
-                    dependabot = new();
+                    summaryItem.Dependabot = dependabot;
                 }
-                summaryItem.Dependabot = dependabot;
-                if (dependabot.Count > 0)
+                if (summaryItem.Dependabot.Count >= 1)
                 {
-                    summaryItem.DependabotFile = await GitHubFiles.GetFileContents(clientId, secret, owner, repo, ".github/dependabot.yml");
-                    summaryItem.DependabotRoot = DependabotSerialization.Deserialize(summaryItem.DependabotFile.content);
-                }
-                if (summaryItem.Dependabot != null)
-                {
-                    if (summaryItem.Dependabot.Count == 0)
-                    {
-                        summaryItem.DependabotRecommendations.Add("Consider adding a Dependabot file to automatically update dependencies");
-                    }
-                    else if (summaryItem.Dependabot.Count > 1)
+                    if (summaryItem.Dependabot.Count > 1)
                     {
                         summaryItem.DependabotRecommendations.Add("Consider consilidating your Dependabot files to just one file");
                     }
-                    else if (summaryItem.Dependabot.Count == 1)
-                    {
-                        //Scan the dependabot file
-                    }
+                    summaryItem.DependabotFile = await GitHubFiles.GetFileContents(clientId, secret, owner, repo, ".github/dependabot.yml");
+                    summaryItem.DependabotRoot = DependabotSerialization.Deserialize(summaryItem.DependabotFile.content);
                     if (summaryItem.DependabotRoot?.updates.Count == 0)
                     {
                         summaryItem.DependabotRecommendations.Add("Dependabot file exists, but is not configured to scan any manifest files");
                     }
-                    int actionsCount = 0;
-                    if (summaryItem.DependabotRoot?.updates != null)
+                }
+                else
+                {
+                    summaryItem.DependabotRecommendations.Add("Consider adding a Dependabot file to automatically update dependencies");
+                }
+                //Check each line of the dependabot file
+                int actionsCount = 0;
+                if (summaryItem.DependabotRoot?.updates != null)
+                {
+                    foreach (Package? item in summaryItem.DependabotRoot.updates)
                     {
-                        foreach (Package? item in summaryItem.DependabotRoot.updates)
+                        if (item.package_ecosystem == "github-actions")
                         {
-                            if (item.package_ecosystem == "github-actions")
-                            {
-                                actionsCount++;
-                            }
-                            if (item.assignees == null || item.assignees.Count == 0)
-                            {
-                                summaryItem.DependabotRecommendations.Add("Consider adding an assignee to ensure the Dependabot PR has an owner to the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
-                            }
-                            if (item.open_pull_requests_limit == null)
-                            {
-                                summaryItem.DependabotRecommendations.Add("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
-                            }
+                            actionsCount++;
                         }
-                        if (summaryItem.Actions.Count > 0 && actionsCount == 0)
+                        if (item.assignees == null || item.assignees.Count == 0)
                         {
-                            summaryItem.DependabotRecommendations.Add("Consider adding github-actions ecosystem to Dependabot to auto-update actions dependencies");
+                            summaryItem.DependabotRecommendations.Add("Consider adding an assignee to ensure the Dependabot PR has an owner to the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
                         }
+                        if (item.open_pull_requests_limit == null)
+                        {
+                            summaryItem.DependabotRecommendations.Add("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
+                        }
+                    }
+                    if (summaryItem.Actions.Count > 0 && actionsCount == 0)
+                    {
+                        summaryItem.DependabotRecommendations.Add("Consider adding github-actions ecosystem to Dependabot to auto-update actions dependencies");
                     }
                 }
 
@@ -103,7 +97,7 @@ namespace RepoGovernance.Core
                 List<string>? gitversion = await GitHubFiles.SearchForFiles(
                     clientId, secret,
                     owner, repo,
-                    "GitVersion.yml", null, null); //"*.yml"
+                    "GitVersion.yml", null, "");
                 if (gitversion != null)
                 {
                     summaryItem.GitVersion = gitversion;
