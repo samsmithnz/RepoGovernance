@@ -1,4 +1,5 @@
-﻿using RepoAutomation.Core.Models;
+﻿using GitHubActionsDotNet.Models.Dependabot;
+using RepoAutomation.Core.Models;
 
 namespace RepoGovernance.Core.Models
 {
@@ -66,6 +67,34 @@ namespace RepoGovernance.Core.Models
             }
         }
         public GitHubFile DependabotFile { get; set; }
+        private DependabotRoot _dependabotRoot;
+        public DependabotRoot DependabotRoot
+        {
+            get
+            {
+                return _dependabotRoot;
+            }
+            set
+            {
+                _dependabotRoot = value;
+                if (_dependabotRoot.updates.Count == 0)
+                {
+                    DependabotRecommendations.Add("Dependabot file exists, but is not configured to scan any manifest files");
+                }
+                int actionsCount = 0;
+                foreach (Package? item in _dependabotRoot.updates)
+                {
+                    if (item.package_ecosystem == "github-actions")
+                    {
+                        actionsCount++;
+                    }
+                }
+                if (_actions.Count > 0 && actionsCount == 0)
+                {
+                    DependabotRecommendations.Add("Consider adding github-actions ecosystem to Dependabot to auto-update actions dependencies");
+                }
+            }
+        }
         public List<string> DependabotRecommendations { get; set; }
         public BranchProtectionPolicy? BranchPolicies { get; set; }
         public List<string> BranchPoliciesRecommendations { get; set; }

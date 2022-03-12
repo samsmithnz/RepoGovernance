@@ -40,7 +40,7 @@ namespace RepoGovernance.Core
                     if (dependabot.Count > 0)
                     {
                         summaryItem.DependabotFile = await GitHubFiles.GetFileContents(clientId, secret, owner, repo, ".github/dependabot.yml");
-                        DependabotRoot dependabotRoot = DependabotSerialization.Deserialize(summaryItem.DependabotFile.content);
+                        summaryItem.DependabotRoot = DependabotSerialization.Deserialize(summaryItem.DependabotFile.content);
                     }
                 }
 
