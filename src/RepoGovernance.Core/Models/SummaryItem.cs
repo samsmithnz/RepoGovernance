@@ -22,7 +22,7 @@ namespace RepoGovernance.Core.Models
 
         private List<string> _actions;
         private List<string> _dependabot;
-        private DependabotRoot _dependabotRoot;
+        private DependabotRoot? _dependabotRoot;
         private BranchProtectionPolicy? _branchPolicies;
 
         public string Repo { get; internal set; }
@@ -68,8 +68,8 @@ namespace RepoGovernance.Core.Models
                 }
             }
         }
-        public GitHubFile DependabotFile { get; set; }
-        public DependabotRoot DependabotRoot
+        public GitHubFile? DependabotFile { get; set; }
+        public DependabotRoot? DependabotRoot
         {
             get
             {
@@ -78,29 +78,35 @@ namespace RepoGovernance.Core.Models
             set
             {
                 _dependabotRoot = value;
-                if (_dependabotRoot.updates.Count == 0)
+                if (_dependabotRoot != null)
                 {
-                    DependabotRecommendations.Add("Dependabot file exists, but is not configured to scan any manifest files");
-                }
-                int actionsCount = 0;
-                foreach (Package? item in _dependabotRoot.updates)
-                {
-                    if (item.package_ecosystem == "github-actions")
+                    if (_dependabotRoot?.updates.Count == 0)
                     {
-                        actionsCount++;
+                        DependabotRecommendations.Add("Dependabot file exists, but is not configured to scan any manifest files");
                     }
-                    if (item.assignees == null || item.assignees.Count == 0)
+                    int actionsCount = 0;
+                    if (_dependabotRoot?.updates != null)
                     {
-                        DependabotRecommendations.Add("Consider adding an assignee to ensure the Dependabot PR has an owner to the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
+                        foreach (Package? item in _dependabotRoot.updates)
+                        {
+                            if (item.package_ecosystem == "github-actions")
+                            {
+                                actionsCount++;
+                            }
+                            if (item.assignees == null || item.assignees.Count == 0)
+                            {
+                                DependabotRecommendations.Add("Consider adding an assignee to ensure the Dependabot PR has an owner to the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
+                            }
+                            if (item.open_pull_requests_limit == null)
+                            {
+                                DependabotRecommendations.Add("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
+                            }
+                        }
+                        if (_actions.Count > 0 && actionsCount == 0)
+                        {
+                            DependabotRecommendations.Add("Consider adding github-actions ecosystem to Dependabot to auto-update actions dependencies");
+                        }
                     }
-                    if (item.open_pull_requests_limit == null)
-                    {
-                        DependabotRecommendations.Add("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
-                    }
-                }
-                if (_actions.Count > 0 && actionsCount == 0)
-                {
-                    DependabotRecommendations.Add("Consider adding github-actions ecosystem to Dependabot to auto-update actions dependencies");
                 }
             }
         }

@@ -57,6 +57,10 @@ namespace RepoGovernance.Core
                 {
                     summaryItem.GitVersion = gitversion;
                 }
+                else
+                {
+                    summaryItem.GitVersionRecommendations.Add("Consider adding Git Versioning to this repo");
+                }
                 //Get Frameworks
                 results.Add(summaryItem);
             }
