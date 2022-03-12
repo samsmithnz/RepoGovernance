@@ -7,7 +7,7 @@ namespace RepoGovernance.Core.Models
         public SummaryItem(string repo)
         {
             Repo = repo;
-            Actions = new();
+            _actions = new();
             ActionRecommendations = new();
             Dependabot = new();
             DependabotRecommendations = new();
@@ -20,7 +20,22 @@ namespace RepoGovernance.Core.Models
         }
 
         public string Repo { get; internal set; }
-        public List<string> Actions { get; set; }
+        private List<string> _actions;
+        public List<string> Actions
+        {
+            get
+            {
+                return _actions;
+            }
+            set
+            {
+                _actions = value;
+                if (_actions != null && _actions.Count == 0)
+                {
+                    ActionRecommendations.Add("Consider adding an action to build your project");
+                }
+            }
+        }
         public List<string> ActionRecommendations { get; set; }
         public List<string> Dependabot { get; set; }
         public List<string> DependabotRecommendations { get; set; }

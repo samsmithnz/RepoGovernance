@@ -24,7 +24,7 @@ namespace RepoGovernance.Core
                     null, null, ".github/workflows"); //"*.yml"
                 if (actions != null)
                 {
-                    summaryItem.Actions = actions;
+                    summaryItem.Actions = actions;                    
                 }
                 //Get any dependabot files
                 List<string>? dependabot = await GitHubFiles.SearchForFiles(
