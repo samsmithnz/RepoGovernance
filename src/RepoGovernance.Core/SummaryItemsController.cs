@@ -18,7 +18,7 @@ namespace RepoGovernance.Core
             {
                 SummaryItem summaryItem = new(repo);
                 //Get any actions
-                List<string>? actions = await GitHubFileSearch.SearchForFiles(
+                List<string>? actions = await GitHubFiles.SearchForFiles(
                     clientId, secret,
                     owner, repo,
                     null, null, ".github/workflows"); //"*.yml"
@@ -27,7 +27,7 @@ namespace RepoGovernance.Core
                     summaryItem.Actions = actions;
                 }
                 //Get any dependabot files
-                List<string>? dependabot = await GitHubFileSearch.SearchForFiles(
+                List<string>? dependabot = await GitHubFiles.SearchForFiles(
                     clientId, secret,
                     owner, repo,
                     "dependabot.yml", null, ".github"); //"*.yml"
@@ -40,7 +40,7 @@ namespace RepoGovernance.Core
                 summaryItem.BranchPolicies = await GitHubAPIAccess.GetBranchProtectionPolicy(clientId, secret, owner, repo, "main");
 
                 //Get Gitversion files
-                List<string>? gitversion = await GitHubFileSearch.SearchForFiles(
+                List<string>? gitversion = await GitHubFiles.SearchForFiles(
                     clientId, secret,
                     owner, repo,
                     "GitVersion.yml", null, null); //"*.yml"
