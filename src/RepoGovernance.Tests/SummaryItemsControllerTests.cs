@@ -36,8 +36,8 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the / project, github-actions ecosystem", item1.DependabotRecommendations[0]);
         Assert.IsNotNull(item1.BranchPolicies);
         Assert.AreEqual(0, item1.BranchPoliciesRecommendations.Count);
-
         Assert.AreEqual(1, item1.GitVersion.Count);
+        Assert.AreEqual(0, item1.GitVersionRecommendations.Count);
         Assert.AreEqual(0, item1.Frameworks.Count);
 
         //second repo
@@ -55,6 +55,8 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, item2.BranchPoliciesRecommendations.Count);
         Assert.AreEqual("Consider adding a branch policy to protect the main branch", item2.BranchPoliciesRecommendations[0]);
         Assert.AreEqual(0, item2.GitVersion.Count);
+        Assert.AreEqual(1, item2.GitVersionRecommendations.Count);
+        Assert.AreEqual("Consider adding Git Versioning to this repo", item2.GitVersionRecommendations[0]);
         Assert.AreEqual(0, item2.Frameworks.Count);
     }
 

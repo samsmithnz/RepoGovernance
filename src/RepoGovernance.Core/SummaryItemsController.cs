@@ -115,7 +115,7 @@ namespace RepoGovernance.Core
                     clientId, secret,
                     owner, repo,
                     "GitVersion.yml", null, "");
-                if (summaryItem != null && gitversion != null)
+                if (summaryItem != null && gitversion != null && gitversion.Count > 0)
                 {
                     summaryItem.GitVersion = gitversion;
                 }
