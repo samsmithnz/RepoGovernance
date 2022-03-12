@@ -27,9 +27,12 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         SummaryItem item1 = summaryItems[0];
         Assert.AreEqual("AzurePipelinesToGitHubActionsConverter", item1.Repo);
         Assert.AreEqual(2, item1.Actions.Count);
+        Assert.AreEqual(0, item1.ActionRecommendations.Count);
         Assert.AreEqual(1, item1.Dependabot.Count);
         Assert.AreEqual("dependabot.yml", item1.DependabotFile.name);
+        Assert.AreEqual("2", item1.DependabotRoot.version);
         Assert.IsTrue(item1.DependabotFile?.content?.Length > 0);
+        Assert.AreEqual(1, item1.DependabotRecommendations.Count);
         Assert.IsNotNull(item1.BranchPolicies);
         Assert.AreEqual(1, item1.GitVersion.Count);
         Assert.AreEqual(0, item1.Frameworks.Count);
@@ -38,8 +41,11 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         SummaryItem item2 = summaryItems[1];
         Assert.AreEqual("CustomQueue", item2.Repo);
         Assert.AreEqual(0, item2.Actions.Count);
+        Assert.AreEqual(1,item2.ActionRecommendations.Count);
         Assert.AreEqual(0, item2.Dependabot.Count);
         Assert.AreEqual(null, item2.DependabotFile);
+        Assert.AreEqual(null, item2.DependabotRoot);
+        Assert.AreEqual(2, item2.DependabotRecommendations.Count);
         Assert.IsNull(item2.BranchPolicies);
         Assert.AreEqual(0, item2.GitVersion.Count);
         Assert.AreEqual(0, item2.Frameworks.Count);
