@@ -20,112 +20,119 @@ namespace RepoGovernance.Core
             foreach (string repo in repos)
             {
                 SummaryItem summaryItem = new(repo);
+                if (summaryItem != null)
+                {
 
-                //Get any actions
-                List<string>? actions = await GitHubFiles.SearchForFiles(
+                    //Get any actions
+                    List<string>? actions = await GitHubFiles.SearchForFiles(
                     clientId, secret,
                     owner, repo,
                     null, null, ".github/workflows");
-                if (actions != null)
-                {
-                    summaryItem.Actions = actions;
-                }
-                if (summaryItem.Actions.Count == 0)
-                {
-                    summaryItem.ActionRecommendations.Add("Consider adding an action to build your project");
-                }
+                    if (actions != null)
+                    {
+                        summaryItem.Actions = actions;
+                    }
+                    if (summaryItem.Actions.Count == 0)
+                    {
+                        summaryItem.ActionRecommendations.Add("Consider adding an action to build your project");
+                    }
 
-                //Get any dependabot files
-                List<string>? dependabot = await GitHubFiles.SearchForFiles(
-                    clientId, secret,
-                    owner, repo,
-                    "dependabot.yml", null, ".github");
-                if (dependabot != null)
-                {
-                    summaryItem.Dependabot = dependabot;
-                }
-                if (summaryItem.Dependabot.Count >= 1)
-                {
-                    if (summaryItem.Dependabot.Count > 1)
+                    //Get any dependabot files
+                    List<string>? dependabot = await GitHubFiles.SearchForFiles(
+                        clientId, secret,
+                        owner, repo,
+                        "dependabot.yml", null, ".github");
+                    if (dependabot != null)
                     {
-                        summaryItem.DependabotRecommendations.Add("Consider consilidating your Dependabot files to just one file");
+                        summaryItem.Dependabot = dependabot;
                     }
-                    summaryItem.DependabotFile = await GitHubFiles.GetFileContents(clientId, secret, owner, repo, ".github/dependabot.yml");
-                    summaryItem.DependabotRoot = DependabotSerialization.Deserialize(summaryItem.DependabotFile.content);
-                    if (summaryItem.DependabotRoot?.updates.Count == 0)
+                    if (summaryItem.Dependabot.Count >= 1)
                     {
-                        summaryItem.DependabotRecommendations.Add("Dependabot file exists, but is not configured to scan any manifest files");
-                    }
-                }
-                else
-                {
-                    summaryItem.DependabotRecommendations.Add("Consider adding a Dependabot file to automatically update dependencies");
-                }
-                //Check each line of the dependabot file
-                int actionsCount = 0;
-                if (summaryItem.DependabotRoot?.updates != null)
-                {
-                    foreach (Package? item in summaryItem.DependabotRoot.updates)
-                    {
-                        if (item.package_ecosystem == "github-actions")
+                        if (summaryItem.Dependabot.Count > 1)
                         {
-                            actionsCount++;
+                            summaryItem.DependabotRecommendations.Add("Consider consilidating your Dependabot files to just one file");
                         }
-                        if (item.assignees == null || item.assignees.Count == 0)
+                        summaryItem.DependabotFile = await GitHubFiles.GetFileContents(clientId, secret, owner, repo, ".github/dependabot.yml");
+                        summaryItem.DependabotRoot = DependabotSerialization.Deserialize(summaryItem?.DependabotFile?.content);
+                        if (summaryItem?.DependabotRoot?.updates.Count == 0)
                         {
-                            summaryItem.DependabotRecommendations.Add("Consider adding an assignee to ensure the Dependabot PR has an owner to the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
-                        }
-                        if (item.open_pull_requests_limit == null)
-                        {
-                            summaryItem.DependabotRecommendations.Add("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
+                            summaryItem.DependabotRecommendations.Add("Dependabot file exists, but is not configured to scan any manifest files");
                         }
                     }
-                    if (summaryItem.Actions.Count > 0 && actionsCount == 0)
+                    else
                     {
-                        summaryItem.DependabotRecommendations.Add("Consider adding github-actions ecosystem to Dependabot to auto-update actions dependencies");
+                        summaryItem.DependabotRecommendations.Add("Consider adding a Dependabot file to automatically update dependencies");
+                    }
+                    //Check each line of the dependabot file
+                    int actionsCount = 0;
+                    if (summaryItem?.DependabotRoot?.updates != null)
+                    {
+                        foreach (Package? item in summaryItem.DependabotRoot.updates)
+                        {
+                            if (item.package_ecosystem == "github-actions")
+                            {
+                                actionsCount++;
+                            }
+                            if (item.assignees == null || item.assignees.Count == 0)
+                            {
+                                summaryItem.DependabotRecommendations.Add("Consider adding an assignee to ensure the Dependabot PR has an owner to the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
+                            }
+                            if (item.open_pull_requests_limit == null)
+                            {
+                                summaryItem.DependabotRecommendations.Add("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
+                            }
+                        }
+                        if (summaryItem.Actions.Count > 0 && actionsCount == 0)
+                        {
+                            summaryItem.DependabotRecommendations.Add("Consider adding github-actions ecosystem to Dependabot to auto-update actions dependencies");
+                        }
+                    }
+
+                    //Get branch policies
+                    var branchPolicies = await GitHubAPIAccess.GetBranchProtectionPolicy(clientId, secret, owner, repo, "main");
+                    if (branchPolicies == null)
+                    {
+                        summaryItem?.BranchPoliciesRecommendations.Add("Consider adding a branch policy to protect the main branch");
+                    }
+                    else if (summaryItem != null)
+                    {
+                        summaryItem.BranchPolicies = branchPolicies;
+                        if (summaryItem.BranchPolicies.enforce_admins == null || summaryItem.BranchPolicies.enforce_admins.enabled == false)
+                        {
+                            summaryItem.BranchPoliciesRecommendations.Add("Consider enabling 'Enforce Admins', to ensure that all users of the repo must follow branch policy rules");
+                        }
+                        if (summaryItem.BranchPolicies.required_conversation_resolution == null || summaryItem.BranchPolicies.required_conversation_resolution.enabled == false)
+                        {
+                            summaryItem.BranchPoliciesRecommendations.Add("Consider enabling 'Require Conversation Resolution', to ensure that all comments have been resolved in the PR before merging to the main branch");
+                        }
+                        if (summaryItem?.BranchPolicies?.required_status_checks?.checks == null || summaryItem.BranchPolicies.required_status_checks.checks.Length == 0)
+                        {
+                            summaryItem?.BranchPoliciesRecommendations.Add("Consider adding status checks to the branch policy, to ensure that builds and tests pass successfully before the branch is merged to the main branch");
+                        }
+                    }
+
+                    //Get Gitversion files
+                    List<string>? gitversion = await GitHubFiles.SearchForFiles(
+                        clientId, secret,
+                        owner, repo,
+                        "GitVersion.yml", null, "");
+                    if (summaryItem!= null && gitversion != null)
+                    {
+                        summaryItem.GitVersion = gitversion;
+                    }
+                    else
+                    {
+                        summaryItem?.GitVersionRecommendations.Add("Consider adding Git Versioning to this repo");
+                    }
+
+                    //TODO: Get Frameworks
+
+                    //Return the final results
+                    if (summaryItem != null)
+                    {
+                        results.Add(summaryItem);
                     }
                 }
-
-                //Get branch policies
-                summaryItem.BranchPolicies = await GitHubAPIAccess.GetBranchProtectionPolicy(clientId, secret, owner, repo, "main");
-                if (summaryItem.BranchPolicies == null)
-                {
-                    summaryItem.BranchPoliciesRecommendations.Add("Consider adding a branch policy to protect the main branch");
-                }
-                else
-                {
-                    if (summaryItem.BranchPolicies.enforce_admins == null || summaryItem.BranchPolicies.enforce_admins.enabled == false)
-                    {
-                        summaryItem.BranchPoliciesRecommendations.Add("Consider enabling 'Enforce Admins', to ensure that all users of the repo must follow branch policy rules");
-                    }
-                    if (summaryItem.BranchPolicies.required_conversation_resolution == null || summaryItem.BranchPolicies.required_conversation_resolution.enabled ==false)
-                    {
-                        summaryItem.BranchPoliciesRecommendations.Add("Consider enabling 'Require Conversation Resolution', to ensure that all comments have been resolved in the PR before merging to the main branch");
-                    }
-                    //if (summaryItem.BranchPolicies. == null || summaryItem.BranchPolicies.required_conversation_resolution.enabled == false)
-                    //{
-                    //    summaryItem.BranchPoliciesRecommendations.Add("Consider enabling 'Require Conversation Resolution', to ensure that all comments have been resolved in the PR before merging to the main branch");
-                    //}
-                }
-
-                //Get Gitversion files
-                List<string>? gitversion = await GitHubFiles.SearchForFiles(
-                    clientId, secret,
-                    owner, repo,
-                    "GitVersion.yml", null, "");
-                if (gitversion != null)
-                {
-                    summaryItem.GitVersion = gitversion;
-                }
-                else
-                {
-                    summaryItem.GitVersionRecommendations.Add("Consider adding Git Versioning to this repo");
-                }
-
-                //TODO: Get Frameworks
-
-                //Return the final results
-                results.Add(summaryItem);
             }
 
             return results;
