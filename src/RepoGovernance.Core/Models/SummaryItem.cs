@@ -22,6 +22,8 @@ namespace RepoGovernance.Core.Models
 
         private List<string> _actions;
         private List<string> _dependabot;
+        private DependabotRoot _dependabotRoot;
+        private BranchProtectionPolicy? _branchPolicies;
 
         public string Repo { get; internal set; }
         public List<string> Actions
@@ -67,7 +69,6 @@ namespace RepoGovernance.Core.Models
             }
         }
         public GitHubFile DependabotFile { get; set; }
-        private DependabotRoot _dependabotRoot;
         public DependabotRoot DependabotRoot
         {
             get
@@ -104,7 +105,21 @@ namespace RepoGovernance.Core.Models
             }
         }
         public List<string> DependabotRecommendations { get; set; }
-        public BranchProtectionPolicy? BranchPolicies { get; set; }
+        public BranchProtectionPolicy? BranchPolicies
+        {
+            get
+            {
+                return _branchPolicies;
+            }
+            set
+            {
+                _branchPolicies = value;
+                if (_branchPolicies == null)
+                {
+                    BranchPoliciesRecommendations.Add("Consider adding a branch policy to protect the main branch");
+                }
+            }
+        }
         public List<string> BranchPoliciesRecommendations { get; set; }
         public List<string> GitVersion { get; set; }
         public List<string> GitVersionRecommendations { get; set; }

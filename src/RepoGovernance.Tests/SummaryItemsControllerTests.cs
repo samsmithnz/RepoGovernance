@@ -35,6 +35,8 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, item1.DependabotRecommendations.Count);
         Assert.AreEqual("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the / project, github-actions ecosystem", item1.DependabotRecommendations[0]);
         Assert.IsNotNull(item1.BranchPolicies);
+        Assert.AreEqual(0, item1.BranchPoliciesRecommendations.Count);
+
         Assert.AreEqual(1, item1.GitVersion.Count);
         Assert.AreEqual(0, item1.Frameworks.Count);
 
@@ -48,9 +50,9 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(null, item2.DependabotRoot);
         Assert.AreEqual(1, item2.DependabotRecommendations.Count);
         Assert.AreEqual("Consider adding a Dependabot file to automatically update dependencies", item2.DependabotRecommendations[0]);
-        //Assert.AreEqual("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the / project, github-actions ecosystem", item1.DependabotRecommendations[0]);
-        //Assert.AreEqual("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the / project, github-actions ecosystem", item1.DependabotRecommendations[0]);
         Assert.IsNull(item2.BranchPolicies);
+        Assert.AreEqual(1, item2.BranchPoliciesRecommendations.Count);
+        Assert.AreEqual("Consider adding a branch policy to protect the main branch", item2.BranchPoliciesRecommendations[0]);
         Assert.AreEqual(0, item2.GitVersion.Count);
         Assert.AreEqual(0, item2.Frameworks.Count);
     }
