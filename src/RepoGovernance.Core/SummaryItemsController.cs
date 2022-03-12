@@ -37,6 +37,7 @@ namespace RepoGovernance.Core
                 {
                     summaryItem.Dependabot = dependabot;
                     summaryItem.DependabotFile = await GitHubFiles.GetFileContents(clientId, secret, owner, repo, ".github/dependabot.yml");
+                GitHubActionsDotNet.Serialization.DependabotSerialization.
                 }
 
                 //Get branch policies
