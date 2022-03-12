@@ -8,6 +8,8 @@ namespace RepoGovernance.Core.Models
         public SummaryItem(string repo)
         {
             Repo = repo;
+            RepoSettings = new();
+            RepoSettingsRecommendations=new();
             Actions = new();
             ActionRecommendations = new();
             Dependabot = new();
@@ -20,6 +22,8 @@ namespace RepoGovernance.Core.Models
         }
 
         public string Repo { get; internal set; }
+        public Repo RepoSettings { get; set; }
+        public List<string> RepoSettingsRecommendations { get; set; }
         public List<string> Actions { get; set; }
         public List<string> ActionRecommendations { get; set; }
         public List<string> Dependabot { get; set; }

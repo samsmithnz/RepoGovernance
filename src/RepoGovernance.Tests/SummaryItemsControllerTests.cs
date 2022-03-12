@@ -26,6 +26,8 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //first repo
         SummaryItem item1 = summaryItems[0];
         Assert.AreEqual("AzurePipelinesToGitHubActionsConverter", item1.Repo);
+        Assert.IsNotNull(item1.RepoSettings);
+        Assert.AreEqual(0, item1.RepoSettingsRecommendations.Count);
         Assert.AreEqual(2, item1.Actions.Count);
         Assert.AreEqual(0, item1.ActionRecommendations.Count);
         Assert.AreEqual(1, item1.Dependabot.Count);
@@ -43,6 +45,8 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //second repo
         SummaryItem item2 = summaryItems[1];
         Assert.AreEqual("CustomQueue", item2.Repo);
+        Assert.IsNotNull(item2.RepoSettings);
+        Assert.AreEqual(3, item2.RepoSettingsRecommendations.Count);
         Assert.AreEqual(0, item2.Actions.Count);
         Assert.AreEqual(1, item2.ActionRecommendations.Count);
         Assert.AreEqual("Consider adding an action to build your project", item2.ActionRecommendations[0]);
