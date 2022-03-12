@@ -92,6 +92,21 @@ namespace RepoGovernance.Core
                 {
                     summaryItem.BranchPoliciesRecommendations.Add("Consider adding a branch policy to protect the main branch");
                 }
+                else
+                {
+                    if (summaryItem.BranchPolicies.enforce_admins == null || summaryItem.BranchPolicies.enforce_admins.enabled == false)
+                    {
+                        summaryItem.BranchPoliciesRecommendations.Add("Consider enabling 'Enforce Admins', to ensure that all users of the repo must follow branch policy rules");
+                    }
+                    if (summaryItem.BranchPolicies.required_conversation_resolution == null || summaryItem.BranchPolicies.required_conversation_resolution.enabled ==false)
+                    {
+                        summaryItem.BranchPoliciesRecommendations.Add("Consider enabling 'Require Conversation Resolution', to ensure that all comments have been resolved in the PR before merging to the main branch");
+                    }
+                    //if (summaryItem.BranchPolicies. == null || summaryItem.BranchPolicies.required_conversation_resolution.enabled == false)
+                    //{
+                    //    summaryItem.BranchPoliciesRecommendations.Add("Consider enabling 'Require Conversation Resolution', to ensure that all comments have been resolved in the PR before merging to the main branch");
+                    //}
+                }
 
                 //Get Gitversion files
                 List<string>? gitversion = await GitHubFiles.SearchForFiles(
