@@ -1,6 +1,7 @@
-﻿using RepoAutomation.Core.APIAccess;
+﻿using GitHubActionsDotNet.Models.Dependabot;
+using GitHubActionsDotNet.Serialization;
+using RepoAutomation.Core.APIAccess;
 using RepoAutomation.Core.Helpers;
-using RepoAutomation.Core.Models;
 using RepoGovernance.Core.APIAccess;
 using RepoGovernance.Core.Models;
 
@@ -37,7 +38,7 @@ namespace RepoGovernance.Core
                 {
                     summaryItem.Dependabot = dependabot;
                     summaryItem.DependabotFile = await GitHubFiles.GetFileContents(clientId, secret, owner, repo, ".github/dependabot.yml");
-                GitHubActionsDotNet.Serialization.DependabotSerialization.
+                    DependabotRoot dependabotRoot = DependabotSerialization.Deserialize(summaryItem.DependabotFile.content);
                 }
 
                 //Get branch policies
