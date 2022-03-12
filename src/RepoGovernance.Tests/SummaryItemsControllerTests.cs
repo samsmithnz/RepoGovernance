@@ -44,7 +44,8 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         SummaryItem item2 = summaryItems[1];
         Assert.AreEqual("CustomQueue", item2.Repo);
         Assert.AreEqual(0, item2.Actions.Count);
-        Assert.AreEqual(0, item2.ActionRecommendations.Count);
+        Assert.AreEqual(1, item2.ActionRecommendations.Count);
+        Assert.AreEqual("Consider adding an action to build your project", item2.ActionRecommendations[0]);
         Assert.AreEqual(0, item2.Dependabot.Count);
         Assert.AreEqual(null, item2.DependabotFile);
         Assert.AreEqual(null, item2.DependabotRoot);
