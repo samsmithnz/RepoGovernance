@@ -22,23 +22,27 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //Assert
         Assert.IsNotNull(summaryItems);
         Assert.IsTrue(summaryItems.Count > 0);
+
         //first repo
-        Assert.AreEqual("AzurePipelinesToGitHubActionsConverter", summaryItems[0].Repo);
-        Assert.AreEqual(2, summaryItems[0].Actions.Count);
-        Assert.AreEqual(1, summaryItems[0].Dependabot.Count);
-        Assert.AreEqual("dependabot.yml", summaryItems[0].DependabotFile.name);
-        Assert.IsTrue(summaryItems[0].DependabotFile?.content?.Length > 0);
-        Assert.IsNotNull(summaryItems[0].BranchPolicies);
-        Assert.AreEqual(1, summaryItems[0].GitVersion.Count);
-        Assert.AreEqual(0, summaryItems[0].Frameworks.Count);
+        SummaryItem item1 = summaryItems[0];
+        Assert.AreEqual("AzurePipelinesToGitHubActionsConverter", item1.Repo);
+        Assert.AreEqual(2, item1.Actions.Count);
+        Assert.AreEqual(1, item1.Dependabot.Count);
+        Assert.AreEqual("dependabot.yml", item1.DependabotFile.name);
+        Assert.IsTrue(item1.DependabotFile?.content?.Length > 0);
+        Assert.IsNotNull(item1.BranchPolicies);
+        Assert.AreEqual(1, item1.GitVersion.Count);
+        Assert.AreEqual(0, item1.Frameworks.Count);
+
         //second repo
-        Assert.AreEqual("CustomQueue", summaryItems[1].Repo);
-        Assert.AreEqual(0, summaryItems[1].Actions.Count);
-        Assert.AreEqual(0, summaryItems[1].Dependabot.Count);
-        Assert.AreEqual(null, summaryItems[1].DependabotFile);
-        Assert.IsNull(summaryItems[1].BranchPolicies);
-        Assert.AreEqual(0, summaryItems[1].GitVersion.Count);
-        Assert.AreEqual(0, summaryItems[1].Frameworks.Count);
+        SummaryItem item2 = summaryItems[1];
+        Assert.AreEqual("CustomQueue", item2.Repo);
+        Assert.AreEqual(0, item2.Actions.Count);
+        Assert.AreEqual(0, item2.Dependabot.Count);
+        Assert.AreEqual(null, item2.DependabotFile);
+        Assert.IsNull(item2.BranchPolicies);
+        Assert.AreEqual(0, item2.GitVersion.Count);
+        Assert.AreEqual(0, item2.Frameworks.Count);
     }
 
 }
