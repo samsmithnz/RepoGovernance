@@ -30,15 +30,15 @@ namespace RepoGovernance.Core
                 }
                 if (summaryItem.RepoSettings != null)
                 {
-                    if (summaryItem.RepoSettings.allow_auto_merge == null || summaryItem.RepoSettings.allow_auto_merge == "false")
+                    if (summaryItem.RepoSettings.allow_auto_merge == false)
                     {
                         summaryItem.RepoSettingsRecommendations.Add("Consider enabling 'Allow Auto-Merge' in repo settings to streamline PR merging");
                     }
-                    if (summaryItem.RepoSettings.delete_branch_on_merge == null || summaryItem.RepoSettings.delete_branch_on_merge == "false")
+                    if (summaryItem.RepoSettings.delete_branch_on_merge == false)
                     {
                         summaryItem.RepoSettingsRecommendations.Add("Consider disabling 'Delete branch on merge' in repo settings to streamline PR merging and auto-cleanup completed branches");
                     }
-                    if (summaryItem.RepoSettings.allow_rebase_merge != null && summaryItem.RepoSettings.allow_rebase_merge== "true")
+                    if (summaryItem.RepoSettings.allow_rebase_merge == true)
                     {
                         summaryItem.RepoSettingsRecommendations.Add("Consider disabling 'Allow rebase merge' in repo settings, as rebasing is confusing and dumb");
                     }
