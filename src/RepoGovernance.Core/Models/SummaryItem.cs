@@ -12,7 +12,6 @@ namespace RepoGovernance.Core.Models
             ActionRecommendations = new();
             Dependabot = new();
             DependabotRecommendations = new();
-            BranchPolicies = new();
             BranchPoliciesRecommendations = new();
             GitVersion = new();
             GitVersionRecommendations = new();
@@ -27,7 +26,7 @@ namespace RepoGovernance.Core.Models
         public GitHubFile? DependabotFile { get; set; }
         public DependabotRoot? DependabotRoot { get; set; }
         public List<string> DependabotRecommendations { get; set; }
-        public BranchProtectionPolicy BranchPolicies { get; set; }
+        public BranchProtectionPolicy? BranchPolicies { get; set; }
         public List<string> BranchPoliciesRecommendations { get; set; }
         public List<string> GitVersion { get; set; }
         public List<string> GitVersionRecommendations { get; set; }
