@@ -106,7 +106,10 @@ namespace RepoGovernance.Core
                 {
                     summaryItem.GitVersionRecommendations.Add("Consider adding Git Versioning to this repo");
                 }
-                //Get Frameworks
+
+                //TODO: Get Frameworks
+
+                //Return the final results
                 results.Add(summaryItem);
             }
 
