@@ -1,16 +1,10 @@
-﻿using RepoGovernance.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using RepoAutomation.Core.APIAccess;
+﻿using RepoAutomation.Core.APIAccess;
 using RepoAutomation.Core.Models;
+using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Core.Helpers
 {
-    internal class DotNetRepoScanner
+    public class DotNetRepoScanner
     {
         public async static Task<List<Project>> ScanRepo(string clientId, string clientSecret, string owner, string repo)
         {
@@ -98,28 +92,6 @@ namespace RepoGovernance.Core.Helpers
             }
         }
 
-        //public List<Project> SearchFolderForProjectFiles(string folder)
-        //{
-        //    List<Project> results = new();
-        //    foreach (FileInfo fileInfo in new DirectoryInfo(folder).GetFiles("*.*", SearchOption.AllDirectories))
-        //    {
-        //        //if .NET project files are found, process them
-        //        switch (fileInfo.Extension.ToLower())
-        //        {
-        //            case ".csproj":
-        //                results.AddRange(ProcessDotNetProjectFile(fileInfo.FullName, "csharp"));
-        //                break;
-        //            case ".vbproj":
-        //                results.AddRange(ProcessDotNetProjectFile(fileInfo.FullName, "vb.net"));
-        //                break;
-        //        }
-        //    }
-
-        //    return results;
-        //}
-
-
-
         //Process .NET Framework and Core project files
         private static string? ProcessDotNetProjectFile(Project project, string language)
         {
@@ -171,6 +143,8 @@ namespace RepoGovernance.Core.Helpers
             return framework;
         }
 
+        //Really old frameworks are tied to the Visual Studio version, and it's not a 1:1 connection.
+        //Luckily most projects won't be here
         private static string? GetHistoricalFrameworkVersion(string line)
         {
             string productVersion = line.Replace("<ProductVersion>", "").Replace("</ProductVersion>", "").Replace("ProductVersion = ", "").Replace("\"", "").Trim();
