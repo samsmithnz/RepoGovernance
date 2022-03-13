@@ -9,7 +9,7 @@ namespace RepoGovernance.Core.Models
         {
             Repo = repo;
             RepoSettings = new();
-            RepoSettingsRecommendations=new();
+            RepoSettingsRecommendations = new();
             Actions = new();
             ActionRecommendations = new();
             Dependabot = new();
