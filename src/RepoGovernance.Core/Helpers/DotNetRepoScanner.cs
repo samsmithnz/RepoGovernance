@@ -6,7 +6,7 @@ namespace RepoGovernance.Core.Helpers
 {
     public class DotNetRepoScanner
     {
-        public async static Task<List<Project>> ScanRepo(string clientId, string clientSecret, string owner, string repo)
+        public async static Task<List<Project>> ScanRepo(string? clientId, string? clientSecret, string owner, string repo)
         {
             //Search GitHub Repo
             string extension = "csproj";
@@ -22,122 +22,131 @@ namespace RepoGovernance.Core.Helpers
                 List<Project> projects = new();
 
                 //Scan the file content for the framework version
-                foreach (SearchItem? item in searchResult.items)
+                if (searchResult.items != null)
                 {
-                    GitHubFile? gitHubFile = await GitHubAPIAccess.GetFile(clientId, clientSecret, owner, repo, item.path);
-                    if (gitHubFile != null)
+                    foreach (SearchItem? item in searchResult.items)
                     {
-                        Project project = new()
+                        if (item.path != null)
                         {
-                            FileName = gitHubFile?.name,
-                            Path = gitHubFile?.path,
-                            Content = gitHubFile?.content,
-                            Framework = ""
-                        };
-                        projects.Add(project);
+                            GitHubFile? gitHubFile = await GitHubAPIAccess.GetFile(clientId, clientSecret, owner, repo, item.path);
+                            if (gitHubFile != null)
+                            {
+                                Project project = new()
+                                {
+                                    FileName = gitHubFile?.name,
+                                    Path = gitHubFile?.path,
+                                    Content = gitHubFile?.content,
+                                    Framework = ""
+                                };
+                                projects.Add(project);
+                            }
+                        }
                     }
                 }
 
                 //Update framework for each project
                 foreach (Project project in projects)
                 {
-                    string? framework = ProcessDotNetProjectFile(project, "csharp");
+                    string? framework = ProcessDotNetProjectFile(project);
                     project.Framework = framework;
                 }
                 return projects;
             }
         }
 
-        private string GetFrameworkFamily(string framework)
-        {
-            if (framework == null)
-            {
-                return null;
-            }
-            else if (framework.StartsWith("netcoreapp"))
-            {
-                return ".NET Core";
-            }
-            else if (framework.StartsWith("netstandard"))
-            {
-                return ".NET Standard";
-            }
-            else if (framework.StartsWith("v1."))
-            {
-                return ".NET Framework";
-            }
-            else if (framework.StartsWith("v2."))
-            {
-                return ".NET Framework";
-            }
-            else if (framework.StartsWith("v3."))
-            {
-                return ".NET Framework";
-            }
-            else if (framework.StartsWith("v4.") || framework.StartsWith("net4"))
-            {
-                return ".NET Framework";
-            }
-            else if (framework.StartsWith("net")) //net5.0, net6.0, etc
-            {
-                return ".NET";
-            }
-            else if (framework.StartsWith("vb6"))
-            {
-                return "Visual Basic 6";
-            }
-            else
-            {
-                return null;
-            }
-        }
+        //private string? GetFrameworkFamily(string framework)
+        //{
+        //    if (framework == null)
+        //    {
+        //        return null;
+        //    }
+        //    else if (framework.StartsWith("netcoreapp"))
+        //    {
+        //        return ".NET Core";
+        //    }
+        //    else if (framework.StartsWith("netstandard"))
+        //    {
+        //        return ".NET Standard";
+        //    }
+        //    else if (framework.StartsWith("v1."))
+        //    {
+        //        return ".NET Framework";
+        //    }
+        //    else if (framework.StartsWith("v2."))
+        //    {
+        //        return ".NET Framework";
+        //    }
+        //    else if (framework.StartsWith("v3."))
+        //    {
+        //        return ".NET Framework";
+        //    }
+        //    else if (framework.StartsWith("v4.") || framework.StartsWith("net4"))
+        //    {
+        //        return ".NET Framework";
+        //    }
+        //    else if (framework.StartsWith("net")) //net5.0, net6.0, etc
+        //    {
+        //        return ".NET";
+        //    }
+        //    else if (framework.StartsWith("vb6"))
+        //    {
+        //        return "Visual Basic 6";
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
 
         //Process .NET Framework and Core project files
-        private static string? ProcessDotNetProjectFile(Project project, string language)
+        private static string? ProcessDotNetProjectFile(Project project)
         {
             string? framework = null;
-            string[] lines = project.Content.Split('\n');
-
-            //scan the project file to identify the framework
-            foreach (string line in lines)
+            if (project.Content != null)
             {
-                if (line.IndexOf("<TargetFrameworkVersion>") > 0)
+                string[] lines = project.Content.Split('\n');
+
+                //scan the project file to identify the framework
+                foreach (string line in lines)
                 {
-                    framework = line.Replace("<TargetFrameworkVersion>", "").Replace("</TargetFrameworkVersion>", "").Trim();
-                    break;
-                }
-                else if (line.IndexOf("<TargetFramework>") > 0)
-                {
-                    framework = line.Replace("<TargetFramework>", "").Replace("</TargetFramework>", "").Trim();
-                    break;
-                }
-                else if (line.IndexOf("<TargetFrameworks>") > 0)
-                {
-                    string frameworks = line.Replace("<TargetFrameworks>", "").Replace("</TargetFrameworks>", "").Trim();
-                    string[] frameworkList = frameworks.Split(';');
-                    for (int i = 0; i < frameworkList.Length - 1; i++)
+                    if (line.IndexOf("<TargetFrameworkVersion>") > 0)
                     {
-                        if (i == 0)
-                        {
-                            framework = frameworkList[i];
-                        }
-                        else
-                        {
-                            //Create a list
-                            framework += "," + frameworkList[i];
-                        }
+                        framework = line.Replace("<TargetFrameworkVersion>", "").Replace("</TargetFrameworkVersion>", "").Trim();
+                        break;
                     }
-                    break;
-                }
-                else if (line.IndexOf("<ProductVersion>") > 0)
-                {
-                    //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
-                    framework = GetHistoricalFrameworkVersion(line);
-                }
-                else if (line.IndexOf("ProductVersion = ") > 0)
-                {
-                    //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
-                    framework = GetHistoricalFrameworkVersion(line);
+                    else if (line.IndexOf("<TargetFramework>") > 0)
+                    {
+                        framework = line.Replace("<TargetFramework>", "").Replace("</TargetFramework>", "").Trim();
+                        break;
+                    }
+                    else if (line.IndexOf("<TargetFrameworks>") > 0)
+                    {
+                        string frameworks = line.Replace("<TargetFrameworks>", "").Replace("</TargetFrameworks>", "").Trim();
+                        string[] frameworkList = frameworks.Split(';');
+                        for (int i = 0; i < frameworkList.Length - 1; i++)
+                        {
+                            if (i == 0)
+                            {
+                                framework = frameworkList[i];
+                            }
+                            else
+                            {
+                                //Create a list
+                                framework += "," + frameworkList[i];
+                            }
+                        }
+                        break;
+                    }
+                    else if (line.IndexOf("<ProductVersion>") > 0)
+                    {
+                        //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
+                        framework = GetHistoricalFrameworkVersion(line);
+                    }
+                    else if (line.IndexOf("ProductVersion = ") > 0)
+                    {
+                        //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
+                        framework = GetHistoricalFrameworkVersion(line);
+                    }
                 }
             }
             return framework;

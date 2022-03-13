@@ -151,7 +151,10 @@ namespace RepoGovernance.Core
                 {
                     foreach (Project project in projects)
                     {
-                        summaryItem.DotNetFrameworks.Add(project.Framework);
+                        if (project.Framework != null)
+                        {
+                            summaryItem?.DotNetFrameworks.Add(project.Framework);
+                        }
                     }
                 }
 
