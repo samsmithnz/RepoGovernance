@@ -88,4 +88,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: repogovernance-prod-eu-web
-          package: .
+          package: service
