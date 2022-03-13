@@ -50,19 +50,19 @@ jobs:
         name: drop
         path: src/RepoGovernance.Core/bin/Release
     - name: .NET publish
-      run: dotnet publish src/RepoGovernance.Web/RepoGovernance.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
+      run: dotnet publish src/RepoGovernance.Web/RepoGovernance.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/web
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v2
       with:
         name: web
-        path: src/RepoGovernance.Web/bin/Release
+        path: ${{ github.workspace }}/web
     - name: .NET publish
-      run: dotnet publish src/RepoGovernance.Service/RepoGovernance.Service.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
+      run: dotnet publish src/RepoGovernance.Service/RepoGovernance.Service.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/service
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v2
       with:
         name: service
-        path: src/RepoGovernance.Service/bin/Release
+        path: ${{ github.workspace }}/service
 
 
   deploy:
