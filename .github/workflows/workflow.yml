@@ -50,16 +50,42 @@ jobs:
         name: drop
         path: src/RepoGovernance.Core/bin/Release
     - name: .NET publish
-      run: dotnet publish src/RepoGovernance.Web/RepoGovernance.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
+      run: dotnet publish src/RepoGovernance.Web/RepoGovernance.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/web
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v2
       with:
         name: web
-        path: src/RepoGovernance.Web/bin/Release
+        path: ${{ github.workspace }}/web
     - name: .NET publish
-      run: dotnet publish src/RepoGovernance.Service/RepoGovernance.Service.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
+      run: dotnet publish src/RepoGovernance.Service/RepoGovernance.Service.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/service
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v2
       with:
         name: service
-        path: src/RepoGovernance.Service/bin/Release
+        path: ${{ github.workspace }}/service
+
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: service
+          path: service
+      - name: Log into Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_SP }} 
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: repogovernance-prod-eu-web
+          package: service
