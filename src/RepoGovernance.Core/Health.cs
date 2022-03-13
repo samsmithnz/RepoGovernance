@@ -1,8 +1,8 @@
 ﻿namespace RepoGovernance.Core
 {
-    public static class HealthController
+    public static class Health
     {
-        public static string Health()
+        public static string GetHealth()
         {
             return "Healthy";
         }
