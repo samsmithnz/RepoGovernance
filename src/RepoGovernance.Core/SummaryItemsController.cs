@@ -4,6 +4,7 @@ using RepoAutomation.Core.APIAccess;
 using RepoAutomation.Core.Helpers;
 using RepoAutomation.Core.Models;
 using RepoGovernance.Core.APIAccess;
+using RepoGovernance.Core.Helpers;
 using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Core
@@ -45,7 +46,7 @@ namespace RepoGovernance.Core
                 }
 
                 //Get any actions
-                List<string>? actions = await GitHubFiles.SearchForFiles(clientId, secret, owner, repo,
+                List<string>? actions = await GitHubFiles.GetFiles(clientId, secret, owner, repo,
                 null, null, ".github/workflows");
                 if (actions != null)
                 {
@@ -57,7 +58,7 @@ namespace RepoGovernance.Core
                 }
 
                 //Get any dependabot files
-                List<string>? dependabot = await GitHubFiles.SearchForFiles(
+                List<string>? dependabot = await GitHubFiles.GetFiles(
                     clientId, secret,
                     owner, repo,
                     "dependabot.yml", null, ".github");
@@ -131,7 +132,7 @@ namespace RepoGovernance.Core
                 }
 
                 //Get Gitversion files
-                List<string>? gitversion = await GitHubFiles.SearchForFiles(
+                List<string>? gitversion = await GitHubFiles.GetFiles(
                     clientId, secret,
                     owner, repo,
                     "GitVersion.yml", null, "");
@@ -144,7 +145,18 @@ namespace RepoGovernance.Core
                     summaryItem?.GitVersionRecommendations.Add("Consider adding Git Versioning to this repo");
                 }
 
-                //TODO: Get Frameworks
+                //Get Frameworks
+                List<Project> projects = await DotNetRepoScanner.ScanRepo(clientId, secret, owner, repo);
+                if (projects != null)
+                {
+                    foreach (Project project in projects)
+                    {
+                        if (project.Framework != null)
+                        {
+                            summaryItem?.DotNetFrameworks.Add(project.Framework);
+                        }
+                    }
+                }
 
                 //Return the final results
                 if (summaryItem != null)

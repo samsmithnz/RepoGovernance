@@ -9,7 +9,7 @@ namespace RepoGovernance.Core.Models
         {
             Repo = repo;
             RepoSettings = new();
-            RepoSettingsRecommendations=new();
+            RepoSettingsRecommendations = new();
             Actions = new();
             ActionRecommendations = new();
             Dependabot = new();
@@ -17,8 +17,8 @@ namespace RepoGovernance.Core.Models
             BranchPoliciesRecommendations = new();
             GitVersion = new();
             GitVersionRecommendations = new();
-            Frameworks = new();
-            FrameworksRecommendations = new();
+            DotNetFrameworks = new();
+            DotNetFrameworksRecommendations = new();
         }
 
         public string Repo { get; internal set; }
@@ -34,7 +34,7 @@ namespace RepoGovernance.Core.Models
         public List<string> BranchPoliciesRecommendations { get; set; }
         public List<string> GitVersion { get; set; }
         public List<string> GitVersionRecommendations { get; set; }
-        public List<string> Frameworks { get; set; }
-        public List<string> FrameworksRecommendations { get; set; }
+        public List<string> DotNetFrameworks { get; set; }
+        public List<string> DotNetFrameworksRecommendations { get; set; }
     }
 }
