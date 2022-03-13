@@ -63,3 +63,25 @@ jobs:
       with:
         name: service
         path: src/RepoGovernance.Service/bin/Release
+
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    #if: github.ref == 'refs/heads/main'
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: service
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'repogovernance-prod-eu-web'
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_1234 }}
+          package: .
