@@ -4,6 +4,7 @@ using RepoAutomation.Core.APIAccess;
 using RepoAutomation.Core.Helpers;
 using RepoAutomation.Core.Models;
 using RepoGovernance.Core.APIAccess;
+using RepoGovernance.Core.Helpers;
 using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Core
@@ -145,7 +146,14 @@ namespace RepoGovernance.Core
                 }
 
                 //Get Frameworks
-
+                List<Project> projects = await DotNetRepoScanner.ScanRepo(clientId, secret, owner, repo);
+                if (projects != null)
+                {
+                    foreach (Project project in projects)
+                    {
+                        summaryItem.DotNetFrameworks.Add(project.Framework);
+                    }
+                }
 
                 //Return the final results
                 if (summaryItem != null)

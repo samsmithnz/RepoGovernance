@@ -5,28 +5,53 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using RepoAutomation.Core.APIAccess;
+using RepoAutomation.Core.Models;
 
 namespace RepoGovernance.Core.Helpers
 {
     internal class DotNetRepoScanner
     {
-        public List<Project> ScanRepo(string rootFolder)
+        public async static Task<List<Project>> ScanRepo(string clientId, string clientSecret, string owner, string repo)
         {
-            int projectCount = 0;
+            //Search GitHub Repo
+            string extension = "csproj";
+            SearchResult? searchResult = await GitHubAPIAccess.SearchFiles(clientId, clientSecret, owner, repo, extension);
 
-            //scan all projects
-            List<Project> projects = new();
-            int i = 0;
-            foreach (DirectoryInfo folder in new DirectoryInfo(rootFolder).GetDirectories())
+            //Get the content for each file
+            if (searchResult == null)
             {
-                i++;
-                projects.AddRange(SearchFolderForProjectFiles(folder.FullName));
-                if (projectCount != projects.Count)
-                {
-                    projectCount = projects.Count;
-                }
+                return new();
             }
-            return projects;
+            else
+            {
+                List<Project> projects = new();
+
+                //Scan the file content for the framework version
+                foreach (SearchItem? item in searchResult.items)
+                {
+                    GitHubFile? gitHubFile = await GitHubAPIAccess.GetFile(clientId, clientSecret, owner, repo, item.path);
+                    if (gitHubFile != null)
+                    {
+                        Project project = new()
+                        {
+                            FileName = gitHubFile?.name,
+                            Path = gitHubFile?.path,
+                            Content = gitHubFile?.content,
+                            Framework = ""
+                        };
+                        projects.Add(project);
+                    }
+                }
+
+                //Update framework for each project
+                foreach (Project project in projects)
+                {
+                    string? framework = ProcessDotNetProjectFile(project, "csharp");
+                    project.Framework = framework;
+                }
+                return projects;
+            }
         }
 
         private string GetFrameworkFamily(string framework)
@@ -73,51 +98,45 @@ namespace RepoGovernance.Core.Helpers
             }
         }
 
-        public List<Project> SearchFolderForProjectFiles(string folder)
-        {
-            List<Project> results = new();
-            foreach (FileInfo fileInfo in new DirectoryInfo(folder).GetFiles("*.*", SearchOption.AllDirectories))
-            {
-                //if .NET project files are found, process them
-                switch (fileInfo.Extension.ToLower())
-                {
-                    case ".csproj":
-                        results.AddRange(ProcessDotNetProjectFile(fileInfo.FullName, "csharp"));
-                        break;
-                    case ".vbproj":
-                        results.AddRange(ProcessDotNetProjectFile(fileInfo.FullName, "vb.net"));
-                        break;
-                }
-            }
+        //public List<Project> SearchFolderForProjectFiles(string folder)
+        //{
+        //    List<Project> results = new();
+        //    foreach (FileInfo fileInfo in new DirectoryInfo(folder).GetFiles("*.*", SearchOption.AllDirectories))
+        //    {
+        //        //if .NET project files are found, process them
+        //        switch (fileInfo.Extension.ToLower())
+        //        {
+        //            case ".csproj":
+        //                results.AddRange(ProcessDotNetProjectFile(fileInfo.FullName, "csharp"));
+        //                break;
+        //            case ".vbproj":
+        //                results.AddRange(ProcessDotNetProjectFile(fileInfo.FullName, "vb.net"));
+        //                break;
+        //        }
+        //    }
 
-            return results;
-        }
+        //    return results;
+        //}
 
-      
+
 
         //Process .NET Framework and Core project files
-        private List<Project> ProcessDotNetProjectFile(string filePath, string language)
+        private static string? ProcessDotNetProjectFile(Project project, string language)
         {
-            string[] lines = File.ReadAllLines(filePath);
+            string? framework = null;
+            string[] lines = project.Content.Split('\n');
 
-            List<Project> projects = new List<Project>();
-
-            //Setup the project object
-            Project project = new Project
-            {
-                Path = filePath
-            };
             //scan the project file to identify the framework
             foreach (string line in lines)
             {
                 if (line.IndexOf("<TargetFrameworkVersion>") > 0)
                 {
-                    project.Framework = line.Replace("<TargetFrameworkVersion>", "").Replace("</TargetFrameworkVersion>", "").Trim();
+                    framework = line.Replace("<TargetFrameworkVersion>", "").Replace("</TargetFrameworkVersion>", "").Trim();
                     break;
                 }
                 else if (line.IndexOf("<TargetFramework>") > 0)
                 {
-                    project.Framework = line.Replace("<TargetFramework>", "").Replace("</TargetFramework>", "").Trim();
+                    framework = line.Replace("<TargetFramework>", "").Replace("</TargetFramework>", "").Trim();
                     break;
                 }
                 else if (line.IndexOf("<TargetFrameworks>") > 0)
@@ -128,16 +147,12 @@ namespace RepoGovernance.Core.Helpers
                     {
                         if (i == 0)
                         {
-                            project.Framework = frameworkList[i];
+                            framework = frameworkList[i];
                         }
                         else
                         {
-                            Project additionalProject = new Project
-                            {
-                                Path = filePath,
-                                Framework = frameworkList[i]
-                            };
-                            projects.Add(additionalProject);
+                            //Create a list
+                            framework += "," + frameworkList[i];
                         }
                     }
                     break;
@@ -145,19 +160,18 @@ namespace RepoGovernance.Core.Helpers
                 else if (line.IndexOf("<ProductVersion>") > 0)
                 {
                     //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
-                    project.Framework = GetHistoricalFrameworkVersion(line);
+                    framework = GetHistoricalFrameworkVersion(line);
                 }
                 else if (line.IndexOf("ProductVersion = ") > 0)
                 {
                     //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
-                    project.Framework = GetHistoricalFrameworkVersion(line);
+                    framework = GetHistoricalFrameworkVersion(line);
                 }
             }
-            projects.Add(project);
-            return projects;
+            return framework;
         }
 
-        private string? GetHistoricalFrameworkVersion(string line)
+        private static string? GetHistoricalFrameworkVersion(string line)
         {
             string productVersion = line.Replace("<ProductVersion>", "").Replace("</ProductVersion>", "").Replace("ProductVersion = ", "").Replace("\"", "").Trim();
             //https://en.wikipedia.org/wiki/Microsoft_Visual_Studio#History

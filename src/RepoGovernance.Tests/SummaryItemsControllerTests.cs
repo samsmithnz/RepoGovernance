@@ -40,7 +40,10 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(0, item1.BranchPoliciesRecommendations.Count);
         Assert.AreEqual(1, item1.GitVersion.Count);
         Assert.AreEqual(0, item1.GitVersionRecommendations.Count);
-        Assert.AreEqual(0, item1.Frameworks.Count);
+        Assert.AreEqual(2, item1.DotNetFrameworks.Count);
+        Assert.AreEqual("netstandard2.0", item1.DotNetFrameworks[0]);
+        Assert.AreEqual("net6.0", item1.DotNetFrameworks[1]);
+        Assert.AreEqual(0, item1.DotNetFrameworksRecommendations.Count);
 
         //second repo
         SummaryItem item2 = summaryItems[1];
@@ -64,7 +67,9 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(0, item2.GitVersion.Count);
         Assert.AreEqual(1, item2.GitVersionRecommendations.Count);
         Assert.AreEqual("Consider adding Git Versioning to this repo", item2.GitVersionRecommendations[0]);
-        Assert.AreEqual(0, item2.Frameworks.Count);
+        Assert.AreEqual(1, item2.DotNetFrameworks.Count);
+        Assert.AreEqual("net6.0", item2.DotNetFrameworks[0]);
+        Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
     }
 
 }
