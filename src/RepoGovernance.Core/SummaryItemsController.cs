@@ -45,7 +45,7 @@ namespace RepoGovernance.Core
                 }
 
                 //Get any actions
-                List<string>? actions = await GitHubFiles.SearchForFiles(clientId, secret, owner, repo,
+                List<string>? actions = await GitHubFiles.GetFiles(clientId, secret, owner, repo,
                 null, null, ".github/workflows");
                 if (actions != null)
                 {
@@ -57,7 +57,7 @@ namespace RepoGovernance.Core
                 }
 
                 //Get any dependabot files
-                List<string>? dependabot = await GitHubFiles.SearchForFiles(
+                List<string>? dependabot = await GitHubFiles.GetFiles(
                     clientId, secret,
                     owner, repo,
                     "dependabot.yml", null, ".github");
@@ -131,7 +131,7 @@ namespace RepoGovernance.Core
                 }
 
                 //Get Gitversion files
-                List<string>? gitversion = await GitHubFiles.SearchForFiles(
+                List<string>? gitversion = await GitHubFiles.GetFiles(
                     clientId, secret,
                     owner, repo,
                     "GitVersion.yml", null, "");
