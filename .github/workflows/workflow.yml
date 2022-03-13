@@ -78,6 +78,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: service
+          path: service
       - name: Log into Azure
         uses: azure/login@v1
         with:
