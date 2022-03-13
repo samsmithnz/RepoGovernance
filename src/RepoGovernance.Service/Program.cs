@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 //     .AddJsonFile("appsettings.json", optional: false)
 //     .AddUserSecrets<Program>(true);
 //IConfigurationRoot configuration = builder.Build();
+//string clientid = Configuration["AppSettings:StorageConnectionString"];
 
 
 builder.Services.AddControllers();
