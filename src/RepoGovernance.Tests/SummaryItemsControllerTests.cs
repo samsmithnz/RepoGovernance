@@ -11,6 +11,19 @@ namespace RepoGovernance.Tests;
 public class SummaryItemsControllerTests : BaseAPIAccessTests
 {
     [TestMethod]
+    public async Task UpdateSummaryItemsTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+
+        //Act
+        int itemsUpdated = await SummaryItemsController.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, owner, 1);
+
+        //Assert
+        Assert.AreEqual(1, itemsUpdated);
+    }
+
+        [TestMethod]
     public async Task GetSummaryItemsTest()
     {
         //Arrange

@@ -8,11 +8,11 @@ namespace RepoGovernance.Core.TableStorage
         private readonly string ConfigurationString;
         private readonly string TableName;
 
-        //public TableStorageCommonDA(TableStorageConfiguration tableStorageConfig, string tableName)
-        //{
-        //    ConfigurationString = tableStorageConfig.StorageAccountConnectionString;
-        //    TableName = tableName;
-        //}
+        public TableStorageCommonDA(string connectionString, string tableName)
+        {
+            ConfigurationString = connectionString;
+            TableName = tableName;
+        }
 
         public TableStorageCommonDA()
         {
