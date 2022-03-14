@@ -70,7 +70,7 @@ jobs:
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v2
       with:
-        name: service
+        name: function
         path: ${{ github.workspace }}/function
 
   deploy:
