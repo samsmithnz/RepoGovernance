@@ -1,10 +1,8 @@
-using System;
-using System.Net.Http;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using RepoGovernance.Core;
-using Microsoft.Extensions.Configuration;
+using System;
 using System.Threading.Tasks;
 
 namespace RepoGovernance.ScheduleFunction
