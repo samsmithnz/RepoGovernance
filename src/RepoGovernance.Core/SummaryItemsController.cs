@@ -1,7 +1,6 @@
 ﻿using GitHubActionsDotNet.Models.Dependabot;
 using GitHubActionsDotNet.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RepoAutomation.Core.APIAccess;
 using RepoAutomation.Core.Helpers;
 using RepoAutomation.Core.Models;
@@ -178,9 +177,7 @@ namespace RepoGovernance.Core
             return itemsUpdated;
         }
 
-        public static async Task<List<SummaryItem>> GetSummaryItems(
-            string? clientId,
-            string? secret,
+        public static List<SummaryItem> GetSummaryItems(
             string connectionString,
             string owner)
         {

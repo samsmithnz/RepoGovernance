@@ -23,14 +23,14 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, itemsUpdated);
     }
 
-        [TestMethod]
-    public async Task GetSummaryItemsTest()
+    [TestMethod]
+    public void GetSummaryItemsTest()
     {
         //Arrange
         string owner = "samsmithnz";
 
         //Act
-        List<SummaryItem> summaryItems = await SummaryItemsController.GetSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, owner);
+        List<SummaryItem> summaryItems = SummaryItemsController.GetSummaryItems(AzureStorageConnectionString, owner);
 
         //Assert
         Assert.IsNotNull(summaryItems);
