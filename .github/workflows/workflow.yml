@@ -104,7 +104,7 @@ jobs:
   deployFunction:
     runs-on: windows-latest
     needs: build
-    if: 0==1
+    if: 1==1
     #if: github.ref == 'refs/heads/main'
     environment:
       name: 'production'
@@ -121,9 +121,13 @@ jobs:
           creds: ${{ secrets.AZURE_SP }} 
       - name: Set service secrets
         run: az webapp config appsettings set --name "repogovernance-prod-eu-schedulefunction" --resource-group "RepoGovernance" --settings "AppSettings:GitHubClientId=${{ secrets.GitHubClientId }}" "AppSettings:GitHubClientSecret=${{ secrets.GitHubClientSecret }}" "AppSettings:StorageConnectionString=${{ secrets.StorageConnectionString }}" #--slot staging   
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
+      #- name: Deploy to Azure Web App
+      #  uses: azure/webapps-deploy@v2
+      #  with:
+      #    app-name: repogovernance-prod-eu-schedulefunction
+      #    package: function
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@v1
         with:
           app-name: repogovernance-prod-eu-schedulefunction
-          package: function
-          
+          package: function        
