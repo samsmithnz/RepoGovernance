@@ -14,13 +14,11 @@ namespace RepoGovernance.Core.TableStorage
             TableName = tableName;
         }
 
-        public TableStorageCommonDA()
-        {
-        }
+        //This is needed for Dependency Injection
+        public TableStorageCommonDA() { }
 
         private CloudTable CreateConnection()
         {
-            //CloudStorageAccount storageAccount = new CloudStorageAccount(new StorageCredentials(AccountName, AccessKey), true);
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationString);
 
             // Create the table client.
@@ -30,7 +28,7 @@ namespace RepoGovernance.Core.TableStorage
             CloudTable table = tableClient.GetTableReference(TableName);
 
             // Create the table if it doesn't exist
-            //table.CreateIfNotExists(); // DON"T use this, it throws an internal 409 in App insights: https://stackoverflow.com/questions/48893519/azure-table-storage-exception-409-conflict-unexpected
+            //table.CreateIfNotExists(); // DON"T use CreateIfNotExists, it throws an internal 409 in App insights: https://stackoverflow.com/questions/48893519/azure-table-storage-exception-409-conflict-unexpected
             if (!table.Exists())
             {
                 table.Create();

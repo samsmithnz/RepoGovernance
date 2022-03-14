@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Core.TableStorage
 {
+    //Note that these calls to Azure Storage table can't be async due to performance issues with Azure Storage when you retrieve items
     public class AzureTableStorageDA
     {
-        //Note that this can't be async due to performance issues with Azure Storage when you retrieve items
         public List<SummaryItem> GetSummaryItemsFromTable(string connectionString, string tableName,
             string partitionKey)
         {
@@ -15,9 +14,15 @@ namespace RepoGovernance.Core.TableStorage
             List<SummaryItem> results = new();
             foreach (AzureStorageTableModel item in items)
             {
-                string data = item.Data?.ToString();
-                SummaryItem summaryItem = JsonConvert.DeserializeObject<SummaryItem>(data);
-                results.Add(summaryItem);
+                string? data = item.Data?.ToString();
+                if (data != null)
+                {
+                    SummaryItem? summaryItem = JsonConvert.DeserializeObject<SummaryItem>(data);
+                    if (summaryItem != null)
+                    {
+                        results.Add(summaryItem);
+                    }
+                }
             }
             return results;
         }
