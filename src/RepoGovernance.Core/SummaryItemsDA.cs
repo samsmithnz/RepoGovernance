@@ -14,17 +14,16 @@ namespace RepoGovernance.Core
     public static class SummaryItemsDA
     {
         public static List<SummaryItem> GetSummaryItems(
-            string connectionString,
+            string? connectionString,
             string owner)
         {
-            AzureTableStorageDA da = new();
-            List<SummaryItem> results = da.GetSummaryItemsFromTable(connectionString, "Summary", owner);
+            List<SummaryItem> results = AzureTableStorageDA.GetSummaryItemsFromTable(connectionString, "Summary", owner);
             return results;
         }
 
         public static async Task<int> UpdateSummaryItems(string? clientId,
             string? secret,
-            string connectionString,
+            string? connectionString,
             string owner,
             int itemsToUpdate = 0)
         {
@@ -179,8 +178,7 @@ namespace RepoGovernance.Core
 
                 //Save the summary item
                 string json = JsonConvert.SerializeObject(summaryItem);
-                AzureTableStorageDA da = new();
-                itemsUpdated += await da.UpdateSummaryItemsIntoTable(connectionString, owner, repo, json);
+                itemsUpdated += await AzureTableStorageDA.UpdateSummaryItemsIntoTable(connectionString, owner, repo, json);
             }
 
             return itemsUpdated;

@@ -5,8 +5,8 @@ namespace RepoGovernance.Core.TableStorage
 {
     public class TableStorageCommonDA
     {
-        private readonly string ConfigurationString;
-        private readonly string TableName;
+        private readonly string? ConfigurationString;
+        private readonly string? TableName;
 
         public TableStorageCommonDA(string connectionString, string tableName)
         {
@@ -117,7 +117,7 @@ namespace RepoGovernance.Core.TableStorage
         ////    return true;
         ////}
 
-        public string EncodePartitionKey(string text)
+        public static string EncodePartitionKey(string text)
         {
             //The forward slash(/) character
             //The backslash(\) character
