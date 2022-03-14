@@ -71,7 +71,7 @@ jobs:
     #if: github.ref == 'refs/heads/main'
     environment:
       name: 'production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: ${{ steps.deploy-to-servicesapp.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
@@ -86,7 +86,7 @@ jobs:
       - name: Set service secrets
         run: az webapp config appsettings set --name "repogovernance-prod-eu-service" --resource-group "RepoGovernance" --settings "AppSettings:GitHubClientId=${{ secrets.GitHubClientId }}" "AppSettings:GitHubClientSecret=${{ secrets.GitHubClientSecret }}" "AppSettings:StorageConnectionString=${{ secrets.StorageConnectionString }}" #--slot staging   
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+        id: deploy-to-servicesapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: repogovernance-prod-eu-service
