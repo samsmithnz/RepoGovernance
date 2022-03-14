@@ -120,7 +120,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_SP }} 
       - name: Set service secrets
-        run: az webapp config appsettings set --name "repogovernance-prod-eu-schedulefunction" --resource-group "RepoGovernance" --settings "AppSettings:GitHubClientId=${{ secrets.GitHubClientId }}" "AppSettings:GitHubClientSecret=${{ secrets.GitHubClientSecret }}" "AppSettings:StorageConnectionString=${{ secrets.StorageConnectionString }}" #--slot staging   
+        run: az function config appsettings set --name "repogovernance-prod-eu-schedulefunction" --resource-group "RepoGovernance" --settings "AppSettings:GitHubClientId=${{ secrets.GitHubClientId }}" "AppSettings:GitHubClientSecret=${{ secrets.GitHubClientSecret }}" "AppSettings:StorageConnectionString=${{ secrets.StorageConnectionString }}" #--slot staging   
       #- name: Deploy to Azure Web App
       #  uses: azure/webapps-deploy@v2
       #  with:
