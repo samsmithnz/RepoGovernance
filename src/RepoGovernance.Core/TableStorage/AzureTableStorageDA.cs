@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RepoGovernance.Core.APIAccess;
 using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Core.TableStorage
@@ -48,6 +49,12 @@ namespace RepoGovernance.Core.TableStorage
             }
 
             return itemsAdded;
+        }
+
+        //TODO: Move this into Azure Storage - currently this is a single static list of repos
+        public static List<string> GetRepos(string owner)
+        {
+            return DatabaseAccess.GetRepos(owner);
         }
 
     }
