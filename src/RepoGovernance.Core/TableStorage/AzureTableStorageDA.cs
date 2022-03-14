@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Core.TableStorage
@@ -6,30 +7,19 @@ namespace RepoGovernance.Core.TableStorage
     public class AzureTableStorageDA
     {
         //Note that this can't be async due to performance issues with Azure Storage when you retrieve items
-        public JArray GetSummaryItemsFromTable(string connectionString, string tableName, 
-            string partitionKey, bool includePartitionAndRowKeys = false)
+        public List<SummaryItem> GetSummaryItemsFromTable(string connectionString, string tableName,
+            string partitionKey)
         {
             TableStorageCommonDA tableDA = new TableStorageCommonDA(connectionString, tableName);
             List<AzureStorageTableModel> items = tableDA.GetItems(partitionKey);
-            JArray list = new();
+            List<SummaryItem> results = new();
             foreach (AzureStorageTableModel item in items)
             {
-                if (includePartitionAndRowKeys == true)
-                {
-                    string data = item.Data?.ToString();
-                    list.Add(new JObject(
-                                new JProperty("PartitionKey", item.PartitionKey),
-                                new JProperty("RowKey", item.RowKey),
-                                new JProperty("Data", data)
-                            )
-                        );
-                }
-                else
-                {
-                    list.Add(JToken.Parse(item.Data));
-                }
+                string data = item.Data?.ToString();
+                SummaryItem summaryItem = JsonConvert.DeserializeObject<SummaryItem>(data);
+                results.Add(summaryItem);
             }
-            return list;
+            return results;
         }
 
         //Update the storage with the data

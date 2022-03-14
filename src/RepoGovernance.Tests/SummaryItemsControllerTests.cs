@@ -30,7 +30,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         string owner = "samsmithnz";
 
         //Act
-        List<SummaryItem> summaryItems = await SummaryItemsController.GetSummaryItems(GitHubId, GitHubSecret, owner);
+        List<SummaryItem> summaryItems = await SummaryItemsController.GetSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, owner);
 
         //Assert
         Assert.IsNotNull(summaryItems);

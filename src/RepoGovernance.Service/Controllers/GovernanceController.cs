@@ -15,12 +15,6 @@ namespace RepoGovernance.Service.Controllers
             Configuration = configuration;
         }
 
-        [HttpGet("Test")]
-        public string Test()
-        {
-            return Configuration["AppSettings:StorageConnectionString"];
-        }
-
         [HttpGet("UpdateSummaryItems")]
         public async Task<int> UpdateSummaryItems(string owner)
         {
@@ -30,9 +24,10 @@ namespace RepoGovernance.Service.Controllers
         [HttpGet("GetSummaryItems")]
         public async Task<List<SummaryItem>> GetSummaryItems(string owner)
         {
-            string clientId = "";
-            string clientSecret = "";
-            return await SummaryItemsController.GetSummaryItems(clientId, clientSecret, owner);
+            return await SummaryItemsController.GetSummaryItems(
+                Configuration["AppSettings:GitHubClientId"],
+                Configuration["AppSettings:GitHubClientSecret"],
+                Configuration["AppSettings:StorageConnectionString"], owner);
         }
     }
 }
