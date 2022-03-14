@@ -66,7 +66,7 @@ jobs:
         path: ${{ github.workspace }}/service
 
     - name: .NET publish function
-      run: dotnet publish src/RepoGovernance.ScheduleFunction/RepoGovernance.ScheduleFunction.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/function
+      run: dotnet publish src/RepoGovernance.Function/RepoGovernance.Function.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/function
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v2
       with:

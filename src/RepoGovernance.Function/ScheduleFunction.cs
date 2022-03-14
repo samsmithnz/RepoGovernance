@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace RepoGovernance.ScheduleFunction
+namespace RepoGovernance.Function
 {
     public class ScheduleFunction
     {
