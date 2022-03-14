@@ -87,5 +87,5 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: repogovernance-prod-eu-web
+          app-name: repogovernance-prod-eu-service
           package: service
