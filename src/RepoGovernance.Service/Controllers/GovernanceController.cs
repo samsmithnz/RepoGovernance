@@ -17,7 +17,7 @@ namespace RepoGovernance.Service.Controllers
 
 
         [HttpGet("Secrets")]
-        public string Secrets(string owner)
+        public string Secrets()
         {
             return Configuration["AppSettings:GitHubClientId"] + "," + Environment.NewLine +
                Configuration["AppSettings:GitHubClientSecret"] + "," + Environment.NewLine +
