@@ -4,6 +4,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationInsightsResourceId>/subscriptions/65b8d298-e5bd-4735-912e-8b9c510c4e00/resourceGroups/RepoGovernance/providers/microsoft.insights/components/repogovernance-prod-eu-appinsights</ApplicationInsightsResourceId>
+    <UserSecretsId>7833699b-2aab-4ee4-86a2-e0f1cd6a63cb</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
+  </ItemGroup>
 
 </Project>
