@@ -11,8 +11,17 @@ using RepoGovernance.Core.TableStorage;
 
 namespace RepoGovernance.Core
 {
-    public static class SummaryItemsController
+    public static class SummaryItemsDA
     {
+        public static List<SummaryItem> GetSummaryItems(
+            string connectionString,
+            string owner)
+        {
+            AzureTableStorageDA da = new();
+            List<SummaryItem> results = da.GetSummaryItemsFromTable(connectionString, "Summary", owner);
+            return results;
+        }
+
         public static async Task<int> UpdateSummaryItems(string? clientId,
             string? secret,
             string connectionString,
@@ -175,15 +184,6 @@ namespace RepoGovernance.Core
             }
 
             return itemsUpdated;
-        }
-
-        public static List<SummaryItem> GetSummaryItems(
-            string connectionString,
-            string owner)
-        {
-            AzureTableStorageDA da = new();
-            List<SummaryItem> results = da.GetSummaryItemsFromTable(connectionString, "Summary", owner);
-            return results;
         }
     }
 }

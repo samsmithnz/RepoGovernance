@@ -17,7 +17,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         string owner = "samsmithnz";
 
         //Act
-        int itemsUpdated = await SummaryItemsController.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, owner, 1);
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, owner, 1);
 
         //Assert
         Assert.AreEqual(1, itemsUpdated);
@@ -30,7 +30,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         string owner = "samsmithnz";
 
         //Act
-        List<SummaryItem> summaryItems = SummaryItemsController.GetSummaryItems(AzureStorageConnectionString, owner);
+        List<SummaryItem> summaryItems = SummaryItemsDA.GetSummaryItems(AzureStorageConnectionString, owner);
 
         //Assert
         Assert.IsNotNull(summaryItems);
