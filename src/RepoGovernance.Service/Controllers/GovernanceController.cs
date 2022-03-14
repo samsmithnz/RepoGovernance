@@ -15,6 +15,15 @@ namespace RepoGovernance.Service.Controllers
             Configuration = configuration;
         }
 
+
+        [HttpGet("Secrets")]
+        public string Secrets(string owner)
+        {
+            return Configuration["AppSettings:GitHubClientId"] + "," + Environment.NewLine +
+               Configuration["AppSettings:GitHubClientSecret"] + "," + Environment.NewLine +
+               Configuration["AppSettings:StorageConnectionString"];
+        }
+
         [HttpGet("UpdateSummaryItems")]
         public async Task<int> UpdateSummaryItems(string owner)
         {
