@@ -26,6 +26,8 @@ namespace RepoGovernance.Function
                 .Build();
             string connectionString = Configuration["AzureWebJobsStorage"];
 
+            log.LogInformation($"connectionString {connectionString}");
+
             //Add the repos to the queue for processing
             List<string> repos = DatabaseAccess.GetRepos(owner);
             foreach (string repo in repos)
@@ -47,6 +49,8 @@ namespace RepoGovernance.Function
             }
 
             //Report on the total
+            log.LogInformation($"{repos.Count} repos added to the queue, finishing execution at: {DateTime.Now} ");
+
         }
     }
 }
