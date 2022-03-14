@@ -16,7 +16,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //Arrange
         string owner = "samsmithnz";
 
-        //Act
+        //Act - runs each repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, owner, 1);
 
         //Assert
