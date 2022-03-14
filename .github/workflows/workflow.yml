@@ -49,14 +49,15 @@ jobs:
       with:
         name: drop
         path: src/RepoGovernance.Core/bin/Release
-    - name: .NET publish
+    - name: .NET publish service
       run: dotnet publish src/RepoGovernance.Web/RepoGovernance.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/web
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v2
       with:
         name: web
         path: ${{ github.workspace }}/web
-    - name: .NET publish
+
+    - name: .NET publish website
       run: dotnet publish src/RepoGovernance.Service/RepoGovernance.Service.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/service
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v2
@@ -64,6 +65,13 @@ jobs:
         name: service
         path: ${{ github.workspace }}/service
 
+    - name: .NET publish function
+      run: dotnet publish src/RepoGovernance.ScheduleFunction/RepoGovernance.ScheduleFunction.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/function
+    - name: Upload package back to GitHub
+      uses: actions/upload-artifact@v2
+      with:
+        name: service
+        path: ${{ github.workspace }}/function
 
   deploy:
     runs-on: windows-latest
@@ -91,6 +99,7 @@ jobs:
         with:
           app-name: repogovernance-prod-eu-service
           package: service
+
 
   deployFunction:
     runs-on: windows-latest
