@@ -17,7 +17,15 @@ namespace RepoGovernance.Core
             string? connectionString,
             string owner)
         {
-            List<SummaryItem> results = AzureTableStorageDA.GetSummaryItemsFromTable(connectionString, "Summary", owner);
+            List<SummaryItem> results;
+            if (connectionString != null)
+            {
+                results = AzureTableStorageDA.GetSummaryItemsFromTable(connectionString, "Summary", owner);
+            }
+            else
+            {
+                throw new ArgumentException("connectionstring is null");
+            }
             return results;
         }
 
@@ -177,8 +185,15 @@ namespace RepoGovernance.Core
                 }
 
                 //Save the summary item
-                string json = JsonConvert.SerializeObject(summaryItem);
-                itemsUpdated += await AzureTableStorageDA.UpdateSummaryItemsIntoTable(connectionString, owner, repo, json);
+                if (connectionString != null)
+                {
+                    string json = JsonConvert.SerializeObject(summaryItem);
+                    itemsUpdated += await AzureTableStorageDA.UpdateSummaryItemsIntoTable(connectionString, owner, repo, json);
+                }
+                else
+                {
+                    throw new ArgumentException("connectionstring is null");
+                }
             }
 
             return itemsUpdated;
