@@ -11,13 +11,27 @@ namespace RepoGovernance.Tests;
 public class SummaryItemsControllerTests : BaseAPIAccessTests
 {
     [TestMethod]
-    public async Task GetSummaryItemsTest()
+    public async Task UpdateSummaryItemsTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repo = "RepoGovernance";
+
+        //Act - runs each repo in about 4s
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, owner, repo);
+
+        //Assert
+        Assert.AreEqual(1, itemsUpdated);
+    }
+
+    [TestMethod]
+    public void GetSummaryItemsTest()
     {
         //Arrange
         string owner = "samsmithnz";
 
         //Act
-        List<SummaryItem> summaryItems = await SummaryItemsController.GetSummaryItems(GitHubId, GitHubSecret, owner);
+        List<SummaryItem> summaryItems = SummaryItemsDA.GetSummaryItems(AzureStorageConnectionString, owner);
 
         //Assert
         Assert.IsNotNull(summaryItems);

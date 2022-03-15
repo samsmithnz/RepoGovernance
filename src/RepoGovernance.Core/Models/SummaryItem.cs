@@ -7,6 +7,7 @@ namespace RepoGovernance.Core.Models
     {
         public SummaryItem(string repo)
         {
+            LastUpdated = DateTime.Now;
             Repo = repo;
             RepoSettings = new();
             RepoSettingsRecommendations = new();
@@ -21,6 +22,7 @@ namespace RepoGovernance.Core.Models
             DotNetFrameworksRecommendations = new();
         }
 
+        public DateTime LastUpdated { get; set; }
         public string Repo { get; internal set; }
         public Repo RepoSettings { get; set; }
         public List<string> RepoSettingsRecommendations { get; set; }

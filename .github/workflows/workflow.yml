@@ -49,14 +49,15 @@ jobs:
       with:
         name: drop
         path: src/RepoGovernance.Core/bin/Release
-    - name: .NET publish
+    - name: .NET publish service
       run: dotnet publish src/RepoGovernance.Web/RepoGovernance.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/web
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v2
       with:
         name: web
         path: ${{ github.workspace }}/web
-    - name: .NET publish
+
+    - name: .NET publish website
       run: dotnet publish src/RepoGovernance.Service/RepoGovernance.Service.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/service
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v2
@@ -64,14 +65,21 @@ jobs:
         name: service
         path: ${{ github.workspace }}/service
 
+    - name: .NET publish function
+      run: dotnet publish src/RepoGovernance.Function/RepoGovernance.Function.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/function
+    - name: Upload package back to GitHub
+      uses: actions/upload-artifact@v2
+      with:
+        name: function
+        path: ${{ github.workspace }}/function
 
   deploy:
     runs-on: windows-latest
     needs: build
-    if: github.ref == 'refs/heads/main'
+    #if: github.ref == 'refs/heads/main'
     environment:
       name: 'production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: ${{ steps.deploy-to-servicesapp.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
@@ -83,9 +91,38 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_SP }} 
+      - name: Set service secrets
+        run: az webapp config appsettings set --name "repogovernance-prod-eu-service" --resource-group "RepoGovernance" --settings "AppSettings:GitHubClientId=${{ secrets.GitHubClientId }}" "AppSettings:GitHubClientSecret=${{ secrets.GitHubClientSecret }}" "AppSettings:StorageConnectionString=${{ secrets.StorageConnectionString }}" #--slot staging   
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+        id: deploy-to-servicesapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: repogovernance-prod-eu-web
+          app-name: repogovernance-prod-eu-service
           package: service
+
+
+  deployFunction:
+    runs-on: windows-latest
+    needs: build
+    if: 1==1
+    #if: github.ref == 'refs/heads/main'
+    environment:
+      name: 'production'
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: function
+          path: function
+      - name: Log into Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_SP }} 
+      - name: Set function secrets
+        run: az functionapp config appsettings set --name "repogovernance-prod-eu-schedulefunction" --resource-group "RepoGovernance" --settings "GitHubClientId=${{ secrets.GitHubClientId }}" "GitHubClientSecret=${{ secrets.GitHubClientSecret }}" "StorageConnectionString=${{ secrets.StorageConnectionString }}" "SummaryQueueConnection=${{ secrets.SummaryQueueConnection }}"
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@v1
+        with:
+          app-name: repogovernance-prod-eu-schedulefunction
+          package: function        
