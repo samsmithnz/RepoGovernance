@@ -6,11 +6,11 @@ namespace RepoGovernance.Service.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GovernanceController : ControllerBase
+    public class SummaryItemsController : ControllerBase
     {
         private readonly IConfiguration Configuration;
 
-        public GovernanceController(IConfiguration configuration)
+        public SummaryItemsController(IConfiguration configuration)
         {
             Configuration = configuration;
         }

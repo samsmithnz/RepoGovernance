@@ -1,8 +1,13 @@
+using RepoGovernance.Web.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
+
+//Add DI for the service api client 
+builder.Services.AddScoped<SummaryItemsServiceAPIClient, SummaryItemsServiceAPIClient>();
 
 var app = builder.Build();
 
