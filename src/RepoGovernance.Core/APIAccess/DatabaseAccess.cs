@@ -12,7 +12,8 @@ public static class DatabaseAccess
             "CustomQueue",
             "DevOpsMetrics",
             "RepoAutomation",
-            "samsmithnz"
+            "samsmithnz",
+            "TBS"
         };
 
         return results;
