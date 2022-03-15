@@ -79,7 +79,7 @@ jobs:
     #if: github.ref == 'refs/heads/main'
     environment:
       name: 'production'
-      url: ${{ steps.deploy-to-servicesapp.outputs.webapp-url }}
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
@@ -87,25 +87,34 @@ jobs:
         with:
           name: service
           path: service
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: web
+          path: web
       - name: Log into Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_SP }} 
       - name: Set service secrets
         run: az webapp config appsettings set --name "repogovernance-prod-eu-service" --resource-group "RepoGovernance" --settings "AppSettings:GitHubClientId=${{ secrets.GitHubClientId }}" "AppSettings:GitHubClientSecret=${{ secrets.GitHubClientSecret }}" "AppSettings:StorageConnectionString=${{ secrets.StorageConnectionString }}" #--slot staging   
-      - name: Deploy to Azure Web App
+      - name: Deploy to Azure Web App Service
         id: deploy-to-servicesapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: repogovernance-prod-eu-service
           package: service
-
+      - name: Deploy to Azure Web App Website
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: repogovernance-prod-eu-web
+          package: web
 
   deployFunction:
     runs-on: windows-latest
     needs: build
-    if: 1==1
-    #if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     environment:
       name: 'production'
 
