@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace RepoGovernance.Function
 {
-    public class ScheduleFunction
+    public class AddItemsToQueueForProcessingFunction
     {
-        [FunctionName("ScheduleFunction")]
+        [FunctionName("AddItemsToQueueForProcessing")]
         public static async Task Run([TimerTrigger("0 0 * * *")] TimerInfo myTimer, ILogger log, ExecutionContext context)
         {
             string owner = "samsmithnz";
@@ -50,7 +50,6 @@ namespace RepoGovernance.Function
 
             //Report on the total
             log.LogInformation($"{repos.Count} repos added to the queue, finishing execution at: {DateTime.Now} ");
-
         }
     }
 }

@@ -1,18 +1,22 @@
-using System;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using RepoGovernance.Core;
+using System;
+using System.Threading.Tasks;
 
 namespace RepoGovernance.Function
 {
-    public class QueueFunction
+    public class ProcessItemFromQueueFunction
     {
-        [FunctionName("QueueFunction")]
-        public async Task Run([QueueTrigger("summary-queue", Connection = "SummaryQueueConnection")] string myQueueItem, ILogger log, ExecutionContext context)
+        [FunctionName("ProcessItemFromQueue")]
+        //public async Task Run([QueueTrigger("summary-queue", Connection = "SummaryQueueConnection")] string myQueueItem, ILogger log, ExecutionContext context)
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req, ILogger log, ExecutionContext context)
         {
+            string myQueueItem = "samsmithnz_RepoGovernance";
             log.LogInformation($"C# Queue trigger function processed: {myQueueItem}");
 
             //Split by _, this is the owner and repo
@@ -37,6 +41,7 @@ namespace RepoGovernance.Function
             {
                 log.LogInformation($"Queue had wrong number of parts from {myQueueItem}");
             }
+            return null;
         }
     }
 }
