@@ -12,7 +12,8 @@ namespace RepoGovernance.Function
     public class AddItemsToQueueForProcessingFunction
     {
         [FunctionName("AddItemsToQueueForProcessing")]
-        public static async Task Run([TimerTrigger("0 0 * * *")] TimerInfo myTimer, ILogger log, ExecutionContext context)
+        //0 0 * * *
+        public static async Task Run([TimerTrigger("*/5 * * * *")] TimerInfo myTimer, ILogger log, ExecutionContext context)
         {
             string owner = "samsmithnz";
             string queueName = "summary-queue";
