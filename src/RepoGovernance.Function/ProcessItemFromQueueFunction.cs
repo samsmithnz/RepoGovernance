@@ -13,10 +13,10 @@ namespace RepoGovernance.Function
     public class ProcessItemFromQueueFunction
     {
         [FunctionName("ProcessItemFromQueue")]
-        //public async Task Run([QueueTrigger("summary-queue", Connection = "SummaryQueueConnection")] string myQueueItem, ILogger log, ExecutionContext context)
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req, ILogger log, ExecutionContext context)
+        public async Task Run([QueueTrigger("summary-queue", Connection = "SummaryQueueConnection")] string myQueueItem, ILogger log, ExecutionContext context)
+        //public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req, ILogger log, ExecutionContext context)
         {
-            string myQueueItem = "samsmithnz_RepoGovernance";
+            //string myQueueItem = "samsmithnz_RepoGovernance";
             log.LogInformation($"C# Queue trigger function processed: {myQueueItem}");
 
             //Split by _, this is the owner and repo
@@ -29,19 +29,20 @@ namespace RepoGovernance.Function
                 IConfigurationRoot Configuration = new ConfigurationBuilder()
                     .SetBasePath(context.FunctionAppDirectory)
                     .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+                    .AddUserSecrets<ProcessItemFromQueueFunction>(optional: true)
                     .AddEnvironmentVariables()
                     .Build();
 
-                log.LogInformation($"Configurations: ClientId {Configuration["ClientId"]}, ClientSecret {Configuration["ClientSecret"]}, SummaryQueueConnection {Configuration["SummaryQueueConnection"]}");
+                log.LogInformation($"Configurations: ClientId {Configuration["GitHubClientId"]}, ClientSecret {Configuration["GitHubClientSecret"]}, SummaryQueueConnection {Configuration["SummaryQueueConnection"]}");
 
-                int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(Configuration["ClientId"], Configuration["ClientSecret"], Configuration["SummaryQueueConnection"], owner, repo);
+                int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(Configuration["GitHubClientId"], Configuration["GitHubClientSecret"], Configuration["SummaryQueueConnection"], owner, repo);
                 log.LogInformation($"C# Queue trigger function completed updating {itemsUpdated} items at: {DateTime.Now}");
             }
             else
             {
                 log.LogInformation($"Queue had wrong number of parts from {myQueueItem}");
             }
-            return null;
+            //return null;
         }
     }
 }

@@ -22,6 +22,7 @@ namespace RepoGovernance.Function
             IConfigurationRoot Configuration = new ConfigurationBuilder()
                 .SetBasePath(context.FunctionAppDirectory)
                 .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+                .AddUserSecrets<AddItemsToQueueForProcessingFunction>(optional: true)
                 .AddEnvironmentVariables()
                 .Build();
             string connectionString = Configuration["AzureWebJobsStorage"];

@@ -120,7 +120,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_SP }} 
       - name: Set function secrets
-        run: az functionapp config appsettings set --name "repogovernance-prod-eu-schedulefunction" --resource-group "RepoGovernance" --settings "AppSettings:GitHubClientId=${{ secrets.GitHubClientId }}" "AppSettings:GitHubClientSecret=${{ secrets.GitHubClientSecret }}" "Values:StorageConnectionString=${{ secrets.StorageConnectionString }}" "SummaryQueueConnection=${{ secrets.SummaryQueueConnection }}"
+        run: az functionapp config appsettings set --name "repogovernance-prod-eu-schedulefunction" --resource-group "RepoGovernance" --settings "GitHubClientId=${{ secrets.GitHubClientId }}" "GitHubClientSecret=${{ secrets.GitHubClientSecret }}" "StorageConnectionString=${{ secrets.StorageConnectionString }}" "SummaryQueueConnection=${{ secrets.SummaryQueueConnection }}"
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         with:
