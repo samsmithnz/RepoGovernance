@@ -14,7 +14,7 @@ namespace RepoGovernance.Function
         [FunctionName("AddItemsToQueueForProcessing")]
         // 0 0 * * * //Every 24 hours
         // */5 * * * * //Every 5 minutes
-        public static async Task Run([TimerTrigger("0 0 * * *")] TimerInfo myTimer, ILogger log, ExecutionContext context)
+        public static async Task Run([TimerTrigger("*/5 * * * *")] TimerInfo myTimer, ILogger log, ExecutionContext context)
         {
             string owner = "samsmithnz";
             string queueName = "summary-queue";
