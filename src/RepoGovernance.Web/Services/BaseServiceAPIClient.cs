@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Newtonsoft.Json;
+using System.Text;
 using System.Text.Json;
 
 namespace RepoGovernance.Web.Services
@@ -19,7 +20,10 @@ namespace RepoGovernance.Web.Services
                 Stream stream = await response.Content.ReadAsStreamAsync();
                 if (stream != null && stream.Length > 0)
                 {
-                    return await JsonSerializer.DeserializeAsync<List<T>>(stream);
+                    StreamReader reader = new(stream);
+                    string text = reader.ReadToEnd();
+                    return JsonConvert.DeserializeObject<List<T>>(text);
+                    //return await JsonSerializer.DeserializeAsync<List<T>>(stream);
                 }
                 else
                 {
@@ -41,7 +45,7 @@ namespace RepoGovernance.Web.Services
                 Stream stream = await response.Content.ReadAsStreamAsync();
                 if (stream != null && stream.Length > 0)
                 {
-                    return await JsonSerializer.DeserializeAsync<T>(stream);
+                    return await System.Text.Json.JsonSerializer.DeserializeAsync<T>(stream);
                 }
                 else
                 {
@@ -59,7 +63,7 @@ namespace RepoGovernance.Web.Services
 
         public async Task<bool> SaveMessageItem<T>(Uri url, T obj)
         {
-            string jsonInString = JsonSerializer.Serialize(obj);
+            string jsonInString = System.Text.Json.JsonSerializer.Serialize(obj);
             StringContent content = new(jsonInString, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await _client.PostAsync(url, content);
             if (response.IsSuccessStatusCode == true)
@@ -84,7 +88,7 @@ namespace RepoGovernance.Web.Services
                 Stream stream = await response.Content.ReadAsStreamAsync();
                 if (stream != null && stream.Length > 0)
                 {
-                    return await JsonSerializer.DeserializeAsync<R>(stream);
+                    return await System.Text.Json.JsonSerializer.DeserializeAsync<R>(stream);
                 }
                 else
                 {

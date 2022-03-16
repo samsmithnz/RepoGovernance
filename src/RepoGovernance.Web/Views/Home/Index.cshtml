@@ -4,13 +4,16 @@
     ViewData["Title"] = "Home Page";
 }
 
-@foreach(SummaryItem item in Model)
-{
-    <div>@item.Repo</div><br />
+@{
+    string lastUpdated = "unknown";
+    if (Model.Count > 0)
+    {
+        lastUpdated = Model[0].LastUpdated.ToString("d-MMM-yyyy h:mmtt");
+    }
 }
 
 <div>
-    <h4>For account https://github.com/samsmithnz (last updated 6-Jan-2022 9:41pm EST)</h4>
+    <h4>For account https://github.com/samsmithnz (last updated @lastUpdated)</h4>
     <div>
         <table class="table">
             <tr>
@@ -21,7 +24,51 @@
                 <th>Auto versioning</th>
                 <th>Frameworks detected</th>
             </tr>
-            <tr>
+            @foreach (SummaryItem item in Model)
+            {
+                <tr>
+                    <td><a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a></td>
+                    @if (item.Actions.Count > 0)
+                    {
+                        <td>@item.Actions.Count</td>
+                    }
+                    else
+                    {
+                        <td><b>None</b></td>
+                    }
+                    @if (item.Dependabot.Count > 0)
+                    {
+                        <td>@item.Dependabot.Count</td>
+                    }
+                    else
+                    {
+                        <td><b>None</b></td>
+                    }
+                    @if (item.BranchPolicies != null)
+                    {
+                        <td>Enabled</td>
+                    }
+                    else
+                    {
+                        <td><b>None</b></td>
+                    }
+                    @if (item.GitVersion.Count > 0)
+                    {
+                        <td>@item.GitVersion.Count</td>
+                    }
+                    else
+                    {
+                        <td><b>None</b></td>
+                    }
+                    <td>
+                        @foreach (string badge in item.DotNetFrameworks)
+                        {
+                            <span class="badge bg-primary">@badge</span>
+                        }
+                    </td>
+                </tr>
+            }
+            @*<tr>
                 <td><a href="https://github.com/samsmithnz/ASCII-DAG">ASCII-DAG</a></td>
                 <td>Yes</td>
                 <td>Yes</td>
@@ -155,7 +202,7 @@
                 <td>
                     <span class="badge bg-primary">.NET 6</span>
                 </td>
-            </tr>
+            </tr>*@
         </table>
     </div>
 </div>
