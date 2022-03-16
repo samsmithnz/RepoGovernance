@@ -18,7 +18,7 @@ namespace RepoGovernance.Web.Services
 
         public async Task<List<SummaryItem>> GetSummaryItems(string owner)
         {
-            Uri url = new($"api/SummaryItemsController/GetSummaryItems?owner=" + owner, UriKind.Relative);
+            Uri url = new($"api/SummaryItems/GetSummaryItems?owner=" + owner, UriKind.Relative);
             List<SummaryItem> results = await base.ReadMessageList<SummaryItem>(url);
             if (results == null)
             {

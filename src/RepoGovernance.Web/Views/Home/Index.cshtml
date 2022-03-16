@@ -4,6 +4,11 @@
     ViewData["Title"] = "Home Page";
 }
 
+@foreach(SummaryItem item in Model)
+{
+    <div>@item.Repo</div><br />
+}
+
 <div>
     <h4>For account https://github.com/samsmithnz (last updated 6-Jan-2022 9:41pm EST)</h4>
     <div>
