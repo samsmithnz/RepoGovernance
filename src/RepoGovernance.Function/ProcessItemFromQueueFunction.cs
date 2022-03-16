@@ -35,7 +35,7 @@ namespace RepoGovernance.Function
 
                 log.LogInformation($"Configurations: ClientId {Configuration["GitHubClientId"]}, ClientSecret {Configuration["GitHubClientSecret"]}, SummaryQueueConnection {Configuration["SummaryQueueConnection"]}");
 
-                //int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(Configuration["GitHubClientId"], Configuration["GitHubClientSecret"], Configuration["SummaryQueueConnection"], owner, repo);
+                int itemsUpdated = 0;// await SummaryItemsDA.UpdateSummaryItems(Configuration["GitHubClientId"], Configuration["GitHubClientSecret"], Configuration["SummaryQueueConnection"], owner, repo);
                 log.LogInformation($"C# Queue trigger function completed updating {itemsUpdated} items at: {DateTime.Now}");
             }
             else
