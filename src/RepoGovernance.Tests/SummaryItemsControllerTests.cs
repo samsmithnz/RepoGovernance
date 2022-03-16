@@ -84,6 +84,13 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, item2.DotNetFrameworks.Count);
         Assert.AreEqual("net6.0", item2.DotNetFrameworks[0]);
         Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
+
+        //third repo
+        SummaryItem item3 = summaryItems[2];
+        Assert.AreEqual("DevOpsMetrics", item3.Repo);
+        //TODO: Includes 4 duplicates of .net6, should this be .net6 x4?
+        Assert.AreEqual(6, item3.DotNetFrameworks.Count);
+
     }
 
 }
