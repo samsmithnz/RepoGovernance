@@ -36,13 +36,7 @@
                     {
                         <td>
                             <b>None</b>
-                            <i class="bi bi-heart-pulse" style="font-size: 2rem; color: black;" title="@item.ActionRecommendations[0]"></i>
-                            <svg class="bi bi-heart-pulse text-success" width="32" height="32" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"></svg>
-                            <div class="tooltip">
-                                <span class="tooltiptext">
-                                    @item.ActionRecommendations[0]
-                                </span>
-                            </div>
+                            <i class="bi bi-heart-pulse" style="font-size: 2rem; color: black; height: 16px; width: 16px; java" data-toggle="tooltip" title="@item.ActionRecommendations[0]"></i>
                         </td>
                     }
                     @if (item.Dependabot.Count > 0)
