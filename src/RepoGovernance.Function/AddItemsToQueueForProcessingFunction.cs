@@ -17,8 +17,8 @@ namespace RepoGovernance.Function
         public static void Run([TimerTrigger("*/5 * * * *")] TimerInfo myTimer, ILogger log, ExecutionContext context)
         {
             string owner = "samsmithnz";
-            string queueName = "summary-queue";
-            log.LogInformation($"RepoGovernance Schedule function started execution at: {DateTime.Now}");
+            string queueName = "summaryqueue";
+            log.LogInformation($"AddItemsToQueueForProcessing function started execution at: {DateTime.Now}");
 
             //Get the connection string from app settings
             IConfigurationRoot Configuration = new ConfigurationBuilder()
@@ -29,7 +29,7 @@ namespace RepoGovernance.Function
                 .Build();
             string connectionString = Configuration["AzureWebJobsStorage"];
 
-            log.LogInformation($"connectionString {connectionString}");
+            //log.LogInformation($"connectionString {connectionString}");
 
             //Add the repos to the queue for processing
             List<string> repos = DatabaseAccess.GetRepos(owner);
@@ -46,9 +46,9 @@ namespace RepoGovernance.Function
                 //Post the message
                 if (queueClient.Exists() == true)
                 {
-                    queueClient.SendMessage(message);
+                    queueClient.SendMessage(message, timeToLive: new TimeSpan(12, 0, 0));
                 }
-                log.LogInformation($"RepoGovernance added '" + message + "' item to queue, completing execution at: {DateTime.Now}");
+                log.LogInformation($"AddItemsToQueueForProcessing added '" + message + "' item to queue, completing execution at: {DateTime.Now}");
             }
 
             //Report on the total
