@@ -39,14 +39,18 @@ namespace RepoGovernance.Function
                 string message = owner + "_" + repo;
 
                 // Instantiate a QueueClient which will be used to create and manipulate the queue
-                QueueClient queueClient = new(connectionString, queueName);
+                QueueClientOptions options = new()
+                {
+                    MessageEncoding = QueueMessageEncoding.Base64
+                };
+                QueueClient queueClient = new(connectionString, queueName, options);
 
                 // Create the queue if it doesn't already exist
                 queueClient.CreateIfNotExists();
                 //Post the message
                 if (queueClient.Exists() == true)
                 {
-                    queueClient.SendMessage(message, timeToLive: new TimeSpan(12, 0, 0));
+                    queueClient.SendMessage(messageText: message, timeToLive: new TimeSpan(12, 0, 0));
                 }
                 log.LogInformation($"AddItemsToQueueForProcessing added '" + message + "' item to queue, completing execution at: {DateTime.Now}");
             }
