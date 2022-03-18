@@ -38,6 +38,8 @@ namespace RepoGovernance.Core
             {
                 throw new ArgumentException("connectionstring is null");
             }
+            //sort the list
+            results = results.OrderBy(o => o.Repo).ToList();
             return results;
         }
 
