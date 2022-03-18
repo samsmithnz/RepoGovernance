@@ -195,7 +195,7 @@ namespace RepoGovernance.Core
             {
                 foreach (Project project in projects)
                 {
-                    if (project.Framework != null)
+                    if (project.Framework != null && summaryItem?.DotNetFrameworks.Contains(project.Framework) == false)
                     {
                         summaryItem?.DotNetFrameworks.Add(project.Framework);
                     }
