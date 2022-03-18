@@ -126,11 +126,15 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual("public", item3.RepoSettings.visibility);
 
         //fifth repo
-        SummaryItem item6 = summaryItems[5];
+        SummaryItem item6 = summaryItems[6];
         Assert.AreEqual("TBS", item6.Repo);
         Assert.AreEqual(1, item6.DotNetFrameworks.Count);
         Assert.AreEqual("Unity3d v2020.3", item6.DotNetFrameworks[0]);
         Assert.AreEqual("private", item6.RepoSettings.visibility);
+        Assert.AreEqual(1, item6.BranchPoliciesRecommendations.Count);
+
+        //Ensure they are alphabetical
+        Assert.AreEqual("TBS", summaryItems[summaryItems.Count - 1].Repo);
     }
 
 }

@@ -2,9 +2,7 @@
 @model List<SummaryItem>
 @{
     ViewData["Title"] = "Home Page";
-}
 
-@{
     string lastUpdated = "unknown";
     if (Model.Count > 0)
     {
@@ -18,6 +16,7 @@
         <table class="table">
             <tr>
                 <th>Repository</th>
+                <th>Repo settings</th>
                 <th>Actions</th>
                 <th>Dependabot</th>
                 <th>Branch policies</th>
@@ -34,193 +33,104 @@
                             <span>(private)</span>
                         }
                     </td>
-                    @if (item.Actions.Count > 0)
+                    @if (item.RepoSettingsRecommendations.Count == 0)
                     {
-                        <td>@item.Actions.Count</td>
+                        <td>
+                            <span>Ok</span>
+                            @*<i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;"></i>*@
+                        </td>
                     }
                     else
                     {
+                        string recommendation = "";
+                        foreach (string itemRec in item.RepoSettingsRecommendations)
+                        {
+                            recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                        }
                         <td>
-                            <b>None</b>
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@item.ActionRecommendations[0]"></i>
+                            <b>Incomplete</b>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
                         </td>
                     }
-                    @if (item.Dependabot.Count > 0)
+                    @if (item.Actions.Count > 0 && item.ActionRecommendations.Count == 0)
+                    {
+                        <td>@item.Actions.Count workflows</td>
+                    }
+                    else
+                    {
+                        string recommendation = "";
+                        foreach (string itemRec in item.ActionRecommendations)
+                        {
+                            recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                        }
+                        <td>
+                            <b>Incomplete</b>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
+                        </td>
+                    }
+                    @if (item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0)
                     {
                         <td>Enabled</td>
                     }
                     else
                     {
+                        string recommendation = "";
+                        foreach (string itemRec in item.DependabotRecommendations)
+                        {
+                            recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                        }
                         <td>
-                            <b>None</b>
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@item.DependabotRecommendations[0]"></i>
+                            <b>Incomplete</b>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
                         </td>
                     }
-                    @if (item.BranchPolicies != null)
+                    @if (item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0)
                     {
                         <td>Enabled</td>
                     }
                     else
                     {
+                        string recommendation = "";
+                        foreach (string itemRec in item.BranchPoliciesRecommendations)
+                        {
+                            recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                        }
                         <td>
-                            <b>None</b>
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@item.BranchPoliciesRecommendations[0]"></i>
+                            <b>Incomplete</b>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
                         </td>
                     }
-                    @if (item.GitVersion.Count > 0)
+                    @if (item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
                     {
                         <td>Enabled</td>
                     }
                     else
                     {
+                        string recommendation = "";
+                        foreach (string itemRec in item.GitVersionRecommendations)
+                        {
+                            recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                        }
                         <td>
-                            <b>None</b>
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@item.GitVersionRecommendations[0]"></i>
+                            <b>Incomplete</b>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
                         </td>
                     }
                     <td>
-                        @foreach (string badge in item.DotNetFrameworks)
+                        @if (item.DotNetFrameworks.Count == 0)
                         {
-                            <span class="badge bg-primary">@badge</span>
+                            <span class="badge bg-secondary">None found</span>
+                        }
+                        else
+                        {
+                            foreach (string badge in item.DotNetFrameworks)
+                            {
+                                <span class="badge bg-primary">@badge</span>
+                            }
                         }
                     </td>
                 </tr>
             }
-            @*<tr>
-                <td><a href="https://github.com/samsmithnz/ASCII-DAG">ASCII-DAG</a></td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td><b>No</b></td>
-                <td><b>No</b></td>
-                <td>
-                <span class="badge bg-primary">.NET 6</span>
-                </td>
-                </tr>
-                <tr>
-                <td><a href="https://github.com/samsmithnz/AzurePipelinesToGitHubActionsConverter">AzurePipelinesToGitHubActionsConverter</a></td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td><b>No</b></td>
-                <td>
-                <span class="badge bg-primary">.NET 6</span>
-                <span class="badge bg-primary">.NET Standard 2.0</span>
-                </td>
-                </tr>
-                <tr>
-                <td><a href="https://github.com/samsmithnz/Battle">Battle</a></td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>
-                <span class="badge bg-primary">.NET 6</span>
-                <span class="badge bg-primary">.NET Standard 2.0</span>
-                </td>
-                </tr>
-                <tr>
-                <td><a href="https://github.com/samsmithnz/DevOpsMetrics">DevOpsMetrics</a></td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td><b>No</b></td>
-                <td>
-                <span class="badge bg-primary">.NET 6</span>
-                </td>
-                </tr>
-                <tr>
-                <td><a href="https://github.com/samsmithnz/FictionBook">FictionBook</a> (private)</td>
-                <td><b>No</b></td>
-                <td><b>No</b></td>
-                <td><b>No</b></td>
-                <td><b>No</b></td>
-                <td>
-                <span class="badge bg-secondary">Unknown</span>
-                </td>
-                </tr>
-                <tr>
-                <td><a href="https://github.com/samsmithnz/GitHubActionsDotNet">GitHubActionsDotNet</a></td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>
-                <span class="badge bg-primary">.NET 6</span>
-                <span class="badge bg-primary">.NET Standard 2.0</span>
-                </td>
-                </tr>
-                <tr>
-                <td><a href="https://github.com/samsmithnz/OpinionatedSoftwareAdvice">OpinionatedSoftwareAdvice</a></td>
-                <td>Yes</td>
-                <td><b>No</b></td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>
-                <span class="badge bg-secondary">Unknown</span>
-                </td>
-                </tr>
-                <tr>
-                <td><a href="https://github.com/samsmithnz/NewHouse">NewHouse</a> (private)</td>
-                <td><b>No</b></td>
-                <td><b>No</b></td>
-                <td><b>No</b></td>
-                <td><b>No</b></td>
-                <td>
-                <span class="badge bg-secondary">Unknown</span>
-                </td>
-                </tr>
-                <tr>
-                <td><a href="https://github.com/samsmithnz/ProjectIdeas">ProjectIdeas</a> (private)</td>
-                <td><b>No</b></td>
-                <td><b>No</b></td>
-                <td><b>No</b></td>
-                <td><b>No</b></td>
-                <td>
-                <span class="badge bg-danger">.NET Framework 1.1</span>
-                <span class="badge bg-warning">.NET Core 3.1</span>
-                </td>
-                </tr>
-                <tr>
-                <td><a href="https://github.com/samsmithnz/repoautomation">RepoAutomation</a></td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>
-                <span class="badge bg-primary">.NET 6</span>
-                </td>
-                </tr>
-                <tr>
-                <td><a href="https://github.com/samsmithnz/samsfeatureflags">SamsFeatureFlags</a></td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>
-                <span class="badge bg-primary">.NET 6</span>
-                </td>
-                </tr>
-                <tr>
-                <td><a href="https://github.com/samsmithnz/tbs">TBS</a> (private)</td>
-                <td>Yes</td>
-                <td><b>No</b></td>
-                <td>Yes</td>
-                <td><b>No</b></td>
-                <td>
-                <span class="badge bg-primary">.NET Standard 2.0</span>
-                <span class="badge bg-primary">.NET 6</span>
-                </td>
-                </tr>
-                <tr>
-                <td><a href="https://github.com/samsmithnz/TechDebtIdentification">Technical Debt Identification</a></td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>
-                <span class="badge bg-primary">.NET 6</span>
-                </td>
-                </tr>*@
         </table>
     </div>
 </div>
