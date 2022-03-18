@@ -13,7 +13,7 @@ namespace RepoGovernance.Function
     public class ProcessItemFromQueueFunction
     {
         [FunctionName("ProcessItemFromQueue")]
-        public async Task Run([QueueTrigger("summary-queue", Connection = "SummaryQueueConnection")] string myQueueItem, ILogger log, ExecutionContext context)
+        public async Task Run([QueueTrigger("summaryqueue", Connection = "AzureWebJobsStorage")] string myQueueItem, ILogger log, ExecutionContext context)
         //public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req, ILogger log, ExecutionContext context)
         {
             //string myQueueItem = "samsmithnz_RepoGovernance";
@@ -33,7 +33,7 @@ namespace RepoGovernance.Function
                     .AddEnvironmentVariables()
                     .Build();
 
-                log.LogInformation($"Configurations: ClientId {Configuration["GitHubClientId"]}, ClientSecret {Configuration["GitHubClientSecret"]}, SummaryQueueConnection {Configuration["SummaryQueueConnection"]}");
+                //log.LogInformation($"Configurations: ClientId {Configuration["GitHubClientId"]}, ClientSecret {Configuration["GitHubClientSecret"]}, SummaryQueueConnection {Configuration["SummaryQueueConnection"]}");
 
                 int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(Configuration["GitHubClientId"], Configuration["GitHubClientSecret"], Configuration["SummaryQueueConnection"], owner, repo);
                 log.LogInformation($"C# Queue trigger function completed updating {itemsUpdated} items at: {DateTime.Now}");

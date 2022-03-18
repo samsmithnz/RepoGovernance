@@ -14,11 +14,12 @@ namespace RepoGovernance.Function
         [FunctionName("AddItemsToQueueForProcessing")]
         // 0 0 * * * //Every 24 hours
         // */5 * * * * //Every 5 minutes
-        public static async Task Run([TimerTrigger("0 0 * * *")] TimerInfo myTimer, ILogger log, ExecutionContext context)
+        // 0 * * * * //Every 60 mins
+        public static void Run([TimerTrigger("0 0 * * *")] TimerInfo myTimer, ILogger log, ExecutionContext context)
         {
             string owner = "samsmithnz";
-            string queueName = "summary-queue";
-            log.LogInformation($"RepoGovernance Schedule function started execution at: {DateTime.Now}");
+            string queueName = "summaryqueue";
+            log.LogInformation($"AddItemsToQueueForProcessing function started execution at: {DateTime.Now}");
 
             //Get the connection string from app settings
             IConfigurationRoot Configuration = new ConfigurationBuilder()
@@ -29,7 +30,7 @@ namespace RepoGovernance.Function
                 .Build();
             string connectionString = Configuration["AzureWebJobsStorage"];
 
-            log.LogInformation($"connectionString {connectionString}");
+            //log.LogInformation($"connectionString {connectionString}");
 
             //Add the repos to the queue for processing
             List<string> repos = DatabaseAccess.GetRepos(owner);
@@ -39,16 +40,20 @@ namespace RepoGovernance.Function
                 string message = owner + "_" + repo;
 
                 // Instantiate a QueueClient which will be used to create and manipulate the queue
-                QueueClient queueClient = new(connectionString, queueName);
+                QueueClientOptions options = new()
+                {
+                    MessageEncoding = QueueMessageEncoding.Base64
+                };
+                QueueClient queueClient = new(connectionString, queueName, options);
 
                 // Create the queue if it doesn't already exist
                 queueClient.CreateIfNotExists();
                 //Post the message
                 if (queueClient.Exists() == true)
                 {
-                    queueClient.SendMessage(message);
+                    queueClient.SendMessage(messageText: message, timeToLive: new TimeSpan(12, 0, 0));
                 }
-                log.LogInformation($"RepoGovernance added '" + message + "' item to queue, completing execution at: {DateTime.Now}");
+                log.LogInformation($"AddItemsToQueueForProcessing added '" + message + "' item to queue, completing execution at: {DateTime.Now}");
             }
 
             //Report on the total
