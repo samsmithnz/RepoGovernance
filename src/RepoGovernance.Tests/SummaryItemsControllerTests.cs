@@ -38,6 +38,25 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, itemsUpdated);
     }
 
+    //[TestMethod]
+    //public async Task UpdateAllItemsTest()
+    //{
+    //    //Arrange
+    //    string owner = "samsmithnz";
+
+    //    //Act - runs each repo in about 4s
+    //    List<string> repos = SummaryItemsDA.GetRepos(owner);
+
+    //    int itemsUpdated = 0;
+    //    foreach (string repo in repos)
+    //    {
+    //        itemsUpdated += await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, owner, repo);
+    //    }
+
+    //    //Assert
+    //    Assert.AreEqual(repos.Count, itemsUpdated);
+    //}
+
     [TestMethod]
     public void GetSummaryItemsTest()
     {
