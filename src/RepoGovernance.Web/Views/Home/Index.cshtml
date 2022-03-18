@@ -83,7 +83,7 @@
                             <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
                         </td>
                     }
-                    @if (item.BranchPolicies != null)
+                    @if (item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0)
                     {
                         <td>Enabled</td>
                     }
