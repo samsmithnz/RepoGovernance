@@ -38,6 +38,25 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, itemsUpdated);
     }
 
+    //[TestMethod]
+    //public async Task UpdateAllItemsTest()
+    //{
+    //    //Arrange
+    //    string owner = "samsmithnz";
+
+    //    //Act - runs each repo in about 4s
+    //    List<string> repos = SummaryItemsDA.GetRepos(owner);
+
+    //    int itemsUpdated = 0;
+    //    foreach (string repo in repos)
+    //    {
+    //        itemsUpdated += await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, owner, repo);
+    //    }
+
+    //    //Assert
+    //    Assert.AreEqual(repos.Count, itemsUpdated);
+    //}
+
     [TestMethod]
     public void GetSummaryItemsTest()
     {
@@ -103,7 +122,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         SummaryItem item3 = summaryItems[2];
         Assert.AreEqual("DevOpsMetrics", item3.Repo);
         //TODO: Includes 4 duplicates of .net6, should this be .net6 x4?
-        Assert.AreEqual(6, item3.DotNetFrameworks.Count);
+        Assert.AreEqual(3, item3.DotNetFrameworks.Count);
         Assert.AreEqual("public", item3.RepoSettings.visibility);
 
         //fifth repo
