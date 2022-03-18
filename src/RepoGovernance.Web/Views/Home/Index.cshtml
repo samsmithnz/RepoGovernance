@@ -119,9 +119,16 @@
                         </td>
                     }
                     <td>
-                        @foreach (string badge in item.DotNetFrameworks)
+                        @if (item.DotNetFrameworks.Count == 0)
                         {
-                            <span class="badge bg-primary">@badge</span>
+                            <span class="badge bg-secondary">None found</span>
+                        }
+                        else
+                        {
+                            foreach (string badge in item.DotNetFrameworks)
+                            {
+                                <span class="badge bg-primary">@badge</span>
+                            }
                         }
                     </td>
                 </tr>
