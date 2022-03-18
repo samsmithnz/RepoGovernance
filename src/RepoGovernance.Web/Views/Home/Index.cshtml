@@ -18,6 +18,7 @@
         <table class="table">
             <tr>
                 <th>Repository</th>
+                <th>Repo settings</th>
                 <th>Actions</th>
                 <th>Dependabot</th>
                 <th>Branch policies</th>
@@ -34,6 +35,22 @@
                             <span>(private)</span>
                         }
                     </td>
+                    @if (item.RepoSettingsRecommendations.Count == 0)
+                    {
+                        <td>Ok</td>
+                    }
+                    else
+                    {
+                        string recommendation = "";
+                        foreach (string itemRec in item.RepoSettingsRecommendations)
+                        {
+                            recommendation += " - " + itemRec + Environment.NewLine;
+                        }
+                        <td>
+                            <b>None</b>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
+                        </td>
+                    }
                     @if (item.Actions.Count > 0)
                     {
                         <td>@item.Actions.Count</td>
@@ -43,7 +60,7 @@
                         string recommendation = "";
                         foreach (string itemRec in item.ActionRecommendations)
                         {
-                            recommendation += itemRec + Environment.NewLine;
+                            recommendation += " - " + itemRec + Environment.NewLine;
                         }
                         <td>
                             <b>None</b>
@@ -59,7 +76,7 @@
                         string recommendation = "";
                         foreach (string itemRec in item.DependabotRecommendations)
                         {
-                            recommendation += itemRec + Environment.NewLine;
+                            recommendation += " - " + itemRec + Environment.NewLine;
                         }
                         <td>
                             <b>None</b>
@@ -75,7 +92,7 @@
                         string recommendation = "";
                         foreach (string itemRec in item.BranchPoliciesRecommendations)
                         {
-                            recommendation += itemRec + Environment.NewLine;
+                            recommendation += " - " + itemRec + Environment.NewLine;
                         }
                         <td>
                             <b>None</b>
@@ -91,7 +108,7 @@
                         string recommendation = "";
                         foreach (string itemRec in item.GitVersionRecommendations)
                         {
-                            recommendation += itemRec + Environment.NewLine;
+                            recommendation += " - " + itemRec + Environment.NewLine;
                         }
                         <td>
                             <b>None</b>
