@@ -27,7 +27,13 @@
             @foreach (SummaryItem item in Model)
             {
                 <tr>
-                    <td><a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a></td>
+                    <td>
+                        <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
+                        @if (item.RepoSettings.visibility == "private")
+                        {
+                            <span>(private)</span>
+                        }
+                    </td>
                     @if (item.Actions.Count > 0)
                     {
                         <td>@item.Actions.Count</td>
