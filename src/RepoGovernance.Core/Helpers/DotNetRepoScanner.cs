@@ -210,8 +210,9 @@ namespace RepoGovernance.Core.Helpers
             //An example of what to expect:
             //m_EditorVersion: 2020.3.12f1
             //m_EditorVersionWithRevision: 2020.3.12f1(b3b2c6512326)
-
-            string unityVersion = "Unity3d v" + line.Replace("m_EditorVersion:", "").Trim();
+            string fullVersion = line.Replace("m_EditorVersion:", "").Trim();
+            string[] splitVersion = fullVersion.Split('.');
+            string unityVersion = "Unity3d v" + splitVersion[0] + "." + splitVersion[1];
 
             return unityVersion;
         }
