@@ -8,9 +8,20 @@ namespace RepoGovernance.Core.Helpers
     {
         public async static Task<List<Project>> ScanRepo(string? clientId, string? clientSecret, string owner, string repo)
         {
-            //Search GitHub Repo
-            string extension = "csproj";
-            SearchResult? searchResult = await GitHubAPIAccess.SearchFiles(clientId, clientSecret, owner, repo, extension);
+            List<Project> projects = new();
+
+            //Search GitHub Repo for various extensions
+            //csproj
+            projects.AddRange(await SearchForFiles(clientId, clientSecret, owner, repo, "csproj"));
+            //Unity/ ProjectVersion.txt
+            projects.AddRange(await SearchForFiles(clientId, clientSecret, owner, repo, null, "ProjectVersion.txt"));
+
+            return projects;
+        }
+
+        private async static Task<List<Project>> SearchForFiles(string? clientId, string? clientSecret, string owner, string repo, string? extension = null, string? fileName = null)
+        {
+            SearchResult? searchResult = await GitHubAPIAccess.SearchFiles(clientId, clientSecret, owner, repo, extension, fileName);
 
             //Get the content for each file
             if (searchResult == null)
@@ -45,6 +56,10 @@ namespace RepoGovernance.Core.Helpers
                 }
 
                 //Update framework for each project
+                if (projects.Count == 0 && fileName == "ProjectVersion.txt")
+                {
+                    int i = 0;
+                }
                 foreach (Project project in projects)
                 {
                     string? framework = ProcessDotNetProjectFile(project);
@@ -109,17 +124,17 @@ namespace RepoGovernance.Core.Helpers
                 //scan the project file to identify the framework
                 foreach (string line in lines)
                 {
-                    if (line.IndexOf("<TargetFrameworkVersion>") > 0)
+                    if (line.IndexOf("<TargetFrameworkVersion>") >= 0)
                     {
                         framework = line.Replace("<TargetFrameworkVersion>", "").Replace("</TargetFrameworkVersion>", "").Trim();
                         break;
                     }
-                    else if (line.IndexOf("<TargetFramework>") > 0)
+                    else if (line.IndexOf("<TargetFramework>") >= 0)
                     {
                         framework = line.Replace("<TargetFramework>", "").Replace("</TargetFramework>", "").Trim();
                         break;
                     }
-                    else if (line.IndexOf("<TargetFrameworks>") > 0)
+                    else if (line.IndexOf("<TargetFrameworks>") >= 0)
                     {
                         string frameworks = line.Replace("<TargetFrameworks>", "").Replace("</TargetFrameworks>", "").Trim();
                         string[] frameworkList = frameworks.Split(';');
@@ -137,15 +152,19 @@ namespace RepoGovernance.Core.Helpers
                         }
                         break;
                     }
-                    else if (line.IndexOf("<ProductVersion>") > 0)
+                    else if (line.IndexOf("<ProductVersion>") >= 0)
                     {
                         //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
                         framework = GetHistoricalFrameworkVersion(line);
                     }
-                    else if (line.IndexOf("ProductVersion = ") > 0)
+                    else if (line.IndexOf("ProductVersion = ") >= 0)
                     {
                         //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
                         framework = GetHistoricalFrameworkVersion(line);
+                    }
+                    else if (line.IndexOf("m_EditorVersion:") >= 0)
+                    {
+                        framework = GetUnityFrameworkVersion(line);
                     }
                 }
             }
@@ -188,6 +207,18 @@ namespace RepoGovernance.Core.Helpers
             {
                 return null;
             }
+        }
+
+        private static string? GetUnityFrameworkVersion(string line)
+        {
+            //An example of what to expect:
+            //m_EditorVersion: 2020.3.12f1
+            //m_EditorVersionWithRevision: 2020.3.12f1(b3b2c6512326)
+            string fullVersion = line.Replace("m_EditorVersion:", "").Trim();
+            string[] splitVersion = fullVersion.Split('.');
+            string unityVersion = "Unity3d v" + splitVersion[0] + "." + splitVersion[1];
+
+            return unityVersion;
         }
     }
 }

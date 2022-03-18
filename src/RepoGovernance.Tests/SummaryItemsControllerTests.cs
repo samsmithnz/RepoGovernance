@@ -11,11 +11,25 @@ namespace RepoGovernance.Tests;
 public class SummaryItemsControllerTests : BaseAPIAccessTests
 {
     [TestMethod]
-    public async Task UpdateSummaryItemsTest()
+    public async Task UpdateRepoGovernanceSummaryItemsTest()
     {
         //Arrange
         string owner = "samsmithnz";
         string repo = "RepoGovernance";
+
+        //Act - runs each repo in about 4s
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, owner, repo);
+
+        //Assert
+        Assert.AreEqual(1, itemsUpdated);
+    }
+
+    [TestMethod]
+    public async Task UpdateTBSSummaryItemsTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+        string repo = "TBS";
 
         //Act - runs each repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, owner, repo);
@@ -84,6 +98,20 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, item2.DotNetFrameworks.Count);
         Assert.AreEqual("net6.0", item2.DotNetFrameworks[0]);
         Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
+
+        //third repo
+        SummaryItem item3 = summaryItems[2];
+        Assert.AreEqual("DevOpsMetrics", item3.Repo);
+        //TODO: Includes 4 duplicates of .net6, should this be .net6 x4?
+        Assert.AreEqual(6, item3.DotNetFrameworks.Count);
+        Assert.AreEqual("public", item3.RepoSettings.visibility);
+
+        //fifth repo
+        SummaryItem item6 = summaryItems[5];
+        Assert.AreEqual("TBS", item6.Repo);
+        Assert.AreEqual(1, item6.DotNetFrameworks.Count);
+        Assert.AreEqual("Unity3d v2020.3", item6.DotNetFrameworks[0]);
+        Assert.AreEqual("private", item6.RepoSettings.visibility);
     }
 
 }
