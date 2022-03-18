@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using RepoGovernance.Core.APIAccess;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace RepoGovernance.Function
 {
