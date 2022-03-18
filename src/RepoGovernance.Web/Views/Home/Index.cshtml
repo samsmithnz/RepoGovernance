@@ -47,11 +47,14 @@
                     }
                     @if (item.Dependabot.Count > 0)
                     {
-                        <td>@item.Dependabot.Count</td>
+                        <td>Enabled</td>
                     }
                     else
                     {
-                        <td><b>None</b></td>
+                        <td>
+                            <b>None</b>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@item.DependabotRecommendations[0]"></i>
+                        </td>
                     }
                     @if (item.BranchPolicies != null)
                     {
@@ -59,15 +62,21 @@
                     }
                     else
                     {
-                        <td><b>None</b></td>
+                        <td>
+                            <b>None</b>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@item.BranchPoliciesRecommendations[0]"></i>
+                        </td>
                     }
                     @if (item.GitVersion.Count > 0)
                     {
-                        <td>@item.GitVersion.Count</td>
+                        <td>Enabled</td>
                     }
                     else
                     {
-                        <td><b>None</b></td>
+                        <td>
+                            <b>None</b>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@item.GitVersionRecommendations[0]"></i>
+                        </td>
                     }
                     <td>
                         @foreach (string badge in item.DotNetFrameworks)
