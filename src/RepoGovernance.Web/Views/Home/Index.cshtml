@@ -51,7 +51,7 @@
                             <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
                         </td>
                     }
-                    @if (item.Actions.Count > 0)
+                    @if (item.Actions.Count > 0 && item.ActionRecommendations.Count == 0)
                     {
                         <td>@item.Actions.Count workflows</td>
                     }
@@ -67,7 +67,7 @@
                             <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
                         </td>
                     }
-                    @if (item.Dependabot.Count > 0)
+                    @if (item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0)
                     {
                         <td>Enabled</td>
                     }
@@ -99,7 +99,7 @@
                             <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
                         </td>
                     }
-                    @if (item.GitVersion.Count > 0)
+                    @if (item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
                     {
                         <td>Enabled</td>
                     }
