@@ -122,7 +122,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         SummaryItem item3 = summaryItems[2];
         Assert.AreEqual("DevOpsMetrics", item3.Repo);
         //TODO: Includes 4 duplicates of .net6, should this be .net6 x4?
-        Assert.AreEqual(6, item3.DotNetFrameworks.Count);
+        Assert.AreEqual(3, item3.DotNetFrameworks.Count);
         Assert.AreEqual("public", item3.RepoSettings.visibility);
 
         //fifth repo
