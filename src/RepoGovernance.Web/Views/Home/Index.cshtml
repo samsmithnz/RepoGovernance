@@ -40,9 +40,14 @@
                     }
                     else
                     {
+                        string recommendation = "";
+                        foreach (string itemRec in item.ActionRecommendations)
+                        {
+                            recommendation += itemRec + Environment.NewLine;
+                        }
                         <td>
                             <b>None</b>
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@item.ActionRecommendations[0]"></i>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
                         </td>
                     }
                     @if (item.Dependabot.Count > 0)
@@ -51,9 +56,14 @@
                     }
                     else
                     {
+                        string recommendation = "";
+                        foreach (string itemRec in item.DependabotRecommendations)
+                        {
+                            recommendation += itemRec + Environment.NewLine;
+                        }
                         <td>
                             <b>None</b>
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@item.DependabotRecommendations[0]"></i>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
                         </td>
                     }
                     @if (item.BranchPolicies != null)
@@ -62,9 +72,14 @@
                     }
                     else
                     {
+                        string recommendation = "";
+                        foreach (string itemRec in item.BranchPoliciesRecommendations)
+                        {
+                            recommendation += itemRec + Environment.NewLine;
+                        }
                         <td>
                             <b>None</b>
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@item.BranchPoliciesRecommendations[0]"></i>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
                         </td>
                     }
                     @if (item.GitVersion.Count > 0)
@@ -73,9 +88,14 @@
                     }
                     else
                     {
+                        string recommendation = "";
+                        foreach (string itemRec in item.GitVersionRecommendations)
+                        {
+                            recommendation += itemRec + Environment.NewLine;
+                        }
                         <td>
                             <b>None</b>
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@item.GitVersionRecommendations[0]"></i>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
                         </td>
                     }
                     <td>
