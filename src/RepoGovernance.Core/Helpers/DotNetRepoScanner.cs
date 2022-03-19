@@ -56,10 +56,6 @@ namespace RepoGovernance.Core.Helpers
                 }
 
                 //Update framework for each project
-                if (projects.Count == 0 && fileName == "ProjectVersion.txt")
-                {
-                    int i = 0;
-                }
                 foreach (Project project in projects)
                 {
                     string? framework = ProcessDotNetProjectFile(project);
@@ -124,17 +120,17 @@ namespace RepoGovernance.Core.Helpers
                 //scan the project file to identify the framework
                 foreach (string line in lines)
                 {
-                    if (line.IndexOf("<TargetFrameworkVersion>") >= 0)
+                    if (line.Contains("<TargetFrameworkVersion>"))
                     {
                         framework = line.Replace("<TargetFrameworkVersion>", "").Replace("</TargetFrameworkVersion>", "").Trim();
                         break;
                     }
-                    else if (line.IndexOf("<TargetFramework>") >= 0)
+                    else if (line.Contains("<TargetFramework>"))
                     {
                         framework = line.Replace("<TargetFramework>", "").Replace("</TargetFramework>", "").Trim();
                         break;
                     }
-                    else if (line.IndexOf("<TargetFrameworks>") >= 0)
+                    else if (line.Contains("<TargetFrameworks>"))
                     {
                         string frameworks = line.Replace("<TargetFrameworks>", "").Replace("</TargetFrameworks>", "").Trim();
                         string[] frameworkList = frameworks.Split(';');
@@ -152,17 +148,17 @@ namespace RepoGovernance.Core.Helpers
                         }
                         break;
                     }
-                    else if (line.IndexOf("<ProductVersion>") >= 0)
+                    else if (line.Contains("<ProductVersion>"))
                     {
                         //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
                         framework = GetHistoricalFrameworkVersion(line);
                     }
-                    else if (line.IndexOf("ProductVersion = ") >= 0)
+                    else if (line.Contains("ProductVersion = "))
                     {
                         //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
                         framework = GetHistoricalFrameworkVersion(line);
                     }
-                    else if (line.IndexOf("m_EditorVersion:") >= 0)
+                    else if (line.Contains("m_EditorVersion:"))
                     {
                         framework = GetUnityFrameworkVersion(line);
                     }
