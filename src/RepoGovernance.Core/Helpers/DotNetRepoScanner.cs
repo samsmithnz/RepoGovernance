@@ -56,10 +56,6 @@ namespace RepoGovernance.Core.Helpers
                 }
 
                 //Update framework for each project
-                if (projects.Count == 0 && fileName == "ProjectVersion.txt")
-                {
-                    int i = 0;
-                }
                 foreach (Project project in projects)
                 {
                     string? framework = ProcessDotNetProjectFile(project);
