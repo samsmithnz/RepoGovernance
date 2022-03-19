@@ -49,7 +49,7 @@
                         }
                         <td>
                             <b>Incomplete</b>
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         </td>
                     }
                     @if (item.Actions.Count > 0 && item.ActionRecommendations.Count == 0)
@@ -65,7 +65,7 @@
                         }
                         <td>
                             <b>Incomplete</b>
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         </td>
                     }
                     @if (item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0)
@@ -81,7 +81,7 @@
                         }
                         <td>
                             <b>Incomplete</b>
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         </td>
                     }
                     @if (item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0)
@@ -97,7 +97,7 @@
                         }
                         <td>
                             <b>Incomplete</b>
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         </td>
                     }
                     @if (item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
@@ -113,7 +113,7 @@
                         }
                         <td>
                             <b>Incomplete</b>
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" title="@recommendation"></i>
+                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         </td>
                     }
                     <td>
