@@ -9,11 +9,22 @@ public static class DatabaseAccess
         List<string> results = new()
         {
             "AzurePipelinesToGitHubActionsConverter",
+            "AzurePipelinesToGitHubActionsConverterWeb",
+            "Battle",
             "CustomQueue",
+            "Dependabot-Configuration-Builder",
             "DevOpsMetrics",
+            "DSPTree",
+            "FictionBook",
+            "GitHubActionsDotNet",
+            "OpinionatedSoftwareAdvice",
             "RepoAutomation",
             "RepoGovernance",
+            "ResearchTree",
+            "Sams2048",
+            "SamsFeatureFlags",
             "samsmithnz",
+            "FictionBook",
             "TBS"
         };
 
