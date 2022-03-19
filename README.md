@@ -5,6 +5,7 @@ RepoGovernance is a project I'm building to help monitor all of my side-projects
 - [GitHubDotNet](https://github.com/samsmithnz/GitHubActionsDotNet): To codify and generate Actions and Dependabot files with .NET
 - [RepoAutomation](https://github.com/samsmithnz/RepoAutomation): To automate the creation of repos and my preferred settings
 - [SamsFeatureFlags](https://github.com/samsmithnz/SamsFeatureFlags): To use Feature Flags/Toggles on my projects
+- [TechDebtIdentification](https://github.com/samsmithnz/TechDebtIdentification): To identify what version of .NET my projects are using
 
 ## Current solution... 
 
