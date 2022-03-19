@@ -10,7 +10,7 @@ namespace RepoGovernance.Function
     public class ProcessItemFromQueueFunction
     {
         [FunctionName("ProcessItemFromQueue")]
-        public async Task Run([QueueTrigger("summaryqueue", Connection = "AzureWebJobsStorage")] string myQueueItem, ILogger log, ExecutionContext context)
+        public static async Task Run([QueueTrigger("summaryqueue", Connection = "AzureWebJobsStorage")] string myQueueItem, ILogger log, ExecutionContext context)
         //public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req, ILogger log, ExecutionContext context)
         {
             //string myQueueItem = "samsmithnz_RepoGovernance";

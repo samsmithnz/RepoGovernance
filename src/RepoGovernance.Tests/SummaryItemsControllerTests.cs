@@ -139,7 +139,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, item4.BranchPoliciesRecommendations.Count);
 
         //Ensure they are alphabetical
-        Assert.AreEqual("TBS", summaryItems[summaryItems.Count - 1].Repo);
+        Assert.AreEqual("TBS", summaryItems[^1].Repo);
     }
 
 }
