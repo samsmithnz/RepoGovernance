@@ -24,7 +24,6 @@ public static class DatabaseAccess
             "Sams2048",
             "SamsFeatureFlags",
             "samsmithnz",
-            "FictionBook",
             "TBS"
         };
 

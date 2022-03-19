@@ -3,6 +3,7 @@ using RepoGovernance.Core;
 using RepoGovernance.Core.Models;
 using RepoGovernance.Tests.Helpers;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RepoGovernance.Tests;
@@ -71,7 +72,8 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.IsTrue(summaryItems.Count > 0);
 
         //first repo
-        SummaryItem item1 = summaryItems[0];
+        SummaryItem? item1 = summaryItems.Where(r => r.Repo == "AzurePipelinesToGitHubActionsConverter").FirstOrDefault();
+        Assert.IsNotNull(item1);
         Assert.AreEqual("AzurePipelinesToGitHubActionsConverter", item1.Repo);
         Assert.IsNotNull(item1.RepoSettings);
         Assert.AreEqual(0, item1.RepoSettingsRecommendations.Count);
@@ -93,7 +95,8 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(0, item1.DotNetFrameworksRecommendations.Count);
 
         //second repo
-        SummaryItem item2 = summaryItems[1];
+        SummaryItem? item2 = summaryItems.Where(r => r.Repo == "CustomQueue").FirstOrDefault();
+        Assert.IsNotNull(item2);
         Assert.AreEqual("CustomQueue", item2.Repo);
         Assert.IsNotNull(item2.RepoSettings);
         Assert.AreEqual(3, item2.RepoSettingsRecommendations.Count);
@@ -119,19 +122,21 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
 
         //third repo
-        SummaryItem item3 = summaryItems[2];
+        SummaryItem? item3 = summaryItems.Where(r => r.Repo == "DevOpsMetrics").FirstOrDefault();
+        Assert.IsNotNull(item3);
         Assert.AreEqual("DevOpsMetrics", item3.Repo);
         //TODO: Includes 4 duplicates of .net6, should this be .net6 x4?
         Assert.AreEqual(3, item3.DotNetFrameworks.Count);
         Assert.AreEqual("public", item3.RepoSettings.visibility);
 
         //fifth repo
-        SummaryItem item6 = summaryItems[6];
-        Assert.AreEqual("TBS", item6.Repo);
-        Assert.AreEqual(1, item6.DotNetFrameworks.Count);
-        Assert.AreEqual("Unity3d v2020.3", item6.DotNetFrameworks[0]);
-        Assert.AreEqual("private", item6.RepoSettings.visibility);
-        Assert.AreEqual(1, item6.BranchPoliciesRecommendations.Count);
+        SummaryItem? item4 = summaryItems.Where(r => r.Repo == "TBS").FirstOrDefault();
+        Assert.IsNotNull(item4);
+        Assert.AreEqual("TBS", item4.Repo);
+        Assert.AreEqual(1, item4.DotNetFrameworks.Count);
+        Assert.AreEqual("Unity3d v2020.3", item4.DotNetFrameworks[0]);
+        Assert.AreEqual("private", item4.RepoSettings.visibility);
+        Assert.AreEqual(1, item4.BranchPoliciesRecommendations.Count);
 
         //Ensure they are alphabetical
         Assert.AreEqual("TBS", summaryItems[summaryItems.Count - 1].Repo);

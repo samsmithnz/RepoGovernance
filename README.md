@@ -10,7 +10,8 @@
 ## Current solution... 
 Currently viewable at https://repogovernance-prod-eu-web.azurewebsites.net/
 
-![image](https://user-images.githubusercontent.com/8389039/148482624-c0bc4f26-67bc-4374-81a6-d13a7f4e8f30.png)
+![image](https://user-images.githubusercontent.com/8389039/159120532-8e43d69a-7ed9-4927-bfcd-1b2a539ba978.png)
+
 
 ## The future?
 - Remediation: allowing users to not just identify an issue, but to resolve it with a few clicks. 
