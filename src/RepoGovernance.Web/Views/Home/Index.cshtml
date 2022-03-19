@@ -12,136 +12,258 @@
 
 <div>
     <h4>For account https://github.com/samsmithnz (last updated @lastUpdated)</h4>
-    <div>
+    @*<div>
         <div class="row">
-            <div class="col-md-3">
-                <span><b>Repository</b></span>
-            </div>
-            <div class="col-md-2">
-                <span><b>Repo settings</b></span>
-            </div>
-            <div class="col-md-1">
-                <span><b>Actions</b></span>
-            </div>
-            <div class="col-md-1">
-                <span><b>Dependabot</b></span>
-            </div>
-            <div class="col-md-1">
-                <span><b>Branch policies</b></span>
-            </div>
-            <div class="col-md-1">
-                <span><b>Auto versioning</b></span>
-            </div>
-            <div class="col-md-2">
-                <span><b>Frameworks detected</b></span>
-            </div>
+        <div class="col-md-3">
+        <span><b>Repository</b></span>
+        </div>
+        <div class="col-md-2">
+        <span><b>Repo settings</b></span>
+        </div>
+        <div class="col-md-1">
+        <span><b>Actions</b></span>
+        </div>
+        <div class="col-md-1">
+        <span><b>Dependabot</b></span>
+        </div>
+        <div class="col-md-1">
+        <span><b>Branch policies</b></span>
+        </div>
+        <div class="col-md-1">
+        <span><b>Auto versioning</b></span>
+        </div>
+        <div class="col-md-2">
+        <span><b>Frameworks detected</b></span>
+        </div>
         </div>
         @foreach (SummaryItem item in Model)
         {
-            <div class="row">
-                <hr>
-                <div class="col-md-3">
-                    <div>
+        <div class="row">
+        <hr>
+        <div class="col-md-3">
+        <div>
+        <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
+        @if (item.RepoSettings.visibility == "private")
+        {
+        <span>(private)</span>
+        }
+        </div>
+        </div>
+        <div class="col-md-2">
+        <div>
+        @if (item.RepoSettingsRecommendations.Count == 0)
+        {
+        <span>Ok</span>
+        <!--<i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;"></i>-->
+        }
+        else
+        {
+        string recommendation = "";
+        foreach (string itemRec in item.RepoSettingsRecommendations)
+        {
+        recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+        }
+        <b>Incomplete</b>
+        <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
+        }
+        </div>
+        </div>
+        <div class="col-md-1">
+        <div>
+        @if (item.Actions.Count > 0 && item.ActionRecommendations.Count == 0)
+        {
+        <span>@item.Actions.Count workflows</span>
+        }
+        else
+        {
+        string recommendation = "";
+        foreach (string itemRec in item.ActionRecommendations)
+        {
+        recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+        }
+        <b>Incomplete</b>
+        <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
+        }
+        </div>
+        </div>
+        <div class="col-md-1">
+        <div>
+        @if (item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0)
+        {
+        <span>Enabled</span>
+        }
+        else
+        {
+        string recommendation = "";
+        foreach (string itemRec in item.DependabotRecommendations)
+        {
+        recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+        }
+        <b>Incomplete</b>
+        <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
+        }
+        </div>
+        </div>
+        <div class="col-md-1">
+        <div>
+        @if (item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0)
+        {
+        <span>Enabled</span>
+        }
+        else
+        {
+        string recommendation = "";
+        foreach (string itemRec in item.BranchPoliciesRecommendations)
+        {
+        recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+        }
+        <b>Incomplete</b>
+        <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
+        }
+        </div>
+        </div>
+        <div class="col-md-1">
+        <div>
+        @if (item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
+        {
+        <span>Enabled</span>
+        }
+        else
+        {
+        string recommendation = "";
+        foreach (string itemRec in item.GitVersionRecommendations)
+        {
+        recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+        }
+        <b>Incomplete</b>
+        <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
+        }
+        </div>
+        </div>
+        <div class="col-md-2">
+        <div>
+        @if (item.DotNetFrameworks.Count == 0)
+        {
+        <span class="badge bg-secondary">None found</span>
+        }
+        else
+        {
+        foreach (string badge in item.DotNetFrameworks)
+        {
+        <span class="badge bg-primary">@badge</span>
+        }
+        }
+        </div>
+        </div>
+        </div>
+        }
+
+        </div>*@
+    <div>
+        <table class="table">
+            <tr>
+                <th>Repository</th>
+                <th>Repo settings</th>
+                <th>Actions</th>
+                <th>Dependabot</th>
+                <th>Branch policies</th>
+                <th>Auto versioning</th>
+                <th>Frameworks detected</th>
+            </tr>
+            @foreach (SummaryItem item in Model)
+            {
+                <tr>
+                    <td>
                         <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
                         @if (item.RepoSettings.visibility == "private")
                         {
                             <span>(private)</span>
                         }
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div>
-                        @if (item.RepoSettingsRecommendations.Count == 0)
-                        {
+                    </td>
+                    @if (item.RepoSettingsRecommendations.Count == 0)
+                    {
+                        <td>
                             <span>Ok</span>
-                            @*<i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;"></i>*@
-                        }
-                        else
+                            <!--<i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;"></i>-->
+                        </td>
+                    }
+                    else
+                    {
+                        string recommendation = "";
+                        foreach (string itemRec in item.RepoSettingsRecommendations)
                         {
-                            string recommendation = "";
-                            foreach (string itemRec in item.RepoSettingsRecommendations)
-                            {
-                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
-                            }
+                            recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                        }
+                        <td>
                             <b>Incomplete</b>
                             <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
-                        }
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div>
-                        @if (item.Actions.Count > 0 && item.ActionRecommendations.Count == 0)
+                        </td>
+                    }
+                    @if (item.Actions.Count > 0 && item.ActionRecommendations.Count == 0)
+                    {
+                        <td>@item.Actions.Count workflows</td>
+                    }
+                    else
+                    {
+                        string recommendation = "";
+                        foreach (string itemRec in item.ActionRecommendations)
                         {
-                            <span>@item.Actions.Count workflows</span>
+                            recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                         }
-                        else
-                        {
-                            string recommendation = "";
-                            foreach (string itemRec in item.ActionRecommendations)
-                            {
-                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
-                            }
+                        <td>
                             <b>Incomplete</b>
                             <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
-                        }
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div>
-                        @if (item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0)
+                        </td>
+                    }
+                    @if (item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0)
+                    {
+                        <td>Enabled</td>
+                    }
+                    else
+                    {
+                        string recommendation = "";
+                        foreach (string itemRec in item.DependabotRecommendations)
                         {
-                            <span>Enabled</span>
+                            recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                         }
-                        else
-                        {
-                            string recommendation = "";
-                            foreach (string itemRec in item.DependabotRecommendations)
-                            {
-                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
-                            }
+                        <td>
                             <b>Incomplete</b>
                             <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
-                        }
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div>
-                        @if (item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0)
+                        </td>
+                    }
+                    @if (item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0)
+                    {
+                        <td>Enabled</td>
+                    }
+                    else
+                    {
+                        string recommendation = "";
+                        foreach (string itemRec in item.BranchPoliciesRecommendations)
                         {
-                            <span>Enabled</span>
+                            recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                         }
-                        else
-                        {
-                            string recommendation = "";
-                            foreach (string itemRec in item.BranchPoliciesRecommendations)
-                            {
-                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
-                            }
+                        <td>
                             <b>Incomplete</b>
                             <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
-                        }
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div>
-                        @if (item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
+                        </td>
+                    }
+                    @if (item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
+                    {
+                        <td>Enabled</td>
+                    }
+                    else
+                    {
+                        string recommendation = "";
+                        foreach (string itemRec in item.GitVersionRecommendations)
                         {
-                            <span>Enabled</span>
+                            recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                         }
-                        else
-                        {
-                            string recommendation = "";
-                            foreach (string itemRec in item.GitVersionRecommendations)
-                            {
-                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
-                            }
+                        <td>
                             <b>Incomplete</b>
                             <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
-                        }
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div>
+                        </td>
+                    }
+                    <td>
                         @if (item.DotNetFrameworks.Count == 0)
                         {
                             <span class="badge bg-secondary">None found</span>
@@ -153,10 +275,9 @@
                                 <span class="badge bg-primary">@badge</span>
                             }
                         }
-                    </div>
-                </div>
-            </div>
-        }
-
+                    </td>
+                </tr>
+            }
+        </table>
     </div>
 </div>
