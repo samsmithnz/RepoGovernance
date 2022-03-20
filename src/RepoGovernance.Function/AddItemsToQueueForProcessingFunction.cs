@@ -32,11 +32,11 @@ namespace RepoGovernance.Function
             //log.LogInformation($"connectionString {connectionString}");
 
             //Add the repos to the queue for processing
-            List<string> repos = DatabaseAccess.GetRepos(owner);
-            foreach (string repo in repos)
+            List<(string,string)> repos = DatabaseAccess.GetRepos(owner);
+            foreach ((string,string) repo in repos)
             {
                 //Add the repo to a queue
-                string message = owner + "_" + repo;
+                string message = repo.Item1 + "_" + repo.Item2;
 
                 // Instantiate a QueueClient which will be used to create and manipulate the queue
                 QueueClientOptions options = new()
