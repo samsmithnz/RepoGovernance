@@ -61,12 +61,7 @@ namespace RepoGovernance.Core
         {
             int itemsUpdated = 0;
 
-            ////Get the Repos we are tracking
-            //List<string> repos = DatabaseAccess.GetRepos(owner);
-
-            //Collect data for each repo and save it in azure table storage
-            //foreach (string repo in repos)
-            //{
+            //Initialize the summary item
             SummaryItem summaryItem = new(repo);
 
             //Get repo settings
