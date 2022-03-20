@@ -12,6 +12,9 @@
 
 <div>
     <h4>For account https://github.com/samsmithnz (last updated @lastUpdated)</h4>
+    <b>Legend</b>: <i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Feature is ok!"></i>=Feature is Ok
+            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Feature needs improvement"></i>=Feature needs improvement
+
     <div>
         <table class="table">
             <tr>
@@ -36,9 +39,8 @@
                     @if (item.RepoSettingsRecommendations.Count == 0)
                     {
                         <td>
-                            <span>Ok</span>
-                            <!--<i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;"></i>-->
-                </td>
+                            <i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Ok"></i>
+                        </td>
                     }
                     else
                     {
@@ -48,13 +50,14 @@
                             recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                         }
                         <td>
-                            <b>Incomplete</b>
                             <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         </td>
                     }
                     @if (item.Actions.Count > 0 && item.ActionRecommendations.Count == 0)
                     {
-                        <td>@item.Actions.Count workflows</td>
+                        <td>
+                            <i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@item.Actions.Count workflows"></i>
+                        </td>
                     }
                     else
                     {
@@ -64,13 +67,14 @@
                             recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                         }
                         <td>
-                            <b>Incomplete</b>
                             <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         </td>
                     }
                     @if (item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0)
                     {
-                        <td>Enabled</td>
+                        <td>
+                            <i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Enabled"></i>
+                        </td>
                     }
                     else
                     {
@@ -80,13 +84,15 @@
                             recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                         }
                         <td>
-                            <b>Incomplete</b>
+                            @*<b>Incomplete</b>*@
                             <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         </td>
                     }
                     @if (item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0)
                     {
-                        <td>Enabled</td>
+                        <td>
+                            <i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Enabled"></i>
+                        </td>
                     }
                     else
                     {
@@ -96,13 +102,15 @@
                             recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                         }
                         <td>
-                            <b>Incomplete</b>
+                            @*<b>Incomplete</b>*@
                             <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         </td>
                     }
                     @if (item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
                     {
-                        <td>Enabled</td>
+                        <td>
+                            <i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Enabled"></i>
+                        </td>
                     }
                     else
                     {
@@ -112,7 +120,6 @@
                             recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                         }
                         <td>
-                            <b>Incomplete</b>
                             <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         </td>
                     }
