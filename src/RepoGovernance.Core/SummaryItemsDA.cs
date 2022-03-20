@@ -13,7 +13,7 @@ namespace RepoGovernance.Core
 {
     public static class SummaryItemsDA
     {
-        public static List<string> GetRepos(string owner)
+        public static List<(string,string)> GetRepos(string owner)
         {
             return DatabaseAccess.GetRepos(owner);
         }
