@@ -46,10 +46,10 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         string owner = "samsmithnz";
 
         //Act - runs each repo in about 4s
-        List<(string,string)> repos = SummaryItemsDA.GetRepos(owner);
+        List<(string, string)> repos = SummaryItemsDA.GetRepos(owner);
 
         int itemsUpdated = 0;
-        foreach ((string,string) repo in repos)
+        foreach ((string, string) repo in repos)
         {
             string ownerName = repo.Item1;
             string repoName = repo.Item2;
