@@ -49,7 +49,7 @@
                 <div class="col-md-4">
                     <div>
                         <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
-                        <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="@item.LastUpdated.ToString("dd-MMM-yyyy hh:mm:sstt")"></i>
+                        <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="Last updated @item.LastUpdated.ToString("dd-MMM-yyyy hh:mm:sstt")"></i>
                         @if (item.RepoSettings.visibility == "private")
                         {
                             <i class="bi bi-file-lock-fill" style="color: black; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Private repo"></i>
