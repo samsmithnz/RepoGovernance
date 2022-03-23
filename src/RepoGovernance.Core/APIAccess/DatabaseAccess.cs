@@ -2,29 +2,30 @@
 
 public static class DatabaseAccess
 {
-
-    public static List<string> GetRepos(string owner)
+    public static List<(string, string)> GetRepos(string owner)
     {
-        //TODO: move this into a database, and filter by owner
-        List<string> results = new()
+        //TODO: move this into a database
+        List<(string, string)> results = new()
         {
-            "AzurePipelinesToGitHubActionsConverter",
-            "AzurePipelinesToGitHubActionsConverterWeb",
-            "Battle",
-            "CustomQueue",
-            "Dependabot-Configuration-Builder",
-            "DevOpsMetrics",
-            "DSPTree",
-            "FictionBook",
-            "GitHubActionsDotNet",
-            "OpinionatedSoftwareAdvice",
-            "RepoAutomation",
-            "RepoGovernance",
-            "ResearchTree",
-            "Sams2048",
-            "SamsFeatureFlags",
-            "samsmithnz",
-            "TBS"
+            (owner, "AzurePipelinesToGitHubActionsConverter"),
+            (owner, "AzurePipelinesToGitHubActionsConverterWeb"),
+            (owner, "Battle"),
+            (owner, "CustomQueue"),
+            (owner, "Dependabot-Configuration-Builder"),
+            (owner, "DevOpsMetrics"),
+            (owner, "DSPTree"),
+            (owner, "FictionBook"),
+            (owner, "GitHubActionsDotNet"),
+            (owner, "OpinionatedSoftwareAdvice"),
+            (owner, "RepoAutomation"),
+            (owner, "RepoGovernance"),
+            (owner, "ResearchTree"),
+            (owner, "Sams2048"),
+            (owner, "SamsFeatureFlags"),
+            (owner, "samsmithnz"),
+            (owner, "TBS"),
+            ("SamSmithNZ-dotcom", "SamSmithNZ.com"),
+            ("SamSmithNZ-dotcom", "MandMCounter")
         };
 
         return results;

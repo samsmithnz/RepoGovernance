@@ -52,7 +52,7 @@ namespace RepoGovernance.Core.TableStorage
         }
 
         //TODO: Move this into Azure Storage - currently this is a single static list of repos
-        public static List<string> GetRepos(string owner)
+        public static List<(string,string)> GetRepos(string owner)
         {
             return DatabaseAccess.GetRepos(owner);
         }
