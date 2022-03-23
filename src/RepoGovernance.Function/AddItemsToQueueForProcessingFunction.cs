@@ -14,7 +14,7 @@ namespace RepoGovernance.Function
         // 0 0 * * * //Every 24 hours
         // */5 * * * * //Every 5 minutes
         // 0 * * * * //Every 60 mins
-        public static void Run([TimerTrigger("0 0 * * *")] TimerInfo myTimer, ILogger log, ExecutionContext context)
+        public static void Run([TimerTrigger("*/4 * * * *")] TimerInfo myTimer, ILogger log, ExecutionContext context)
         {
             string owner = "samsmithnz";
             string queueName = "summaryqueue";
@@ -32,11 +32,12 @@ namespace RepoGovernance.Function
             //log.LogInformation($"connectionString {connectionString}");
 
             //Add the repos to the queue for processing
-            List<string> repos = DatabaseAccess.GetRepos(owner);
-            foreach (string repo in repos)
+            List<(string, string)> repos = DatabaseAccess.GetRepos(owner);
+            int visibilityMinuteDelay = 0;
+            foreach ((string, string) repo in repos)
             {
                 //Add the repo to a queue
-                string message = owner + "_" + repo;
+                string message = repo.Item1 + "_" + repo.Item2;
 
                 // Instantiate a QueueClient which will be used to create and manipulate the queue
                 QueueClientOptions options = new()
@@ -50,9 +51,14 @@ namespace RepoGovernance.Function
                 //Post the message
                 if (queueClient.Exists() == true)
                 {
-                    queueClient.SendMessage(messageText: message, timeToLive: new TimeSpan(12, 0, 0));
+                    queueClient.SendMessage(messageText: message,
+                        visibilityTimeout: new TimeSpan(0, visibilityMinuteDelay, 0),
+                        timeToLive: new TimeSpan(12, 0, 0));
                 }
                 log.LogInformation($"AddItemsToQueueForProcessing added '" + message + "' item to queue, completing execution at: {DateTime.Now}");
+
+                //Note that because the GitHub search API has a 30 request per minute delay, we will add each item to the queue here with a delay
+                visibilityMinuteDelay++;
             }
 
             //Report on the total
