@@ -59,7 +59,6 @@ namespace RepoGovernance.Core
             string owner,
             string repo)
         {
-            int sectionUpdate = 0;
             int itemsUpdated = 0;
 
             //Initialize the summary item
@@ -69,7 +68,6 @@ namespace RepoGovernance.Core
             Repo? repoSettings = await GitHubAPIAccess.GetRepo(clientId, secret, owner, repo);
             if (repoSettings != null)
             {
-                sectionUpdate++;
                 summaryItem.RepoSettings = repoSettings;
                 if (summaryItem.RepoSettings.allow_auto_merge == false)
                 {
@@ -90,7 +88,6 @@ namespace RepoGovernance.Core
             null, null, ".github/workflows");
             if (actions != null)
             {
-                sectionUpdate++;
                 summaryItem.Actions = actions;
             }
             if (summaryItem.Actions.Count == 0)
@@ -105,7 +102,6 @@ namespace RepoGovernance.Core
                 "dependabot.yml", null, ".github");
             if (dependabot != null)
             {
-                sectionUpdate++;
                 summaryItem.Dependabot = dependabot;
             }
             if (summaryItem.Dependabot.Count >= 1)
@@ -158,7 +154,6 @@ namespace RepoGovernance.Core
             }
             else if (summaryItem != null)
             {
-                sectionUpdate++;
                 summaryItem.BranchPolicies = branchPolicies;
                 if (summaryItem.BranchPolicies.enforce_admins == null || summaryItem.BranchPolicies.enforce_admins.enabled == false)
                 {
@@ -181,7 +176,6 @@ namespace RepoGovernance.Core
                 "GitVersion.yml", null, "");
             if (summaryItem != null && gitversion != null && gitversion.Count > 0)
             {
-                sectionUpdate++;
                 summaryItem.GitVersion = gitversion;
             }
             else
@@ -189,11 +183,10 @@ namespace RepoGovernance.Core
                 summaryItem?.GitVersionRecommendations.Add("Consider adding Git Versioning to this repo");
             }
 
-            //Get Frameworks
+            //Get Frameworks: Note that there is a rate limit of 30 requests per minute on search            
             List<Project> projects = await DotNetRepoScanner.ScanRepo(clientId, secret, owner, repo);
             if (projects != null)
             {
-                sectionUpdate++;
                 foreach (Project project in projects)
                 {
                     if (project.Framework != null && summaryItem?.DotNetFrameworks.Contains(project.Framework) == false)
