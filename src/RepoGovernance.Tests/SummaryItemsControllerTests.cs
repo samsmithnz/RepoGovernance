@@ -23,21 +23,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
 
         //Assert
         Assert.AreEqual(1, itemsUpdated);
-    }
-
-    [TestMethod]
-    public async Task UpdateTBSSummaryItemTest()
-    {
-        //Arrange
-        string owner = "samsmithnz";
-        string repo = "TBS";
-
-        //Act - runs each repo in about 4s
-        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, owner, repo);
-
-        //Assert
-        Assert.AreEqual(1, itemsUpdated);
-    }
+    }    
 
     //[TestMethod]
     //public async Task UpdateAllItemsTest()
