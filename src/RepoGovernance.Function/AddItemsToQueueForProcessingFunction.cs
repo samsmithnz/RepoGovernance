@@ -14,7 +14,7 @@ namespace RepoGovernance.Function
         // 0 0 * * * //Every 24 hours
         // */5 * * * * //Every 5 minutes
         // 0 * * * * //Every 60 mins
-        public static void Run([TimerTrigger("*/4 * * * *")] TimerInfo myTimer, ILogger log, ExecutionContext context)
+        public static void Run([TimerTrigger("0 0 * * *")] TimerInfo myTimer, ILogger log, ExecutionContext context)
         {
             string owner = "samsmithnz";
             string queueName = "summaryqueue";
