@@ -18,10 +18,10 @@
 
     <div>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <span><b>Repository</b></span>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-1">
                 <span><b>Repo settings</b></span>
             </div>
             <div class="col-md-1">
@@ -36,7 +36,7 @@
             <div class="col-md-1">
                 <span><b>Auto versioning</b></span>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <span><b>Frameworks detected</b></span>
             </div>
         </div>
@@ -46,7 +46,7 @@
                 <div class="col-md-12">
                     <hr>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div>
                         <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
                         @if (item.RepoSettings.visibility == "private")
@@ -55,7 +55,7 @@
                         }
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <div>
                         @if (item.RepoSettingsRecommendations.Count == 0)
                         {
@@ -140,7 +140,7 @@
                         }
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div>
                         @if (item.DotNetFrameworks.Count == 0)
                         {
