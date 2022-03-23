@@ -26,7 +26,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
     }
 
     [TestMethod]
-    public async Task UpdateTBSSummaryItemsTest()
+    public async Task UpdateTBSSummaryItemTest()
     {
         //Arrange
         string owner = "samsmithnz";

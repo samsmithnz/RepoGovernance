@@ -13,7 +13,7 @@ namespace RepoGovernance.Core
 {
     public static class SummaryItemsDA
     {
-        public static List<(string,string)> GetRepos(string owner)
+        public static List<(string, string)> GetRepos(string owner)
         {
             return DatabaseAccess.GetRepos(owner);
         }
@@ -59,6 +59,7 @@ namespace RepoGovernance.Core
             string owner,
             string repo)
         {
+            int sectionUpdate = 0;
             int itemsUpdated = 0;
 
             //Initialize the summary item
@@ -68,10 +69,8 @@ namespace RepoGovernance.Core
             Repo? repoSettings = await GitHubAPIAccess.GetRepo(clientId, secret, owner, repo);
             if (repoSettings != null)
             {
+                sectionUpdate++;
                 summaryItem.RepoSettings = repoSettings;
-            }
-            if (summaryItem.RepoSettings != null)
-            {
                 if (summaryItem.RepoSettings.allow_auto_merge == false)
                 {
                     summaryItem.RepoSettingsRecommendations.Add("Consider enabling 'Allow Auto-Merge' in repo settings to streamline PR merging");
@@ -91,6 +90,7 @@ namespace RepoGovernance.Core
             null, null, ".github/workflows");
             if (actions != null)
             {
+                sectionUpdate++;
                 summaryItem.Actions = actions;
             }
             if (summaryItem.Actions.Count == 0)
@@ -105,6 +105,7 @@ namespace RepoGovernance.Core
                 "dependabot.yml", null, ".github");
             if (dependabot != null)
             {
+                sectionUpdate++;
                 summaryItem.Dependabot = dependabot;
             }
             if (summaryItem.Dependabot.Count >= 1)
@@ -157,6 +158,7 @@ namespace RepoGovernance.Core
             }
             else if (summaryItem != null)
             {
+                sectionUpdate++;
                 summaryItem.BranchPolicies = branchPolicies;
                 if (summaryItem.BranchPolicies.enforce_admins == null || summaryItem.BranchPolicies.enforce_admins.enabled == false)
                 {
@@ -179,6 +181,7 @@ namespace RepoGovernance.Core
                 "GitVersion.yml", null, "");
             if (summaryItem != null && gitversion != null && gitversion.Count > 0)
             {
+                sectionUpdate++;
                 summaryItem.GitVersion = gitversion;
             }
             else
@@ -190,6 +193,7 @@ namespace RepoGovernance.Core
             List<Project> projects = await DotNetRepoScanner.ScanRepo(clientId, secret, owner, repo);
             if (projects != null)
             {
+                sectionUpdate++;
                 foreach (Project project in projects)
                 {
                     if (project.Framework != null && summaryItem?.DotNetFrameworks.Contains(project.Framework) == false)
