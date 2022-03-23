@@ -64,49 +64,49 @@ namespace RepoGovernance.Core.Helpers
             }
         }
 
-        //private string? GetFrameworkFamily(string framework)
-        //{
-        //    if (framework == null)
-        //    {
-        //        return null;
-        //    }
-        //    else if (framework.StartsWith("netcoreapp"))
-        //    {
-        //        return ".NET Core";
-        //    }
-        //    else if (framework.StartsWith("netstandard"))
-        //    {
-        //        return ".NET Standard";
-        //    }
-        //    else if (framework.StartsWith("v1."))
-        //    {
-        //        return ".NET Framework";
-        //    }
-        //    else if (framework.StartsWith("v2."))
-        //    {
-        //        return ".NET Framework";
-        //    }
-        //    else if (framework.StartsWith("v3."))
-        //    {
-        //        return ".NET Framework";
-        //    }
-        //    else if (framework.StartsWith("v4.") || framework.StartsWith("net4"))
-        //    {
-        //        return ".NET Framework";
-        //    }
-        //    else if (framework.StartsWith("net")) //net5.0, net6.0, etc
-        //    {
-        //        return ".NET";
-        //    }
-        //    else if (framework.StartsWith("vb6"))
-        //    {
-        //        return "Visual Basic 6";
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
+        private static string GetFrameworkFamily(string framework)
+        {
+            if (framework == null)
+            {
+                return "";
+            }
+            //else if (framework.StartsWith("netcoreapp"))
+            //{
+            //    return ".NET Core";
+            //}
+            //else if (framework.StartsWith("netstandard"))
+            //{
+            //    return ".NET Standard";
+            //}
+            else if (framework.StartsWith("v1."))
+            {
+                return ".NET Framework";
+            }
+            else if (framework.StartsWith("v2."))
+            {
+                return ".NET Framework";
+            }
+            else if (framework.StartsWith("v3."))
+            {
+                return ".NET Framework";
+            }
+            else if (framework.StartsWith("v4.") || framework.StartsWith("net4"))
+            {
+                return ".NET Framework";
+            }
+            //else if (framework.StartsWith("vb6"))
+            //{
+            //    return "Visual Basic 6";
+            //}
+            //else if (framework.StartsWith("net")) //net5.0, net6.0, etc
+            //{
+            //    return ".NET";
+            //}
+            else
+            {
+                return "";
+            }
+        }
 
         //Process .NET Framework and Core project files
         private static string? ProcessDotNetProjectFile(Project project)
@@ -137,12 +137,12 @@ namespace RepoGovernance.Core.Helpers
                         {
                             if (i == 0)
                             {
-                                framework = frameworkList[i];
+                                framework = GetFrameworkFamily(frameworkList[i]) + frameworkList[i];
                             }
                             else
                             {
                                 //Create a list
-                                framework += "," + frameworkList[i];
+                                framework += "," + GetFrameworkFamily(frameworkList[i]);
                             }
                         }
                         break;

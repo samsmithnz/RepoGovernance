@@ -126,6 +126,9 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual("private", item4.RepoSettings.visibility);
         Assert.AreEqual(1, item4.BranchPoliciesRecommendations.Count);
 
+        SummaryItem? item4 = summaryItems.Where(r => r.Repo == "TBS").FirstOrDefault();
+
+
         //Ensure they are alphabetical
         Assert.AreEqual("TBS", summaryItems[^1].Repo);
     }
