@@ -23,21 +23,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
 
         //Assert
         Assert.AreEqual(1, itemsUpdated);
-    }
-
-    [TestMethod]
-    public async Task UpdateTBSSummaryItemsTest()
-    {
-        //Arrange
-        string owner = "samsmithnz";
-        string repo = "TBS";
-
-        //Act - runs each repo in about 4s
-        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, owner, repo);
-
-        //Assert
-        Assert.AreEqual(1, itemsUpdated);
-    }
+    }    
 
     //[TestMethod]
     //public async Task UpdateAllItemsTest()
@@ -46,12 +32,14 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
     //    string owner = "samsmithnz";
 
     //    //Act - runs each repo in about 4s
-    //    List<string> repos = SummaryItemsDA.GetRepos(owner);
+    //    List<(string, string)> repos = SummaryItemsDA.GetRepos(owner);
 
     //    int itemsUpdated = 0;
-    //    foreach (string repo in repos)
+    //    foreach ((string, string) repo in repos)
     //    {
-    //        itemsUpdated += await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, owner, repo);
+    //        string ownerName = repo.Item1;
+    //        string repoName = repo.Item2;
+    //        itemsUpdated += await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, ownerName, repoName);
     //    }
 
     //    //Assert

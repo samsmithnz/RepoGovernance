@@ -37,20 +37,20 @@ namespace RepoGovernance.Core.TableStorage
             return table;
         }
 
-        public async Task<bool> AddItem(AzureStorageTableModel data, bool forceUpdate = false)
-        {
-            //Check if the item exists in storage
-            AzureStorageTableModel item = await GetItem(data.PartitionKey, data.RowKey);
-            if (item == null || forceUpdate == true)
-            {
-                await SaveItem(data);
-                return true; //data saved to table!
-            }
-            else
-            {
-                return false; //no updates needed
-            }
-        }
+        //public async Task<bool> AddItem(AzureStorageTableModel data, bool forceUpdate = false)
+        //{
+        //    //Check if the item exists in storage
+        //    AzureStorageTableModel item = await GetItem(data.PartitionKey, data.RowKey);
+        //    if (item == null || forceUpdate == true)
+        //    {
+        //        await SaveItem(data);
+        //        return true; //data saved to table!
+        //    }
+        //    else
+        //    {
+        //        return false; //no updates needed
+        //    }
+        //}
 
         public async Task<AzureStorageTableModel> GetItem(string partitionKey, string rowKey)
         {

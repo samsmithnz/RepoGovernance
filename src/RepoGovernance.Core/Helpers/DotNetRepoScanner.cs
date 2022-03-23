@@ -11,7 +11,7 @@ namespace RepoGovernance.Core.Helpers
             List<Project> projects = new();
 
             //Search GitHub Repo for various extensions
-            //csproj
+            //C#/ *.csproj
             projects.AddRange(await SearchForFiles(clientId, clientSecret, owner, repo, "csproj"));
             //Unity/ ProjectVersion.txt
             projects.AddRange(await SearchForFiles(clientId, clientSecret, owner, repo, null, "ProjectVersion.txt"));
@@ -22,7 +22,6 @@ namespace RepoGovernance.Core.Helpers
         private async static Task<List<Project>> SearchForFiles(string? clientId, string? clientSecret, string owner, string repo, string? extension = null, string? fileName = null)
         {
             SearchResult? searchResult = await GitHubAPIAccess.SearchFiles(clientId, clientSecret, owner, repo, extension, fileName);
-
             //Get the content for each file
             if (searchResult == null)
             {

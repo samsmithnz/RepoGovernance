@@ -19,10 +19,9 @@ namespace RepoGovernance.Core.Models
             GitVersion = new();
             GitVersionRecommendations = new();
             DotNetFrameworks = new();
-            DotNetFrameworksRecommendations = new();
+            DotNetFrameworksRecommendations = new();            
         }
 
-        public DateTime LastUpdated { get; set; }
         public string Repo { get; internal set; }
         public Repo RepoSettings { get; set; }
         public List<string> RepoSettingsRecommendations { get; set; }
@@ -38,5 +37,8 @@ namespace RepoGovernance.Core.Models
         public List<string> GitVersionRecommendations { get; set; }
         public List<string> DotNetFrameworks { get; set; }
         public List<string> DotNetFrameworksRecommendations { get; set; }
+        public string LastCommitSha { get; set; }
+        public DateTime LastUpdated { get; set; }
+
     }
 }

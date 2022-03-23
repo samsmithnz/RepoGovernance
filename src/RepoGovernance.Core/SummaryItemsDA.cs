@@ -13,7 +13,7 @@ namespace RepoGovernance.Core
 {
     public static class SummaryItemsDA
     {
-        public static List<(string,string)> GetRepos(string owner)
+        public static List<(string, string)> GetRepos(string owner)
         {
             return DatabaseAccess.GetRepos(owner);
         }
@@ -61,12 +61,7 @@ namespace RepoGovernance.Core
         {
             int itemsUpdated = 0;
 
-            ////Get the Repos we are tracking
-            //List<string> repos = DatabaseAccess.GetRepos(owner);
-
-            //Collect data for each repo and save it in azure table storage
-            //foreach (string repo in repos)
-            //{
+            //Initialize the summary item
             SummaryItem summaryItem = new(repo);
 
             //Get repo settings
@@ -74,9 +69,6 @@ namespace RepoGovernance.Core
             if (repoSettings != null)
             {
                 summaryItem.RepoSettings = repoSettings;
-            }
-            if (summaryItem.RepoSettings != null)
-            {
                 if (summaryItem.RepoSettings.allow_auto_merge == false)
                 {
                     summaryItem.RepoSettingsRecommendations.Add("Consider enabling 'Allow Auto-Merge' in repo settings to streamline PR merging");
@@ -191,7 +183,7 @@ namespace RepoGovernance.Core
                 summaryItem?.GitVersionRecommendations.Add("Consider adding Git Versioning to this repo");
             }
 
-            //Get Frameworks
+            //Get Frameworks: Note that there is a rate limit of 30 requests per minute on search            
             List<Project> projects = await DotNetRepoScanner.ScanRepo(clientId, secret, owner, repo);
             if (projects != null)
             {
@@ -202,6 +194,13 @@ namespace RepoGovernance.Core
                         summaryItem?.DotNetFrameworks.Add(project.Framework);
                     }
                 }
+            }
+
+            //Get the last commit
+            string? lastCommitSha = await GitHubAPIAccess.GetLastCommit(clientId, secret, owner, repo);
+            if (summaryItem != null && lastCommitSha != null)
+            {
+                summaryItem.LastCommitSha = lastCommitSha;
             }
 
             //Save the summary item
