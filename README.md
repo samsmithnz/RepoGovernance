@@ -6,6 +6,7 @@
 - [RepoAutomation](https://github.com/samsmithnz/RepoAutomation): To automate the creation of repos and my preferred settings
 - [SamsFeatureFlags](https://github.com/samsmithnz/SamsFeatureFlags): To use Feature Flags/Toggles on my projects
 - [TechDebtIdentification](https://github.com/samsmithnz/TechDebtIdentification): To identify what version of .NET my projects are using
+- [DevOpsMetrics](https://github.com/samsmithnz/DevOpsMetrics): to calculate DORA/DevOps Metrics on my projects
 
 ## Current solution... 
 Currently viewable at https://repogovernance-prod-eu-web.azurewebsites.net/
