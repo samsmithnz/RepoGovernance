@@ -197,11 +197,11 @@ namespace RepoGovernance.Core
             }
 
             //Get the last commit
-            //string lastCommitSha = await GitHubAPIAccess.GetLastCommitSha(clientId, secret, owner, repo);
-            //if (summaryItem != null)
-            //{
-            //    summaryItem.LastCommitSha = lastCommitSha;
-            //}
+            string? lastCommitSha = await GitHubAPIAccess.GetLastCommit(clientId, secret, owner, repo);
+            if (summaryItem != null && lastCommitSha != null)
+            {
+                summaryItem.LastCommitSha = lastCommitSha;
+            }
 
             //Save the summary item
             if (connectionString != null)
