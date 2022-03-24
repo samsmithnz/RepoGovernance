@@ -126,8 +126,10 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual("private", item4.RepoSettings.visibility);
         Assert.AreEqual(1, item4.BranchPoliciesRecommendations.Count);
 
-        SummaryItem? item4 = summaryItems.Where(r => r.Repo == "TBS").FirstOrDefault();
-
+        SummaryItem? item5 = summaryItems.Where(r => r.Repo == "ResearchTree").FirstOrDefault();
+        Assert.IsNotNull(item5);
+        Assert.AreEqual(3, item5.DotNetFrameworks.Count);
+        Assert.AreEqual(".NET Framework v4.7.1", item5.DotNetFrameworks[^2]);
 
         //Ensure they are alphabetical
         Assert.AreEqual("TBS", summaryItems[^1].Repo);

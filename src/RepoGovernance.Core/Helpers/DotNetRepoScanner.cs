@@ -64,7 +64,7 @@ namespace RepoGovernance.Core.Helpers
             }
         }
 
-        private static string GetFrameworkFamily(string framework)
+        private static string GetFrameworkFamily(string? framework)
         {
             if (framework == null)
             {
@@ -80,19 +80,19 @@ namespace RepoGovernance.Core.Helpers
             //}
             else if (framework.StartsWith("v1."))
             {
-                return ".NET Framework";
+                return ".NET Framework " + framework;
             }
             else if (framework.StartsWith("v2."))
             {
-                return ".NET Framework";
+                return ".NET Framework " + framework;
             }
             else if (framework.StartsWith("v3."))
             {
-                return ".NET Framework";
+                return ".NET Framework " + framework;
             }
             else if (framework.StartsWith("v4.") || framework.StartsWith("net4"))
             {
-                return ".NET Framework";
+                return ".NET Framework " + framework;
             }
             //else if (framework.StartsWith("vb6"))
             //{
@@ -122,11 +122,13 @@ namespace RepoGovernance.Core.Helpers
                     if (line.Contains("<TargetFrameworkVersion>"))
                     {
                         framework = line.Replace("<TargetFrameworkVersion>", "").Replace("</TargetFrameworkVersion>", "").Trim();
+                        framework = GetFrameworkFamily(framework);
                         break;
                     }
                     else if (line.Contains("<TargetFramework>"))
                     {
                         framework = line.Replace("<TargetFramework>", "").Replace("</TargetFramework>", "").Trim();
+                        framework = GetFrameworkFamily(framework);
                         break;
                     }
                     else if (line.Contains("<TargetFrameworks>"))
@@ -137,7 +139,7 @@ namespace RepoGovernance.Core.Helpers
                         {
                             if (i == 0)
                             {
-                                framework = GetFrameworkFamily(frameworkList[i]) + frameworkList[i];
+                                framework = GetFrameworkFamily(frameworkList[i]);
                             }
                             else
                             {
@@ -150,12 +152,12 @@ namespace RepoGovernance.Core.Helpers
                     else if (line.Contains("<ProductVersion>"))
                     {
                         //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
-                        framework = GetHistoricalFrameworkVersion(line);
+                        framework = GetFrameworkFamily(GetHistoricalFrameworkVersion(line));
                     }
                     else if (line.Contains("ProductVersion = "))
                     {
                         //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
-                        framework = GetHistoricalFrameworkVersion(line);
+                        framework = GetFrameworkFamily(GetHistoricalFrameworkVersion(line));
                     }
                     else if (line.Contains("m_EditorVersion:"))
                     {
