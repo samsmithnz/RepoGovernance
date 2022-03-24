@@ -212,7 +212,12 @@ namespace RepoGovernance.Core.Helpers
 
         private static string? GetColor(string? framework)
         {
-            if (framework.Contains(".NET Framework v1") ||
+            if (framework == null)
+            {
+                //Unknown
+                return "grey";
+            }
+            else if (framework.Contains(".NET Framework v1") ||
                 framework.Contains(".NET Framework v2") ||
                 framework.Contains(".NET Framework v3"))
             {
