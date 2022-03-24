@@ -8,6 +8,7 @@
     {
         lastUpdated = Model[0].LastUpdated.ToString("d-MMM-yyyy h:mmtt");
     }
+    TimeZoneInfo easternZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
 }
 
 <div>
@@ -49,7 +50,7 @@
                 <div class="col-md-4">
                     <div>
                         <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
-                        <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="Last updated @item.LastUpdated.ToString("dd-MMM-yyyy hh:mm:sstt")"></i>
+                        <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="Last updated @TimeZoneInfo.ConvertTimeFromUtc(item.LastUpdated, easternZone).ToString("dd-MMM-yyyy hh:mm:sstt")"></i>
                         @if (item.RepoSettings.visibility == "private")
                         {
                             <i class="bi bi-file-lock-fill" style="color: black; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Private repo"></i>
