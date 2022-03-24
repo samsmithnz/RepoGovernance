@@ -130,7 +130,7 @@ jobs:
           creds: ${{ secrets.AZURE_SP }} 
       - name: Set function secrets
         run: az functionapp config appsettings set --name "repogovernance-prod-eu-schedulefunction" --resource-group "RepoGovernance" --settings "GitHubClientId=${{ secrets.GitHubClientId }}" "GitHubClientSecret=${{ secrets.GitHubClientSecret }}" "StorageConnectionString=${{ secrets.StorageConnectionString }}" "SummaryQueueConnection=${{ secrets.SummaryQueueConnection }}"
-      - name: 'Run Azure Functions Action'
+      - name: Deploy Azure Function
         uses: Azure/functions-action@v1
         with:
           app-name: repogovernance-prod-eu-schedulefunction

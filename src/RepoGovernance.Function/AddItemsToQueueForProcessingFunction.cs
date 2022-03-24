@@ -56,7 +56,7 @@ namespace RepoGovernance.Function
                         timeToLive: new TimeSpan(12, 0, 0));
                 }
                 log.LogInformation($"AddItemsToQueueForProcessing added '" + message + "' item to queue, completing execution at: {DateTime.Now}");
-                
+
                 //Note that because the GitHub search API has a 30 request per minute delay, we will add each item to the queue here with a delay
                 visibilityMinuteDelay++;
             }

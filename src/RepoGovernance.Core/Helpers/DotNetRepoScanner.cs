@@ -59,54 +59,55 @@ namespace RepoGovernance.Core.Helpers
                 {
                     string? framework = ProcessDotNetProjectFile(project);
                     project.Framework = framework;
+                    project.Color = GetColor(framework);
                 }
                 return projects;
             }
         }
 
-        //private string? GetFrameworkFamily(string framework)
-        //{
-        //    if (framework == null)
-        //    {
-        //        return null;
-        //    }
-        //    else if (framework.StartsWith("netcoreapp"))
-        //    {
-        //        return ".NET Core";
-        //    }
-        //    else if (framework.StartsWith("netstandard"))
-        //    {
-        //        return ".NET Standard";
-        //    }
-        //    else if (framework.StartsWith("v1."))
-        //    {
-        //        return ".NET Framework";
-        //    }
-        //    else if (framework.StartsWith("v2."))
-        //    {
-        //        return ".NET Framework";
-        //    }
-        //    else if (framework.StartsWith("v3."))
-        //    {
-        //        return ".NET Framework";
-        //    }
-        //    else if (framework.StartsWith("v4.") || framework.StartsWith("net4"))
-        //    {
-        //        return ".NET Framework";
-        //    }
-        //    else if (framework.StartsWith("net")) //net5.0, net6.0, etc
-        //    {
-        //        return ".NET";
-        //    }
-        //    else if (framework.StartsWith("vb6"))
-        //    {
-        //        return "Visual Basic 6";
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
+        private static string GetFrameworkFamily(string? framework)
+        {
+            if (framework == null)
+            {
+                return "";
+            }
+            //else if (framework.StartsWith("netcoreapp"))
+            //{
+            //    return ".NET Core";
+            //}
+            //else if (framework.StartsWith("netstandard"))
+            //{
+            //    return ".NET Standard";
+            //}
+            else if (framework.StartsWith("v1."))
+            {
+                return ".NET Framework " + framework;
+            }
+            else if (framework.StartsWith("v2."))
+            {
+                return ".NET Framework " + framework;
+            }
+            else if (framework.StartsWith("v3."))
+            {
+                return ".NET Framework " + framework;
+            }
+            else if (framework.StartsWith("v4.") || framework.StartsWith("net4"))
+            {
+                return ".NET Framework " + framework;
+            }
+            //else if (framework.StartsWith("vb6"))
+            //{
+            //    return "Visual Basic 6";
+            //}
+            //else if (framework.StartsWith("net")) //net5.0, net6.0, etc
+            //{
+            //    return ".NET";
+            //}
+            else
+            {
+                return "";
+            }
+        }
 
         //Process .NET Framework and Core project files
         private static string? ProcessDotNetProjectFile(Project project)
@@ -122,11 +123,13 @@ namespace RepoGovernance.Core.Helpers
                     if (line.Contains("<TargetFrameworkVersion>"))
                     {
                         framework = line.Replace("<TargetFrameworkVersion>", "").Replace("</TargetFrameworkVersion>", "").Trim();
+                        framework = GetFrameworkFamily(framework);
                         break;
                     }
                     else if (line.Contains("<TargetFramework>"))
                     {
                         framework = line.Replace("<TargetFramework>", "").Replace("</TargetFramework>", "").Trim();
+                        framework = GetFrameworkFamily(framework);
                         break;
                     }
                     else if (line.Contains("<TargetFrameworks>"))
@@ -135,27 +138,18 @@ namespace RepoGovernance.Core.Helpers
                         string[] frameworkList = frameworks.Split(';');
                         for (int i = 0; i < frameworkList.Length - 1; i++)
                         {
-                            if (i == 0)
+                            if (i > 0)
                             {
-                                framework = frameworkList[i];
+                                framework += ",";
                             }
-                            else
-                            {
-                                //Create a list
-                                framework += "," + frameworkList[i];
-                            }
+                            framework += GetFrameworkFamily(frameworkList[i]);
                         }
                         break;
                     }
-                    else if (line.Contains("<ProductVersion>"))
+                    else if (line.Contains("<ProductVersion>") || line.Contains("ProductVersion = "))
                     {
                         //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
-                        framework = GetHistoricalFrameworkVersion(line);
-                    }
-                    else if (line.Contains("ProductVersion = "))
-                    {
-                        //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
-                        framework = GetHistoricalFrameworkVersion(line);
+                        framework = GetFrameworkFamily(GetHistoricalFrameworkVersion(line));
                     }
                     else if (line.Contains("m_EditorVersion:"))
                     {
@@ -214,6 +208,42 @@ namespace RepoGovernance.Core.Helpers
             string unityVersion = "Unity3d v" + splitVersion[0] + "." + splitVersion[1];
 
             return unityVersion;
+        }
+
+        private static string? GetColor(string? framework)
+        {
+            if (framework == null)
+            {
+                //Unknown/gray
+                return "bg-secondary";
+            }
+            else if (framework.Contains(".NET Framework v1") ||
+                framework.Contains(".NET Framework v2") ||
+                framework.Contains(".NET Framework v3"))
+            {
+                //Unsupported/End of life/red
+                return "bg-danger";
+            }
+            else if (framework.Contains(".NET Framework") ||
+                framework.Contains(".NET Standard 1.") ||
+                framework.Contains(".NET Standard 2.0") ||
+                framework.Contains("net5.0") ||
+                framework.Contains("netcoreapp"))
+            {
+                //Supported, but old/orange
+                return "bg-warning";
+            }
+            else if (framework.Contains("net6.0") ||
+                framework.Contains("Unity3d v2020"))
+            {
+                //Supported/Ok/blue
+                return "bg-primary";
+            }
+            else
+            {
+                //Unknown/gray
+                return "bg-secondary";
+            }
         }
     }
 }
