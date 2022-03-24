@@ -137,24 +137,15 @@ namespace RepoGovernance.Core.Helpers
                         string[] frameworkList = frameworks.Split(';');
                         for (int i = 0; i < frameworkList.Length - 1; i++)
                         {
-                            if (i == 0)
+                            if (i > 0)
                             {
-                                framework = GetFrameworkFamily(frameworkList[i]);
+                                framework += ",";
                             }
-                            else
-                            {
-                                //Create a list
-                                framework += "," + GetFrameworkFamily(frameworkList[i]);
-                            }
+                            framework += GetFrameworkFamily(frameworkList[i]);
                         }
                         break;
                     }
-                    else if (line.Contains("<ProductVersion>"))
-                    {
-                        //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
-                        framework = GetFrameworkFamily(GetHistoricalFrameworkVersion(line));
-                    }
-                    else if (line.Contains("ProductVersion = "))
+                    else if (line.Contains("<ProductVersion>") || line.Contains("ProductVersion = "))
                     {
                         //Since product version could appear first in the list, and we could still find a target version, don't break out of the loop
                         framework = GetFrameworkFamily(GetHistoricalFrameworkVersion(line));

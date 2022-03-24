@@ -19,7 +19,7 @@ namespace RepoGovernance.Core.Models
             GitVersion = new();
             GitVersionRecommendations = new();
             DotNetFrameworks = new();
-            DotNetFrameworksRecommendations = new();            
+            DotNetFrameworksRecommendations = new();
         }
 
         public string Repo { get; internal set; }

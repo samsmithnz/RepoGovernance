@@ -23,7 +23,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
 
         //Assert
         Assert.AreEqual(1, itemsUpdated);
-    }    
+    }
 
     //[TestMethod]
     //public async Task UpdateAllItemsTest()
