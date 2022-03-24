@@ -149,9 +149,9 @@
                         }
                         else
                         {
-                            foreach (string badge in item.DotNetFrameworks)
+                            foreach ((string?,string?) badge in item.DotNetFrameworks)
                             {
-                                <span class="badge bg-primary">@badge</span>
+                                <span class="badge @badge.Item2">@badge.Item1</span>
                             }
                         }
                     </div>
