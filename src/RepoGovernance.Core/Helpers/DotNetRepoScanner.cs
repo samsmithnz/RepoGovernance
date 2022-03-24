@@ -214,15 +214,15 @@ namespace RepoGovernance.Core.Helpers
         {
             if (framework == null)
             {
-                //Unknown
-                return "grey";
+                //Unknown/gray
+                return "bg-secondary";
             }
             else if (framework.Contains(".NET Framework v1") ||
                 framework.Contains(".NET Framework v2") ||
                 framework.Contains(".NET Framework v3"))
             {
-                //Unsupported/End of life
-                return "red";
+                //Unsupported/End of life/red
+                return "bg-danger";
             }
             else if (framework.Contains(".NET Framework") ||
                 framework.Contains(".NET Standard 1.") ||
@@ -230,19 +230,19 @@ namespace RepoGovernance.Core.Helpers
                 framework.Contains("net5.0") ||
                 framework.Contains("netcoreapp"))
             {
-                //Supported, but old
-                return "yellow";
+                //Supported, but old/orange
+                return "bg-warning";
             }
             else if (framework.Contains("net6.0") ||
                 framework.Contains("Unity3d v2020"))
             {
-                //Supported/Ok
-                return "green";
+                //Supported/Ok/blue
+                return "bg-primary";
             }
             else
             {
-                //Unknown
-                return "grey";
+                //Unknown/gray
+                return "bg-secondary";
             }
         }
     }
