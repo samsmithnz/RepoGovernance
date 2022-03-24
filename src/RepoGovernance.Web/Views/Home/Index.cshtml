@@ -13,12 +13,12 @@
             item.LastUpdated = DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
         }
         lastUpdated = TimeZoneInfo.ConvertTimeFromUtc(Model[0].LastUpdated, easternZone).ToString("dd-MMM-yyyy h:mm:sstt");
-        //owner = Model[0].Owner;
+        owner = "samsmithnz";// Model[0].Owner;
     }
 }
 
 <div>
-    <h4>For account <code>samsmithnz</code> (last updated @lastUpdated)</h4>
+    <h4>For account <code>@owner</code> (last updated @lastUpdated)</h4>
     <b>Legend</b>: <i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Feature is ok!"></i>=Feature is Ok
     <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Feature needs improvement"></i>=Feature needs improvement
 
