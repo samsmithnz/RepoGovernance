@@ -62,7 +62,7 @@ namespace RepoGovernance.Core
             int itemsUpdated = 0;
 
             //Initialize the summary item
-            SummaryItem summaryItem = new(repo);
+            SummaryItem summaryItem = new(owner, repo);
 
             //Get repo settings
             Repo? repoSettings = await GitHubAPIAccess.GetRepo(clientId, secret, owner, repo);
