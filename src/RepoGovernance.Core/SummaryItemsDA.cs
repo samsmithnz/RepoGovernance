@@ -213,7 +213,7 @@ namespace RepoGovernance.Core
             if (connectionString != null)
             {
                 string json = JsonConvert.SerializeObject(summaryItem);
-                itemsUpdated += await AzureTableStorageDA.UpdateSummaryItemsIntoTable(connectionString, owner, repo, json);
+                itemsUpdated += await AzureTableStorageDA.UpdateSummaryItemsIntoTable(connectionString, profile, owner, repo, json);
             }
             else
             {
