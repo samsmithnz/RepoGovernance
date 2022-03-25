@@ -62,7 +62,7 @@ namespace RepoGovernance.Core
             int itemsUpdated = 0;
 
             //Initialize the summary item
-            SummaryItem summaryItem = new(repo);
+            SummaryItem summaryItem = new(owner, repo);
 
             //Get repo settings
             Repo? repoSettings = await GitHubAPIAccess.GetRepo(clientId, secret, owner, repo);
@@ -189,9 +189,14 @@ namespace RepoGovernance.Core
             {
                 foreach (Project project in projects)
                 {
-                    if (project.Framework != null && project.Color != null && summaryItem?.DotNetFrameworks.Contains((project.Framework, project.Color)) == false)
+                    Framework framework = new()
                     {
-                        summaryItem?.DotNetFrameworks.Add(new(project.Framework, project.Color));
+                        Name = project.Framework,
+                        Color = project.Color
+                    };
+                    if (project.Framework != null && project.Color != null && summaryItem?.DotNetFrameworks.Contains(framework) == false)
+                    {
+                        summaryItem?.DotNetFrameworks.Add(framework);
                     }
                 }
             }

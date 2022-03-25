@@ -5,9 +5,10 @@ namespace RepoGovernance.Core.Models
 {
     public class SummaryItem
     {
-        public SummaryItem(string repo)
+        public SummaryItem(string owner, string repo)
         {
             LastUpdated = DateTime.Now;
+            Owner = owner;
             Repo = repo;
             RepoSettings = new();
             RepoSettingsRecommendations = new();
@@ -22,6 +23,7 @@ namespace RepoGovernance.Core.Models
             DotNetFrameworksRecommendations = new();
         }
 
+        public string Owner { get; internal set; }
         public string Repo { get; internal set; }
         public Repo RepoSettings { get; set; }
         public List<string> RepoSettingsRecommendations { get; set; }
@@ -35,7 +37,7 @@ namespace RepoGovernance.Core.Models
         public List<string> BranchPoliciesRecommendations { get; set; }
         public List<string> GitVersion { get; set; }
         public List<string> GitVersionRecommendations { get; set; }
-        public List<(string?, string?)> DotNetFrameworks { get; set; }
+        public List<Framework> DotNetFrameworks { get; set; }
         public List<string> DotNetFrameworksRecommendations { get; set; }
         public string? LastCommitSha { get; set; }
         public DateTime LastUpdated { get; set; }

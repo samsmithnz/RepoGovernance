@@ -78,10 +78,10 @@
 //        Assert.AreEqual(1, item1.GitVersion.Count);
 //        Assert.AreEqual(0, item1.GitVersionRecommendations.Count);
 //        Assert.AreEqual(2, item1.DotNetFrameworks.Count);
-//        Assert.AreEqual("netstandard2.0", item1.DotNetFrameworks[0].Item1);
-//        Assert.AreEqual("bg-primary", item1.DotNetFrameworks[0].Item2);
-//        Assert.AreEqual("net6.0", item1.DotNetFrameworks[1].Item1);
-//        Assert.AreEqual("bg-primary", item1.DotNetFrameworks[1].Item2);
+//        Assert.AreEqual("netstandard2.0", item1.DotNetFrameworks[0].Name);
+//        Assert.AreEqual("bg-secondary", item1.DotNetFrameworks[0].Color);
+//        Assert.AreEqual("net6.0", item1.DotNetFrameworks[1].Name);
+//        Assert.AreEqual("bg-primary", item1.DotNetFrameworks[1].Color);
 //        Assert.AreEqual(0, item1.DotNetFrameworksRecommendations.Count);
 
 //        //second repo
@@ -108,8 +108,8 @@
 //        Assert.AreEqual(1, item2.GitVersionRecommendations.Count);
 //        Assert.AreEqual("Consider adding Git Versioning to this repo", item2.GitVersionRecommendations[0]);
 //        Assert.AreEqual(1, item2.DotNetFrameworks.Count);
-//        Assert.AreEqual("net6.0", item2.DotNetFrameworks[0].Item1);
-//        Assert.AreEqual("bg-primary", item2.DotNetFrameworks[0].Item2);
+//        Assert.AreEqual("net6.0", item2.DotNetFrameworks[0].Name);
+//        Assert.AreEqual("bg-primary", item2.DotNetFrameworks[0].Color);
 //        Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
 
 //        //third repo
@@ -125,16 +125,16 @@
 //        Assert.IsNotNull(item4);
 //        Assert.AreEqual("TBS", item4.Repo);
 //        Assert.AreEqual(1, item4.DotNetFrameworks.Count);
-//        Assert.AreEqual("Unity3d v2020.3", item4.DotNetFrameworks[0].Item1);
-//        Assert.AreEqual("bg-primary", item4.DotNetFrameworks[0].Item2);
+//        Assert.AreEqual("Unity3d v2020.3", item4.DotNetFrameworks[0].Name);
+//        Assert.AreEqual("bg-primary", item4.DotNetFrameworks[0].Color);
 //        Assert.AreEqual("private", item4.RepoSettings.visibility);
 //        Assert.AreEqual(1, item4.BranchPoliciesRecommendations.Count);
 
 //        SummaryItem? item5 = summaryItems.Where(r => r.Repo == "ResearchTree").FirstOrDefault();
 //        Assert.IsNotNull(item5);
-//        Assert.AreEqual(3, item5.DotNetFrameworks.Count);
-//        Assert.AreEqual(".NET Framework v4.7.1", item5.DotNetFrameworks[^2].Item1);
-//        Assert.AreEqual("bg-warning", item5.DotNetFrameworks[0].Item2);
+//        Assert.AreEqual(5, item5.DotNetFrameworks.Count);
+//        Assert.AreEqual(".NET Framework v4.7.1", item5.DotNetFrameworks[^2].Name);
+//        Assert.AreEqual("bg-warning", item5.DotNetFrameworks[^2].Color);
 
 //        //Ensure they are alphabetical
 //        Assert.AreEqual("TBS", summaryItems[^1].Repo);
