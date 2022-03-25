@@ -20,14 +20,21 @@ namespace RepoGovernance.Service.Controllers
             return SummaryItemsDA.GetRepos(owner);
         }
 
+        /// <summary>
+        /// Get a list of summary items
+        /// </summary>
+        /// <param name="profile">The profile - often is also the owner, that has access to organizations</param>
+        /// <param name="owner">The owner or organization</param>
+        /// <param name="repo">the repository being updated</param>
+        /// <returns></returns>
         [HttpGet("UpdateSummaryItems")]
-        public async Task<int> UpdateSummaryItems(string owner, string repo)
+        public async Task<int> UpdateSummaryItems(string profile, string owner, string repo)
         {
             return await SummaryItemsDA.UpdateSummaryItems(
                Configuration["AppSettings:GitHubClientId"],
                Configuration["AppSettings:GitHubClientSecret"],
                Configuration["AppSettings:StorageConnectionString"],
-               owner, repo);
+               profile, owner, repo);
         }
 
         [HttpGet("GetSummaryItems")]

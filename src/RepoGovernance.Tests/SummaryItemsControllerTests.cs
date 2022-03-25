@@ -15,11 +15,12 @@
 //    public async Task UpdateRepoGovernanceSummaryItemsTest()
 //    {
 //        //Arrange
+//        string profile = "samsmithnz";
 //        string owner = "samsmithnz";
 //        string repo = "AzurePipelinesToGitHubActionsConverter";
 
 //        //Act - runs each repo in about 4s
-//        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, owner, repo);
+//        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, profile, owner, repo);
 
 //        //Assert
 //        Assert.AreEqual(1, itemsUpdated);

@@ -56,13 +56,14 @@ namespace RepoGovernance.Core
         public static async Task<int> UpdateSummaryItems(string? clientId,
             string? secret,
             string? connectionString,
+            string profile,
             string owner,
             string repo)
         {
             int itemsUpdated = 0;
 
             //Initialize the summary item
-            SummaryItem summaryItem = new(owner, repo);
+            SummaryItem summaryItem = new(profile, owner, repo);
 
             //Get repo settings
             Repo? repoSettings = await GitHubAPIAccess.GetRepo(clientId, secret, owner, repo);
