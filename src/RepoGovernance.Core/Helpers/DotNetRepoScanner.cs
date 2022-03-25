@@ -219,7 +219,15 @@ namespace RepoGovernance.Core.Helpers
             }
             else if (framework.Contains(".NET Framework v1") ||
                 framework.Contains(".NET Framework v2") ||
-                framework.Contains(".NET Framework v3"))
+                framework.Contains(".NET Framework v3") ||
+                framework.Contains(".NET Framework v4.0") ||
+                framework.Contains(".NET Framework v4.1") ||
+                framework.Contains(".NET Framework v4.2") ||
+                framework.Contains(".NET Framework v4.3") ||
+                framework.Contains(".NET Framework v4.4") ||
+                framework.Contains(".NET Framework v4.5") ||
+                framework.Contains(".NET Framework v4.6") ||
+                framework.Contains("net5.0"))
             {
                 //Unsupported/End of life/red
                 return "bg-danger";
@@ -227,7 +235,6 @@ namespace RepoGovernance.Core.Helpers
             else if (framework.Contains(".NET Framework") ||
                 framework.Contains(".NET Standard 1.") ||
                 framework.Contains(".NET Standard 2.0") ||
-                framework.Contains("net5.0") ||
                 framework.Contains("netcoreapp"))
             {
                 //Supported, but old/orange

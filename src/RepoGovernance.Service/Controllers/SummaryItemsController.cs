@@ -15,7 +15,7 @@ namespace RepoGovernance.Service.Controllers
             Configuration = configuration;
         }
 
-        public List<(string, string)> GetRepos(string owner)
+        public List<ProfileOwnerRepo> GetRepos(string owner)
         {
             return SummaryItemsDA.GetRepos(owner);
         }
@@ -38,11 +38,11 @@ namespace RepoGovernance.Service.Controllers
         }
 
         [HttpGet("GetSummaryItems")]
-        public List<SummaryItem> GetSummaryItems(string owner)
+        public List<SummaryItem> GetSummaryItems(string profile)
         {
             return SummaryItemsDA.GetSummaryItems(
                 Configuration["AppSettings:StorageConnectionString"],
-                owner);
+                profile);
         }
     }
 }
