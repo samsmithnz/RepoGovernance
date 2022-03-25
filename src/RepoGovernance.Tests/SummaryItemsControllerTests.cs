@@ -119,7 +119,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.IsNotNull(item3);
         Assert.AreEqual("DevOpsMetrics", item3.Repo);
         //TODO: Includes 4 duplicates of .net6, should this be .net6 x4?
-        Assert.AreEqual(3, item3.DotNetFrameworks.Count);
+        Assert.AreEqual(6, item3.DotNetFrameworks.Count);
         Assert.AreEqual("public", item3.RepoSettings.visibility);
 
         //fifth repo
@@ -134,9 +134,11 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
 
         SummaryItem? item5 = summaryItems.Where(r => r.Repo == "ResearchTree").FirstOrDefault();
         Assert.IsNotNull(item5);
-        Assert.AreEqual(5, item5.DotNetFrameworks.Count);
-        Assert.AreEqual(".NET Framework v4.7.1", item5.DotNetFrameworks[^2].Name);
-        Assert.AreEqual("bg-warning", item5.DotNetFrameworks[^2].Color);
+        Assert.AreEqual(6, item5.DotNetFrameworks.Count);
+        Assert.AreEqual("net6.0-windows", item5.DotNetFrameworks[^2].Name);
+        Assert.AreEqual("bg-primary", item5.DotNetFrameworks[^2].Color);
+        //Assert.AreEqual(".NET Framework v4.7.1", item5.DotNetFrameworks[^2].Name);
+        //Assert.AreEqual("bg-warning", item5.DotNetFrameworks[^2].Color);
 
         //Ensure they are alphabetical
         Assert.AreEqual("TBS", summaryItems[^1].Repo);
