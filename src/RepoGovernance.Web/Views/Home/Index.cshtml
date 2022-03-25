@@ -155,9 +155,9 @@
                         }
                         else
                         {
-                            foreach ((string?, string?) badge in item.DotNetFrameworks)
+                            foreach (Framework framework in item.DotNetFrameworks)
                             {
-                                <span class="badge @badge.Item2">@badge.Item1</span>
+                                <span class="badge @framework.Color">@framework.Name</span>
                             }
                         }
                     </div>

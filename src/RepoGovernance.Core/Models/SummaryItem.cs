@@ -37,7 +37,7 @@ namespace RepoGovernance.Core.Models
         public List<string> BranchPoliciesRecommendations { get; set; }
         public List<string> GitVersion { get; set; }
         public List<string> GitVersionRecommendations { get; set; }
-        public List<(string?, string?)> DotNetFrameworks { get; set; }
+        public List<Framework> DotNetFrameworks { get; set; }
         public List<string> DotNetFrameworksRecommendations { get; set; }
         public string? LastCommitSha { get; set; }
         public DateTime LastUpdated { get; set; }
