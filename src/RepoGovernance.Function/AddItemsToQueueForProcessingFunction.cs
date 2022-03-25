@@ -36,8 +36,8 @@ namespace RepoGovernance.Function
             int visibilityMinuteDelay = 0;
             foreach ((string, string) repo in repos)
             {
-                //Add the repo to a queue
-                string message = repo.Item1 + "_" + repo.Item2;
+                //Add the repo to a queue, with the format [profile]_[owner]_[repo]
+                string message = owner + "_" + repo.Item1 + "_" + repo.Item2;
 
                 // Instantiate a QueueClient which will be used to create and manipulate the queue
                 QueueClientOptions options = new()
