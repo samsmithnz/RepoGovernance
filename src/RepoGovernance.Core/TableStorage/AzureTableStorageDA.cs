@@ -30,12 +30,12 @@ namespace RepoGovernance.Core.TableStorage
 
         //Update the storage with the data
         public static async Task<int> UpdateSummaryItemsIntoTable(string connectionString,
-                string owner, string repo, string json)
+                string profile, string owner, string repo, string json)
         {
             int itemsAdded = 0;
             TableStorageCommonDA tableBuildsDA = new(connectionString, "Summary");
 
-            string partitionKey = owner;
+            string partitionKey = profile;
             string rowKey = owner + "_" + repo;
             AzureStorageTableModel row = new(partitionKey, rowKey, json);
             await tableBuildsDA.SaveItem(row);
