@@ -3,6 +3,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using RepoGovernance.Core.APIAccess;
+using RepoGovernance.Core.Models;
 using System;
 using System.Collections.Generic;
 
@@ -16,7 +17,7 @@ namespace RepoGovernance.Function
         // 0 * * * * //Every 60 mins
         public static void Run([TimerTrigger("0 * * * *")] TimerInfo myTimer, ILogger log, ExecutionContext context)
         {
-            string owner = "samsmithnz";
+            string profile = "samsmithnz";
             string queueName = "summaryqueue";
             log.LogInformation($"AddItemsToQueueForProcessing function started execution at: {DateTime.Now}");
 
@@ -32,12 +33,12 @@ namespace RepoGovernance.Function
             //log.LogInformation($"connectionString {connectionString}");
 
             //Add the repos to the queue for processing
-            List<(string, string)> repos = DatabaseAccess.GetRepos(owner);
+            List<ProfileOwnerRepo> repos = DatabaseAccess.GetRepos(profile);
             int visibilityMinuteDelay = 0;
-            foreach ((string, string) repo in repos)
+            foreach (ProfileOwnerRepo repo in repos)
             {
                 //Add the repo to a queue, with the format [profile]_[owner]_[repo]
-                string message = owner + "_" + repo.Item1 + "_" + repo.Item2;
+                string message = repo.Profile + "_" + repo.Owner + "_" + repo.Repo;
 
                 // Instantiate a QueueClient which will be used to create and manipulate the queue
                 QueueClientOptions options = new()

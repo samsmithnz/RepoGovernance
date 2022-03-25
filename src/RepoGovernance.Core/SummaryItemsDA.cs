@@ -13,9 +13,9 @@ namespace RepoGovernance.Core
 {
     public static class SummaryItemsDA
     {
-        public static List<(string, string)> GetRepos(string owner)
+        public static List<ProfileOwnerRepo> GetRepos(string profile)
         {
-            return DatabaseAccess.GetRepos(owner);
+            return DatabaseAccess.GetRepos(profile);
         }
 
         /// <summary>
