@@ -232,14 +232,14 @@ namespace RepoGovernance.Core.Helpers
                 //Unsupported/End of life/red
                 return "bg-danger";
             }
-            else if (framework.Contains(".NET Framework") ||  
+            else if (framework.Contains(".NET Framework") ||
                 framework.Contains("netcoreapp"))
             {
                 //Supported, but old/orange
                 return "bg-warning";
             }
             else if (framework.Contains("net6.0") ||
-                framework.Contains("netstandard") || 
+                framework.Contains("netstandard") ||
                 framework.Contains("Unity3d v2020") ||
                 framework.Contains(".NET Framework v4.6.2") ||
                 framework.Contains(".NET Framework v4.7") ||
