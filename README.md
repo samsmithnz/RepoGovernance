@@ -11,7 +11,7 @@
 ## Current solution... 
 Currently viewable at https://repogovernance-prod-eu-web.azurewebsites.net/
 
-![image](https://user-images.githubusercontent.com/8389039/159120532-8e43d69a-7ed9-4927-bfcd-1b2a539ba978.png)
+![image](https://user-images.githubusercontent.com/8389039/160221982-2ff1a2c8-4a6f-4be6-a677-378cfeb6746a.png)
 
 
 ## The future?
