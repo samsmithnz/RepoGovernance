@@ -80,7 +80,7 @@ namespace RepoGovernance.Core
                 }
                 if (summaryItem.RepoSettings.allow_rebase_merge == true)
                 {
-                    summaryItem.RepoSettingsRecommendations.Add("Consider disabling 'Allow rebase merge' in repo settings, as rebasing is confusing and dumb");
+                    summaryItem.RepoSettingsRecommendations.Add("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing");
                 }
             }
 
