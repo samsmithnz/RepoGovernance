@@ -226,22 +226,24 @@ namespace RepoGovernance.Core.Helpers
                 framework.Contains(".NET Framework v4.3") ||
                 framework.Contains(".NET Framework v4.4") ||
                 framework.Contains(".NET Framework v4.5") ||
-                framework.Contains(".NET Framework v4.6") ||
+                framework.Contains(".NET Framework v4.6.1") ||
                 framework.Contains("net5.0"))
             {
                 //Unsupported/End of life/red
                 return "bg-danger";
             }
-            else if (framework.Contains(".NET Framework") ||
-                framework.Contains(".NET Standard 1.") ||
-                framework.Contains(".NET Standard 2.0") ||
+            else if (framework.Contains(".NET Framework") ||  
                 framework.Contains("netcoreapp"))
             {
                 //Supported, but old/orange
                 return "bg-warning";
             }
             else if (framework.Contains("net6.0") ||
-                framework.Contains("Unity3d v2020"))
+                framework.Contains("netstandard") || 
+                framework.Contains("Unity3d v2020") ||
+                framework.Contains(".NET Framework v4.6.2") ||
+                framework.Contains(".NET Framework v4.7") ||
+                framework.Contains(".NET Framework v4.8"))
             {
                 //Supported/Ok/blue
                 return "bg-primary";
