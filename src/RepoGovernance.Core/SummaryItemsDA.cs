@@ -195,7 +195,8 @@ namespace RepoGovernance.Core
                         Name = project.Framework,
                         Color = project.Color
                     };
-                    if (project.Framework != null && project.Color != null && summaryItem?.DotNetFrameworks.Contains(framework) == false)
+                    if (project.Framework != null && project.Color != null && 
+                        summaryItem?.DotNetFrameworks.Where(p => p.Name == project.Framework).FirstOrDefault() == null)
                     {
                         summaryItem?.DotNetFrameworks.Add(framework);
                     }
