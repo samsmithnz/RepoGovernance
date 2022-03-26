@@ -1,7 +1,7 @@
 # RepoGovernance
 [![CI/CD](https://github.com/samsmithnz/RepoGovernance/actions/workflows/workflow.yml/badge.svg)](https://github.com/samsmithnz/RepoGovernance/actions/workflows/workflow.yml)
 
-**RepoGovernance is a project I'm building to monitor my side-projects and ensure they are following best practices**, currently including repo settings, branch policies, actions, dependabot, and auto-versioning. It uses a number of building blocks I've built in the past:
+**RepoGovernance is a project I'm building to monitor my side-projects and ensure they are following best practices**, currently including repo settings, branch policies, actions, dependabot, auto-versioning, and technical debt identification. It uses a number of building blocks I've built in the past:
 - [GitHubDotNet](https://github.com/samsmithnz/GitHubActionsDotNet): To codify and generate Actions and Dependabot files with .NET
 - [RepoAutomation](https://github.com/samsmithnz/RepoAutomation): To automate the creation of repos and my preferred settings
 - [SamsFeatureFlags](https://github.com/samsmithnz/SamsFeatureFlags): To use Feature Flags/Toggles on my projects
@@ -11,7 +11,7 @@
 ## Current solution... 
 Currently viewable at https://repogovernance-prod-eu-web.azurewebsites.net/
 
-![image](https://user-images.githubusercontent.com/8389039/159120532-8e43d69a-7ed9-4927-bfcd-1b2a539ba978.png)
+![image](https://user-images.githubusercontent.com/8389039/160221982-2ff1a2c8-4a6f-4be6-a677-378cfeb6746a.png)
 
 
 ## The future?
