@@ -16,20 +16,20 @@ namespace RepoGovernance.Function
             //string myQueueItem = "samsmithnz_RepoGovernance";
             log.LogInformation($"C# Queue trigger function processed: {myQueueItem}");
 
-            //Split by _, this is the profile, owner, and repo
+            //Split by _, this is the user, owner, and repo
             string[] parts = myQueueItem.Split('_');
-            string profile = "";
+            string user = "";
             string owner = "";
             string repo = "";
             if (parts.Length == 2)
             {
-                profile = parts[0];
+                user = parts[0];
                 owner = parts[0];
                 repo = parts[1];
             }
             else if (parts.Length == 3)
             {
-                profile = parts[0];
+                user = parts[0];
                 owner = parts[1];
                 repo = parts[2];
             }
@@ -50,7 +50,7 @@ namespace RepoGovernance.Function
             int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(Configuration["GitHubClientId"],
                 Configuration["GitHubClientSecret"],
                 Configuration["SummaryQueueConnection"],
-                profile, owner, repo);
+                user, owner, repo);
             if (itemsUpdated > 0)
             {
                 log.LogInformation($"C# Queue trigger function completed updating {itemsUpdated} items at: {DateTime.Now}");

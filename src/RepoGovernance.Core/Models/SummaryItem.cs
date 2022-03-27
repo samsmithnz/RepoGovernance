@@ -5,10 +5,10 @@ namespace RepoGovernance.Core.Models
 {
     public class SummaryItem
     {
-        public SummaryItem(string profile, string owner, string repo)
+        public SummaryItem(string user, string owner, string repo)
         {
             LastUpdated = DateTime.Now;
-            Profile = profile;
+            User = user;
             Owner = owner;
             Repo = repo;
             RepoSettings = new();
@@ -24,7 +24,7 @@ namespace RepoGovernance.Core.Models
             DotNetFrameworksRecommendations = new();
         }
 
-        public string Profile { get; internal set; }
+        public string User { get; internal set; }
         public string Owner { get; internal set; }
         public string Repo { get; internal set; }
         public Repo RepoSettings { get; set; }

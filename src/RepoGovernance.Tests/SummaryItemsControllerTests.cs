@@ -15,12 +15,12 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
     public async Task UpdateRepoGovernanceSummaryItemsTest()
     {
         //Arrange
-        string profile = "samsmithnz";
+        string user = "samsmithnz";
         string owner = "samsmithnz";
         string repo = "DevOpsMetrics";
 
         //Act - runs each repo in about 4s
-        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, profile, owner, repo);
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, user, owner, repo);
 
         //Assert
         Assert.AreEqual(1, itemsUpdated);
@@ -30,18 +30,18 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
     //public async Task UpdateAllItemsTest()
     //{
     //    //Arrange
-    //    string profile = "samsmithnz";
+    //    string user = "samsmithnz";
     //    string owner = "samsmithnz";
 
     //    //Act - runs each repo in about 4s
-    //    List<ProfileOwnerRepo> repos = SummaryItemsDA.GetRepos(profile);
+    //    List<UserOwnerRepo> repos = SummaryItemsDA.GetRepos(user);
 
     //    int itemsUpdated = 0;
-    //    foreach (ProfileOwnerRepo repo in repos)
+    //    foreach (UserOwnerRepo repo in repos)
     //    {
     //        string ownerName = repo.Owner;
     //        string repoName = repo.Repo;
-    //        itemsUpdated += await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, profile, ownerName, repoName);
+    //        itemsUpdated += await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, user, ownerName, repoName);
     //    }
 
     //    //Assert

@@ -1,15 +1,15 @@
 ﻿namespace RepoGovernance.Core.Models
 {
-    public class ProfileOwnerRepo
+    public class UserOwnerRepo
     {
-        public ProfileOwnerRepo(string profile, string owner, string repo)
+        public UserOwnerRepo(string user, string owner, string repo)
         {
-            Profile = profile;
+            User = user;
             Owner = owner;
             Repo = repo;
         }
 
-        public string Profile { get; set; }
+        public string User { get; set; }
         public string Owner { get; set; }
         public string Repo { get; set; }
     }

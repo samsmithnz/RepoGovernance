@@ -15,7 +15,7 @@ namespace RepoGovernance.Service.Controllers
             Configuration = configuration;
         }
 
-        public List<ProfileOwnerRepo> GetRepos(string owner)
+        public List<UserOwnerRepo> GetRepos(string owner)
         {
             return SummaryItemsDA.GetRepos(owner);
         }
@@ -23,26 +23,26 @@ namespace RepoGovernance.Service.Controllers
         /// <summary>
         /// Get a list of summary items
         /// </summary>
-        /// <param name="profile">The profile - often is also the owner, that has access to organizations</param>
+        /// <param name="user">The user - often is also the owner, that has access to organizations</param>
         /// <param name="owner">The owner or organization</param>
         /// <param name="repo">the repository being updated</param>
         /// <returns></returns>
         [HttpGet("UpdateSummaryItems")]
-        public async Task<int> UpdateSummaryItems(string profile, string owner, string repo)
+        public async Task<int> UpdateSummaryItems(string user, string owner, string repo)
         {
             return await SummaryItemsDA.UpdateSummaryItems(
                Configuration["AppSettings:GitHubClientId"],
                Configuration["AppSettings:GitHubClientSecret"],
                Configuration["AppSettings:StorageConnectionString"],
-               profile, owner, repo);
+               user, owner, repo);
         }
 
         [HttpGet("GetSummaryItems")]
-        public List<SummaryItem> GetSummaryItems(string profile)
+        public List<SummaryItem> GetSummaryItems(string user)
         {
             return SummaryItemsDA.GetSummaryItems(
                 Configuration["AppSettings:StorageConnectionString"],
-                profile);
+                user);
         }
     }
 }

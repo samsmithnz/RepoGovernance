@@ -13,9 +13,9 @@ namespace RepoGovernance.Core
 {
     public static class SummaryItemsDA
     {
-        public static List<ProfileOwnerRepo> GetRepos(string profile)
+        public static List<UserOwnerRepo> GetRepos(string user)
         {
-            return DatabaseAccess.GetRepos(profile);
+            return DatabaseAccess.GetRepos(user);
         }
 
         /// <summary>
@@ -56,14 +56,14 @@ namespace RepoGovernance.Core
         public static async Task<int> UpdateSummaryItems(string? clientId,
             string? secret,
             string? connectionString,
-            string profile,
+            string user,
             string owner,
             string repo)
         {
             int itemsUpdated = 0;
 
             //Initialize the summary item
-            SummaryItem summaryItem = new(profile, owner, repo);
+            SummaryItem summaryItem = new(user, owner, repo);
 
             //Get repo settings
             Repo? repoSettings = await GitHubAPIAccess.GetRepo(clientId, secret, owner, repo);
@@ -214,7 +214,7 @@ namespace RepoGovernance.Core
             if (connectionString != null)
             {
                 string json = JsonConvert.SerializeObject(summaryItem);
-                itemsUpdated += await AzureTableStorageDA.UpdateSummaryItemsIntoTable(connectionString, profile, owner, repo, json);
+                itemsUpdated += await AzureTableStorageDA.UpdateSummaryItemsIntoTable(connectionString, user, owner, repo, json);
             }
             else
             {
