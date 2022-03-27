@@ -17,7 +17,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //Arrange
         string user = "samsmithnz";
         string owner = "samsmithnz";
-        string repo = "DevOpsMetrics";
+        string repo = "TBS";
 
         //Act - runs each repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, user, owner, repo);
@@ -134,11 +134,11 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
 
         SummaryItem? item5 = summaryItems.Where(r => r.Repo == "ResearchTree").FirstOrDefault();
         Assert.IsNotNull(item5);
-        Assert.AreEqual(6, item5.DotNetFrameworks.Count);
-        Assert.AreEqual("net6.0-windows", item5.DotNetFrameworks[^2].Name);
-        Assert.AreEqual("bg-primary", item5.DotNetFrameworks[^2].Color);
-        //Assert.AreEqual(".NET Framework v4.7.1", item5.DotNetFrameworks[^2].Name);
-        //Assert.AreEqual("bg-warning", item5.DotNetFrameworks[^2].Color);
+        Assert.AreEqual(5, item5.DotNetFrameworks.Count);
+        //Assert.AreEqual("net6.0-windows", item5.DotNetFrameworks[^2].Name);
+        //Assert.AreEqual("bg-primary", item5.DotNetFrameworks[^2].Color);
+        Assert.AreEqual(".NET Framework v4.7.1", item5.DotNetFrameworks[^2].Name);
+        Assert.AreEqual("bg-warning", item5.DotNetFrameworks[^2].Color);
 
         //Ensure they are alphabetical
         Assert.AreEqual("TBS", summaryItems[^1].Repo);
