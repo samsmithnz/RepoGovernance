@@ -39,7 +39,7 @@ namespace RepoGovernance.Function
             foreach (UserOwnerRepo repo in repos)
             {
                 //Add the repo to a queue, with the format [user]_[owner]_[repo]
-                string message = repo.user + "_" + repo.Owner + "_" + repo.Repo;
+                string message = repo.User + "_" + repo.Owner + "_" + repo.Repo;
 
                 // Instantiate a QueueClient which will be used to create and manipulate the queue
                 QueueClientOptions options = new()
