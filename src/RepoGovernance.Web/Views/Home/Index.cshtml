@@ -21,7 +21,7 @@
             item.LastUpdated = DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
         }
         lastUpdated = TimeZoneInfo.ConvertTimeFromUtc(Model[0].LastUpdated, easternZone).ToString("dd-MMM-yyyy h:mm:sstt");
-        user = "samsmithnz";// Model[0].Owner;
+        user = Model[0].User;
     }
 }
 
