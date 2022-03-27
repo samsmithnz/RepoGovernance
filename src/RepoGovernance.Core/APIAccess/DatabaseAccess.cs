@@ -4,30 +4,30 @@ namespace RepoGovernance.Core.APIAccess;
 
 public static class DatabaseAccess
 {
-    public static List<ProfileOwnerRepo> GetRepos(string profile)
+    public static List<UserOwnerRepo> GetRepos(string user)
     {
         //TODO: move this into a database
-        List<ProfileOwnerRepo> results = new()
+        List<UserOwnerRepo> results = new()
         {
-            new ProfileOwnerRepo(profile, profile, "AzurePipelinesToGitHubActionsConverter"),
-            new ProfileOwnerRepo(profile, profile, "AzurePipelinesToGitHubActionsConverterWeb"),
-            new ProfileOwnerRepo(profile, profile, "Battle"),
-            new ProfileOwnerRepo(profile, profile, "CustomQueue"),
-            new ProfileOwnerRepo(profile, profile, "Dependabot-Configuration-Builder"),
-            new ProfileOwnerRepo(profile, profile, "DevOpsMetrics"),
-            new ProfileOwnerRepo(profile, profile, "DSPTree"),
-            new ProfileOwnerRepo(profile, profile, "FictionBook"),
-            new ProfileOwnerRepo(profile, profile, "GitHubActionsDotNet"),
-            new ProfileOwnerRepo(profile, profile, "OpinionatedSoftwareAdvice"),
-            new ProfileOwnerRepo(profile, profile, "RepoAutomation"),
-            new ProfileOwnerRepo(profile, profile, "RepoGovernance"),
-            new ProfileOwnerRepo(profile, profile, "ResearchTree"),
-            new ProfileOwnerRepo(profile, profile, "Sams2048"),
-            new ProfileOwnerRepo(profile, profile, "SamsFeatureFlags"),
-            new ProfileOwnerRepo(profile, profile, "samsmithnz"),
-            new ProfileOwnerRepo(profile, profile, "TBS"),
-            new ProfileOwnerRepo(profile, "SamSmithNZ-dotcom", "SamSmithNZ.com"),
-            new ProfileOwnerRepo(profile, "SamSmithNZ-dotcom", "MandMCounter")
+            new UserOwnerRepo(user, user, "AzurePipelinesToGitHubActionsConverter"),
+            new UserOwnerRepo(user, user, "AzurePipelinesToGitHubActionsConverterWeb"),
+            new UserOwnerRepo(user, user, "Battle"),
+            new UserOwnerRepo(user, user, "CustomQueue"),
+            new UserOwnerRepo(user, user, "Dependabot-Configuration-Builder"),
+            new UserOwnerRepo(user, user, "DevOpsMetrics"),
+            new UserOwnerRepo(user, user, "DSPTree"),
+            new UserOwnerRepo(user, user, "FictionBook"),
+            new UserOwnerRepo(user, user, "GitHubActionsDotNet"),
+            new UserOwnerRepo(user, user, "OpinionatedSoftwareAdvice"),
+            new UserOwnerRepo(user, user, "RepoAutomation"),
+            new UserOwnerRepo(user, user, "RepoGovernance"),
+            new UserOwnerRepo(user, user, "ResearchTree"),
+            new UserOwnerRepo(user, user, "Sams2048"),
+            new UserOwnerRepo(user, user, "SamsFeatureFlags"),
+            new UserOwnerRepo(user, user, "samsmithnz"),
+            new UserOwnerRepo(user, user, "TBS"),
+            new UserOwnerRepo(user, "SamSmithNZ-dotcom", "SamSmithNZ.com"),
+            new UserOwnerRepo(user, "SamSmithNZ-dotcom", "MandMCounter")
         };
 
         return results;

@@ -18,7 +18,7 @@ namespace RepoGovernance.Function
         public static void Run([TimerTrigger("0 * * * *")] TimerInfo myTimer, ILogger log, ExecutionContext context)
         //public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req, ILogger log, ExecutionContext context)
         {
-            string profile = "samsmithnz";
+            string user = "samsmithnz";
             string queueName = "summaryqueue";
             log.LogInformation($"AddItemsToQueueForProcessing function started execution at: {DateTime.Now}");
 
@@ -34,12 +34,12 @@ namespace RepoGovernance.Function
             //log.LogInformation($"connectionString {connectionString}");
 
             //Add the repos to the queue for processing
-            List<ProfileOwnerRepo> repos = DatabaseAccess.GetRepos(profile);
+            List<UserOwnerRepo> repos = DatabaseAccess.GetRepos(user);
             int visibilityMinuteDelay = 0;
-            foreach (ProfileOwnerRepo repo in repos)
+            foreach (UserOwnerRepo repo in repos)
             {
-                //Add the repo to a queue, with the format [profile]_[owner]_[repo]
-                string message = repo.Profile + "_" + repo.Owner + "_" + repo.Repo;
+                //Add the repo to a queue, with the format [user]_[owner]_[repo]
+                string message = repo.user + "_" + repo.Owner + "_" + repo.Repo;
 
                 // Instantiate a QueueClient which will be used to create and manipulate the queue
                 QueueClientOptions options = new()

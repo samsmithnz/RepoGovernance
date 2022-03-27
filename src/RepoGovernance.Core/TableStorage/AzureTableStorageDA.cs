@@ -30,12 +30,12 @@ namespace RepoGovernance.Core.TableStorage
 
         //Update the storage with the data
         public static async Task<int> UpdateSummaryItemsIntoTable(string connectionString,
-                string profile, string owner, string repo, string json)
+                string user, string owner, string repo, string json)
         {
             int itemsAdded = 0;
             TableStorageCommonDA tableBuildsDA = new(connectionString, "Summary");
 
-            string partitionKey = profile;
+            string partitionKey = user;
             string rowKey = owner + "_" + repo;
             AzureStorageTableModel row = new(partitionKey, rowKey, json);
             await tableBuildsDA.SaveItem(row);
@@ -54,9 +54,9 @@ namespace RepoGovernance.Core.TableStorage
         }
 
         //TODO: Move this into Azure Storage - currently this is a single static list of repos
-        public static List<ProfileOwnerRepo> GetRepos(string profile)
+        public static List<UserOwnerRepo> GetRepos(string user)
         {
-            return DatabaseAccess.GetRepos(profile);
+            return DatabaseAccess.GetRepos(user);
         }
 
     }
