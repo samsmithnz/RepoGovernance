@@ -4,7 +4,7 @@
     ViewData["Title"] = "Home Page";
 
     string lastUpdated = "[unknown]";
-    string owner = "[unknown]";
+    string user = "[unknown]";
     TimeZoneInfo easternZone;
     try
     {
@@ -21,12 +21,12 @@
             item.LastUpdated = DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
         }
         lastUpdated = TimeZoneInfo.ConvertTimeFromUtc(Model[0].LastUpdated, easternZone).ToString("dd-MMM-yyyy h:mm:sstt");
-        owner = "samsmithnz";// Model[0].Owner;
+        user = "samsmithnz";// Model[0].Owner;
     }
 }
 
 <div>
-    <h4>For account <code>@owner</code> (last updated @lastUpdated)</h4>
+    <h4>For user <code>@user</code> (last updated @lastUpdated)</h4>
     <b>Legend</b>: <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="Feature is ok!"></i>=Feature is Ok
     <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="Feature needs improvement"></i>=Feature needs improvement
 
