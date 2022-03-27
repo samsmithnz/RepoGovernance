@@ -20,3 +20,15 @@ body {
 .tooltip-inner {
     white-space: pre-wrap;
 }
+
+.redHeart {
+    color: red;
+    height: 32px;
+    width: 32px;
+}
+
+.greenHeart {
+    color: green;
+    height: 32px;
+    width: 32px;
+}
