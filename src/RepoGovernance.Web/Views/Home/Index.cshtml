@@ -4,7 +4,7 @@
     ViewData["Title"] = "Home Page";
 
     string lastUpdated = "[unknown]";
-    string owner = "[unknown]";
+    string user = "[unknown]";
     TimeZoneInfo easternZone;
     try
     {
@@ -21,14 +21,14 @@
             item.LastUpdated = DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
         }
         lastUpdated = TimeZoneInfo.ConvertTimeFromUtc(Model[0].LastUpdated, easternZone).ToString("dd-MMM-yyyy h:mm:sstt");
-        owner = "samsmithnz";// Model[0].Owner;
+        user = Model[0].User;
     }
 }
 
 <div>
-    <h4>For account <code>@owner</code> (last updated @lastUpdated)</h4>
-    <b>Legend</b>: <i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Feature is ok!"></i>=Feature is Ok
-    <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Feature needs improvement"></i>=Feature needs improvement
+    <h4>For user <code>@user</code> (last updated @lastUpdated)</h4>
+    <b>Legend</b>: <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="Feature is ok!"></i>=Feature is Ok
+    <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="Feature needs improvement"></i>=Feature needs improvement
 
     <div>
         <div class="row">
@@ -66,7 +66,7 @@
                         <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="Last updated @item.LastUpdated.ToString("dd-MMM-yyyy h:mm:sstt")"></i>
                         @if (item.RepoSettings.visibility == "private")
                         {
-                            <i class="bi bi-file-lock-fill" style="color: black; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Private repo"></i>
+                            <i class="bi bi-file-lock-fill" style="color: black; height: 32px; width: 32px;" data-toggle="tooltip" data-placement="bottom" title="Private repo"></i>
                         }
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                     <div>
                         @if (item.RepoSettingsRecommendations.Count == 0)
                         {
-                            <i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="OK"></i>
+                            <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="OK"></i>
                         }
                         else
                         {
@@ -83,7 +83,7 @@
                             {
                                 recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                             }
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
+                            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         }
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                     <div>
                         @if (item.Actions.Count > 0 && item.ActionRecommendations.Count == 0)
                         {
-                            <i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@item.Actions.Count workflows"></i>
+                            <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="@item.Actions.Count workflows"></i>
                         }
                         else
                         {
@@ -100,7 +100,7 @@
                             {
                                 recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                             }
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
+                            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         }
                     </div>
                 </div>
@@ -108,7 +108,7 @@
                     <div>
                         @if (item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0)
                         {
-                            <i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Enabled"></i>
+                            <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="Enabled"></i>
                         }
                         else
                         {
@@ -117,7 +117,7 @@
                             {
                                 recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                             }
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
+                            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         }
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                     <div>
                         @if (item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0)
                         {
-                            <i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Enabled"></i>
+                            <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="Enabled"></i>
                         }
                         else
                         {
@@ -134,7 +134,7 @@
                             {
                                 recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                             }
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
+                            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         }
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                     <div>
                         @if (item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
                         {
-                            <i class="bi bi-heart-fill" style="color: green; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="Enabled"></i>
+                            <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="Enabled"></i>
                         }
                         else
                         {
@@ -151,7 +151,7 @@
                             {
                                 recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                             }
-                            <i class="bi bi-heart-pulse" style="color: red; height: 16px; width: 16px;" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
+                            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         }
                     </div>
                 </div>

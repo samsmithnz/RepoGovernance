@@ -17,7 +17,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //Arrange
         string user = "samsmithnz";
         string owner = "samsmithnz";
-        string repo = "DevOpsMetrics";
+        string repo = "TBS";
 
         //Act - runs each repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, user, owner, repo);
@@ -81,7 +81,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(0, item1.GitVersionRecommendations.Count);
         Assert.AreEqual(2, item1.DotNetFrameworks.Count);
         Assert.AreEqual("netstandard2.0", item1.DotNetFrameworks[0].Name);
-        Assert.AreEqual("bg-secondary", item1.DotNetFrameworks[0].Color);
+        Assert.AreEqual("bg-primary", item1.DotNetFrameworks[0].Color);
         Assert.AreEqual("net6.0", item1.DotNetFrameworks[1].Name);
         Assert.AreEqual("bg-primary", item1.DotNetFrameworks[1].Color);
         Assert.AreEqual(0, item1.DotNetFrameworksRecommendations.Count);
@@ -94,7 +94,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(3, item2.RepoSettingsRecommendations.Count);
         Assert.AreEqual("Consider enabling 'Allow Auto-Merge' in repo settings to streamline PR merging", item2.RepoSettingsRecommendations[0]);
         Assert.AreEqual("Consider disabling 'Delete branch on merge' in repo settings to streamline PR merging and auto-cleanup completed branches", item2.RepoSettingsRecommendations[1]);
-        Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing is confusing and dumb", item2.RepoSettingsRecommendations[2]);
+        Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item2.RepoSettingsRecommendations[2]);
         Assert.AreEqual(0, item2.Actions.Count);
         Assert.AreEqual(1, item2.ActionRecommendations.Count);
         Assert.AreEqual("Consider adding an action to build your project", item2.ActionRecommendations[0]);
@@ -134,11 +134,11 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
 
         SummaryItem? item5 = summaryItems.Where(r => r.Repo == "ResearchTree").FirstOrDefault();
         Assert.IsNotNull(item5);
-        Assert.AreEqual(6, item5.DotNetFrameworks.Count);
-        Assert.AreEqual("net6.0-windows", item5.DotNetFrameworks[^2].Name);
-        Assert.AreEqual("bg-primary", item5.DotNetFrameworks[^2].Color);
-        //Assert.AreEqual(".NET Framework v4.7.1", item5.DotNetFrameworks[^2].Name);
-        //Assert.AreEqual("bg-warning", item5.DotNetFrameworks[^2].Color);
+        Assert.AreEqual(5, item5.DotNetFrameworks.Count);
+        //Assert.AreEqual("net6.0-windows", item5.DotNetFrameworks[^2].Name);
+        //Assert.AreEqual("bg-primary", item5.DotNetFrameworks[^2].Color);
+        Assert.AreEqual(".NET Framework v4.7.1", item5.DotNetFrameworks[^2].Name);
+        Assert.AreEqual("bg-warning", item5.DotNetFrameworks[^2].Color);
 
         //Ensure they are alphabetical
         Assert.AreEqual("TBS", summaryItems[^1].Repo);
