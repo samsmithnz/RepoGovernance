@@ -94,7 +94,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(3, item2.RepoSettingsRecommendations.Count);
         Assert.AreEqual("Consider enabling 'Allow Auto-Merge' in repo settings to streamline PR merging", item2.RepoSettingsRecommendations[0]);
         Assert.AreEqual("Consider disabling 'Delete branch on merge' in repo settings to streamline PR merging and auto-cleanup completed branches", item2.RepoSettingsRecommendations[1]);
-        Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing is confusing and dumb", item2.RepoSettingsRecommendations[2]);
+        Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item2.RepoSettingsRecommendations[2]);
         Assert.AreEqual(0, item2.Actions.Count);
         Assert.AreEqual(1, item2.ActionRecommendations.Count);
         Assert.AreEqual("Consider adding an action to build your project", item2.ActionRecommendations[0]);
