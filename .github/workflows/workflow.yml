@@ -44,14 +44,14 @@ jobs:
     - name: .NET publish
       run: dotnet publish src/RepoGovernance.Core/RepoGovernance.Core.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
     - name: Upload package back to GitHub
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: drop
         path: src/RepoGovernance.Core/bin/Release
     - name: .NET publish service
       run: dotnet publish src/RepoGovernance.Web/RepoGovernance.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/web
     - name: Upload package back to GitHub
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: web
         path: ${{ github.workspace }}/web
@@ -59,7 +59,7 @@ jobs:
     - name: .NET publish website
       run: dotnet publish src/RepoGovernance.Service/RepoGovernance.Service.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/service
     - name: Upload package back to GitHub
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: service
         path: ${{ github.workspace }}/service
@@ -67,7 +67,7 @@ jobs:
     - name: .NET publish function
       run: dotnet publish src/RepoGovernance.Function/RepoGovernance.Function.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/function
     - name: Upload package back to GitHub
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: function
         path: ${{ github.workspace }}/function
