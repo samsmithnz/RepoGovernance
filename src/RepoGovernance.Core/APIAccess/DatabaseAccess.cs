@@ -25,6 +25,7 @@ public static class DatabaseAccess
             new UserOwnerRepo(user, user, "Sams2048"),
             new UserOwnerRepo(user, user, "SamsFeatureFlags"),
             new UserOwnerRepo(user, user, "samsmithnz"),
+            new UserOwnerRepo(user, user, "SatisfactoryTree"),
             new UserOwnerRepo(user, user, "TBS"),
             new UserOwnerRepo(user, "SamSmithNZ-dotcom", "SamSmithNZ.com"),
             new UserOwnerRepo(user, "SamSmithNZ-dotcom", "MandMCounter")
