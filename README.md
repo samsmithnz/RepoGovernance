@@ -16,5 +16,5 @@ Currently viewable at https://repogovernance-prod-eu-web.azurewebsites.net/
 
 ## The future?
 - Remediation: allowing users to not just identify an issue, but to resolve it with a few clicks. 
-- a GitHubApp: so that it's easy for anyone to setup, configure, and use
+- A GitHubApp: so that it's easy for anyone to setup, configure, and use - as well as adding authenication!
 - More configuration and settings
