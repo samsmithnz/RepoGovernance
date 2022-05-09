@@ -9,7 +9,7 @@
 - [DevOpsMetrics](https://github.com/samsmithnz/DevOpsMetrics): to calculate DORA/DevOps Metrics on my projects
 
 ## Current solution
-Currently viewable at https://repogovernance-prod-eu-web.azurewebsites.net/
+Currently hosted at https://repogovernance-prod-eu-web.azurewebsites.net/
 
 ![image](https://user-images.githubusercontent.com/8389039/160221982-2ff1a2c8-4a6f-4be6-a677-378cfeb6746a.png)
 
