@@ -134,11 +134,11 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
 
         SummaryItem? item5 = summaryItems.Where(r => r.Repo == "ResearchTree").FirstOrDefault();
         Assert.IsNotNull(item5);
-        Assert.AreEqual(5, item5.DotNetFrameworks.Count);
-        //Assert.AreEqual("net6.0-windows", item5.DotNetFrameworks[^2].Name);
-        //Assert.AreEqual("bg-primary", item5.DotNetFrameworks[^2].Color);
-        Assert.AreEqual(".NET Framework v4.7.1", item5.DotNetFrameworks[^2].Name);
-        Assert.AreEqual("bg-warning", item5.DotNetFrameworks[^2].Color);
+        Assert.IsTrue(item5.DotNetFrameworks.Count >= 4);
+        Assert.AreEqual("net6.0", item5.DotNetFrameworks[0].Name);
+        Assert.AreEqual("bg-primary", item5.DotNetFrameworks[0].Color);
+        Assert.AreEqual("netstandard2.0", item5.DotNetFrameworks[1].Name);
+        Assert.AreEqual("bg-primary", item5.DotNetFrameworks[1].Color);
 
         //Ensure they are alphabetical
         Assert.AreEqual("TBS", summaryItems[^1].Repo);
