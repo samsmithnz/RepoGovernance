@@ -126,7 +126,9 @@ jobs:
 
   deployFunction:
     runs-on: windows-latest
-    needs: build
+    needs:  
+    - build
+    - test
     if: github.ref == 'refs/heads/main'
     environment:
       name: 'production'
