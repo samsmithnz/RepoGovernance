@@ -7,10 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Data.Tables" Version="12.5.0" />
     <PackageReference Include="GitHubActionsDotNet" Version="0.12.3" />
     <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="RepoAutomation.Core" Version="0.12.3" />	  
+    <PackageReference Include="RepoAutomation.Core" Version="0.13.0" />	  
   </ItemGroup>
 
 </Project>

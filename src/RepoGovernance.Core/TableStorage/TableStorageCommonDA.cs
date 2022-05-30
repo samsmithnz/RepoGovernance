@@ -1,6 +1,7 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
 using RepoGovernance.Core.Models;
 
+//TODO: Update: https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/tables/Azure.Data.Tables/MigrationGuide.md
 namespace RepoGovernance.Core.TableStorage
 {
     public class TableStorageCommonDA

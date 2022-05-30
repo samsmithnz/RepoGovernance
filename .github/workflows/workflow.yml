@@ -38,7 +38,10 @@ jobs:
         AppSettings.GitHubClientSecret: "${{ secrets.GitHubClientSecret }}" 
         AppSettings.StorageConnectionString: "${{ secrets.StorageConnectionString }}" 
     - name: .NET test
-      run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj -c Release
+      run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj -c Release -l:"trx;LogFileName=${{ github.workspace }}/TestOutput.xml"
+    - uses: samsmithnz/DotNetTestResults@0.1.1
+      with:
+        fileName: ${{ github.workspace }}/TestOutput.xml
     - name: .NET publish
       run: dotnet publish src/RepoGovernance.Core/RepoGovernance.Core.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
     - name: Upload package back to GitHub

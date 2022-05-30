@@ -210,6 +210,13 @@ namespace RepoGovernance.Core
                 summaryItem.LastCommitSha = lastCommitSha;
             }
 
+            //Get the Pull Requests
+            List<PullRequest> pullRequests = await GitHubAPIAccess.GetPullRequests(clientId, secret, owner, repo);
+            if (summaryItem != null && pullRequests != null && pullRequests.Count >= 0)
+            {
+                summaryItem.PullRequests = pullRequests;
+            }
+
             //Save the summary item
             if (connectionString != null)
             {
