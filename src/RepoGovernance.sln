@@ -11,7 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepoGovernance.Service", "R
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6C0ABC41-9811-4812-9C25-CC069654132F}"
 	ProjectSection(SolutionItems) = preProject
-		..\.github\workflows\autoupdate.yml = ..\.github\workflows\autoupdate.yml
 		..\.github\dependabot.yml = ..\.github\dependabot.yml
 		..\GitVersion.yml = ..\GitVersion.yml
 		..\README.md = ..\README.md
