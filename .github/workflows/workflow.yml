@@ -29,19 +29,6 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
-    - name: Variable Substitution appsettings file for tests
-      uses: microsoft/variable-substitution@v1
-      with:
-        files: 'src/RepoGovernance.Tests/appsettings.json'
-      env:
-        AppSettings.GitHubClientId: "${{ secrets.GitHubClientId }}"
-        AppSettings.GitHubClientSecret: "${{ secrets.GitHubClientSecret }}" 
-        AppSettings.StorageConnectionString: "${{ secrets.StorageConnectionString }}" 
-    - name: .NET test
-      run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj -c Release -l:"trx;LogFileName=${{ github.workspace }}/TestOutput.xml"
-    - uses: samsmithnz/DotNetTestResults@0.1.1
-      with:
-        fileName: ${{ github.workspace }}/TestOutput.xml
     - name: .NET publish
       run: dotnet publish src/RepoGovernance.Core/RepoGovernance.Core.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
     - name: Upload package back to GitHub
@@ -72,10 +59,36 @@ jobs:
       with:
         name: function
         path: ${{ github.workspace }}/function
+  
+  test:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+    - name: Variable Substitution appsettings file for tests
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: 'src/RepoGovernance.Tests/appsettings.json'
+      env:
+        AppSettings.GitHubClientId: "${{ secrets.GitHubClientId }}"
+        AppSettings.GitHubClientSecret: "${{ secrets.GitHubClientSecret }}" 
+        AppSettings.StorageConnectionString: "${{ secrets.StorageConnectionString }}" 
+    - name: .NET test
+      run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj -c Release -l:"trx;LogFileName=${{ github.workspace }}/TestOutput.xml"
+    - name: Show test results
+      uses: samsmithnz/DotNetTestResults@0.1.1
+      with:
+        fileName: ${{ github.workspace }}/TestOutput.xml
+      
 
   deploy:
     runs-on: windows-latest
-    needs: build
+    needs: 
+    - build
+    - test
     if: github.ref == 'refs/heads/main'
     environment:
       name: 'production'
