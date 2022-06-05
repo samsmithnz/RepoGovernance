@@ -85,6 +85,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual("net6.0", item1.DotNetFrameworks[1].Name);
         Assert.AreEqual("bg-primary", item1.DotNetFrameworks[1].Color);
         Assert.AreEqual(0, item1.DotNetFrameworksRecommendations.Count);
+        Assert.IsTrue(item1.PullRequests.Count >= 0);
 
         //second repo
         SummaryItem? item2 = summaryItems.Where(r => r.Repo == "CustomQueue").FirstOrDefault();
@@ -113,6 +114,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual("net6.0", item2.DotNetFrameworks[0].Name);
         Assert.AreEqual("bg-primary", item2.DotNetFrameworks[0].Color);
         Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
+        Assert.IsTrue(item2.PullRequests.Count >= 0);
 
         //third repo
         SummaryItem? item3 = summaryItems.Where(r => r.Repo == "DevOpsMetrics").FirstOrDefault();

@@ -20,6 +20,7 @@ public static class DatabaseAccess
             new UserOwnerRepo(user, user, "GitHubActionsDotNet"),
             new UserOwnerRepo(user, user, "OpinionatedSoftwareAdvice"),
             new UserOwnerRepo(user, user, "RepoAutomation"),
+            new UserOwnerRepo(user, user, "RepoAutomationUnitTests"),
             new UserOwnerRepo(user, user, "RepoGovernance"),
             new UserOwnerRepo(user, user, "ResearchTree"),
             new UserOwnerRepo(user, user, "Sams2048"),

@@ -53,11 +53,11 @@ namespace RepoGovernance.Core.TableStorage
             return itemsAdded;
         }
 
-        //TODO: Move this into Azure Storage - currently this is a single static list of repos
-        public static List<UserOwnerRepo> GetRepos(string user)
-        {
-            return DatabaseAccess.GetRepos(user);
-        }
+        ////TODO: Move this into Azure Storage - currently this is a single static list of repos
+        //public static List<UserOwnerRepo> GetRepos(string user)
+        //{
+        //    return DatabaseAccess.GetRepos(user);
+        //}
 
     }
 }
