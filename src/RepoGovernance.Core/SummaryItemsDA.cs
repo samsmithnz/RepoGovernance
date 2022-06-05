@@ -210,10 +210,34 @@ namespace RepoGovernance.Core
                 summaryItem.LastCommitSha = lastCommitSha;
             }
 
-            //Get the Pull Requests
+            //Get Pull Request details
             List<PullRequest> pullRequests = await GitHubAPIAccess.GetPullRequests(clientId, secret, owner, repo);
             if (summaryItem != null && pullRequests != null && pullRequests.Count >= 0)
             {
+                foreach (PullRequest pr in pullRequests)
+                {
+                    //Check if the PR has been reviewed
+                    if (pr.Number != null)
+                    {
+                        List<PRReview> prReviews = await GitHubAPIAccess.GetPullRequestReview(clientId, secret, owner, repo, pr.Number);
+                        if (prReviews != null && prReviews.Count > 0 && prReviews[^1] != null)
+                        {
+                            string? state = prReviews[^1].state;
+                            if (state == "APPROVED")
+                            {
+                                pr.Approved = true;
+                            }
+                        }
+                    }
+                    //Check if the PR has was created by dependabot
+                    foreach (string prLabel in pr.Labels)
+                    {
+                        if (prLabel == "dependencies")
+                        {
+                            pr.IsDependabotPR = true;
+                        }
+                    }
+                }
                 summaryItem.PullRequests = pullRequests;
             }
 
