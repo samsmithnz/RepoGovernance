@@ -33,7 +33,7 @@
             }
         }
         ts = maxDate - minDate;
-        lastUpdated = TimeZoneInfo.ConvertTimeFromUtc(minDate, easternZone).ToString("dd-MMM-yyyy h:mm:sstt");
+        lastUpdated = minDate.ToString("dd-MMM-yyyy h:mm:sstt");// TimeZoneInfo.ConvertTimeFromUtc(minDate, easternZone).ToString("dd-MMM-yyyy h:mm:sstt");
         user = Model[0].User;
     }
 }
@@ -82,9 +82,9 @@
                     <div>
                         <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
                         @{
-                            DateTime itemDate = DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
+                            DateTime itemDate = item.LastUpdated; //DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
                         }
-                        <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="Last updated @TimeZoneInfo.ConvertTimeFromUtc(itemDate, easternZone).ToString("dd-MMM-yyyy h:mm:sstt")"></i>
+                        <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="Last updated @item.LastUpdated.ToString("dd-MMM-yyyy h:mm:sstt")"></i>
                         @if (item.RepoSettings.visibility == "private")
                         {
                             <i class="bi bi-file-lock-fill" style="color: black; height: 32px; width: 32px;" data-toggle="tooltip" data-placement="bottom" title="Private repo"></i>
@@ -184,27 +184,49 @@
                         }
                         else
                         {
-                            string userPRs = "";
-                            string dependabotPRs = "";
-                            string approvedPRs = "";
-                            string unreviewedPRs = "";
-                            int userCount = 0;
-                            int dependabotCount = 0;
-                            int unreviewedCount = 0;
-                            int approvedCount = 0;
+                            string approvedUserPRs = "";
+                            string unreviewedUserPRs = "";
+                            string approvedDependabotPRs = "";
+                            string unreviewedDependabotPRs = "";
+                            int approvedUserPRCount = 0;
+                            int unreviewedUserPRCount = 0;
+                            int approvedDependabotPRCount = 0;
+                            int unreviewedDependabotPRCount = 0;
                             foreach (PullRequest pr in item.PullRequests)
                             {
                                 if (pr.IsDependabotPR == true)
                                 {
-                                    dependabotCount++;
-                                    dependabotPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
+                                    if (pr.Approved == true)
+                                    {
+                                        approvedDependabotPRCount++;
+                                        approvedDependabotPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
+                                    }
+                                    else
+                                    {
+                                        unreviewedDependabotPRCount++;
+                                        unreviewedDependabotPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;       
+                                    }
+                                    @*                 dependabotCount++;
+                                        dependabotPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
+                                    *@  
                                 }
                                 else
                                 {
-                                    userCount++;
-                                    userPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
+                                    if (pr.Approved == true)
+                                    {
+                                        approvedUserPRCount++;
+                                        approvedUserPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
+                                    }
+                                    else
+                                    {
+                                        unreviewedUserPRCount++;
+                                        unreviewedUserPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;       
+                                    }
+                                    @*                                    userCount++;
+                                        userPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
+                                    *@  
                                 }
-                                if (pr.Approved == true)
+                                @*if (pr.Approved == true)
                                 {
                                     approvedCount++;
                                     approvedPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
@@ -213,30 +235,30 @@
                                 {
                                     unreviewedCount++;
                                     unreviewedPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
-                                }
+                                }*@
                             }
-                            if (userCount > 0)
+                            if (approvedDependabotPRCount > 0)
                             {
-                                @userCount <span>x</span>
-                                <i class="bi bi-person-square" data-toggle="tooltip" data-placement="bottom" title="User PRs @userPRs"></i>
+                                @approvedDependabotPRCount <span>x</span>
+                                <i class="bi bi-shield-check greenHeart" data-toggle="tooltip" data-placement="bottom" title="Approved Dependabot PRs @approvedDependabotPRs"></i>
                                 <br />
                             }
-                            if (dependabotCount > 0)
+                            if (unreviewedDependabotPRCount > 0)
                             {
-                                @dependabotCount <span>x</span>
-                                <i class="bi bi-robot" data-toggle="tooltip" data-placement="bottom" title="Dependabot @dependabotPRs"></i>
+                                @unreviewedDependabotPRCount <span>x</span>
+                                <i class="bi bi-shield-minus redHeart" data-toggle="tooltip" data-placement="bottom" title="Unreviewed Dependabot PRs @unreviewedDependabotPRs"></i>
                                 <br />
                             }
-                            if (approvedCount > 0)
+                            if (approvedUserPRCount > 0)
                             {
-                                @approvedCount <span>x</span>
-                                <i class="bi bi-check-square greenHeart" data-toggle="tooltip" data-placement="bottom" title="Approved @approvedPRs"></i>
+                                @approvedUserPRCount <span>x</span>
+                                <i class="bi bi-person-check greenHeart" data-toggle="tooltip" data-placement="bottom" title="Approved user PRs @approvedUserPRs"></i>
                                 <br />
                             }
-                            if (unreviewedCount > 0)
+                            if (unreviewedUserPRCount > 0)
                             {
-                                @unreviewedCount <span>x</span>
-                                <i class="bi bi-dash-square redHeart" data-toggle="tooltip" data-placement="bottom" title="Unreviewed @unreviewedPRs"></i>
+                                @unreviewedUserPRCount <span>x</span>
+                                <i class="bi bi-person-dash redHeart" data-toggle="tooltip" data-placement="bottom" title="Unreviewed user PRs @unreviewedUserPRs"></i>
                                 <br />
                             }
                             <a href="https://github.com/@item.Owner/@item.Repo/pulls" target="_blank" title="View all PRs">@item.PullRequests.Count PRs</a>
