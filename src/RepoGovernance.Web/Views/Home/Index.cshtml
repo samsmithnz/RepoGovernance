@@ -22,15 +22,15 @@
         DateTime maxDate = DateTime.Now;
         @foreach (SummaryItem item in Model)
         {
+            item.LastUpdated = DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
             if (minDate > item.LastUpdated)
             {
-                minDate = DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
+                minDate = item.LastUpdated;
             }
             if (maxDate < item.LastUpdated)
             {
-                maxDate = DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
+                maxDate = item.LastUpdated;
             }
-            //item.LastUpdated = DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
         }
         ts = maxDate - minDate;
         lastUpdated = TimeZoneInfo.ConvertTimeFromUtc(minDate, easternZone).ToString("dd-MMM-yyyy h:mm:sstt");
