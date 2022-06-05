@@ -142,6 +142,10 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual("netstandard2.0", item5.DotNetFrameworks[1].Name);
         Assert.AreEqual("bg-primary", item5.DotNetFrameworks[1].Color);
 
+        SummaryItem? item6 = summaryItems.Where(r => r.Repo == "RepoAutomationUnitTests").FirstOrDefault();
+        Assert.IsNotNull(item6);
+        Assert.AreEqual(5, item6.PullRequests.Count );
+
         //Ensure they are alphabetical
         Assert.AreEqual("TBS", summaryItems[^1].Repo);
     }
