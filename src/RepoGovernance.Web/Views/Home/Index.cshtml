@@ -7,25 +7,12 @@
     TimeSpan ts = new();
     string lastUpdated = "[unknown]";
     string user = "[unknown]";
-    //TimeZoneInfo easternZone;
-    //try
-    //{
-    //    easternZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-    //}
-    //catch (TimeZoneNotFoundException)
-    //{
-    //    easternZone = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
-    //}
     if (Model.Count > 0)
     {
-        DateTime minDate = DateTime.Now;// DateTime.SpecifyKind(DateTime.Now.ToUniversalTime(), DateTimeKind.Utc);
-        DateTime maxDate = DateTime.Now;//DateTime.SpecifyKind(DateTime.Now.ToUniversalTime(), DateTimeKind.Utc);
+        DateTime minDate = DateTime.Now;
+        DateTime maxDate = DateTime.Now;
         @foreach (SummaryItem item in Model)
         {
-            //if (item.LastUpdated.Kind == DateTimeKind.Utc)
-            //{
-            //    item.LastUpdated = DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
-            //}
             if (minDate > item.LastUpdated)
             {
                 minDate = item.LastUpdated;
@@ -36,7 +23,7 @@
             }
         }
         ts = maxDate - minDate;
-        lastUpdated = minDate.ToString("dd-MMM-yyyy h:mm:sstt"); //TimeZoneInfo.ConvertTimeFromUtc(minDate, easternZone).ToString("dd-MMM-yyyy h:mm:sstt");
+        lastUpdated = minDate.ToString("dd-MMM-yyyy h:mm:sstt"); 
         user = Model[0].User;
     }
 }
@@ -82,9 +69,6 @@
                 <div class="col-md-4">
                     <div>
                         <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
-@*                        @{
-                            DateTime itemDate = DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
-                        }*@
                         <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="Last updated @item.LastUpdated.ToString("dd-MMM-yyyy h:mm:sstt")"></i>
                         @if (item.RepoSettings.visibility == "private")
                         {
