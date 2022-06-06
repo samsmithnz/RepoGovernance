@@ -7,22 +7,25 @@
     TimeSpan ts = new();
     string lastUpdated = "[unknown]";
     string user = "[unknown]";
-    TimeZoneInfo easternZone;
-    try
-    {
-        easternZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-    }
-    catch (TimeZoneNotFoundException)
-    {
-        easternZone = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
-    }
+    //TimeZoneInfo easternZone;
+    //try
+    //{
+    //    easternZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+    //}
+    //catch (TimeZoneNotFoundException)
+    //{
+    //    easternZone = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
+    //}
     if (Model.Count > 0)
     {
-        DateTime minDate = DateTime.Now;
-        DateTime maxDate = DateTime.Now;
+        DateTime minDate = DateTime.Now;// DateTime.SpecifyKind(DateTime.Now.ToUniversalTime(), DateTimeKind.Utc);
+        DateTime maxDate = DateTime.Now;//DateTime.SpecifyKind(DateTime.Now.ToUniversalTime(), DateTimeKind.Utc);
         @foreach (SummaryItem item in Model)
         {
-            item.LastUpdated = DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
+            //if (item.LastUpdated.Kind == DateTimeKind.Utc)
+            //{
+            //    item.LastUpdated = DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
+            //}
             if (minDate > item.LastUpdated)
             {
                 minDate = item.LastUpdated;
@@ -33,7 +36,7 @@
             }
         }
         ts = maxDate - minDate;
-        lastUpdated = minDate.ToString("dd-MMM-yyyy h:mm:sstt");// TimeZoneInfo.ConvertTimeFromUtc(minDate, easternZone).ToString("dd-MMM-yyyy h:mm:sstt");
+        lastUpdated = minDate.ToString("dd-MMM-yyyy h:mm:sstt"); //TimeZoneInfo.ConvertTimeFromUtc(minDate, easternZone).ToString("dd-MMM-yyyy h:mm:sstt");
         user = Model[0].User;
     }
 }
@@ -72,8 +75,6 @@
         </div>
         @foreach (SummaryItem item in Model)
         {
-            @* if (item.Repo != "RepoAutomationUnitTests")
-                {*@
             <div class="row">
                 <div class="col-md-12">
                     <hr>
@@ -81,9 +82,9 @@
                 <div class="col-md-4">
                     <div>
                         <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
-                        @{
-                            DateTime itemDate = item.LastUpdated; //DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
-                        }
+@*                        @{
+                            DateTime itemDate = DateTime.SpecifyKind(item.LastUpdated, DateTimeKind.Utc);
+                        }*@
                         <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="Last updated @item.LastUpdated.ToString("dd-MMM-yyyy h:mm:sstt")"></i>
                         @if (item.RepoSettings.visibility == "private")
                         {
@@ -205,10 +206,7 @@
                                     {
                                         unreviewedDependabotPRCount++;
                                         unreviewedDependabotPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;       
-                                    }
-                                    @*                 dependabotCount++;
-                                        dependabotPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
-                                    *@  
+                                    } 
                                 }
                                 else
                                 {
@@ -221,21 +219,8 @@
                                     {
                                         unreviewedUserPRCount++;
                                         unreviewedUserPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;       
-                                    }
-                                    @*                                    userCount++;
-                                        userPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
-                                    *@  
+                                    } 
                                 }
-                                @*if (pr.Approved == true)
-                                {
-                                    approvedCount++;
-                                    approvedPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
-                                }
-                                else
-                                {
-                                    unreviewedCount++;
-                                    unreviewedPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
-                                }*@
                             }
                             if (approvedDependabotPRCount > 0)
                             {
@@ -281,7 +266,6 @@
                     </div>
                 </div>
             </div>
-            @*}*@
         }
     </div>
 
