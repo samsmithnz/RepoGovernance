@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using RepoGovernance.Core.APIAccess;
 using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Core.TableStorage

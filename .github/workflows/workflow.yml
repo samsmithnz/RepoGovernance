@@ -152,3 +152,24 @@ jobs:
         with:
           app-name: repogovernance-prod-eu-schedulefunction
           package: function        
+
+  release:
+    runs-on: ubuntu-latest
+    needs: 
+    - deploy
+    - deployFunction
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: 'production'
+    steps:
+    - name: Display GitVersion outputs
+      run: |
+        echo "Version: ${{ needs.build.outputs.Version }}" 
+        echo "CommitsSinceVersionSource: ${{ needs.build.outputs.CommitsSinceVersionSource }}" 
+    - name: Create Release
+      uses: ncipollo/release-action@v1
+      if: needs.build.outputs.CommitsSinceVersionSource > 0 #Only create a release if there has been a commit/version change
+      with:
+        tag: ${{ needs.build.outputs.Version }}
+        name: Release ${{ needs.build.outputs.Version }}
+        token: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
