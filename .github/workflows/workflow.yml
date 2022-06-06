@@ -123,6 +123,8 @@ jobs:
         with:
           app-name: repogovernance-prod-eu-web
           package: web
+      - name: Set website configuration
+        run: az webapp config appsettings set --name "repogovernance-prod-eu-web" --resource-group "RepoGovernance" --settings "WEBSITE_TIME_ZONE=Eastern Standard Time"
 
   deployFunction:
     runs-on: windows-latest
