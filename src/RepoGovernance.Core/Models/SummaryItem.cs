@@ -46,6 +46,17 @@ namespace RepoGovernance.Core.Models
         public string? LastCommitSha { get; set; }
         public DateTime LastUpdated { get; set; }
 
-
+        public int TotalRecommendationCount
+        {
+            get
+            {
+                return RepoSettingsRecommendations.Count + 
+                    ActionRecommendations.Count +
+                    DependabotRecommendations.Count +
+                    BranchPoliciesRecommendations.Count + 
+                    GitVersionRecommendations.Count + 
+                    DotNetFrameworksRecommendations.Count;
+            }
+        }
     }
 }
