@@ -258,7 +258,7 @@
                         @if (item.TotalRecommendationCount > 0)
                         {
                             <span>@item.TotalRecommendationCount x</span>
-                            <i class="bi bi-robot" data-toggle="tooltip" data-placement="bottom" title="@item.TotalRecommendationCount Updates"></i>
+                            <a asp-action="Update" asp-route-id="@item.OwnerRepo"><i class="bi bi-robot" data-toggle="tooltip" data-placement="bottom" title="@item.TotalRecommendationCount Updates"></i></a>
                         }
                     </div>
                 </div>
