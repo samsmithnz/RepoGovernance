@@ -275,10 +275,31 @@ else
                     </div>
                     <div class="col-md-1">
                         <div>
-                            @if (item.TotalRecommendationCount > 0)
+@*                            @if (item.TotalRecommendationCount > 0)
                             {
                                 <span>@item.TotalRecommendationCount x</span>
+                                <button class="checkout-button btn btn-warning" @onclick="Update" disabled=@isSubmitting>
+                                    Update
+                                </button>
                                 <a asp-action="Update" asp-route-id="@item.OwnerRepo"><i class="bi bi-robot" data-toggle="tooltip" data-placement="bottom" title="@item.TotalRecommendationCount Updates"></i></a>
+                            }
+*@
+                            <button class="checkout-button btn btn-warning" @onclick="Update" disabled=@isSubmitting>
+                                Update
+                            </button>
+
+                            @code 
+                            {
+                                bool isSubmitting;
+
+                                async Task Update()
+                                {
+                                    isSubmitting = true;
+                                    //var response = await HttpClient.PostAsJsonAsync(NavigationManager.BaseUri + "orders", OrderState.Order);
+                                    //var newOrderId= await response.Content.ReadFromJsonAsync<int>();
+                                    //OrderState.ResetOrder();
+                                    //NavigationManager.NavigateTo("/");
+                                }
                             }
                         </div>
                     </div>
