@@ -36,20 +36,17 @@
 
     <div>
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <span><b>Repository</b></span>
             </div>
             <div class="col-md-1">
-                <span><b>Repo settings</b></span>
+                <span><b>Repo settings + Branch policies</b></span>
             </div>
             <div class="col-md-1">
                 <span><b>Actions</b></span>
             </div>
             <div class="col-md-1">
                 <span><b>Dependabot</b></span>
-            </div>
-            <div class="col-md-1">
-                <span><b>Branch policies</b></span>
             </div>
             <div class="col-md-1">
                 <span><b>Auto versioning</b></span>
@@ -73,7 +70,7 @@
                 <div class="col-md-12">
                     <hr>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div>
                         <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
                         <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="Last updated @item.LastUpdated.ToString("dd-MMM-yyyy h:mm:sstt")"></i>
@@ -85,7 +82,8 @@
                 </div>
                 <div class="col-md-1">
                     <div>
-                        @if (item.RepoSettingsRecommendations.Count == 0)
+                        @if (item.RepoSettingsRecommendations != null && item.RepoSettingsRecommendations.Count == 0 && 
+                             item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0)
                         {
                             <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="OK"></i>
                         }
@@ -93,6 +91,10 @@
                         {
                             string recommendation = "Incomplete" + Environment.NewLine + Environment.NewLine;
                             foreach (string itemRec in item.RepoSettingsRecommendations)
+                            {
+                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                            }
+                            foreach (string itemRec in item.BranchPoliciesRecommendations)
                             {
                                 recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                             }
@@ -127,23 +129,6 @@
                         {
                             string recommendation = "Incomplete" + Environment.NewLine + Environment.NewLine;
                             foreach (string itemRec in item.DependabotRecommendations)
-                            {
-                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
-                            }
-                            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
-                        }
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div>
-                        @if (item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0)
-                        {
-                            <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="Enabled"></i>
-                        }
-                        else
-                        {
-                            string recommendation = "Incomplete" + Environment.NewLine + Environment.NewLine;
-                            foreach (string itemRec in item.BranchPoliciesRecommendations)
                             {
                                 recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                             }
