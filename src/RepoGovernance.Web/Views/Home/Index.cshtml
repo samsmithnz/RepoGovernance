@@ -43,10 +43,7 @@
                 <span><b>Repo settings + Branch policies</b></span>
             </div>
             <div class="col-md-1">
-                <span><b>Actions</b></span>
-            </div>
-            <div class="col-md-1">
-                <span><b>Dependabot</b></span>
+                <span><b>Actions + Dependabot</b></span>
             </div>
             <div class="col-md-1">
                 <span><b>Auto versioning</b></span>
@@ -60,7 +57,7 @@
             <div class="col-md-1">
                 <span><b># issues to resolve</b></span>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <span><b>DORA DevOps Metrics (last 90 days)</b></span>
             </div>
         </div>
@@ -104,7 +101,8 @@
                 </div>
                 <div class="col-md-1">
                     <div>
-                        @if (item.Actions.Count > 0 && item.ActionRecommendations.Count == 0)
+                        @if (item.Actions.Count > 0 && item.ActionRecommendations.Count == 0 &&
+                             item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0)
                         {
                             <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="@item.Actions.Count workflows"></i>
                         }
@@ -115,19 +113,6 @@
                             {
                                 recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                             }
-                            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
-                        }
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div>
-                        @if (item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0)
-                        {
-                            <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="Enabled"></i>
-                        }
-                        else
-                        {
-                            string recommendation = "Incomplete" + Environment.NewLine + Environment.NewLine;
                             foreach (string itemRec in item.DependabotRecommendations)
                             {
                                 recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
@@ -250,7 +235,7 @@
                         }
                     </div>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <div>
                         @if (item.DORASummary != null)
                         {
