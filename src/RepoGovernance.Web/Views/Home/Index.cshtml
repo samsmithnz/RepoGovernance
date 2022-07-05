@@ -43,15 +43,15 @@
                 <span><b>Recommendations</b></span>
             </div>
             <div class="col-md-1">
-                <span><b>PRs detected</b></span>
+                <span><b>Current Pull Requests</b></span>
             </div>
             <div class="col-md-2">
                 <span><b>Frameworks detected</b></span>
             </div>
-            <div class="col-md-1">
-                <span><b># issues to resolve</b></span>
+            <div class="col-md-2">
+                <span><b>Recommendations to resolve</b></span>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <span><b>DORA DevOps Metrics (last 90 days)</b></span>
             </div>
         </div>
@@ -196,7 +196,7 @@
                         }
                     </div>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <div>
                         @if (item.TotalRecommendationCount > 0)
                         {
@@ -205,14 +205,18 @@
                         }
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div>
                         @if (item.DORASummary != null)
                         {
-                            <img src="@item.DORASummary.DeploymentFrequencyBadgeWithMetricURL" />
+                            <img src="@item.DORASummary.DeploymentFrequencyBadgeURL" />
+                            <img src="@item.DORASummary.LeadTimeForChangesBadgeURL" />
+                            <img src="@item.DORASummary.MeanTimeToRestoreBadgeURL" />
+                            <img src="@item.DORASummary.ChangeFailureRateBadgeURL" />
+                            @*<img src="@item.DORASummary.DeploymentFrequencyBadgeWithMetricURL" />
                             <img src="@item.DORASummary.LeadTimeForChangesWithMetricURL" />
                             <img src="@item.DORASummary.MeanTimeToRestoreBadgeWithMetricURL" />
-                            <img src="@item.DORASummary.ChangeFailureRateBadgeWithMetricURL" />
+                            <img src="@item.DORASummary.ChangeFailureRateBadgeWithMetricURL" />*@
                         }
                     </div>
                 </div>
