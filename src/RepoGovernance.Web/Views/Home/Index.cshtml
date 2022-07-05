@@ -36,7 +36,7 @@
 
     <div>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <span><b>Repository</b></span>
             </div>
             <div class="col-md-1">
@@ -61,7 +61,10 @@
                 <span><b>Frameworks detected</b></span>
             </div>
             <div class="col-md-1">
-                <span><b>Resolve issues</b></span>
+                <span><b># issues to resolve</b></span>
+            </div>
+            <div class="col-md-1">
+                <span><b>DORA DevOps Metrics</b></span>
             </div>
         </div>
         @foreach (SummaryItem item in Model)
@@ -70,7 +73,7 @@
                 <div class="col-md-12">
                     <hr>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div>
                         <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
                         <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="Last updated @item.LastUpdated.ToString("dd-MMM-yyyy h:mm:sstt")"></i>
@@ -259,6 +262,17 @@
                         {
                             <span>@item.TotalRecommendationCount x</span>
                             <a asp-action="Update" asp-route-id="@item.OwnerRepo"><i class="bi bi-robot" data-toggle="tooltip" data-placement="bottom" title="@item.TotalRecommendationCount Updates"></i></a>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div>
+                        @if (item.DORASummary != null)
+                        {
+                            <img src="@item.DORASummary.DeploymentFrequencyBadgeWithMetricURL" />
+                            <img src="@item.DORASummary.LeadTimeForChangesWithMetricURL" />
+                            <img src="@item.DORASummary.MeanTimeToRestoreBadgeWithMetricURL" />
+                            <img src="@item.DORASummary.ChangeFailureRateBadgeWithMetricURL" />
                         }
                     </div>
                 </div>
