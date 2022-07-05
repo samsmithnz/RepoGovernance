@@ -123,6 +123,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //TODO: Includes 4 duplicates of .net6, should this be .net6 x4?
         Assert.AreEqual(2, item3.DotNetFrameworks.Count);
         Assert.AreEqual("public", item3.RepoSettings.visibility);
+        Assert.IsNotNull(item3.DORASummary);
 
         //fifth repo
         SummaryItem? item4 = summaryItems.Where(r => r.Repo == "TBS").FirstOrDefault();
