@@ -56,6 +56,7 @@ namespace RepoGovernance.Core
         public static async Task<int> UpdateSummaryItems(string? clientId,
             string? secret,
             string? connectionString,
+            string? devOpsServiceURL,
             string user,
             string owner,
             string repo)
@@ -239,6 +240,16 @@ namespace RepoGovernance.Core
                     }
                 }
                 summaryItem.PullRequests = pullRequests;
+            }
+
+            if (summaryItem != null)
+            {
+                DevOpsMetricServiceAPI devopsAPI = new(devOpsServiceURL);
+                DORASummaryItem? dORASummaryItem = await devopsAPI.GetDORASummaryItems(owner, repo);
+                if (dORASummaryItem != null)
+                {
+                    summaryItem.DORASummary = dORASummaryItem;
+                }
             }
 
             //Save the summary item

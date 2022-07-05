@@ -17,10 +17,10 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //Arrange
         string user = "samsmithnz";
         string owner = "samsmithnz";
-        string repo = "TBS";
+        string repo = "DevOpsMetrics";
 
-        //Act - runs each repo in about 4s
-        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, user, owner, repo);
+        //Act - runs a repo in about 4s
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, DevOpsServiceURL, user, owner, repo);
 
         //Assert
         Assert.AreEqual(1, itemsUpdated);
@@ -121,8 +121,9 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.IsNotNull(item3);
         Assert.AreEqual("DevOpsMetrics", item3.Repo);
         //TODO: Includes 4 duplicates of .net6, should this be .net6 x4?
-        Assert.AreEqual(3, item3.DotNetFrameworks.Count);
+        Assert.AreEqual(2, item3.DotNetFrameworks.Count);
         Assert.AreEqual("public", item3.RepoSettings.visibility);
+        Assert.IsNotNull(item3.DORASummary);
 
         //fifth repo
         SummaryItem? item4 = summaryItems.Where(r => r.Repo == "TBS").FirstOrDefault();
