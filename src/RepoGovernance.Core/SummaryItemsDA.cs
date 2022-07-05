@@ -242,7 +242,7 @@ namespace RepoGovernance.Core
                 summaryItem.PullRequests = pullRequests;
             }
 
-            if (summaryItem != null)
+            if (summaryItem != null && devOpsServiceURL != null)
             {
                 DevOpsMetricServiceAPI devopsAPI = new(devOpsServiceURL);
                 DORASummaryItem? dORASummaryItem = await devopsAPI.GetDORASummaryItems(owner, repo);

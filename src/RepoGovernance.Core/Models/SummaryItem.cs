@@ -67,6 +67,6 @@ namespace RepoGovernance.Core.Models
             }
         }
 
-        public DORASummaryItem DORASummary { get; set; }
+        public DORASummaryItem? DORASummary { get; set; }
     }
 }

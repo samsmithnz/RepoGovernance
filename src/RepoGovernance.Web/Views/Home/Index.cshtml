@@ -36,35 +36,23 @@
 
     <div>
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <span><b>Repository</b></span>
             </div>
-            <div class="col-md-1">
-                <span><b>Repo settings</b></span>
+            <div class="col-md-2">
+                <span><b>Recommendations</b></span>
             </div>
             <div class="col-md-1">
-                <span><b>Actions</b></span>
-            </div>
-            <div class="col-md-1">
-                <span><b>Dependabot</b></span>
-            </div>
-            <div class="col-md-1">
-                <span><b>Branch policies</b></span>
-            </div>
-            <div class="col-md-1">
-                <span><b>Auto versioning</b></span>
-            </div>
-            <div class="col-md-1">
-                <span><b>PRs detected</b></span>
+                <span><b>Current Pull Requests</b></span>
             </div>
             <div class="col-md-2">
                 <span><b>Frameworks detected</b></span>
             </div>
-            <div class="col-md-1">
-                <span><b># issues to resolve</b></span>
-            </div>
-            <div class="col-md-1">
-                <span><b>DORA DevOps Metrics</b></span>
+@*            <div class="col-md-2">
+                <span><b>Recommendations to resolve</b></span>
+            </div>*@
+            <div class="col-md-2">
+                <span><b>DORA DevOps Metrics (last 90 days)</b></span>
             </div>
         </div>
         @foreach (SummaryItem item in Model)
@@ -73,7 +61,7 @@
                 <div class="col-md-12">
                     <hr>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div>
                         <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
                         <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="Last updated @item.LastUpdated.ToString("dd-MMM-yyyy h:mm:sstt")"></i>
@@ -83,88 +71,44 @@
                         }
                     </div>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <div>
-                        @if (item.RepoSettingsRecommendations.Count == 0)
+                        @if (item.TotalRecommendationCount > 0)
                         {
-                            <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="OK"></i>
-                        }
-                        else
-                        {
-                            string recommendation = "Incomplete" + Environment.NewLine + Environment.NewLine;
-                            foreach (string itemRec in item.RepoSettingsRecommendations)
+                            <span>@item.TotalRecommendationCount x</span>
+                            @if (item.RepoSettingsRecommendations.Count == 0 &&
+                                                   item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0 &&
+                                                   item.Actions.Count > 0 && item.ActionRecommendations.Count == 0 &&
+                                                   item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0 &&
+                                                   item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
                             {
-                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                                <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="OK"></i>
                             }
-                            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
-                        }
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div>
-                        @if (item.Actions.Count > 0 && item.ActionRecommendations.Count == 0)
-                        {
-                            <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="@item.Actions.Count workflows"></i>
-                        }
-                        else
-                        {
-                            string recommendation = "Incomplete" + Environment.NewLine + Environment.NewLine;
-                            foreach (string itemRec in item.ActionRecommendations)
+                            else
                             {
-                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                                string recommendation = "Incomplete" + Environment.NewLine + Environment.NewLine;
+                                foreach (string itemRec in item.RepoSettingsRecommendations)
+                                {
+                                    recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                                }
+                                foreach (string itemRec in item.BranchPoliciesRecommendations)
+                                {
+                                    recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                                }
+                                foreach (string itemRec in item.ActionRecommendations)
+                                {
+                                    recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                                }
+                                foreach (string itemRec in item.DependabotRecommendations)
+                                {
+                                    recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                                }
+                                foreach (string itemRec in item.GitVersionRecommendations)
+                                {
+                                    recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                                }
+                                <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                             }
-                            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
-                        }
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div>
-                        @if (item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0)
-                        {
-                            <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="Enabled"></i>
-                        }
-                        else
-                        {
-                            string recommendation = "Incomplete" + Environment.NewLine + Environment.NewLine;
-                            foreach (string itemRec in item.DependabotRecommendations)
-                            {
-                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
-                            }
-                            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
-                        }
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div>
-                        @if (item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0)
-                        {
-                            <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="Enabled"></i>
-                        }
-                        else
-                        {
-                            string recommendation = "Incomplete" + Environment.NewLine + Environment.NewLine;
-                            foreach (string itemRec in item.BranchPoliciesRecommendations)
-                            {
-                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
-                            }
-                            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
-                        }
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div>
-                        @if (item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
-                        {
-                            <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="Enabled"></i>
-                        }
-                        else
-                        {
-                            string recommendation = "Incomplete" + Environment.NewLine + Environment.NewLine;
-                            foreach (string itemRec in item.GitVersionRecommendations)
-                            {
-                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
-                            }
-                            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         }
                     </div>
                 </div>
@@ -256,7 +200,7 @@
                         }
                     </div>
                 </div>
-                <div class="col-md-1">
+@*                <div class="col-md-2">
                     <div>
                         @if (item.TotalRecommendationCount > 0)
                         {
@@ -264,15 +208,19 @@
                             <a asp-action="Update" asp-route-id="@item.OwnerRepo"><i class="bi bi-robot" data-toggle="tooltip" data-placement="bottom" title="@item.TotalRecommendationCount Updates"></i></a>
                         }
                     </div>
-                </div>
-                <div class="col-md-1">
+                </div>*@
+                <div class="col-md-2">
                     <div>
                         @if (item.DORASummary != null)
                         {
-                            <img src="@item.DORASummary.DeploymentFrequencyBadgeWithMetricURL" />
+                            <img src="@item.DORASummary.DeploymentFrequencyBadgeURL" />
+                            <img src="@item.DORASummary.LeadTimeForChangesBadgeURL" />
+                            <img src="@item.DORASummary.MeanTimeToRestoreBadgeURL" />
+                            <img src="@item.DORASummary.ChangeFailureRateBadgeURL" />
+                            @*<img src="@item.DORASummary.DeploymentFrequencyBadgeWithMetricURL" />
                             <img src="@item.DORASummary.LeadTimeForChangesWithMetricURL" />
                             <img src="@item.DORASummary.MeanTimeToRestoreBadgeWithMetricURL" />
-                            <img src="@item.DORASummary.ChangeFailureRateBadgeWithMetricURL" />
+                            <img src="@item.DORASummary.ChangeFailureRateBadgeWithMetricURL" />*@
                         }
                     </div>
                 </div>
