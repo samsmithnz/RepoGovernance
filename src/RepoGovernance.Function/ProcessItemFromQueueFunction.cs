@@ -50,6 +50,7 @@ namespace RepoGovernance.Function
             int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(Configuration["GitHubClientId"],
                 Configuration["GitHubClientSecret"],
                 Configuration["SummaryQueueConnection"],
+                Configuration["DevOpsServiceURL"],
                 user, owner, repo);
             if (itemsUpdated > 0)
             {

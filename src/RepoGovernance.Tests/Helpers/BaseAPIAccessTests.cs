@@ -10,6 +10,7 @@ public class BaseAPIAccessTests
     public string? GitHubId { get; set; }
     public string? GitHubSecret { get; set; }
     public string? AzureStorageConnectionString { get; set; }
+    public string? DevOpsServiceURL { get; set; }
 
     [TestInitialize]
     public void InitializeIntegrationTests()
@@ -24,5 +25,6 @@ public class BaseAPIAccessTests
         GitHubId = configuration["AppSettings:GitHubClientId"];
         GitHubSecret = configuration["AppSettings:GitHubClientSecret"];
         AzureStorageConnectionString = configuration["AppSettings:StorageConnectionString"];
+        DevOpsServiceURL = configuration["AppSettings:DevOpsServiceURL"];
     }
 }

@@ -17,10 +17,10 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //Arrange
         string user = "samsmithnz";
         string owner = "samsmithnz";
-        string repo = "TBS";
+        string repo = "DevOpsMetrics";
 
-        //Act - runs each repo in about 4s
-        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, user, owner, repo);
+        //Act - runs a repo in about 4s
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, DevOpsServiceURL, user, owner, repo);
 
         //Assert
         Assert.AreEqual(1, itemsUpdated);

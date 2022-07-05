@@ -66,5 +66,7 @@ namespace RepoGovernance.Core.Models
                     DotNetFrameworksRecommendations.Count;
             }
         }
+
+        public DORASummaryItem DORASummary { get; set; }
     }
 }

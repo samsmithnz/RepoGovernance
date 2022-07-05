@@ -34,6 +34,7 @@ namespace RepoGovernance.Service.Controllers
                Configuration["AppSettings:GitHubClientId"],
                Configuration["AppSettings:GitHubClientSecret"],
                Configuration["AppSettings:StorageConnectionString"],
+               Configuration["AppSettings:DevOpsServiceURL"],
                user, owner, repo);
         }
 
