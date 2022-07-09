@@ -12,8 +12,7 @@
 ## Current solution
 Currently hosted at https://repogovernance-prod-eu-web.azurewebsites.net/
 
-![image](https://user-images.githubusercontent.com/8389039/178102298-65d5446d-c272-47e9-9b4f-4a9b27259620.png)
-
+![image](https://user-images.githubusercontent.com/8389039/178109135-95c0170a-dca5-43e2-bc4b-a9f550edf730.png)
 
 
 ## The future?
