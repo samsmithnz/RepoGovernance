@@ -236,7 +236,7 @@ namespace RepoGovernance.Core.Helpers
                 framework.Contains("netcoreapp"))
             {
                 //Supported, but old/orange
-                return "bg-warning";
+                return "bg-info";
             }
             else if (framework.Contains("net6.0") ||
                 framework.Contains("netstandard") ||

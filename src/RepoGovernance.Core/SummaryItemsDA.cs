@@ -250,6 +250,10 @@ namespace RepoGovernance.Core
                 {
                     summaryItem.DORASummary = dORASummaryItem;
                 }
+                else
+                {
+                    summaryItem.DORASummary = new DORASummaryItem(owner, repo);
+                }
             }
 
             //Save the summary item

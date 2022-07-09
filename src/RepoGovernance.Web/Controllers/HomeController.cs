@@ -16,7 +16,7 @@ public class HomeController : Controller
         _logger = logger;
         _ServiceApiClient = ServiceApiClient;
     }
-
+    
     public async Task<IActionResult> Index()
     {
         List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems("samsmithnz");
