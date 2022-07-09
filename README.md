@@ -10,7 +10,7 @@
 - [DevOpsMetrics](https://github.com/samsmithnz/DevOpsMetrics): to calculate DORA/DevOps Metrics on my projects
 
 ## Current solution
-Currently hosted at https://repogovernance-prod-eu-web.azurewebsites.net/
+Currently hosted at https://repogovernance-prod-eu-web.azurewebsites.net/. This shows current projects I have configured, with recommendations, pull requests, frameworks detected, and current DORA DevOps metrics
 
 ![image](https://user-images.githubusercontent.com/8389039/178109135-95c0170a-dca5-43e2-bc4b-a9f550edf730.png)
 
