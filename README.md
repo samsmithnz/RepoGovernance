@@ -1,7 +1,7 @@
 # RepoGovernance
 [![CI/CD](https://github.com/samsmithnz/RepoGovernance/actions/workflows/workflow.yml/badge.svg)](https://github.com/samsmithnz/RepoGovernance/actions/workflows/workflow.yml)
 
-**RepoGovernance is a project I'm building to monitor my side-projects and ensure they are following best practices**. I currently track a number of properties, including repo settings, branch policies, actions, dependabot, auto-versioning, and technical debt identification. It uses a number of building blocks I've built in the past to achieve this:
+**RepoGovernance is a project I'm building to monitor my side-projects and ensure they are following best practices**. I currently track a number of properties, including repo settings, branch policies, actions, dependabot, auto-versioning, technical debt identification, and DevOps metrics. It uses a number of building blocks I've built in the past to achieve this:
 
 - [GitHubDotNet](https://github.com/samsmithnz/GitHubActionsDotNet): Models to generate Actions and Dependabot files with .NET
 - [RepoAutomation](https://github.com/samsmithnz/RepoAutomation): To automate the creation of repos and my preferred repo settings
