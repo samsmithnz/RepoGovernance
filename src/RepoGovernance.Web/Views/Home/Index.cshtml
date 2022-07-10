@@ -11,7 +11,7 @@
     {
         DateTime minDate = DateTime.Now;
         DateTime maxDate = DateTime.Now;
-        @foreach (SummaryItem item in Model)
+    @foreach (SummaryItem item in Model)
         {
             if (minDate > item.LastUpdated)
             {
@@ -36,13 +36,11 @@
         /*border-radius: 2em;*/
         border-style: solid;
     }
-
     .projectHeader {
         font-family: sans-serif;
         font-size: 20px;
         font-weight: 600;
     }
-
     .publicPrivateLabel {
         border-width: 1px;
         border-color: #d0d7de;
@@ -50,6 +48,28 @@
         border-style: solid;
         font-size: 12px;
         font-weight: 500;
+        color:#57606A;
+    }
+    .itemContainer {
+        display: flex; 
+        margin-top: 20px; 
+        margin-bottom: 20px;
+    }
+    .firstColumn {
+        flex-grow: 2;
+        margin-left: 20px;
+        margin-right: 20px;
+        max-width: 700px;
+    }
+    .frameworkColumn {
+        flex: 1;
+        margin-right: 20px; 
+        min-width: 100px;
+    }
+    .doraColumn {
+        flex: 1;
+        margin-right: 20px; 
+        min-width: 170px;
     }
 </style>
 
@@ -70,12 +90,13 @@
                 };
 
                 <li class="listItem">
-                    <div style="display: flex; margin-top: 20px; margin-bottom: 20px;">
+                    <div class="itemContainer">
                         <br>
-                        <div style="flex: 1; margin-left: 20px; margin-right: 20px;">
-                            <a href="https://github.com/samsmithnz/@item.Repo" class="projectHeader">@item.Repo</a> <span class="publicPrivateLabel">&nbsp;@visibility&nbsp;</span><br>
-                            <br>
-                            <br>
+                        <div class="firstColumn">
+                            <div>
+                                <a href="https://github.com/samsmithnz/@item.Repo" class="projectHeader">@item.Repo</a> <span class="publicPrivateLabel">&nbsp;&nbsp;@visibility&nbsp;&nbsp;</span><br>
+                                <span style="font-size:14px; color:#57606A;">@item.RepoSettings.description</span><br>
+                            </div>
                             <div>
                                 @if (item.TotalRecommendationCount > 0)
                                 {
@@ -110,14 +131,14 @@
                                         {
                                             recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                                         }
-                                        <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i> <span>@item.TotalRecommendationCount</span>
+                                        <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i> <span style="font-size: 14px;">@item.TotalRecommendationCount</span>
                                     }
                                 }
                                 &nbsp;&nbsp;
-                                <span class="iconify" data-icon="octicon:git-pull-request-16"></span> <a href="https://github.com/@item.Owner/@item.Repo/pulls" target="_blank" title="View all PRs">@item.PullRequests.Count</a>
+                                <span class="iconify" data-icon="octicon:git-pull-request-16"></span> <a href="https://github.com/@item.Owner/@item.Repo/pulls" target="_blank" title="View all PRs"  style="font-size: 14px;">@item.PullRequests.Count</a>
                             </div>
                         </div>
-                        <div style="margin-right: 20px; min-width: 100px">
+                        <div class="frameworkColumn">
                             @if (item.DotNetFrameworks.Count == 0)
                             {
                                 <span class="badge bg-secondary">None found</span>
@@ -127,22 +148,18 @@
                                 foreach (Framework framework in item.DotNetFrameworks)
                                 {
                                     <span class="badge @framework.Color">@framework.Name</span>
-
                                     <br />
                                 }
                             }
                         </div>
-                        <div style="margin-right: 20px; min-width: 170px;">
+                        <div class="doraColumn">
                             @if (item.DORASummary != null)
                             {
-                                <img src="@item.DORASummary.DeploymentFrequencyBadgeURL" />
-
+                                <img src="@item.DORASummary.DeploymentFrequencyBadgeURL"/>
                                 <br />
-                                <img src="@item.DORASummary.LeadTimeForChangesBadgeURL" />
-
+                                <img src="@item.DORASummary.LeadTimeForChangesBadgeURL"/>
                                 <br />
-                                <img src="@item.DORASummary.MeanTimeToRestoreBadgeWithMetricURL" />
-
+                                <img src="@item.DORASummary.MeanTimeToRestoreBadgeURL" />
                                 <br />
                                 <img src="@item.DORASummary.ChangeFailureRateBadgeURL" />
                             }
@@ -154,6 +171,7 @@
         </ul>
     </div>
 
+<!--    
     <div>
         <div class="row">
             <div class="col-md-3">
@@ -347,5 +365,5 @@
             </div>
         }
     </div>
-
+    -->
 </div>
