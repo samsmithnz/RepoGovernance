@@ -12,7 +12,7 @@
 ## Current solution
 Currently hosted at https://repogovernance-prod-eu-web.azurewebsites.net/. This shows current projects I have configured, with recommendations, pull requests, frameworks detected, and current DORA DevOps metrics
 
-![image](https://user-images.githubusercontent.com/8389039/178109135-95c0170a-dca5-43e2-bc4b-a9f550edf730.png)
+![image](https://user-images.githubusercontent.com/8389039/178149193-a0c176f9-36bd-4e57-9d57-a9f9007f44c2.png)
 
 
 ## The future?
