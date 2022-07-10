@@ -98,7 +98,7 @@
                                 <span style="font-size:14px; color:#57606A;">@item.RepoSettings.description</span><br>
                             </div>
                             <div>
-                                @if (item.TotalRecommendationCount > 0)
+                                @if (item.TotalRecommendationCount >= 0)
                                 {
                                     @if (item.RepoSettingsRecommendations.Count == 0 &&
                                         item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0 &&
