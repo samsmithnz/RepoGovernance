@@ -122,18 +122,21 @@ namespace RepoGovernance.Core.Helpers
                 {
                     if (line.Contains("<TargetFrameworkVersion>"))
                     {
+                        //A single target framework version (older way it appears)
                         framework = line.Replace("<TargetFrameworkVersion>", "").Replace("</TargetFrameworkVersion>", "").Trim();
                         framework = GetFrameworkFamily(framework);
                         break;
                     }
                     else if (line.Contains("<TargetFramework>"))
                     {
+                        //A single target framework version (newer way it appears)
                         framework = line.Replace("<TargetFramework>", "").Replace("</TargetFramework>", "").Trim();
                         framework = GetFrameworkFamily(framework);
                         break;
                     }
                     else if (line.Contains("<TargetFrameworks>"))
                     {
+                        //Multiple versions exist, split them out.
                         string frameworks = line.Replace("<TargetFrameworks>", "").Replace("</TargetFrameworks>", "").Trim();
                         string[] frameworkList = frameworks.Split(';');
                         for (int i = 0; i < frameworkList.Length - 1; i++)
@@ -153,6 +156,7 @@ namespace RepoGovernance.Core.Helpers
                     }
                     else if (line.Contains("m_EditorVersion:"))
                     {
+                        //Unity project file
                         framework = GetUnityFrameworkVersion(line);
                     }
                 }
@@ -180,6 +184,7 @@ namespace RepoGovernance.Core.Helpers
             //+---------------------------+---------------+-----------+----------------+
 
             //Only process the earliest Visual Studio's, as the later versions should be picked up by the product version
+            //Note that this may not be entirely accurate - for example, VS2008 could ignore a .NET 3 version, but these should be pretty rare - even if it misidentifies .NET framework 1/2/3 - the story is the same - these are wildly obsolete and need to be resolved.
             if (productVersion.StartsWith("7.0") == true)
             {
                 return "v1.0";
