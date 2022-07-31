@@ -54,12 +54,44 @@ namespace RepoGovernance.Core.Helpers
                     }
                 }
 
-                //Update framework for each project
+                //If there are multiple frameworks, split them out
+                List<Project> additionalProjects = new();
                 foreach (Project project in projects)
                 {
                     string? framework = ProcessDotNetProjectFile(project);
-                    project.Framework = framework;
-                    project.Color = GetColor(framework);
+
+                    if (framework != null && framework?.IndexOf(",") > 0)
+                    {
+                        string[] frameworks = framework.Split(',');
+                        for (int i = 0; i < frameworks.Length - 1; i++)
+                        {
+                            if (i == 0)
+                            {
+                                project.Framework = frameworks[0];
+                            }
+                            else
+                            {
+                                Project additionalProject = new()
+                                {
+                                    FileName = project.FileName,
+                                    Path = project.Path,
+                                    Framework = frameworks[i],
+                                };
+                                additionalProjects.Add(additionalProject);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        project.Framework = framework;
+                    }
+                }
+                projects.AddRange(additionalProjects);
+
+                //Update colors for each project
+                foreach (Project project in projects)
+                {
+                    project.Color = GetColor(project.Framework);
                 }
                 return projects;
             }
