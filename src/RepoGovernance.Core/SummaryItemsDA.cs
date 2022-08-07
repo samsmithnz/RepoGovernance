@@ -202,6 +202,11 @@ namespace RepoGovernance.Core
                         summaryItem?.DotNetFrameworks.Add(framework);
                     }
                 }
+                //Order the frameworks so they appear in alphabetically
+                if (summaryItem != null && summaryItem.DotNetFrameworks != null)
+                {
+                    summaryItem.DotNetFrameworks = summaryItem.DotNetFrameworks.OrderBy(o => o.Name).ToList();
+                }
             }
 
             //Get the last commit
