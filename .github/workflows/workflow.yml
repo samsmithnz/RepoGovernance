@@ -15,12 +15,12 @@ jobs:
       with:
         fetch-depth: 0
     - name: Setup GitVersion
-      uses: gittools/actions/gitversion/setup@v0.9.13
+      uses: gittools/actions/gitversion/setup@v0.9.14
       with:
         versionSpec: 5.x
     - name: Determine Version
       id: gitversion
-      uses: gittools/actions/gitversion/execute@v0.9.13
+      uses: gittools/actions/gitversion/execute@v0.9.14
     - name: Display GitVersion outputs
       run: |
         echo "Version: ${{ steps.gitversion.outputs.SemVer }}"
@@ -79,7 +79,7 @@ jobs:
     - name: .NET test
       run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj -c Release -l:"trx;LogFileName=${{ github.workspace }}/TestOutput.xml"
     - name: Show test results
-      uses: samsmithnz/DotNetTestResults@0.1.1
+      uses: samsmithnz/DotNetTestResults@0.1.2
       with:
         fileName: ${{ github.workspace }}/TestOutput.xml
       
