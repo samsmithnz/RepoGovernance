@@ -146,8 +146,7 @@
                                 @if (item.Release != null)
                                 {
                                     <br />
-                                    @*<span style="font-size:14px; color:#57606A;">Latest release: (12 hours ago) <a href="http://github.com/samsmithnz/repogovernance"><img src="https://img.shields.io/static/v1?label=release&logo=github&message=v1.0.9&color=blue"></a></span>*@
-                                    <span style="font-size:14px; color:#57606A;">Latest release: @item.Release.ToTimingString() <a href="@item.Release.html_url"><img src="https://img.shields.io/static/v1?label=release&logo=github&message=@item.Release.name&color=blue"></a></span>
+                                    <a href="@item.Release.html_url"><img src="https://img.shields.io/static/v1?label=Latest%20release&logo=github&message=@item.Release.name%20@(item.Release.ToTimingString())&color=blue"></a>
                                 }
                             </div>
                         </div>
