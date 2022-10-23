@@ -11,7 +11,7 @@
     {
         DateTime minDate = DateTime.Now;
         DateTime maxDate = DateTime.Now;
-    @foreach (SummaryItem item in Model)
+        @foreach (SummaryItem item in Model)
         {
             if (minDate > item.LastUpdated)
             {
@@ -36,11 +36,13 @@
         /*border-radius: 2em;*/
         border-style: solid;
     }
+
     .projectHeader {
         font-family: sans-serif;
         font-size: 20px;
         font-weight: 600;
     }
+
     .publicPrivateLabel {
         border-width: 1px;
         border-color: #d0d7de;
@@ -48,27 +50,31 @@
         border-style: solid;
         font-size: 12px;
         font-weight: 500;
-        color:#57606A;
+        color: #57606A;
     }
+
     .itemContainer {
-        display: flex; 
-        margin-top: 20px; 
+        display: flex;
+        margin-top: 20px;
         margin-bottom: 20px;
     }
+
     .firstColumn {
         flex-grow: 2;
         margin-left: 20px;
         margin-right: 20px;
         max-width: 700px;
     }
+
     .frameworkColumn {
         flex: 1;
-        margin-right: 20px; 
+        margin-right: 20px;
         min-width: 100px;
     }
+
     .doraColumn {
         flex: 1;
-        margin-right: 20px; 
+        margin-right: 20px;
         min-width: 170px;
     }
 </style>
@@ -101,10 +107,10 @@
                                 @if (item.TotalRecommendationCount >= 0)
                                 {
                                     @if (item.RepoSettingsRecommendations.Count == 0 &&
-                                        item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0 &&
-                                        item.Actions.Count > 0 && item.ActionRecommendations.Count == 0 &&
-                                        item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0 &&
-                                        item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
+                                   item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0 &&
+                                   item.Actions.Count > 0 && item.ActionRecommendations.Count == 0 &&
+                                   item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0 &&
+                                   item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
                                     {
                                         <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="OK"></i> <span>0</span>
                                     }
@@ -135,8 +141,11 @@
                                     }
                                 }
                                 &nbsp;&nbsp;
-                                <span class="iconify" data-icon="octicon:git-pull-request-16"></span> <a href="https://github.com/@item.Owner/@item.Repo/pulls" target="_blank" title="View all PRs"  style="font-size: 14px;">@item.PullRequests.Count</a>
-                                if ()
+                                <span class="iconify" data-icon="octicon:git-pull-request-16"></span> <a href="https://github.com/@item.Owner/@item.Repo/pulls" target="_blank" title="View all PRs" style="font-size: 14px;">@item.PullRequests.Count</a>
+                                @if (item.Release != null)
+                                {
+                                    <img src="https://img.shields.io/static/v1?label=release&logo=github&message=v1.0.9&color=blue">
+                                }
                             </div>
                         </div>
                         <div class="frameworkColumn">
@@ -156,9 +165,9 @@
                         <div class="doraColumn">
                             @if (item.DORASummary != null)
                             {
-                                <img src="@item.DORASummary.DeploymentFrequencyBadgeURL"/>
+                                <img src="@item.DORASummary.DeploymentFrequencyBadgeURL" />
                                 <br />
-                                <img src="@item.DORASummary.LeadTimeForChangesBadgeURL"/>
+                                <img src="@item.DORASummary.LeadTimeForChangesBadgeURL" />
                                 <br />
                                 <img src="@item.DORASummary.MeanTimeToRestoreBadgeURL" />
                                 <br />
@@ -172,199 +181,199 @@
         </ul>
     </div>
 
-<!--    
-    <div>
-        <div class="row">
-            <div class="col-md-3">
-                <span><b>Repository</b></span>
-            </div>
-            <div class="col-md-2">
-                <span><b>Recommendations</b></span>
-            </div>
-            <div class="col-md-1">
-                <span><b>Current Pull Requests</b></span>
-            </div>
-            <div class="col-md-2">
-                <span><b>Frameworks detected</b></span>
-            </div>
-            @*            <div class="col-md-2">
-            <span><b>Recommendations to resolve</b></span>
-            </div>*@
-            <div class="col-md-2">
-                <span><b>DORA DevOps Metrics (last 90 days)</b></span>
-            </div>
-        </div>
-        @foreach (SummaryItem item in Model)
-        {
+    <!--
+        <div>
             <div class="row">
-                <div class="col-md-12">
-                    <hr>
-                </div>
                 <div class="col-md-3">
-                    <div>
-                        <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
-                        <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="Last updated @item.LastUpdated.ToString("dd-MMM-yyyy h:mm:sstt")"></i>
-                        @if (item.RepoSettings.visibility == "private")
-                        {
-                            <i class="bi bi-file-lock-fill" style="color: black; height: 32px; width: 32px;" data-toggle="tooltip" data-placement="bottom" title="Private repo"></i>
-                        }
-                    </div>
+                    <span><b>Repository</b></span>
                 </div>
                 <div class="col-md-2">
-                    <div>
-                        @if (item.TotalRecommendationCount > 0)
-                        {
-                            <span>@item.TotalRecommendationCount x</span>
-                            @if (item.RepoSettingsRecommendations.Count == 0 &&
-                           item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0 &&
-                           item.Actions.Count > 0 && item.ActionRecommendations.Count == 0 &&
-                           item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0 &&
-                           item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
-                            {
-                                <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="OK"></i>
-                            }
-                            else
-                            {
-                                string recommendation = "Incomplete" + Environment.NewLine + Environment.NewLine;
-                                foreach (string itemRec in item.RepoSettingsRecommendations)
-                                {
-                                    recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
-                                }
-                                foreach (string itemRec in item.BranchPoliciesRecommendations)
-                                {
-                                    recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
-                                }
-                                foreach (string itemRec in item.ActionRecommendations)
-                                {
-                                    recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
-                                }
-                                foreach (string itemRec in item.DependabotRecommendations)
-                                {
-                                    recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
-                                }
-                                foreach (string itemRec in item.GitVersionRecommendations)
-                                {
-                                    recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
-                                }
-                                <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
-                            }
-                        }
-                    </div>
+                    <span><b>Recommendations</b></span>
                 </div>
                 <div class="col-md-1">
-                    <div>
-                        @if (item.PullRequests.Count == 0)
+                    <span><b>Current Pull Requests</b></span>
+                </div>
+                <div class="col-md-2">
+                    <span><b>Frameworks detected</b></span>
+                </div>
+    @*            <div class="col-md-2">
+                <span><b>Recommendations to resolve</b></span>
+                </div>*@
+                <div class="col-md-2">
+                    <span><b>DORA DevOps Metrics (last 90 days)</b></span>
+                </div>
+            </div>
+    @foreach (SummaryItem item in Model)
+    {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-3">
+                            <div>
+                                <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
+                                <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="Last updated @item.LastUpdated.ToString("dd-MMM-yyyy h:mm:sstt")"></i>
+                    @if (item.RepoSettings.visibility == "private")
+                    {
+                                        <i class="bi bi-file-lock-fill" style="color: black; height: 32px; width: 32px;" data-toggle="tooltip" data-placement="bottom" title="Private repo"></i>
+                    }
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div>
+                    @if (item.TotalRecommendationCount > 0)
+                    {
+                                        <span>@item.TotalRecommendationCount x</span>
+                        @if (item.RepoSettingsRecommendations.Count == 0 &&
+                      item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0 &&
+                      item.Actions.Count > 0 && item.ActionRecommendations.Count == 0 &&
+                      item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0 &&
+                      item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
                         {
-                            <i class="bi bi-dash" data-toggle="tooltip" data-placement="bottom" title=""></i>
+                                                <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="OK"></i>
                         }
                         else
                         {
-                            string approvedUserPRs = "";
-                            string unreviewedUserPRs = "";
-                            string approvedDependabotPRs = "";
-                            string unreviewedDependabotPRs = "";
-                            int approvedUserPRCount = 0;
-                            int unreviewedUserPRCount = 0;
-                            int approvedDependabotPRCount = 0;
-                            int unreviewedDependabotPRCount = 0;
-                            foreach (PullRequest pr in item.PullRequests)
+                            string recommendation = "Incomplete" + Environment.NewLine + Environment.NewLine;
+                            foreach (string itemRec in item.RepoSettingsRecommendations)
                             {
-                                if (pr.IsDependabotPR == true)
+                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                            }
+                            foreach (string itemRec in item.BranchPoliciesRecommendations)
+                            {
+                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                            }
+                            foreach (string itemRec in item.ActionRecommendations)
+                            {
+                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                            }
+                            foreach (string itemRec in item.DependabotRecommendations)
+                            {
+                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                            }
+                            foreach (string itemRec in item.GitVersionRecommendations)
+                            {
+                                recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                            }
+                                                <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
+                        }
+                    }
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div>
+                    @if (item.PullRequests.Count == 0)
+                    {
+                                        <i class="bi bi-dash" data-toggle="tooltip" data-placement="bottom" title=""></i>
+                    }
+                    else
+                    {
+                        string approvedUserPRs = "";
+                        string unreviewedUserPRs = "";
+                        string approvedDependabotPRs = "";
+                        string unreviewedDependabotPRs = "";
+                        int approvedUserPRCount = 0;
+                        int unreviewedUserPRCount = 0;
+                        int approvedDependabotPRCount = 0;
+                        int unreviewedDependabotPRCount = 0;
+                        foreach (PullRequest pr in item.PullRequests)
+                        {
+                            if (pr.IsDependabotPR == true)
+                            {
+                                if (pr.Approved == true)
                                 {
-                                    if (pr.Approved == true)
-                                    {
-                                        approvedDependabotPRCount++;
-                                        approvedDependabotPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
-                                    }
-                                    else
-                                    {
-                                        unreviewedDependabotPRCount++;
-                                        unreviewedDependabotPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
-                                    }
+                                    approvedDependabotPRCount++;
+                                    approvedDependabotPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
                                 }
                                 else
                                 {
-                                    if (pr.Approved == true)
-                                    {
-                                        approvedUserPRCount++;
-                                        approvedUserPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
-                                    }
-                                    else
-                                    {
-                                        unreviewedUserPRCount++;
-                                        unreviewedUserPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
-                                    }
+                                    unreviewedDependabotPRCount++;
+                                    unreviewedDependabotPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
                                 }
                             }
-                            if (approvedDependabotPRCount > 0)
+                            else
                             {
-                                @approvedDependabotPRCount <span>x</span>
-                                <i class="bi bi-shield-check greenHeart" data-toggle="tooltip" data-placement="bottom" title="Approved Dependabot PRs @approvedDependabotPRs"></i>
-                                <br />
+                                if (pr.Approved == true)
+                                {
+                                    approvedUserPRCount++;
+                                    approvedUserPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
+                                }
+                                else
+                                {
+                                    unreviewedUserPRCount++;
+                                    unreviewedUserPRs += Environment.NewLine + Environment.NewLine + " - " + pr.Title;
+                                }
                             }
-                            if (unreviewedDependabotPRCount > 0)
-                            {
-                                @unreviewedDependabotPRCount <span>x</span>
-                                <i class="bi bi-shield-minus redHeart" data-toggle="tooltip" data-placement="bottom" title="Unreviewed Dependabot PRs @unreviewedDependabotPRs"></i>
-                                <br />
-                            }
-                            if (approvedUserPRCount > 0)
-                            {
-                                @approvedUserPRCount <span>x</span>
-                                <i class="bi bi-person-check greenHeart" data-toggle="tooltip" data-placement="bottom" title="Approved user PRs @approvedUserPRs"></i>
-                                <br />
-                            }
-                            if (unreviewedUserPRCount > 0)
-                            {
-                                @unreviewedUserPRCount <span>x</span>
-                                <i class="bi bi-person-dash redHeart" data-toggle="tooltip" data-placement="bottom" title="Unreviewed user PRs @unreviewedUserPRs"></i>
-                                <br />
-                            }
-                            <a href="https://github.com/@item.Owner/@item.Repo/pulls" target="_blank" title="View all PRs">@item.PullRequests.Count PRs</a>
                         }
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div>
-                        @if (item.DotNetFrameworks.Count == 0)
+                        if (approvedDependabotPRCount > 0)
                         {
-                            <span class="badge bg-secondary">None found</span>
+                            @approvedDependabotPRCount <span>x</span>
+                                                <i class="bi bi-shield-check greenHeart" data-toggle="tooltip" data-placement="bottom" title="Approved Dependabot PRs @approvedDependabotPRs"></i>
+                                                <br />
                         }
-                        else
+                        if (unreviewedDependabotPRCount > 0)
                         {
-                            foreach (Framework framework in item.DotNetFrameworks)
-                            {
-                                <span class="badge @framework.Color">@framework.Name</span>
-                            }
+                            @unreviewedDependabotPRCount <span>x</span>
+                                                <i class="bi bi-shield-minus redHeart" data-toggle="tooltip" data-placement="bottom" title="Unreviewed Dependabot PRs @unreviewedDependabotPRs"></i>
+                                                <br />
                         }
-                    </div>
-                </div>
-                @*                <div class="col-md-2">
-            <div>
-            @if (item.TotalRecommendationCount > 0)
-            {
-            <span>@item.TotalRecommendationCount x</span>
-            <a asp-action="Update" asp-route-id="@item.OwnerRepo"><i class="bi bi-robot" data-toggle="tooltip" data-placement="bottom" title="@item.TotalRecommendationCount Updates"></i></a>
-            }
-            </div>
-            </div>*@
-                <div class="col-md-2">
-                    <div>
-                        @if (item.DORASummary != null)
+                        if (approvedUserPRCount > 0)
                         {
-                            <img src="@item.DORASummary.DeploymentFrequencyBadgeURL" />
-                            <img src="@item.DORASummary.LeadTimeForChangesBadgeURL" />
-                            <img src="@item.DORASummary.MeanTimeToRestoreBadgeURL" />
-                            <img src="@item.DORASummary.ChangeFailureRateBadgeURL" />
-                            @*<img src="@item.DORASummary.DeploymentFrequencyBadgeWithMetricURL" />
-                    <img src="@item.DORASummary.LeadTimeForChangesWithMetricURL" />
-                    <img src="@item.DORASummary.MeanTimeToRestoreBadgeWithMetricURL" />
-                    <img src="@item.DORASummary.ChangeFailureRateBadgeWithMetricURL" />*@
+                            @approvedUserPRCount <span>x</span>
+                                                <i class="bi bi-person-check greenHeart" data-toggle="tooltip" data-placement="bottom" title="Approved user PRs @approvedUserPRs"></i>
+                                                <br />
                         }
-                    </div>
+                        if (unreviewedUserPRCount > 0)
+                        {
+                            @unreviewedUserPRCount <span>x</span>
+                                                <i class="bi bi-person-dash redHeart" data-toggle="tooltip" data-placement="bottom" title="Unreviewed user PRs @unreviewedUserPRs"></i>
+                                                <br />
+                        }
+                                        <a href="https://github.com/@item.Owner/@item.Repo/pulls" target="_blank" title="View all PRs">@item.PullRequests.Count PRs</a>
+                    }
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div>
+                    @if (item.DotNetFrameworks.Count == 0)
+                    {
+                                        <span class="badge bg-secondary">None found</span>
+                    }
+                    else
+                    {
+                        foreach (Framework framework in item.DotNetFrameworks)
+                        {
+                                                <span class="badge @framework.Color">@framework.Name</span>
+                        }
+                    }
+                            </div>
+                        </div>
+            @*                <div class="col-md-2">
+                <div>
+                @if (item.TotalRecommendationCount > 0)
+                {
+                <span>@item.TotalRecommendationCount x</span>
+                <a asp-action="Update" asp-route-id="@item.OwnerRepo"><i class="bi bi-robot" data-toggle="tooltip" data-placement="bottom" title="@item.TotalRecommendationCount Updates"></i></a>
+                }
                 </div>
-            </div>
-        }
-    </div>
-    -->
+                </div>*@
+                        <div class="col-md-2">
+                            <div>
+                    @if (item.DORASummary != null)
+                    {
+                                        <img src="@item.DORASummary.DeploymentFrequencyBadgeURL" />
+                                        <img src="@item.DORASummary.LeadTimeForChangesBadgeURL" />
+                                        <img src="@item.DORASummary.MeanTimeToRestoreBadgeURL" />
+                                        <img src="@item.DORASummary.ChangeFailureRateBadgeURL" />
+                        @*<img src="@item.DORASummary.DeploymentFrequencyBadgeWithMetricURL" />
+                        <img src="@item.DORASummary.LeadTimeForChangesWithMetricURL" />
+                        <img src="@item.DORASummary.MeanTimeToRestoreBadgeWithMetricURL" />
+                        <img src="@item.DORASummary.ChangeFailureRateBadgeWithMetricURL" />*@
+                    }
+                            </div>
+                        </div>
+                    </div>
+    }
+        </div>
+        -->
 </div>
