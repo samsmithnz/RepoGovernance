@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
-    <PackageReference Include="RepoAutomation.Core" Version="1.0.9" />
+    <PackageReference Include="RepoAutomation.Core" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
