@@ -247,6 +247,7 @@ namespace RepoGovernance.Core
                 summaryItem.PullRequests = pullRequests;
             }
 
+            //Get DevOps Metrics
             if (summaryItem != null && devOpsServiceURL != null)
             {
                 DevOpsMetricServiceAPI devopsAPI = new(devOpsServiceURL);
@@ -259,6 +260,13 @@ namespace RepoGovernance.Core
                 {
                     summaryItem.DORASummary = new DORASummaryItem(owner, repo);
                 }
+            }
+
+            //Get the Release info
+            Release? release = await GitHubAPIAccess.GetReleaseLatest(clientId, secret, owner, repo);
+            if (summaryItem != null && release != null)
+            {
+                summaryItem.Release = release;
             }
 
             //Save the summary item

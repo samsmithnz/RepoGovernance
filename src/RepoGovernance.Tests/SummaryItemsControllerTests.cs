@@ -31,7 +31,8 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
     //{
     //    //Arrange
     //    string user = "samsmithnz";
-    //    string owner = "samsmithnz";
+    //    //string owner = "samsmithnz";
+    //    string serviceUrl = "https://devops-prod-eu-service.azurewebsites.net";
 
     //    //Act - runs each repo in about 4s
     //    List<UserOwnerRepo> repos = SummaryItemsDA.GetRepos(user);
@@ -41,7 +42,10 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
     //    {
     //        string ownerName = repo.Owner;
     //        string repoName = repo.Repo;
-    //        itemsUpdated += await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, user, ownerName, repoName);
+    //        itemsUpdated += await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret,
+    //            AzureStorageConnectionString,
+    //            serviceUrl,
+    //            user, ownerName, repoName);
     //    }
 
     //    //Assert
@@ -85,6 +89,8 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual("netstandard2.0", item1.DotNetFrameworks[1].Name);
         Assert.AreEqual("bg-primary", item1.DotNetFrameworks[1].Color);
         Assert.AreEqual(0, item1.DotNetFrameworksRecommendations.Count);
+        Assert.IsNotNull(item1.Release);
+        Assert.IsNotNull(item1.Release.ToTimingString());
         Assert.IsTrue(item1.PullRequests.Count >= 0);
 
         //second repo
@@ -114,6 +120,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual("net6.0", item2.DotNetFrameworks[0].Name);
         Assert.AreEqual("bg-primary", item2.DotNetFrameworks[0].Color);
         Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
+        Assert.IsNull(item2.Release);
         Assert.IsTrue(item2.PullRequests.Count >= 0);
 
         //third repo
