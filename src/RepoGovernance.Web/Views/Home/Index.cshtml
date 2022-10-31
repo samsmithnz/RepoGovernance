@@ -77,10 +77,14 @@
         margin-right: 20px;
         min-width: 170px;
     }
+    .itemText {
+        font-size:14px; 
+        color:#57606A;
+    }
 </style>
 
 <div>
-    <h4>For user <code>@user</code> (last updated in @ts.TotalMinutes.ToString("0") minutes, starting at @lastUpdated)</h4>
+    <h4>For user <code>@user</code> (last updated at @lastUpdated)</h4>
     <b>Legend</b>: <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="No recommendations"></i>=Repo is OK - no recommendations
     <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="Recommendations for improvement"></i>=Recommendations for improvement
     <br /><br />
@@ -101,7 +105,7 @@
                         <div class="firstColumn">
                             <div>
                                 <a href="https://github.com/samsmithnz/@item.Repo" class="projectHeader">@item.Repo</a> <span class="publicPrivateLabel">&nbsp;&nbsp;@visibility&nbsp;&nbsp;</span><br>
-                                <span style="font-size:14px; color:#57606A;">@item.RepoSettings.description</span><br>
+                                <span class="itemText">@item.RepoSettings.description</span><br>
                             </div>
                             <div>
                                 @if (item.TotalRecommendationCount >= 0)
@@ -148,6 +152,8 @@
                                     <br />
                                     <a href="@item.Release.html_url"><img src="https://img.shields.io/static/v1?label=Latest%20release&logo=github&message=@item.Release.name%20@(item.Release.ToTimingString())&color=blue"></a>
                                 }
+                                <br>
+                                <span class="itemText">Last updated: @item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                             </div>
                         </div>
                         <div class="frameworkColumn">
