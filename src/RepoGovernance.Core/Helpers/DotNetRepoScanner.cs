@@ -276,6 +276,7 @@ namespace RepoGovernance.Core.Helpers
                 return "bg-info";
             }
             else if (framework.Contains("net6.0") ||
+                framework.Contains("net7.0") ||
                 framework.Contains("netstandard") ||
                 framework.Contains("Unity3d v2020") ||
                 framework.Contains(".NET Framework v4.6.2") ||

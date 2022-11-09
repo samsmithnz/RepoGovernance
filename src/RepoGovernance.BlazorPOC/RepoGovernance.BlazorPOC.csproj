@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationInsightsResourceId>/subscriptions/65b8d298-e5bd-4735-912e-8b9c510c4e00/resourceGroups/RepoGovernance/providers/microsoft.insights/components/repogovernance-prod-eu-appinsights</ApplicationInsightsResourceId>
@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
-    <PackageReference Include="RepoAutomation.Core" Version="1.1.5" />
+    <PackageReference Include="RepoAutomation.Core" Version="1.2.1" />
   </ItemGroup>
 
   <ItemGroup>
