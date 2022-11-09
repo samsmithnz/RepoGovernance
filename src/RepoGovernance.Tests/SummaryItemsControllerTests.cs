@@ -84,7 +84,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, item1.GitVersion.Count);
         Assert.AreEqual(0, item1.GitVersionRecommendations.Count);
         Assert.AreEqual(2, item1.DotNetFrameworks.Count);
-        Assert.AreEqual("net6.0", item1.DotNetFrameworks[0].Name);
+        Assert.AreEqual("net7.0", item1.DotNetFrameworks[0].Name);
         Assert.AreEqual("bg-primary", item1.DotNetFrameworks[0].Color);
         Assert.AreEqual("netstandard2.0", item1.DotNetFrameworks[1].Name);
         Assert.AreEqual("bg-primary", item1.DotNetFrameworks[1].Color);

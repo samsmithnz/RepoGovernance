@@ -79,7 +79,7 @@ jobs:
     - name: .NET test
       run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj -c Release -l:"trx;LogFileName=${{ github.workspace }}/TestOutput.xml"
     - name: Show test results
-      uses: samsmithnz/DotNetTestResults@0.1.2
+      uses: samsmithnz/DotNetTestResults@0.1.3
       with:
         fileName: ${{ github.workspace }}/TestOutput.xml
       
