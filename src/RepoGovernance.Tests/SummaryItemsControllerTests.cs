@@ -84,9 +84,9 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, item1.GitVersion.Count);
         Assert.AreEqual(0, item1.GitVersionRecommendations.Count);
         Assert.AreEqual(2, item1.DotNetFrameworks.Count);
-        Assert.AreEqual("net7.0", item1.DotNetFrameworks[0].Name);
+        Assert.AreEqual(".NET 7.0", item1.DotNetFrameworks[0].Name);
         Assert.AreEqual("bg-primary", item1.DotNetFrameworks[0].Color);
-        Assert.AreEqual("netstandard2.0", item1.DotNetFrameworks[1].Name);
+        Assert.AreEqual(".NET Standard 2.0", item1.DotNetFrameworks[1].Name);
         Assert.AreEqual("bg-primary", item1.DotNetFrameworks[1].Color);
         Assert.AreEqual(0, item1.DotNetFrameworksRecommendations.Count);
         Assert.IsNotNull(item1.Release);
@@ -117,7 +117,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, item2.GitVersionRecommendations.Count);
         Assert.AreEqual("Consider adding Git Versioning to this repo", item2.GitVersionRecommendations[0]);
         Assert.AreEqual(1, item2.DotNetFrameworks.Count);
-        Assert.AreEqual("net6.0", item2.DotNetFrameworks[0].Name);
+        Assert.AreEqual(".NET 6.0", item2.DotNetFrameworks[0].Name);
         Assert.AreEqual("bg-primary", item2.DotNetFrameworks[0].Color);
         Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
         Assert.IsNull(item2.Release);
@@ -145,13 +145,13 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         SummaryItem? item5 = summaryItems.Where(r => r.Repo == "ResearchTree").FirstOrDefault();
         Assert.IsNotNull(item5);
         Assert.IsTrue(item5.DotNetFrameworks.Count >= 4);
-        Assert.AreEqual(".NET Framework v4.7.1", item5.DotNetFrameworks[0].Name);
-        Assert.AreEqual("bg-info", item5.DotNetFrameworks[0].Color);
-        Assert.AreEqual("net6.0", item5.DotNetFrameworks[1].Name);
+        Assert.AreEqual(".NET 6.0", item5.DotNetFrameworks[0].Name);
+        Assert.AreEqual("bg-primary", item5.DotNetFrameworks[0].Color);
+        Assert.AreEqual(".NET 6.0-windows", item5.DotNetFrameworks[1].Name);
         Assert.AreEqual("bg-primary", item5.DotNetFrameworks[1].Color);
-        Assert.AreEqual("net6.0-windows", item5.DotNetFrameworks[2].Name);
+        Assert.AreEqual(".NET Framework 4.7.1", item5.DotNetFrameworks[2].Name);
         Assert.AreEqual("bg-primary", item5.DotNetFrameworks[2].Color);
-        Assert.AreEqual("netstandard2.0", item5.DotNetFrameworks[3].Name);
+        Assert.AreEqual(".NET Standard 2.0", item5.DotNetFrameworks[3].Name);
         Assert.AreEqual("bg-primary", item5.DotNetFrameworks[3].Color);
 
         SummaryItem? item6 = summaryItems.Where(r => r.Repo == "RepoAutomationUnitTests").FirstOrDefault();

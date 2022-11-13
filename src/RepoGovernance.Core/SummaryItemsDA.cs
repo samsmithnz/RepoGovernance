@@ -1,4 +1,5 @@
-﻿using GitHubActionsDotNet.Models.Dependabot;
+﻿using DotNetCensus.Core.Models;
+using GitHubActionsDotNet.Models.Dependabot;
 using GitHubActionsDotNet.Serialization;
 using Newtonsoft.Json;
 using RepoAutomation.Core.APIAccess;
@@ -67,7 +68,7 @@ namespace RepoGovernance.Core
             SummaryItem summaryItem = new(user, owner, repo);
 
             //Get repo settings
-            Repo? repoSettings = await GitHubAPIAccess.GetRepo(clientId, secret, owner, repo);
+            RepoAutomation.Core.Models.Repo? repoSettings = await GitHubAPIAccess.GetRepo(clientId, secret, owner, repo);
             if (repoSettings != null)
             {
                 summaryItem.RepoSettings = repoSettings;
@@ -185,29 +186,54 @@ namespace RepoGovernance.Core
                 summaryItem?.GitVersionRecommendations.Add("Consider adding Git Versioning to this repo");
             }
 
-            //Get Frameworks: Note that there is a rate limit of 30 requests per minute on search            
-            List<Project> projects = await DotNetRepoScanner.ScanRepo(clientId, secret, owner, repo);
-            if (projects != null)
+            //Get Frameworks, using the DotNetCensus library we built in another project
+            DotNetCensus.Core.Models.Repo? repo2 = new(owner, repo)
             {
-                foreach (Project project in projects)
+                User = clientId,
+                Password = secret,
+                Branch = "main"
+            };
+            List<FrameworkSummary> frameworkSummaries = DotNetCensus.Core.Main.GetFrameworkSummary(null, repo2, false);
+            foreach (FrameworkSummary project in frameworkSummaries)
+            {
+                Framework framework = new()
                 {
-                    Framework framework = new()
-                    {
-                        Name = project.Framework,
-                        Color = project.Color
-                    };
-                    if (project.Framework != null && project.Color != null &&
-                        summaryItem?.DotNetFrameworks.Where(p => p.Name == project.Framework).FirstOrDefault() == null)
-                    {
-                        summaryItem?.DotNetFrameworks.Add(framework);
-                    }
-                }
-                //Order the frameworks so they appear in alphabetically
-                if (summaryItem != null && summaryItem.DotNetFrameworks != null)
+                    Name = project.Framework,
+                    Color = DotNetRepoScanner.GetColorFromStatus(project.Status)
+                };
+                if (project.Framework != null && 
+                    summaryItem?.DotNetFrameworks.Where(p => p.Name == project.Framework).FirstOrDefault() == null)
                 {
-                    summaryItem.DotNetFrameworks = summaryItem.DotNetFrameworks.OrderBy(o => o.Name).ToList();
+                    summaryItem?.DotNetFrameworks.Add(framework);
                 }
             }
+            //Order the frameworks so they appear in alphabetically
+            if (summaryItem != null && summaryItem.DotNetFrameworks != null)
+            {
+                summaryItem.DotNetFrameworks = summaryItem.DotNetFrameworks.OrderBy(o => o.Name).ToList();
+            }
+            //List<Project> projects = await DotNetRepoScanner.ScanRepo(clientId, secret, owner, repo);
+            //if (projects != null)
+            //{
+            //    foreach (Project project in projects)
+            //    {
+            //        Framework framework = new()
+            //        {
+            //            Name = project.Framework,
+            //            Color = project.Color
+            //        };
+            //        if (project.Framework != null && project.Color != null &&
+            //            summaryItem?.DotNetFrameworks.Where(p => p.Name == project.Framework).FirstOrDefault() == null)
+            //        {
+            //            summaryItem?.DotNetFrameworks.Add(framework);
+            //        }
+            //    }
+            //    //Order the frameworks so they appear in alphabetically
+            //    if (summaryItem != null && summaryItem.DotNetFrameworks != null)
+            //    {
+            //        summaryItem.DotNetFrameworks = summaryItem.DotNetFrameworks.OrderBy(o => o.Name).ToList();
+            //    }
+            //}
 
             //Get the last commit
             string? lastCommitSha = await GitHubAPIAccess.GetLastCommit(clientId, secret, owner, repo);
