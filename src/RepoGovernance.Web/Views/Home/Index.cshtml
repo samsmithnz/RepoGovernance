@@ -177,30 +177,10 @@
                                             codeCoverageColor = "brightgreen";
                                         }
                                         <a href="https://coveralls.io/github/@(item.OwnerRepo)/@(item.Repo)">
-                                            <img src="https://img.shields.io/static/v1?label=Code%20coverage&logo=github&message=@item.CoverallsCodeCoverage.covered_percent.ToString("0")%%20(@(item.CoverallsCodeCoverage.coverage_change_string)%)&color=@codeCoverageColor">
+                                            <img src="https://img.shields.io/static/v1?label=Code%20coverage&logo=coveralls&message=@item.CoverallsCodeCoverage.covered_percent.ToString("0")%)&color=@codeCoverageColor">
                                         </a>
                                     }
-                                }
-                                @if (item.Repo == "SamSmithNZ.com")
-                                {
-                                    <a href='https://coveralls.io/github/samsmithnz/SamSmithNZ.com?branch=main'><img src='https://coveralls.io/repos/github/samsmithnz/SamSmithNZ.com/badge.svg?branch=main' alt='Coverage Status' /></a>
-                                }
-                                else if (item.Repo == "AzurePipelinesToGitHubActionsConverter")
-                                {
-                                    <a href='https://coveralls.io/github/samsmithnz/AzurePipelinesToGitHubActionsConverter?branch=main'><img src='https://coveralls.io/repos/github/samsmithnz/AzurePipelinesToGitHubActionsConverter/badge.svg?branch=main' alt='Coverage Status' /></a>
-                                }
-                                else if (item.Repo == "Battle")
-                                {
-                                    <a href='https://coveralls.io/github/samsmithnz/Battle?branch=main'><img src='https://coveralls.io/repos/github/samsmithnz/Battle/badge.svg?branch=main' alt='Coverage Status' /></a>
-                                }
-                                else if (item.Repo == "DevOpsMetrics")
-                                {
-                                    <a href='https://coveralls.io/github/samsmithnz/DevOpsMetrics?branch=main'><img src='https://coveralls.io/repos/github/samsmithnz/DevOpsMetrics/badge.svg?branch=main' alt='Coverage Status' /></a>
-                                }
-                                else if (item.Repo == "SamsFeatureFlags")
-                                {
-                                    <a href='https://coveralls.io/github/samsmithnz/SamsFeatureFlags?branch=master'><img src='https://coveralls.io/repos/github/samsmithnz/SamsFeatureFlags/badge.svg?branch=master' alt='Coverage Status' /></a>
-                                }
+                                }                                
                                 <br>
                                 @if (@item.LastUpdated > DateTime.Now.AddDays(-1))
                                 {
