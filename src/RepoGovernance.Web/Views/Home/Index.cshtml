@@ -167,8 +167,17 @@
                                     }
                                     @if (item.CoverallsCodeCoverage != null)
                                     {
+                                        string codeCoverageColor = "yellow";
+                                        if (item.CoverallsCodeCoverage.covered_percent < 50)
+                                        {
+                                            codeCoverageColor = "red";
+                                        }
+                                        else if (item.CoverallsCodeCoverage.covered_percent >= 80)
+                                        {
+                                            codeCoverageColor = "brightgreen";
+                                        }
                                         <a href="https://coveralls.io/github/@(item.OwnerRepo)/@(item.Repo)">
-                                            <img src="https://img.shields.io/static/v1?label=Code%20coverage&logo=github&message=@item.CoverallsCodeCoverage.covered_percent.ToString("%")%20@(item.CoverallsCodeCoverage.coverage_change.ToString("%"))&color=yellow">
+                                            <img src="https://img.shields.io/static/v1?label=Code%20coverage&logo=github&message=@item.CoverallsCodeCoverage.covered_percent.ToString("0")%%20(@(item.CoverallsCodeCoverage.coverage_change_string)%)&color=@codeCoverageColor">
                                         </a>
                                     }
                                 }
