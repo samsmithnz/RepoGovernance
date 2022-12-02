@@ -20,17 +20,16 @@ namespace RepoGovernance.Core.APIAccess
                 //Console.WriteLine("Running url: " + client.BaseAddress.ToString() + url);
                 using (HttpResponseMessage response = await client.GetAsync(url))
                 {
-                    if (ignoreErrors == false && response.IsSuccessStatusCode == true)
+                    if (ignoreErrors == true || response.IsSuccessStatusCode == true)
                     {
-                        string responseBody = await response.Content.ReadAsStringAsync();
-                        if (string.IsNullOrEmpty(responseBody) == false)
+                        if (response.StatusCode.ToString() != "NotFound")
                         {
-                            obj = JsonConvert.DeserializeObject<T>(responseBody);
+                            string responseBody = await response.Content.ReadAsStringAsync();
+                            if (string.IsNullOrEmpty(responseBody) == false)
+                            {
+                                obj = JsonConvert.DeserializeObject<T>(responseBody);
+                            }
                         }
-                    }
-                    else if (ignoreErrors == true)
-                    {
-                        //do nothing
                     }
                     else
                     {
