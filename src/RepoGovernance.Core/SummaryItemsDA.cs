@@ -212,28 +212,6 @@ namespace RepoGovernance.Core
             {
                 summaryItem.DotNetFrameworks = summaryItem.DotNetFrameworks.OrderBy(o => o.Name).ToList();
             }
-            //List<Project> projects = await DotNetRepoScanner.ScanRepo(clientId, secret, owner, repo);
-            //if (projects != null)
-            //{
-            //    foreach (Project project in projects)
-            //    {
-            //        Framework framework = new()
-            //        {
-            //            Name = project.Framework,
-            //            Color = project.Color
-            //        };
-            //        if (project.Framework != null && project.Color != null &&
-            //            summaryItem?.DotNetFrameworks.Where(p => p.Name == project.Framework).FirstOrDefault() == null)
-            //        {
-            //            summaryItem?.DotNetFrameworks.Add(framework);
-            //        }
-            //    }
-            //    //Order the frameworks so they appear in alphabetically
-            //    if (summaryItem != null && summaryItem.DotNetFrameworks != null)
-            //    {
-            //        summaryItem.DotNetFrameworks = summaryItem.DotNetFrameworks.OrderBy(o => o.Name).ToList();
-            //    }
-            //}
 
             //Get the last commit
             string? lastCommitSha = await GitHubAPIAccess.GetLastCommit(clientId, secret, owner, repo);
@@ -295,6 +273,13 @@ namespace RepoGovernance.Core
                 summaryItem.Release = release;
             }
 
+            //Get Coveralls.io Code Coverage
+            CoverallsCodeCoverage? coverallsCodeCoverage = await CoverallsCodeCoverageAPI.GetCoverallsCodeCoverage(owner, repo);
+            if (summaryItem != null && coverallsCodeCoverage != null)
+            {
+                summaryItem.CoverallsCodeCoverage = coverallsCodeCoverage;
+            }
+            
             //Save the summary item
             if (connectionString != null)
             {
