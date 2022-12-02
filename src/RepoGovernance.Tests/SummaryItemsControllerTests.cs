@@ -17,7 +17,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //Arrange
         string user = "samsmithnz";
         string owner = "samsmithnz";
-        string repo = "AzurePipelinesToGitHubActionsConverter";
+        string repo = "AzurePipelinesToGitHubActionsConverterWeb";
 
         //Act - runs a repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, DevOpsServiceURL, user, owner, repo);
@@ -26,31 +26,31 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, itemsUpdated);
     }
 
-    //[TestMethod]
-    //public async Task UpdateAllItemsTest()
-    //{
-    //    //Arrange
-    //    string user = "samsmithnz";
-    //    //string owner = "samsmithnz";
-    //    string serviceUrl = "https://devops-prod-eu-service.azurewebsites.net";
+    [TestMethod]
+    public async Task UpdateAllItemsTest()
+    {
+        //Arrange
+        string user = "samsmithnz";
+        //string owner = "samsmithnz";
+        string serviceUrl = "https://devops-prod-eu-service.azurewebsites.net";
 
-    //    //Act - runs each repo in about 4s
-    //    List<UserOwnerRepo> repos = SummaryItemsDA.GetRepos(user);
+        //Act - runs each repo in about 4s
+        List<UserOwnerRepo> repos = SummaryItemsDA.GetRepos(user);
 
-    //    int itemsUpdated = 0;
-    //    foreach (UserOwnerRepo repo in repos)
-    //    {
-    //        string ownerName = repo.Owner;
-    //        string repoName = repo.Repo;
-    //        itemsUpdated += await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret,
-    //            AzureStorageConnectionString,
-    //            serviceUrl,
-    //            user, ownerName, repoName);
-    //    }
+        int itemsUpdated = 0;
+        foreach (UserOwnerRepo repo in repos)
+        {
+            string ownerName = repo.Owner;
+            string repoName = repo.Repo;
+            itemsUpdated += await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret,
+                AzureStorageConnectionString,
+                serviceUrl,
+                user, ownerName, repoName);
+        }
 
-    //    //Assert
-    //    Assert.AreEqual(repos.Count, itemsUpdated);
-    //}
+        //Assert
+        Assert.AreEqual(repos.Count, itemsUpdated);
+    }
 
     [TestMethod]
     public void GetSummaryItemsTest()
@@ -92,6 +92,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.IsNotNull(item1.Release);
         Assert.IsNotNull(item1.Release.ToTimingString());
         Assert.IsTrue(item1.PullRequests.Count >= 0);
+        Assert.IsNotNull(item1.CoverallsCodeCoverage);
 
         //second repo
         SummaryItem? item2 = summaryItems.Where(r => r.Repo == "CustomQueue").FirstOrDefault();
