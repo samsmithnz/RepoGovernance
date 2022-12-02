@@ -46,7 +46,8 @@ namespace RepoGovernance.Core.Models
         public Release Release { get; set; }
         public string? LastCommitSha { get; set; }
         public DateTime LastUpdated { get; set; }
-
+        public CoverallsCodeCoverage CoverallsCodeCoverage { get; set; }
+        
         public string OwnerRepo
         {
             get
