@@ -55,7 +55,8 @@ namespace RepoGovernance.Core.APIAccess
                     {
                         string responseBody = await response.Content.ReadAsStringAsync();
                         if (string.IsNullOrEmpty(responseBody) == false &&
-                            responseBody.Contains("Project not found") == false)
+                            responseBody.Contains("Project not found") == false &&
+                            responseBody.Contains("Measure has not been found") == false)
                         {
                             obj = responseBody;
                         }

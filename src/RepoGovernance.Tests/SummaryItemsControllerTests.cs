@@ -18,7 +18,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //Arrange
         string user = "samsmithnz";
         string owner = "samsmithnz";
-        string repo = "AzurePipelinesToGitHubActionsConverterWeb";
+        string repo = "DevOpsMetrics";
 
         //Act - runs a repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, DevOpsServiceURL, user, owner, repo);
@@ -96,7 +96,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.IsNotNull(item1.Release?.ToTimingString());
             Assert.IsTrue(item1.PullRequests.Count >= 0);
             Assert.IsNotNull(item1.CoverallsCodeCoverage);
-            Assert.IsNull(item1.SonarCloud);
+            Assert.IsNotNull(item1.SonarCloud);
         }
 
         //second repo
