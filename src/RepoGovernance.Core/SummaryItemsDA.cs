@@ -279,7 +279,14 @@ namespace RepoGovernance.Core
             {
                 summaryItem.CoverallsCodeCoverage = coverallsCodeCoverage;
             }
-            
+
+            //Get SonarCloud metrics
+            SonarCloud? sonarCloud = await SonarCloudAPI.GetSonarCloudMetrics(owner, repo);
+            if (summaryItem != null && sonarCloud != null)
+            {
+                summaryItem.SonarCloud = sonarCloud;
+            }
+
             //Save the summary item
             if (connectionString != null)
             {

@@ -1,3 +1,4 @@
+using Microsoft.Azure.Documents;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoGovernance.Core;
 using RepoGovernance.Core.Models;
@@ -68,96 +69,118 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //first repo
         SummaryItem? item1 = summaryItems.Where(r => r.Repo == "AzurePipelinesToGitHubActionsConverter").FirstOrDefault();
         Assert.IsNotNull(item1);
-        Assert.AreEqual("AzurePipelinesToGitHubActionsConverter", item1.Repo);
-        Assert.IsNotNull(item1.RepoSettings);
-        Assert.AreEqual(0, item1.RepoSettingsRecommendations.Count);
-        Assert.AreEqual(2, item1.Actions.Count);
-        Assert.AreEqual(0, item1.ActionRecommendations.Count);
-        Assert.AreEqual(1, item1.Dependabot.Count);
-        Assert.AreEqual("dependabot.yml", item1.DependabotFile?.name);
-        Assert.AreEqual("2", item1.DependabotRoot?.version);
-        Assert.IsTrue(item1.DependabotFile?.content?.Length > 0);
-        Assert.AreEqual(1, item1.DependabotRecommendations.Count);
-        Assert.AreEqual("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the / project, github-actions ecosystem", item1.DependabotRecommendations[0]);
-        Assert.IsNotNull(item1.BranchPolicies);
-        Assert.AreEqual(0, item1.BranchPoliciesRecommendations.Count);
-        Assert.AreEqual(1, item1.GitVersion.Count);
-        Assert.AreEqual(0, item1.GitVersionRecommendations.Count);
-        Assert.AreEqual(2, item1.DotNetFrameworks.Count);
-        Assert.AreEqual(".NET 7.0", item1.DotNetFrameworks[0].Name);
-        Assert.AreEqual("bg-primary", item1.DotNetFrameworks[0].Color);
-        Assert.AreEqual(".NET Standard 2.0", item1.DotNetFrameworks[1].Name);
-        Assert.AreEqual("bg-primary", item1.DotNetFrameworks[1].Color);
-        Assert.AreEqual(0, item1.DotNetFrameworksRecommendations.Count);
-        Assert.IsNotNull(item1.Release);
-        Assert.IsNotNull(item1.Release.ToTimingString());
-        Assert.IsTrue(item1.PullRequests.Count >= 0);
-        Assert.IsNotNull(item1.CoverallsCodeCoverage);
+        if (item1 != null)
+        {
+            Assert.AreEqual("AzurePipelinesToGitHubActionsConverter", item1.Repo);
+            Assert.IsNotNull(item1.RepoSettings);
+            Assert.AreEqual(0, item1.RepoSettingsRecommendations.Count);
+            Assert.AreEqual(2, item1.Actions.Count);
+            Assert.AreEqual(0, item1.ActionRecommendations.Count);
+            Assert.AreEqual(1, item1.Dependabot.Count);
+            Assert.AreEqual("dependabot.yml", item1.DependabotFile?.name);
+            Assert.AreEqual("2", item1.DependabotRoot?.version);
+            Assert.IsTrue(item1.DependabotFile?.content?.Length > 0);
+            Assert.AreEqual(1, item1.DependabotRecommendations.Count);
+            Assert.AreEqual("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the / project, github-actions ecosystem", item1.DependabotRecommendations[0]);
+            Assert.IsNotNull(item1.BranchPolicies);
+            Assert.AreEqual(0, item1.BranchPoliciesRecommendations.Count);
+            Assert.AreEqual(1, item1.GitVersion.Count);
+            Assert.AreEqual(0, item1.GitVersionRecommendations.Count);
+            Assert.AreEqual(2, item1.DotNetFrameworks.Count);
+            Assert.AreEqual(".NET 7.0", item1.DotNetFrameworks[0].Name);
+            Assert.AreEqual("bg-primary", item1.DotNetFrameworks[0].Color);
+            Assert.AreEqual(".NET Standard 2.0", item1.DotNetFrameworks[1].Name);
+            Assert.AreEqual("bg-primary", item1.DotNetFrameworks[1].Color);
+            Assert.AreEqual(0, item1.DotNetFrameworksRecommendations.Count);
+            Assert.IsNotNull(item1.Release);
+            Assert.IsNotNull(item1.Release?.ToTimingString());
+            Assert.IsTrue(item1.PullRequests.Count >= 0);
+            Assert.IsNotNull(item1.CoverallsCodeCoverage);
+            Assert.IsNull(item1.SonarCloud);
+        }
 
         //second repo
         SummaryItem? item2 = summaryItems.Where(r => r.Repo == "CustomQueue").FirstOrDefault();
         Assert.IsNotNull(item2);
-        Assert.AreEqual("CustomQueue", item2.Repo);
-        Assert.IsNotNull(item2.RepoSettings);
-        Assert.AreEqual(3, item2.RepoSettingsRecommendations.Count);
-        Assert.AreEqual("Consider enabling 'Allow Auto-Merge' in repo settings to streamline PR merging", item2.RepoSettingsRecommendations[0]);
-        Assert.AreEqual("Consider disabling 'Delete branch on merge' in repo settings to streamline PR merging and auto-cleanup completed branches", item2.RepoSettingsRecommendations[1]);
-        Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item2.RepoSettingsRecommendations[2]);
-        Assert.AreEqual(0, item2.Actions.Count);
-        Assert.AreEqual(1, item2.ActionRecommendations.Count);
-        Assert.AreEqual("Consider adding an action to build your project", item2.ActionRecommendations[0]);
-        Assert.AreEqual(0, item2.Dependabot.Count);
-        Assert.AreEqual(null, item2.DependabotFile);
-        Assert.AreEqual(null, item2.DependabotRoot);
-        Assert.AreEqual(1, item2.DependabotRecommendations.Count);
-        Assert.AreEqual("Consider adding a Dependabot file to automatically update dependencies", item2.DependabotRecommendations[0]);
-        Assert.IsNull(item2.BranchPolicies);
-        Assert.AreEqual(1, item2.BranchPoliciesRecommendations.Count);
-        Assert.AreEqual("Consider adding a branch policy to protect the main branch", item2.BranchPoliciesRecommendations[0]);
-        Assert.AreEqual(0, item2.GitVersion.Count);
-        Assert.AreEqual(1, item2.GitVersionRecommendations.Count);
-        Assert.AreEqual("Consider adding Git Versioning to this repo", item2.GitVersionRecommendations[0]);
-        Assert.AreEqual(1, item2.DotNetFrameworks.Count);
-        Assert.AreEqual(".NET 6.0", item2.DotNetFrameworks[0].Name);
-        Assert.AreEqual("bg-primary", item2.DotNetFrameworks[0].Color);
-        Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
-        Assert.IsNull(item2.Release);
-        Assert.IsTrue(item2.PullRequests.Count >= 0);
+        if (item2 != null)
+        {
+            Assert.AreEqual("CustomQueue", item2.Repo);
+            Assert.IsNotNull(item2.RepoSettings);
+            Assert.AreEqual(3, item2.RepoSettingsRecommendations.Count);
+            Assert.AreEqual("Consider enabling 'Allow Auto-Merge' in repo settings to streamline PR merging", item2.RepoSettingsRecommendations[0]);
+            Assert.AreEqual("Consider disabling 'Delete branch on merge' in repo settings to streamline PR merging and auto-cleanup completed branches", item2.RepoSettingsRecommendations[1]);
+            Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item2.RepoSettingsRecommendations[2]);
+            Assert.AreEqual(0, item2.Actions.Count);
+            Assert.AreEqual(1, item2.ActionRecommendations.Count);
+            Assert.AreEqual("Consider adding an action to build your project", item2.ActionRecommendations[0]);
+            Assert.AreEqual(0, item2.Dependabot.Count);
+            Assert.AreEqual(null, item2.DependabotFile);
+            Assert.AreEqual(null, item2.DependabotRoot);
+            Assert.AreEqual(1, item2.DependabotRecommendations.Count);
+            Assert.AreEqual("Consider adding a Dependabot file to automatically update dependencies", item2.DependabotRecommendations[0]);
+            Assert.IsNull(item2.BranchPolicies);
+            Assert.AreEqual(1, item2.BranchPoliciesRecommendations.Count);
+            Assert.AreEqual("Consider adding a branch policy to protect the main branch", item2.BranchPoliciesRecommendations[0]);
+            Assert.AreEqual(0, item2.GitVersion.Count);
+            Assert.AreEqual(1, item2.GitVersionRecommendations.Count);
+            Assert.AreEqual("Consider adding Git Versioning to this repo", item2.GitVersionRecommendations[0]);
+            Assert.AreEqual(1, item2.DotNetFrameworks.Count);
+            Assert.AreEqual(".NET 6.0", item2.DotNetFrameworks[0].Name);
+            Assert.AreEqual("bg-primary", item2.DotNetFrameworks[0].Color);
+            Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
+            Assert.IsNull(item2.Release);
+            Assert.IsTrue(item2.PullRequests.Count >= 0);
+        }
 
         //third repo
         SummaryItem? item3 = summaryItems.Where(r => r.Repo == "DevOpsMetrics").FirstOrDefault();
         Assert.IsNotNull(item3);
-        Assert.AreEqual("DevOpsMetrics", item3.Repo);
-        //TODO: Includes 4 duplicates of .net6, should this be .net6 x4?
-        Assert.IsTrue(item3.DotNetFrameworks.Count >= 0);
-        Assert.AreEqual("public", item3.RepoSettings.visibility);
-        Assert.IsNotNull(item3.DORASummary);
+        if (item3 != null)
+        {
+            Assert.AreEqual("DevOpsMetrics", item3.Repo);
+            //TODO: Includes 4 duplicates of .net6, should this be .net6 x4?
+            Assert.IsTrue(item3.DotNetFrameworks.Count >= 0);
+            Assert.AreEqual("public", item3.RepoSettings.visibility);
+            Assert.IsNotNull(item3.DORASummary);
+            Assert.IsNotNull(item3.SonarCloud);
+        }
 
-        //fifth repo
+        //fourth repo
         SummaryItem? item4 = summaryItems.Where(r => r.Repo == "TBS").FirstOrDefault();
         Assert.IsNotNull(item4);
-        Assert.AreEqual("TBS", item4.Repo);
-        //Assert.AreEqual(1, item4.DotNetFrameworks.Count);
-        //Assert.AreEqual("Unity3d v2020.3", item4.DotNetFrameworks[0].Name);
-        //Assert.AreEqual("bg-primary", item4.DotNetFrameworks[0].Color);
-        Assert.AreEqual("private", item4.RepoSettings.visibility);
-        Assert.AreEqual(0, item4.BranchPoliciesRecommendations.Count);
+        if (item4 != null)
+        {
+            Assert.AreEqual("TBS", item4.Repo);
+            //Assert.AreEqual(1, item4.DotNetFrameworks.Count);
+            //Assert.AreEqual("Unity3d v2020.3", item4.DotNetFrameworks[0].Name);
+            //Assert.AreEqual("bg-primary", item4.DotNetFrameworks[0].Color);
+            Assert.AreEqual("private", item4.RepoSettings.visibility);
+            Assert.AreEqual(0, item4.BranchPoliciesRecommendations.Count);
+        }
 
+        //Fifth repo
         SummaryItem? item5 = summaryItems.Where(r => r.Repo == "ResearchTree").FirstOrDefault();
         Assert.IsNotNull(item5);
-        Assert.IsTrue(item5.DotNetFrameworks.Count >= 4);
-        Assert.AreEqual(".NET 6.0", item5.DotNetFrameworks[0].Name);
-        Assert.AreEqual("bg-primary", item5.DotNetFrameworks[0].Color);
-        Assert.AreEqual(".NET 6.0-windows", item5.DotNetFrameworks[1].Name);
-        Assert.AreEqual("bg-primary", item5.DotNetFrameworks[1].Color);
-        Assert.AreEqual(".NET Framework 4.7.1", item5.DotNetFrameworks[2].Name);
-        Assert.AreEqual("bg-primary", item5.DotNetFrameworks[2].Color);
-        Assert.AreEqual(".NET Standard 2.0", item5.DotNetFrameworks[3].Name);
-        Assert.AreEqual("bg-primary", item5.DotNetFrameworks[3].Color);
+        if (item5 != null)
+        {
+            Assert.IsTrue(item5.DotNetFrameworks.Count >= 4);
+            Assert.AreEqual(".NET 6.0", item5.DotNetFrameworks[0].Name);
+            Assert.AreEqual("bg-primary", item5.DotNetFrameworks[0].Color);
+            Assert.AreEqual(".NET 6.0-windows", item5.DotNetFrameworks[1].Name);
+            Assert.AreEqual("bg-primary", item5.DotNetFrameworks[1].Color);
+            Assert.AreEqual(".NET Framework 4.7.1", item5.DotNetFrameworks[2].Name);
+            Assert.AreEqual("bg-primary", item5.DotNetFrameworks[2].Color);
+            Assert.AreEqual(".NET Standard 2.0", item5.DotNetFrameworks[3].Name);
+            Assert.AreEqual("bg-primary", item5.DotNetFrameworks[3].Color);
+        }
 
+        //Sixth repo
         SummaryItem? item6 = summaryItems.Where(r => r.Repo == "RepoAutomationUnitTests").FirstOrDefault();
         Assert.IsNotNull(item6);
-        Assert.IsTrue(item6.PullRequests.Count >= 1);
+        if (item6 != null)
+        {
+            Assert.IsTrue(item6.PullRequests.Count >= 1);
+        }
 
         //Ensure they are alphabetical
         Assert.AreEqual("TBS", summaryItems[^1].Repo);

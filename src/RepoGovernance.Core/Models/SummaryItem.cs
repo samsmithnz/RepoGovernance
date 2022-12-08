@@ -43,11 +43,13 @@ namespace RepoGovernance.Core.Models
         public List<Framework> DotNetFrameworks { get; set; }
         public List<string> DotNetFrameworksRecommendations { get; set; }
         public List<PullRequest> PullRequests { get; set; }
-        public Release Release { get; set; }
+        public Release? Release { get; set; }
         public string? LastCommitSha { get; set; }
         public DateTime LastUpdated { get; set; }
-        public CoverallsCodeCoverage CoverallsCodeCoverage { get; set; }
-        
+        public CoverallsCodeCoverage? CoverallsCodeCoverage { get; set; }
+        public SonarCloud? SonarCloud { get; set; }
+
+
         public string OwnerRepo
         {
             get
