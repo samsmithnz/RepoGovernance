@@ -281,7 +281,7 @@ namespace RepoGovernance.Core
             }
 
             //Get SonarCloud metrics
-            SonarCloud? sonarCloud = await SonarCloudAPI.GetSonarCloud(owner, repo);
+            SonarCloud? sonarCloud = await SonarCloudAPI.GetSonarCloudMetrics(owner, repo);
             if (summaryItem != null && sonarCloud != null)
             {
                 summaryItem.SonarCloud = sonarCloud;
