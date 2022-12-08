@@ -26,31 +26,31 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, itemsUpdated);
     }
 
-    [TestMethod]
-    public async Task UpdateAllItemsTest()
-    {
-        //Arrange
-        string user = "samsmithnz";
-        //string owner = "samsmithnz";
-        string serviceUrl = "https://devops-prod-eu-service.azurewebsites.net";
+    //[TestMethod]
+    //public async Task UpdateAllItemsTest()
+    //{
+    //    //Arrange
+    //    string user = "samsmithnz";
+    //    //string owner = "samsmithnz";
+    //    string serviceUrl = "https://devops-prod-eu-service.azurewebsites.net";
 
-        //Act - runs each repo in about 4s
-        List<UserOwnerRepo> repos = SummaryItemsDA.GetRepos(user);
+    //    //Act - runs each repo in about 4s
+    //    List<UserOwnerRepo> repos = SummaryItemsDA.GetRepos(user);
 
-        int itemsUpdated = 0;
-        foreach (UserOwnerRepo repo in repos)
-        {
-            string ownerName = repo.Owner;
-            string repoName = repo.Repo;
-            itemsUpdated += await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret,
-                AzureStorageConnectionString,
-                serviceUrl,
-                user, ownerName, repoName);
-        }
+    //    int itemsUpdated = 0;
+    //    foreach (UserOwnerRepo repo in repos)
+    //    {
+    //        string ownerName = repo.Owner;
+    //        string repoName = repo.Repo;
+    //        itemsUpdated += await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret,
+    //            AzureStorageConnectionString,
+    //            serviceUrl,
+    //            user, ownerName, repoName);
+    //    }
 
-        //Assert
-        Assert.AreEqual(repos.Count, itemsUpdated);
-    }
+    //    //Assert
+    //    Assert.AreEqual(repos.Count, itemsUpdated);
+    //}
 
     [TestMethod]
     public void GetSummaryItemsTest()
@@ -93,6 +93,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.IsNotNull(item1.Release.ToTimingString());
         Assert.IsTrue(item1.PullRequests.Count >= 0);
         Assert.IsNotNull(item1.CoverallsCodeCoverage);
+        Assert.IsNull(item1.SonarCloud);
 
         //second repo
         SummaryItem? item2 = summaryItems.Where(r => r.Repo == "CustomQueue").FirstOrDefault();
@@ -132,8 +133,9 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.IsTrue(item3.DotNetFrameworks.Count >= 0);
         Assert.AreEqual("public", item3.RepoSettings.visibility);
         Assert.IsNotNull(item3.DORASummary);
+        Assert.IsNotNull(item3.SonarCloud);
 
-        //fifth repo
+        //fourth repo
         SummaryItem? item4 = summaryItems.Where(r => r.Repo == "TBS").FirstOrDefault();
         Assert.IsNotNull(item4);
         Assert.AreEqual("TBS", item4.Repo);
@@ -143,6 +145,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual("private", item4.RepoSettings.visibility);
         Assert.AreEqual(0, item4.BranchPoliciesRecommendations.Count);
 
+        //Fifth repo
         SummaryItem? item5 = summaryItems.Where(r => r.Repo == "ResearchTree").FirstOrDefault();
         Assert.IsNotNull(item5);
         Assert.IsTrue(item5.DotNetFrameworks.Count >= 4);
@@ -155,6 +158,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(".NET Standard 2.0", item5.DotNetFrameworks[3].Name);
         Assert.AreEqual("bg-primary", item5.DotNetFrameworks[3].Color);
 
+        //Sixth repo
         SummaryItem? item6 = summaryItems.Where(r => r.Repo == "RepoAutomationUnitTests").FirstOrDefault();
         Assert.IsNotNull(item6);
         Assert.IsTrue(item6.PullRequests.Count >= 1);
