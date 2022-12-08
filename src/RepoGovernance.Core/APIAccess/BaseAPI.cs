@@ -13,7 +13,7 @@ namespace RepoGovernance.Core.APIAccess
     {
         public static async Task<T?> GetResponse<T>(HttpClient client, string url, bool ignoreErrors = false)
         {
-            T obj = default;
+            T? obj = default;
             if (client != null && url != null)
             {
                 //Debug.WriteLine("Running url: " + client.BaseAddress.ToString() + url);
