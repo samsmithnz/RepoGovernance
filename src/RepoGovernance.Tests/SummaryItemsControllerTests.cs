@@ -97,6 +97,10 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.IsTrue(item1.PullRequests.Count >= 0);
             Assert.IsNotNull(item1.CoverallsCodeCoverage);
             Assert.IsNotNull(item1.SonarCloud);
+            Assert.IsNotNull(item1.SonarCloud.CodeSmellsBadgeImage);
+            Assert.AreEqual("",item1.SonarCloud.CodeSmellsLink);
+            Assert.IsNotNull(item1.SonarCloud.LinesOfCodeBadgeImage);
+            Assert.AreEqual("", item1.SonarCloud.LinesOfCodeLink);
         }
 
         //second repo
