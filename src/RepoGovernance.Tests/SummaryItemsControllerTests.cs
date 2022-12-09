@@ -97,10 +97,13 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.IsTrue(item1.PullRequests.Count >= 0);
             Assert.IsNotNull(item1.CoverallsCodeCoverage);
             Assert.IsNotNull(item1.SonarCloud);
-            Assert.IsNotNull(item1.SonarCloud.CodeSmellsBadgeImage);
-            Assert.AreEqual("",item1.SonarCloud.CodeSmellsLink);
-            Assert.IsNotNull(item1.SonarCloud.LinesOfCodeBadgeImage);
-            Assert.AreEqual("", item1.SonarCloud.LinesOfCodeLink);
+            if (item1.SonarCloud != null)
+            {
+                Assert.IsNotNull(item1.SonarCloud.CodeSmellsBadgeImage);
+                Assert.AreEqual("https://sonarcloud.io/project/issues?resolved=false&id=samsmithnz_AzurePipelinesToGitHubActionsConverter", item1.SonarCloud.CodeSmellsLink);
+                Assert.IsNotNull(item1.SonarCloud.LinesOfCodeBadgeImage);
+                Assert.AreEqual("https://sonarcloud.io/component_measures?metric=ncloc&id=samsmithnz_AzurePipelinesToGitHubActionsConverter", item1.SonarCloud.LinesOfCodeLink);
+            }
         }
 
         //second repo
