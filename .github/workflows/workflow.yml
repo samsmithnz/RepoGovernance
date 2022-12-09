@@ -78,6 +78,7 @@ jobs:
         AppSettings.StorageConnectionString: "${{ secrets.StorageConnectionString }}" 
     - name: .NET test
       run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj --configuration Debug --logger trx /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+    - run: Get-ChildItem -Path src -Filter coverage.info -Recurse -ErrorAction SilentlyContinue -Force
     - name: Publish coverage report to coveralls.io
       uses: coverallsapp/github-action@master
       with:
