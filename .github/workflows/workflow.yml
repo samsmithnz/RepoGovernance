@@ -77,8 +77,16 @@ jobs:
         AppSettings.GitHubClientSecret: "${{ secrets.GitHubClientSecret }}" 
         AppSettings.StorageConnectionString: "${{ secrets.StorageConnectionString }}" 
     - name: .NET test
-      run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj -c Release -l:"trx;LogFileName=${{ github.workspace }}/TestOutput.xml"
+      run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj --configuration Debug --logger trx /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+    - run: Get-ChildItem -Path src -Filter *.trx -Recurse -ErrorAction SilentlyContinue -Force
+    - name: Publish coverage report to coveralls.io
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: src/RepoGovernance.Tests/TestResults/coverage.info 
+      continue-on-error: true
     - name: Show test results
+      if: false
       uses: samsmithnz/DotNetTestResults@0.1.3
       with:
         fileName: ${{ github.workspace }}/TestOutput.xml
@@ -124,7 +132,6 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"samsmithnz_RepoGovernance" /o:"samsmithnz-github" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          #dotnet build src/RepoGovernance/RepoGovernance.sln
           dotnet build src/RepoGovernance.Tests//RepoGovernance.Tests.csproj
           dotnet build src/RepoGovernance.Service/RepoGovernance.Service.csproj
           dotnet build src/RepoGovernance.Web/RepoGovernance.Web.csproj
