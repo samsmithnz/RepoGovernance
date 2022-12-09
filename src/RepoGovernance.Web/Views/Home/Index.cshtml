@@ -150,9 +150,16 @@
                                 {
                                     codeCoverageColor = "brightgreen";
                                 }
-                                <a href="https://coveralls.io/github/@(item.OwnerRepo)/@(item.Repo)">
-                                    <img src="https://img.shields.io/static/v1?label=Code%20coverage&logo=coveralls&message=@item.CoverallsCodeCoverage.covered_percent.ToString("0")%&color=@codeCoverageColor">
-                                </a>
+                                <a href="https://coveralls.io/github/@(item.OwnerRepo)/@(item.Repo)"><img src="https://img.shields.io/static/v1?label=Code%20coverage&logo=coveralls&message=@item.CoverallsCodeCoverage.covered_percent.ToString("0")%&color=@codeCoverageColor"></a>
+                            }
+                            @if (item.SonarCloud != null)
+                            {
+                                if (item.SonarCloud.CodeSmellsBadgeImage != null)
+                                {
+                                    <a href="@item.SonarCloud.CodeSmellsLink" target="_blank">
+                                        @Html.Raw(item.SonarCloud.CodeSmellsBadgeImage)
+                                    </a>
+                                }
                             }
                         }
                         <br>
@@ -222,32 +229,32 @@
             </div>
     @foreach (SummaryItem item in Model)
     {
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <hr>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <div>
-                                                                    <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
-                                                                    <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="Last updated @item.LastUpdated.ToString("dd-MMM-yyyy h:mm:sstt")"></i>
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <hr>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <div>
+                                                                                    <a href="https://github.com/samsmithnz/@item.Repo">@item.Repo</a>
+                                                                                    <i class="bi bi-clock" data-toggle="tooltip" data-placement="bottom" title="Last updated @item.LastUpdated.ToString("dd-MMM-yyyy h:mm:sstt")"></i>
                     @if (item.RepoSettings.visibility == "private")
                     {
-                                                                                                                <i class="bi bi-file-lock-fill" style="color: black; height: 32px; width: 32px;" data-toggle="tooltip" data-placement="bottom" title="Private repo"></i>
+                                                                                                                                                <i class="bi bi-file-lock-fill" style="color: black; height: 32px; width: 32px;" data-toggle="tooltip" data-placement="bottom" title="Private repo"></i>
                     }
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-2">
+                                                                                <div>
                     @if (item.TotalRecommendationCount > 0)
                     {
-                                                                                                                <span>@item.TotalRecommendationCount x</span>
+                                                                                                                                                <span>@item.TotalRecommendationCount x</span>
                         @if (item.RepoSettingsRecommendations.Count == 0 &&
                 item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0 &&
                 item.Actions.Count > 0 && item.ActionRecommendations.Count == 0 &&
                 item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0 &&
                 item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
                         {
-                                                                                                                                                            <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="OK"></i>
+                                                                                                                                                                                                            <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="OK"></i>
                         }
                         else
                         {
@@ -272,16 +279,16 @@
                             {
                                 recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                             }
-                                                                                                                                                            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
+                                                                                                                                                                                                            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i>
                         }
                     }
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-1">
-                                                                <div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-1">
+                                                                                <div>
                     @if (item.PullRequests.Count == 0)
                     {
-                                                                                                                <i class="bi bi-dash" data-toggle="tooltip" data-placement="bottom" title=""></i>
+                                                                                                                                                <i class="bi bi-dash" data-toggle="tooltip" data-placement="bottom" title=""></i>
                     }
                     else
                     {
@@ -325,46 +332,46 @@
                         if (approvedDependabotPRCount > 0)
                         {
                             @approvedDependabotPRCount <span>x</span>
-                                                                                                                                                            <i class="bi bi-shield-check greenHeart" data-toggle="tooltip" data-placement="bottom" title="Approved Dependabot PRs @approvedDependabotPRs"></i>
-                                                                                                                                                            <br />
+                                                                                                                                                                                                            <i class="bi bi-shield-check greenHeart" data-toggle="tooltip" data-placement="bottom" title="Approved Dependabot PRs @approvedDependabotPRs"></i>
+                                                                                                                                                                                                            <br />
                         }
                         if (unreviewedDependabotPRCount > 0)
                         {
                             @unreviewedDependabotPRCount <span>x</span>
-                                                                                                                                                            <i class="bi bi-shield-minus redHeart" data-toggle="tooltip" data-placement="bottom" title="Unreviewed Dependabot PRs @unreviewedDependabotPRs"></i>
-                                                                                                                                                            <br />
+                                                                                                                                                                                                            <i class="bi bi-shield-minus redHeart" data-toggle="tooltip" data-placement="bottom" title="Unreviewed Dependabot PRs @unreviewedDependabotPRs"></i>
+                                                                                                                                                                                                            <br />
                         }
                         if (approvedUserPRCount > 0)
                         {
                             @approvedUserPRCount <span>x</span>
-                                                                                                                                                            <i class="bi bi-person-check greenHeart" data-toggle="tooltip" data-placement="bottom" title="Approved user PRs @approvedUserPRs"></i>
-                                                                                                                                                            <br />
+                                                                                                                                                                                                            <i class="bi bi-person-check greenHeart" data-toggle="tooltip" data-placement="bottom" title="Approved user PRs @approvedUserPRs"></i>
+                                                                                                                                                                                                            <br />
                         }
                         if (unreviewedUserPRCount > 0)
                         {
                             @unreviewedUserPRCount <span>x</span>
-                                                                                                                                                            <i class="bi bi-person-dash redHeart" data-toggle="tooltip" data-placement="bottom" title="Unreviewed user PRs @unreviewedUserPRs"></i>
-                                                                                                                                                            <br />
+                                                                                                                                                                                                            <i class="bi bi-person-dash redHeart" data-toggle="tooltip" data-placement="bottom" title="Unreviewed user PRs @unreviewedUserPRs"></i>
+                                                                                                                                                                                                            <br />
                         }
-                                                                                                                <a href="https://github.com/@item.Owner/@item.Repo/pulls" target="_blank" title="View all PRs">@item.PullRequests.Count PRs</a>
+                                                                                                                                                <a href="https://github.com/@item.Owner/@item.Repo/pulls" target="_blank" title="View all PRs">@item.PullRequests.Count PRs</a>
                     }
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-2">
+                                                                                <div>
                     @if (item.DotNetFrameworks.Count == 0)
                     {
-                                                                                                                <span class="badge bg-secondary">None found</span>
+                                                                                                                                                <span class="badge bg-secondary">None found</span>
                     }
                     else
                     {
                         foreach (Framework framework in item.DotNetFrameworks)
                         {
-                                                                                                                                                            <span class="badge @framework.Color">@framework.Name</span>
+                                                                                                                                                                                                            <span class="badge @framework.Color">@framework.Name</span>
                         }
                     }
-                                                                </div>
-                                                            </div>
+                                                                                </div>
+                                                                            </div>
             @*                <div class="col-md-2">
                 <div>
                 @if (item.TotalRecommendationCount > 0)
@@ -374,22 +381,22 @@
                 }
                 </div>
                 </div>*@
-                                                            <div class="col-md-2">
-                                                                <div>
+                                                                            <div class="col-md-2">
+                                                                                <div>
                     @if (item.DORASummary != null)
                     {
-                                                                                                                <img src="@item.DORASummary.DeploymentFrequencyBadgeURL" />
-                                                                                                                <img src="@item.DORASummary.LeadTimeForChangesBadgeURL" />
-                                                                                                                <img src="@item.DORASummary.MeanTimeToRestoreBadgeURL" />
-                                                                                                                <img src="@item.DORASummary.ChangeFailureRateBadgeURL" />
+                                                                                                                                                <img src="@item.DORASummary.DeploymentFrequencyBadgeURL" />
+                                                                                                                                                <img src="@item.DORASummary.LeadTimeForChangesBadgeURL" />
+                                                                                                                                                <img src="@item.DORASummary.MeanTimeToRestoreBadgeURL" />
+                                                                                                                                                <img src="@item.DORASummary.ChangeFailureRateBadgeURL" />
                         @*<img src="@item.DORASummary.DeploymentFrequencyBadgeWithMetricURL" />
                         <img src="@item.DORASummary.LeadTimeForChangesWithMetricURL" />
                         <img src="@item.DORASummary.MeanTimeToRestoreBadgeWithMetricURL" />
                         <img src="@item.DORASummary.ChangeFailureRateBadgeWithMetricURL" />*@
                     }
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
     }
         </div>
         -->
