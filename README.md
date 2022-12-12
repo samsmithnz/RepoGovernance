@@ -1,5 +1,7 @@
 # RepoGovernance
 [![CI/CD](https://github.com/samsmithnz/RepoGovernance/actions/workflows/workflow.yml/badge.svg)](https://github.com/samsmithnz/RepoGovernance/actions/workflows/workflow.yml)
+[![Coverage Status](https://coveralls.io/repos/github/samsmithnz/RepoGovernance/badge.svg?branch=main)](https://coveralls.io/github/samsmithnz/RepoGovernance?branch=main)
+![Current Release](https://img.shields.io/github/release/samsmithnz/RepoGovernance/all.svg)
 
 **RepoGovernance is a project I'm building to monitor my side-projects and ensure they are following best practices**. I currently track a number of properties, including repo settings, branch policies, actions, dependabot, auto-versioning, technical debt identification, and DevOps metrics. It uses a number of building blocks I've built in the past to achieve this:
 
