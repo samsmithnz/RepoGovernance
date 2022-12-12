@@ -54,7 +54,7 @@ namespace RepoGovernance.Core
         /// <param name="repo"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static async Task<int> UpdateSummaryItems(string? clientId,
+        public static async Task<int> UpdateSummaryItem(string? clientId,
             string? secret,
             string? connectionString,
             string? devOpsServiceURL,

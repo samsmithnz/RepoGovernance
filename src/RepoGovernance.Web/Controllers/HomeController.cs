@@ -9,18 +9,23 @@ namespace RepoGovernance.Web.Controllers;
 public class HomeController : Controller
 {
     private readonly SummaryItemsServiceAPIClient _ServiceApiClient;
-    private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger, SummaryItemsServiceAPIClient ServiceApiClient)
+    public HomeController(SummaryItemsServiceAPIClient ServiceApiClient)
     {
-        _logger = logger;
         _ServiceApiClient = ServiceApiClient;
     }
-    
+
     public async Task<IActionResult> Index()
     {
         List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems("samsmithnz");
         return View(summaryItems);
+    }
+
+    //[HttpPost]
+    public async Task<IActionResult> UpdateRow(string user, string owner, string repo)
+    {
+        await _ServiceApiClient.UpdateSummaryItem(user, owner, repo);
+        return RedirectToAction("Index");
     }
 
     public IActionResult Privacy()

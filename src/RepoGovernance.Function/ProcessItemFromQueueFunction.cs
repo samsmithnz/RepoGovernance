@@ -47,7 +47,7 @@ namespace RepoGovernance.Function
 
             //log.LogInformation($"Configurations: ClientId {Configuration["GitHubClientId"]}, ClientSecret {Configuration["GitHubClientSecret"]}, SummaryQueueConnection {Configuration["SummaryQueueConnection"]}");
 
-            int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(Configuration["GitHubClientId"],
+            int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(Configuration["GitHubClientId"],
                 Configuration["GitHubClientSecret"],
                 Configuration["SummaryQueueConnection"],
                 Configuration["DevOpsServiceURL"],

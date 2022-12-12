@@ -173,6 +173,7 @@
 
                             <span class="lastUpdatedRedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }
+                        <a href="@Url.Action("UpdateRow", "Home", new { user = item.User, owner = item.Owner, repo = item.Repo })">Update row</a>
                     </div>
                 </div>
                 <div class="col-md-2">

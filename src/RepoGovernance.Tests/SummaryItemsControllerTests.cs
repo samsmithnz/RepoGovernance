@@ -13,7 +13,7 @@ namespace RepoGovernance.Tests;
 public class SummaryItemsControllerTests : BaseAPIAccessTests
 {
     [TestMethod]
-    public async Task UpdateRepoGovernanceSummaryItemsTest()
+    public async Task UpdateRepoGovernanceSummaryItemTest()
     {
         //Arrange
         string user = "samsmithnz";
@@ -21,7 +21,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         string repo = "AzurePipelinesToGitHubActionsConverter";
 
         //Act - runs a repo in about 4s
-        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret, AzureStorageConnectionString, DevOpsServiceURL, user, owner, repo);
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(GitHubId, GitHubSecret, AzureStorageConnectionString, DevOpsServiceURL, user, owner, repo);
 
         //Assert
         Assert.AreEqual(1, itemsUpdated);
@@ -43,7 +43,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
     //    {
     //        string ownerName = repo.Owner;
     //        string repoName = repo.Repo;
-    //        itemsUpdated += await SummaryItemsDA.UpdateSummaryItems(GitHubId, GitHubSecret,
+    //        itemsUpdated += await SummaryItemsDA.UpdateSummaryItem(GitHubId, GitHubSecret,
     //            AzureStorageConnectionString,
     //            serviceUrl,
     //            user, ownerName, repoName);
@@ -149,7 +149,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.IsTrue(item3.DotNetFrameworks.Count >= 0);
             Assert.AreEqual("public", item3.RepoSettings.visibility);
             Assert.IsNotNull(item3.DORASummary);
-            Assert.IsNull(item3.SonarCloud);
+            Assert.IsNotNull(item3.SonarCloud);
         }
 
         //fourth repo
