@@ -131,7 +131,8 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"samsmithnz_RepoGovernance" /o:"samsmithnz-github" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build src/RepoGovernance.Tests//RepoGovernance.Tests.csproj
+          dotnet build src/RepoGovernance.Core/RepoGovernance.Core.csproj
+          dotnet build src/RepoGovernance.Tests/RepoGovernance.Tests.csproj
           dotnet build src/RepoGovernance.Service/RepoGovernance.Service.csproj
           dotnet build src/RepoGovernance.Web/RepoGovernance.Web.csproj
           dotnet build src/RepoGovernance.Function/RepoGovernance.Function.csproj
