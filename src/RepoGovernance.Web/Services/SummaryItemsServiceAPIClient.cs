@@ -30,8 +30,11 @@ namespace RepoGovernance.Web.Services
             }
         }
 
-
-
+        public async Task<int> UpdateSummaryItem(string user, string owner, string repo)
+        {
+            Uri url = new($"api/SummaryItems/UpdateSummaryItem?user=" + user + "&owner=" + owner + "&repo=" + repo, UriKind.Relative);
+            return await base.ReadMessageItem<int>(url);
+        }
 
     }
 }
