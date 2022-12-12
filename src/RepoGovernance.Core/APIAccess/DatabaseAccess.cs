@@ -14,7 +14,7 @@ public static class DatabaseAccess
             new UserOwnerRepo(user, user, "Battle"),
             new UserOwnerRepo(user, user, "CustomQueue"),
             new UserOwnerRepo(user, user, "Dependabot-Configuration-Builder"),
-            new UserOwnerRepo(user, user, "DotnetCensus"),
+            new UserOwnerRepo(user, user, "DotNetCensus"),
             new UserOwnerRepo(user, user, "DevOpsMetrics"),
             new UserOwnerRepo(user, user, "DSPTree"),
             new UserOwnerRepo(user, user, "FactorySim"),
