@@ -21,16 +21,16 @@ namespace RepoGovernance.Service.Controllers
         }
 
         /// <summary>
-        /// Get a list of summary items
+        /// Update a target of summary item
         /// </summary>
         /// <param name="user">The user - often is also the owner, that has access to organizations</param>
         /// <param name="owner">The owner or organization</param>
         /// <param name="repo">the repository being updated</param>
         /// <returns></returns>
-        [HttpGet("UpdateSummaryItems")]
-        public async Task<int> UpdateSummaryItems(string user, string owner, string repo)
+        [HttpGet("UpdateSummaryItem")]
+        public async Task<int> UpdateSummaryItem(string user, string owner, string repo)
         {
-            return await SummaryItemsDA.UpdateSummaryItems(
+            return await SummaryItemsDA.UpdateSummaryItem(
                Configuration["AppSettings:GitHubClientId"],
                Configuration["AppSettings:GitHubClientSecret"],
                Configuration["AppSettings:StorageConnectionString"],
@@ -38,6 +38,11 @@ namespace RepoGovernance.Service.Controllers
                user, owner, repo);
         }
 
+        /// <summary>
+        /// Get a list of summary item
+        /// </summary>
+        /// <param name="user">The user - often is also the owner, that has access to organizations</param>
+        /// <returns></returns>
         [HttpGet("GetSummaryItems")]
         public List<SummaryItem> GetSummaryItems(string user)
         {
