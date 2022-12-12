@@ -21,6 +21,7 @@ public class HomeController : Controller
         return View(summaryItems);
     }
 
+    //[HttpPost]
     public async Task<IActionResult> UpdateRow(string user, string owner, string repo)
     {
         await _ServiceApiClient.UpdateSummaryItem(user, owner, repo);
