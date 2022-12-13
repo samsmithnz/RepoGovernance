@@ -124,15 +124,15 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.AreEqual("Consider adding a Dependabot file to automatically update dependencies", item2.DependabotRecommendations[0]);
             Assert.IsNotNull(item2.BranchPolicies);
             Assert.AreEqual(1, item2.BranchPoliciesRecommendations.Count);
-            Assert.AreEqual("Consider adding a branch policy to protect the main branch", item2.BranchPoliciesRecommendations[0]);
-            Assert.AreEqual(0, item2.GitVersion.Count);
-            Assert.AreEqual(1, item2.GitVersionRecommendations.Count);
-            Assert.AreEqual("Consider adding Git Versioning to this repo", item2.GitVersionRecommendations[0]);
+            Assert.AreEqual("Consider enabling 'Enforce Admins', to ensure that all users of the repo must follow branch policy rules", item2.BranchPoliciesRecommendations[0]);
+            Assert.AreEqual(1, item2.GitVersion.Count);
+            Assert.AreEqual(0, item2.GitVersionRecommendations.Count);
+            //Assert.AreEqual("Consider adding Git Versioning to this repo", item2.GitVersionRecommendations[0]);
             Assert.AreEqual(1, item2.DotNetFrameworks.Count);
-            Assert.AreEqual(".NET 6.0", item2.DotNetFrameworks[0].Name);
+            Assert.AreEqual(".NET 7.0", item2.DotNetFrameworks[0].Name);
             Assert.AreEqual("bg-primary", item2.DotNetFrameworks[0].Color);
             Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
-            Assert.IsNull(item2.Release);
+            Assert.IsNotNull(item2.Release);
             Assert.IsTrue(item2.PullRequests.Count >= 0);
         }
 
