@@ -122,7 +122,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.AreEqual(null, item2.DependabotRoot);
             Assert.AreEqual(1, item2.DependabotRecommendations.Count);
             Assert.AreEqual("Consider adding a Dependabot file to automatically update dependencies", item2.DependabotRecommendations[0]);
-            Assert.IsNull(item2.BranchPolicies);
+            Assert.IsNotNull(item2.BranchPolicies);
             Assert.AreEqual(1, item2.BranchPoliciesRecommendations.Count);
             Assert.AreEqual("Consider adding a branch policy to protect the main branch", item2.BranchPoliciesRecommendations[0]);
             Assert.AreEqual(0, item2.GitVersion.Count);
