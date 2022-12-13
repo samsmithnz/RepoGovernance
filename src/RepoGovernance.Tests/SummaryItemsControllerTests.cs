@@ -113,7 +113,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         {
             Assert.AreEqual("CustomQueue", item2.Repo);
             Assert.IsNotNull(item2.RepoSettings);
-            Assert.AreEqual(3, item2.RepoSettingsRecommendations.Count);
+            Assert.AreEqual(1, item2.RepoSettingsRecommendations.Count);
             Assert.AreEqual("Consider enabling 'Allow Auto-Merge' in repo settings to streamline PR merging", item2.RepoSettingsRecommendations[0]);
             Assert.AreEqual("Consider disabling 'Delete branch on merge' in repo settings to streamline PR merging and auto-cleanup completed branches", item2.RepoSettingsRecommendations[1]);
             Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item2.RepoSettingsRecommendations[2]);
