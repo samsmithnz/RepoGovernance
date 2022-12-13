@@ -113,29 +113,26 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         {
             Assert.AreEqual("CustomQueue", item2.Repo);
             Assert.IsNotNull(item2.RepoSettings);
-            Assert.AreEqual(3, item2.RepoSettingsRecommendations.Count);
-            Assert.AreEqual("Consider enabling 'Allow Auto-Merge' in repo settings to streamline PR merging", item2.RepoSettingsRecommendations[0]);
-            Assert.AreEqual("Consider disabling 'Delete branch on merge' in repo settings to streamline PR merging and auto-cleanup completed branches", item2.RepoSettingsRecommendations[1]);
-            Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item2.RepoSettingsRecommendations[2]);
-            Assert.AreEqual(0, item2.Actions.Count);
-            Assert.AreEqual(1, item2.ActionRecommendations.Count);
-            Assert.AreEqual("Consider adding an action to build your project", item2.ActionRecommendations[0]);
+            Assert.AreEqual(1, item2.RepoSettingsRecommendations.Count);
+            Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item2.RepoSettingsRecommendations[0]);
+            Assert.AreEqual(1, item2.Actions.Count);
+            Assert.AreEqual(0, item2.ActionRecommendations.Count);
             Assert.AreEqual(0, item2.Dependabot.Count);
             Assert.AreEqual(null, item2.DependabotFile);
             Assert.AreEqual(null, item2.DependabotRoot);
             Assert.AreEqual(1, item2.DependabotRecommendations.Count);
             Assert.AreEqual("Consider adding a Dependabot file to automatically update dependencies", item2.DependabotRecommendations[0]);
-            Assert.IsNull(item2.BranchPolicies);
+            Assert.IsNotNull(item2.BranchPolicies);
             Assert.AreEqual(1, item2.BranchPoliciesRecommendations.Count);
-            Assert.AreEqual("Consider adding a branch policy to protect the main branch", item2.BranchPoliciesRecommendations[0]);
-            Assert.AreEqual(0, item2.GitVersion.Count);
-            Assert.AreEqual(1, item2.GitVersionRecommendations.Count);
-            Assert.AreEqual("Consider adding Git Versioning to this repo", item2.GitVersionRecommendations[0]);
+            Assert.AreEqual("Consider enabling 'Enforce Admins', to ensure that all users of the repo must follow branch policy rules", item2.BranchPoliciesRecommendations[0]);
+            Assert.AreEqual(1, item2.GitVersion.Count);
+            Assert.AreEqual(0, item2.GitVersionRecommendations.Count);
+            //Assert.AreEqual("Consider adding Git Versioning to this repo", item2.GitVersionRecommendations[0]);
             Assert.AreEqual(1, item2.DotNetFrameworks.Count);
-            Assert.AreEqual(".NET 6.0", item2.DotNetFrameworks[0].Name);
+            Assert.AreEqual(".NET 7.0", item2.DotNetFrameworks[0].Name);
             Assert.AreEqual("bg-primary", item2.DotNetFrameworks[0].Color);
             Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
-            Assert.IsNull(item2.Release);
+            Assert.IsNotNull(item2.Release);
             Assert.IsTrue(item2.PullRequests.Count >= 0);
         }
 
