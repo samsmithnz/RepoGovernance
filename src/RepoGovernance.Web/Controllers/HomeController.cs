@@ -28,6 +28,16 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
+    public async Task<IActionResult> UpdateAll()
+    {
+        List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems("samsmithnz");
+        foreach (SummaryItem summaryItem in summaryItems)
+        {
+            await _ServiceApiClient.UpdateSummaryItem(summaryItem.User, summaryItem.Owner, summaryItem.Repo);
+        }
+        return RedirectToAction("Index");
+    }
+
     public IActionResult Privacy()
     {
         return View();
