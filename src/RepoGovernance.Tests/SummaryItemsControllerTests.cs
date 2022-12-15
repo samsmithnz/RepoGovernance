@@ -1,14 +1,15 @@
-using Microsoft.Azure.Documents;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoGovernance.Core;
 using RepoGovernance.Core.Models;
 using RepoGovernance.Tests.Helpers;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace RepoGovernance.Tests;
 
+[ExcludeFromCodeCoverage]
 [TestClass]
 public class SummaryItemsControllerTests : BaseAPIAccessTests
 {
@@ -18,7 +19,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //Arrange
         string user = "samsmithnz";
         string owner = "samsmithnz";
-        string repo = "AzurePipelinesToGitHubActionsConverter";
+        string repo = "RepoAutomationUnitTests";
 
         //Act - runs a repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(GitHubId, GitHubSecret, AzureStorageConnectionString, DevOpsServiceURL, user, owner, repo);
@@ -184,7 +185,17 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         if (item6 != null)
         {
             Assert.IsTrue(item6.PullRequests.Count >= 1);
+            Assert.IsNotNull(item6.RepoSettings);
+            Assert.IsNotNull(item6.RepoSettingsRecommendations);
+            if (item6.RepoSettingsRecommendations != null)
+            {
+                Assert.AreEqual(3, item6.RepoSettingsRecommendations.Count);
+                Assert.AreEqual("Consider enabling 'Allow Auto-Merge' in repo settings to streamline PR merging", item6.RepoSettingsRecommendations[0]);
+                Assert.AreEqual("Consider disabling 'Delete branch on merge' in repo settings to streamline PR merging and auto-cleanup completed branches", item6.RepoSettingsRecommendations[1]);
+                Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item6.RepoSettingsRecommendations[2]);
+            }
         }
+
 
         //Ensure they are alphabetical
         Assert.AreEqual("TBS", summaryItems[^1].Repo);
