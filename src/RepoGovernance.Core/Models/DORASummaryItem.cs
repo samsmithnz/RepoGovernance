@@ -38,7 +38,7 @@
         {
             get; set;
         }
-        public string LeadTimeForChangesWithMetricURL
+        public string LeadTimeForChangesBadgeWithMetricURL
         {
             get; set;
         }
