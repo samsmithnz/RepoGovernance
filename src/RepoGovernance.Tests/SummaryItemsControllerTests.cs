@@ -185,7 +185,17 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         if (item6 != null)
         {
             Assert.IsTrue(item6.PullRequests.Count >= 1);
+            Assert.IsNotNull(item6.RepoSettings);
+            Assert.IsNotNull(item6.RepoSettingsRecommendations);
+            if (item6.RepoSettingsRecommendations != null)
+            {
+                Assert.AreEqual(3, item6.RepoSettingsRecommendations.Count);
+                Assert.AreEqual("Consider enabling 'Allow Auto-Merge' in repo settings to streamline PR merging", item6.RepoSettingsRecommendations[0]);
+                Assert.AreEqual("Consider disabling 'Delete branch on merge' in repo settings to streamline PR merging and auto-cleanup completed branches", item6.RepoSettingsRecommendations[1]);
+                Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item6.RepoSettingsRecommendations[2]);
+            }
         }
+
 
         //Ensure they are alphabetical
         Assert.AreEqual("TBS", summaryItems[^1].Repo);
