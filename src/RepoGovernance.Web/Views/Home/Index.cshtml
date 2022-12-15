@@ -87,7 +87,7 @@
                 _ => string.Concat(item.RepoSettings.visibility[0].ToString().ToUpper(), item.RepoSettings.visibility.AsSpan(1))
             };
             <div class="row rowStyle">
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <div>
                         <a href="https://github.com/samsmithnz/@item.Repo" target="_blank" class="projectHeader">@item.Repo</a> <span class="publicPrivateLabel">&nbsp;&nbsp;@visibility&nbsp;&nbsp;</span><br>
                         <span class="descriptionText">@item.RepoSettings.description</span><br>
@@ -190,7 +190,7 @@
                         }
                     }
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     @if (item.DORASummary != null)
                     {
                         <img src="@item.DORASummary.DeploymentFrequencyBadgeWithMetricURL" />
