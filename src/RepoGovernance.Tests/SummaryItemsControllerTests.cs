@@ -1,14 +1,15 @@
-using Microsoft.Azure.Documents;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoGovernance.Core;
 using RepoGovernance.Core.Models;
 using RepoGovernance.Tests.Helpers;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace RepoGovernance.Tests;
 
+[ExcludeFromCodeCoverage]
 [TestClass]
 public class SummaryItemsControllerTests : BaseAPIAccessTests
 {
