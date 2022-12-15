@@ -111,7 +111,7 @@ namespace RepoGovernance.Core
             {
                 if (summaryItem.Dependabot.Count > 1)
                 {
-                    summaryItem.DependabotRecommendations.Add("Consider consilidating your Dependabot files to just one file");
+                    summaryItem.DependabotRecommendations.Add("Consider consolidating your Dependabot files to just one file");
                 }
                 summaryItem.DependabotFile = await GitHubFiles.GetFileContents(clientId, secret, owner, repo, ".github/dependabot.yml");
                 summaryItem.DependabotRoot = DependabotSerialization.Deserialize(summaryItem?.DependabotFile?.content);
