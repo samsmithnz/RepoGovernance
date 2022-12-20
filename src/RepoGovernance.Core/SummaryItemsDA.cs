@@ -68,7 +68,7 @@ namespace RepoGovernance.Core
             SummaryItem summaryItem = new(user, owner, repo);
 
             //Get repo settings
-            RepoAutomation.Core.Models.Repo? repoSettings = await GitHubAPIAccess.GetRepo(clientId, secret, owner, repo);
+            RepoAutomation.Core.Models.Repo? repoSettings = await GitHubApiAccess.GetRepo(clientId, secret, owner, repo);
             if (repoSettings != null)
             {
                 summaryItem.RepoSettings = repoSettings;
@@ -150,7 +150,7 @@ namespace RepoGovernance.Core
             }
 
             //Get branch policies
-            BranchProtectionPolicy? branchPolicies = await GitHubAPIAccess.GetBranchProtectionPolicy(clientId, secret, owner, repo, "main");
+            BranchProtectionPolicy? branchPolicies = await GitHubApiAccess.GetBranchProtectionPolicy(clientId, secret, owner, repo, "main");
             if (branchPolicies == null)
             {
                 summaryItem?.BranchPoliciesRecommendations.Add("Consider adding a branch policy to protect the main branch");
@@ -214,14 +214,14 @@ namespace RepoGovernance.Core
             }
 
             //Get the last commit
-            string? lastCommitSha = await GitHubAPIAccess.GetLastCommit(clientId, secret, owner, repo);
+            string? lastCommitSha = await GitHubApiAccess.GetLastCommit(clientId, secret, owner, repo);
             if (summaryItem != null && lastCommitSha != null)
             {
                 summaryItem.LastCommitSha = lastCommitSha;
             }
 
             //Get Pull Request details
-            List<PullRequest> pullRequests = await GitHubAPIAccess.GetPullRequests(clientId, secret, owner, repo);
+            List<PullRequest> pullRequests = await GitHubApiAccess.GetPullRequests(clientId, secret, owner, repo);
             if (summaryItem != null && pullRequests != null && pullRequests.Count >= 0)
             {
                 foreach (PullRequest pr in pullRequests)
@@ -229,7 +229,7 @@ namespace RepoGovernance.Core
                     //Check if the PR has been reviewed
                     if (pr.Number != null)
                     {
-                        List<PRReview> prReviews = await GitHubAPIAccess.GetPullRequestReview(clientId, secret, owner, repo, pr.Number);
+                        List<PRReview> prReviews = await GitHubApiAccess.GetPullRequestReview(clientId, secret, owner, repo, pr.Number);
                         if (prReviews != null && prReviews.Count > 0 && prReviews[^1] != null)
                         {
                             string? state = prReviews[^1].state;
@@ -267,7 +267,7 @@ namespace RepoGovernance.Core
             }
 
             //Get the Release info
-            Release? release = await GitHubAPIAccess.GetReleaseLatest(clientId, secret, owner, repo);
+            Release? release = await GitHubApiAccess.GetReleaseLatest(clientId, secret, owner, repo);
             if (summaryItem != null && release != null)
             {
                 summaryItem.Release = release;

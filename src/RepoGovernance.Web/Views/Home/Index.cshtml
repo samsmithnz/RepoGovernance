@@ -163,7 +163,7 @@
                             }
                         }
                         <br>
-                        @if (@item.LastUpdated > DateTime.Now.AddDays(-1))
+                        @if (@item.LastUpdated > DateTime.Now.AddDays(-7))
                         {
                             <span class="lastUpdatedText">Last updated: @item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }

@@ -8,7 +8,7 @@ namespace RepoGovernance.Service.Controllers
     {
         //public async Task<List<Repo>> GetRepos(string owner)
         //{
-        //    RepoGovernance.Core.APIAccess.GitHubAPIAccess.GetRepo();
+        //    RepoGovernance.Core.APIAccess.GitHubApiAccess.GetRepo();
         //}
     }
 }

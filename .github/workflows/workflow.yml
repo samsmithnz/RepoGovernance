@@ -97,7 +97,7 @@ jobs:
     if: github.ref == 'refs/heads/main' 
     steps:
       - name: Run Sonarcloud test
-        uses: samsmithnz/SamsDotNetSonarCloudAction@1.0.5
+        uses: samsmithnz/SamsDotNetSonarCloudAction@1.2.0
         with:
           projects: 'src/RepoGovernance.Core/RepoGovernance.Core.csproj,src/RepoGovernance.Tests/RepoGovernance.Tests.csproj,src/RepoGovernance.Service/RepoGovernance.Service.csproj,src/RepoGovernance.Web/RepoGovernance.Web.csproj,src/RepoGovernance.Function/RepoGovernance.Function.csproj'
           dotnet-version: '7.0.x'
