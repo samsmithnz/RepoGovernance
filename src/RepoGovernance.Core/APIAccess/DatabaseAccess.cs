@@ -17,7 +17,7 @@ public static class DatabaseAccess
             new UserOwnerRepo(user, user, "DotNetCensus"),
             new UserOwnerRepo(user, user, "DevOpsMetrics"),
             new UserOwnerRepo(user, user, "DSPTree"),
-            new UserOwnerRepo(user, user, "FactorySim"),
+            new UserOwnerRepo(user, user, "Factory"),
             new UserOwnerRepo(user, user, "FictionBook"),
             new UserOwnerRepo(user, user, "GitHubActionsDotNet"),
             new UserOwnerRepo(user, user, "OpinionatedSoftwareAdvice"),
@@ -29,6 +29,7 @@ public static class DatabaseAccess
             new UserOwnerRepo(user, user, "SamsFeatureFlags"),
             new UserOwnerRepo(user, user, "samsmithnz"),
             new UserOwnerRepo(user, user, "SatisfactoryTree"),
+            new UserOwnerRepo(user, user, "SamsDotNetSonarCloudAction"),            
             new UserOwnerRepo(user, user, "TBS"),
             new UserOwnerRepo(user, "SamSmithNZ-dotcom", "SamSmithNZ.com"),
             new UserOwnerRepo(user, "SamSmithNZ-dotcom", "MandMCounter")
