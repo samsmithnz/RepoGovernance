@@ -38,9 +38,11 @@ body {
     border-width: 1px;
     border-color: darkgray;
     background-color: lightgray;
+    font-size: 14px;
     width: 16px;
     height: 16px;
     display: inline-block;
+    line-height: 16px;
 }
 
 .rowStyle {
