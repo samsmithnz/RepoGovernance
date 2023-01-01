@@ -105,6 +105,8 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
                 Assert.IsNotNull(item1.SonarCloud.LinesOfCodeBadgeImage);
                 Assert.AreEqual("https://sonarcloud.io/component_measures?metric=ncloc&id=samsmithnz_AzurePipelinesToGitHubActionsConverter", item1.SonarCloud.LinesOfCodeLink);
             }
+            Assert.IsNotNull(item1.RepoLanguages);
+            Assert.IsTrue(item1.RepoLanguages.Count > 0);
         }
 
         //second repo

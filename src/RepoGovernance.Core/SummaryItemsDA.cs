@@ -287,6 +287,14 @@ namespace RepoGovernance.Core
                 summaryItem.SonarCloud = sonarCloud;
             }
 
+            //Get Repo Language stats
+            Dictionary<string,int> repoLanguagesRaw = await GitHubApiAccess.GetRepoLanguages(clientId, secret, owner, repo);
+            List<RepoLanguage> repoLanguages = RepoLanguageHelper.TransformRepoLanguages(repoLanguagesRaw);
+            if (summaryItem != null && repoLanguages !=null && repoLanguages.Count > 0)
+            {
+                summaryItem.RepoLanguages = repoLanguages; 
+            }
+            
             //Save the summary item
             if (connectionString != null)
             {
