@@ -203,4 +203,17 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual("TBS", summaryItems[^1].Repo);
     }
 
+    [TestMethod]
+    public void GetRepoItemsTest()
+    {
+        //Arrange
+        string owner = "samsmithnz";
+
+        //Act
+        List<UserOwnerRepo> repos = SummaryItemsDA.GetRepos(owner);
+
+        //Assert
+        Assert.IsNotNull(repos);
+        Assert.IsTrue(repos.Count > 0);
+    }
 }
