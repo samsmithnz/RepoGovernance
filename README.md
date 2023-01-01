@@ -17,7 +17,6 @@ Currently hosted at https://repogovernance-prod-eu-web.azurewebsites.net/. This 
 
 ![image](https://user-images.githubusercontent.com/8389039/208060001-d842917c-a642-4065-8133-db2946062db0.png)
 
-
 ## The future?
 - Remediation: allowing users to not just identify an issue, but to resolve it with a few clicks. 
 - A GitHubApp: so that it's easy for anyone to setup, configure, and use - as well as adding authenication!
