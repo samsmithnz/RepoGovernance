@@ -12,11 +12,19 @@
 - [TechDebtIdentification](https://github.com/samsmithnz/TechDebtIdentification): To identify what version of .NET my projects are using
 - [DevOpsMetrics](https://github.com/samsmithnz/DevOpsMetrics): to calculate DORA/DevOps Metrics on my projects
 
+```mermaid
+  graph LR;
+      GitHubDotNet-->RepoAutomation;
+      RepoAutomation-->RepoGovernance;
+      SamsFeatureFlags-->RepoGovernance;
+      TechDebtIdentification-->RepoGovernance;
+      DevOpsMetrics-->RepoGovernance;
+```
+
 ## Current solution
 Currently hosted at https://repogovernance-prod-eu-web.azurewebsites.net/. This shows current projects I have configured, with recommendations, pull requests, frameworks detected, and current DORA DevOps metrics
 
 ![image](https://user-images.githubusercontent.com/8389039/208060001-d842917c-a642-4065-8133-db2946062db0.png)
-
 
 ## The future?
 - Remediation: allowing users to not just identify an issue, but to resolve it with a few clicks. 

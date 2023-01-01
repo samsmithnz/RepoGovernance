@@ -23,6 +23,7 @@ namespace RepoGovernance.Core.Models
             DotNetFrameworks = new();
             DotNetFrameworksRecommendations = new();
             PullRequests = new();
+            RepoLanguages = new();
         }
 
         public string User { get; internal set; }
@@ -72,5 +73,6 @@ namespace RepoGovernance.Core.Models
         }
 
         public DORASummaryItem? DORASummary { get; set; }
+        public List<RepoLanguage> RepoLanguages { get; set; }
     }
 }

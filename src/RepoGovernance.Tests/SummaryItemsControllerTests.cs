@@ -19,7 +19,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //Arrange
         string user = "samsmithnz";
         string owner = "samsmithnz";
-        string repo = "RepoAutomationUnitTests";
+        string repo = "AzurePipelinesToGitHubActionsConverter";
 
         //Act - runs a repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(GitHubId, GitHubSecret, AzureStorageConnectionString, DevOpsServiceURL, user, owner, repo);
@@ -105,6 +105,8 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
                 Assert.IsNotNull(item1.SonarCloud.LinesOfCodeBadgeImage);
                 Assert.AreEqual("https://sonarcloud.io/component_measures?metric=ncloc&id=samsmithnz_AzurePipelinesToGitHubActionsConverter", item1.SonarCloud.LinesOfCodeLink);
             }
+            Assert.IsNotNull(item1.RepoLanguages);
+            Assert.IsTrue(item1.RepoLanguages.Count > 0);
         }
 
         //second repo
