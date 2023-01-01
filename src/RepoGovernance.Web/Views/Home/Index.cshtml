@@ -189,6 +189,27 @@
                             <br />
                         }
                     }
+                    @if (item.RepoLanguages != null)
+                    {
+                        <div style="font-size:8pt;">
+                            <strong>Languages detected:</strong><br />
+                            if (item.RepoLanguages.Count > 0)
+                            {
+                                @foreach (RepoLanguage language in item.RepoLanguages)
+                                {
+                                    if (language.Percent > 0)
+                                    {
+                                        <span>@language.Name: @language.Percent.ToString("0%")</span>
+                                        <br />
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <span>(no languages detected)</span>
+                            }
+                        </div>
+                    }
                 </div>
                 <div class="col-md-4">
                     @if (item.DORASummary != null)
