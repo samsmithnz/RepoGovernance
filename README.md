@@ -7,7 +7,7 @@
 **RepoGovernance is a project I'm building to monitor my side-projects and ensure they are following best practices**. I currently track a number of properties, including repo settings, branch policies, actions, dependabot, auto-versioning, technical debt identification, and DevOps metrics. It uses a number of building blocks/dependencies I've built in the past to achieve this:
 
 - [GitHubDotNet](https://github.com/samsmithnz/GitHubActionsDotNet): Models to generate Actions and Dependabot files with .NET
-- [RepoAutomation](https://github.com/samsmithnz/RepoAutomation): To automate the creation of repos and my preferred repo settings
+- [RepoAutomation](https://github.com/samsmithnz/RepoAutomation): To automate the creation of repos with my preferred repo settings, and other GitHub related API calls
 - [SamsFeatureFlags](https://github.com/samsmithnz/SamsFeatureFlags): To use Feature Flags/Toggles on my projects
 - [DotNetCensus](https://github.com/samsmithnz/DotNetCensus): To identify what version of .NET my projects are using
 - [DevOpsMetrics](https://github.com/samsmithnz/DevOpsMetrics): to calculate DORA/DevOps Metrics on my projects
