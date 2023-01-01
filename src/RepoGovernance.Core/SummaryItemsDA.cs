@@ -288,8 +288,7 @@ namespace RepoGovernance.Core
             }
 
             //Get Repo Language stats
-            Dictionary<string,int> repoLanguagesRaw = await GitHubApiAccess.GetRepoLanguages(clientId, secret, owner, repo);
-            List<RepoLanguage> repoLanguages = RepoLanguageHelper.TransformRepoLanguages(repoLanguagesRaw);
+            List<RepoLanguage> repoLanguages = await RepoLanguageHelper.GetRepoLanguages(clientId, secret, owner, repo);
             if (summaryItem != null && repoLanguages !=null && repoLanguages.Count > 0)
             {
                 summaryItem.RepoLanguages = repoLanguages; 
