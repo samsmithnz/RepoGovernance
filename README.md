@@ -4,7 +4,7 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=samsmithnz_RepoGovernance&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=samsmithnz_RepoGovernance)
 [![Current Release](https://img.shields.io/github/release/samsmithnz/RepoGovernance/all.svg)](https://github.com/samsmithnz/RepoGovernance/releases)
 
-**RepoGovernance is a project I'm building to monitor my side-projects and ensure they are following best practices**. I currently track a number of properties, including repo settings, branch policies, actions, dependabot, auto-versioning, technical debt identification, and DevOps metrics. It uses a number of building blocks I've built in the past to achieve this:
+**RepoGovernance is a project I'm building to monitor my side-projects and ensure they are following best practices**. I currently track a number of properties, including repo settings, branch policies, actions, dependabot, auto-versioning, technical debt identification, and DevOps metrics. It uses a number of building blocks/dependencies I've built in the past to achieve this:
 
 - [GitHubDotNet](https://github.com/samsmithnz/GitHubActionsDotNet): Models to generate Actions and Dependabot files with .NET
 - [RepoAutomation](https://github.com/samsmithnz/RepoAutomation): To automate the creation of repos and my preferred repo settings
@@ -12,6 +12,7 @@
 - [TechDebtIdentification](https://github.com/samsmithnz/TechDebtIdentification): To identify what version of .NET my projects are using
 - [DevOpsMetrics](https://github.com/samsmithnz/DevOpsMetrics): to calculate DORA/DevOps Metrics on my projects
 
+This is how the dependencies look in a graph:
 ```mermaid
   graph LR;
       GitHubDotNet-->RepoAutomation;
