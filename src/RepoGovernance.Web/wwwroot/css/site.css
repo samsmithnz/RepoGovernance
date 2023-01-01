@@ -32,3 +32,55 @@ body {
     height: 32px;
     width: 32px;
 }
+
+.box {
+    border-style: solid;
+    border-width: 1px;
+    border-color: darkgray;
+    background-color: darkgray;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+}
+
+.rowStyle {
+    border-width: 1px;
+    border-color: #d0d7de;
+    border-style: solid;
+    padding: 20px;
+}
+
+.row + .row {
+    border-top: 0;
+}
+
+.projectHeader {
+    font-family: sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.publicPrivateLabel {
+    border-width: 1px;
+    border-color: #d0d7de;
+    border-radius: 2em;
+    border-style: solid;
+    font-size: 12px;
+    font-weight: 500;
+    color: #57606A;
+}
+
+.descriptionText {
+    font-size: 14px;
+    color: #57606A;
+}
+
+.lastUpdatedText {
+    font-size: 12px;
+    color: #57606A;
+}
+
+.lastUpdatedRedText {
+    font-size: 12px;
+    color: red;
+}

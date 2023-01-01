@@ -1,5 +1,6 @@
 ﻿@using RepoAutomation.Core.Models
 @using RepoGovernance.Core.Models
+@using System.Text.Json;
 @model List<SummaryItem>
 @{
     ViewData["Title"] = "Home Page";
@@ -28,50 +29,6 @@
     }
 }
 
-<style>
-    .rowStyle {
-        border-width: 1px;
-        border-color: #d0d7de;
-        border-style: solid;
-        padding: 20px;
-    }
-
-    .row + .row {
-        border-top: 0;
-    }
-
-    .projectHeader {
-        font-family: sans-serif;
-        font-size: 20px;
-        font-weight: 600;
-    }
-
-    .publicPrivateLabel {
-        border-width: 1px;
-        border-color: #d0d7de;
-        border-radius: 2em;
-        border-style: solid;
-        font-size: 12px;
-        font-weight: 500;
-        color: #57606A;
-    }
-
-    .descriptionText {
-        font-size: 14px;
-        color: #57606A;
-    }
-
-    .lastUpdatedText {
-        font-size: 12px;
-        color: #57606A;
-    }
-
-    .lastUpdatedRedText {
-        font-size: 12px;
-        color: red;
-    }
-</style>
-
 <div>
     <h4>For user <code>@user</code>@* (last updated at @lastUpdated)*@</h4>
     <b>Legend</b>: <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="No recommendations"></i>=Repo is OK, no recommendations
@@ -87,7 +44,7 @@
                 _ => string.Concat(item.RepoSettings.visibility[0].ToString().ToUpper(), item.RepoSettings.visibility.AsSpan(1))
             };
             <div class="row rowStyle">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div>
                         <a href="https://github.com/samsmithnz/@item.Repo" target="_blank" class="projectHeader">@item.Repo</a> <span class="publicPrivateLabel">&nbsp;&nbsp;@visibility&nbsp;&nbsp;</span><br>
                         <span class="descriptionText">@item.RepoSettings.description</span><br>
@@ -177,6 +134,58 @@
                     </div>
                 </div>
                 <div class="col-md-2">
+                    @if (item.RepoLanguages.Count > 0)
+                    {
+                        <div style="font-size:8pt;">
+                            <strong>Languages detected:</strong><br />
+                            @foreach (RepoLanguage language in item.RepoLanguages)
+                            {
+                                if (language.Percent > 0)
+                                {
+                                    <span class="box" @*style="background-color: green;"*@>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <span>@language.Name: @language.Percent.ToString("0%")</span>
+                                    <br />
+                                }
+                            }
+                        </div>
+                    }
+                    @*<canvas id="doughnut-chart-@(item.Repo)" width="200" height="200"></canvas>
+                    <script>
+                        @{
+                            string[] names = new string[item.RepoLanguages.Count];
+                            int[] totals = new int[item.RepoLanguages.Count];
+                            for (int i = 0; i < item.RepoLanguages.Count; i++)
+                            {
+                                names[i] = item.RepoLanguages[i].Name;
+                                totals[i] = (int)(item.RepoLanguages[i].Percent * 100);
+                            }
+                        }
+                                                var labels = @Html.Raw(JsonSerializer.Serialize(names));
+                        var backgroundColor = [];
+                        var data = @Html.Raw(JsonSerializer.Serialize(totals));
+
+                        new Chart(document.getElementById("doughnut-chart-@(item.Repo)"), {
+                            type: 'doughnut',
+                            data: {
+                                labels: labels,
+                                datasets: [
+                                    {
+                                        label: "Languages %",
+                                        backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                                        data: data
+                                    }
+                                ]
+                            },
+                            options: {
+                                title: {
+                                    display: true,
+                                    text: 'Languages detected:'
+                                }
+                            }
+                        });
+                </script>*@
+                </div>
+                <div class="col-md-2">
                     @if (item.DotNetFrameworks.Count == 0)
                     {
                         <span class="badge bg-secondary">None found</span>
@@ -189,22 +198,8 @@
                             <br />
                         }
                     }
-                    @if (item.RepoLanguages.Count > 0)
-                    {
-                        <div style="font-size:8pt;">
-                            <strong>Languages detected:</strong><br />
-                            @foreach (RepoLanguage language in item.RepoLanguages)
-                            {
-                                if (language.Percent > 0)
-                                {
-                                    <span>@language.Name: @language.Percent.ToString("0%")</span>
-                                    <br />
-                                }
-                            }
-                        </div>
-                    }
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     @if (item.DORASummary != null)
                     {
                         <img src="@item.DORASummary.DeploymentFrequencyBadgeWithMetricURL" />
