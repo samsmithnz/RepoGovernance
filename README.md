@@ -23,9 +23,9 @@ This is how the dependencies look in a graph:
 ```
 
 ## Current solution
-Currently hosted at https://repogovernance-prod-eu-web.azurewebsites.net/. This shows current projects I have configured, with recommendations, pull requests, frameworks detected, and current DORA DevOps metrics
+Currently hosted at https://repogovernance-prod-eu-web.azurewebsites.net/. This shows current projects I have configured, with recommendations, pull requests, code coverage, SonarCloud warnings, release information, languages detected, .NET frameworks detected, and current DORA DevOps metrics
 
-![image](https://user-images.githubusercontent.com/8389039/208060001-d842917c-a642-4065-8133-db2946062db0.png)
+![image](https://user-images.githubusercontent.com/8389039/210186797-3a65c4fe-2db2-452b-a0e1-623abed0a4da.png)
 
 ## The future?
 - Remediation: allowing users to not just identify an issue, but to resolve it with a few clicks. 
