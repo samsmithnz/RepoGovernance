@@ -189,24 +189,17 @@
                             <br />
                         }
                     }
-                    @if (item.RepoLanguages != null)
+                    @if (item.RepoLanguages.Count > 0)
                     {
                         <div style="font-size:8pt;">
                             <strong>Languages detected:</strong><br />
-                            if (item.RepoLanguages.Count > 0)
+                            foreach (RepoLanguage language in item.RepoLanguages)
                             {
-                                @foreach (RepoLanguage language in item.RepoLanguages)
+                                if (language.Percent > 0)
                                 {
-                                    if (language.Percent > 0)
-                                    {
-                                        <span>@language.Name: @language.Percent.ToString("0%")</span>
-                                        <br />
-                                    }
+                                    <span>@language.Name: @language.Percent.ToString("0%")</span>
+                                    <br />
                                 }
-                            }
-                            else
-                            {
-                                <span>(no languages detected)</span>
                             }
                         </div>
                     }
