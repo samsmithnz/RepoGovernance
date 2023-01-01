@@ -9,7 +9,7 @@
 - [GitHubDotNet](https://github.com/samsmithnz/GitHubActionsDotNet): Models to generate Actions and Dependabot files with .NET
 - [RepoAutomation](https://github.com/samsmithnz/RepoAutomation): To automate the creation of repos and my preferred repo settings
 - [SamsFeatureFlags](https://github.com/samsmithnz/SamsFeatureFlags): To use Feature Flags/Toggles on my projects
-- [TechDebtIdentification](https://github.com/samsmithnz/TechDebtIdentification): To identify what version of .NET my projects are using
+- [DotNetCensus](https://github.com/samsmithnz/DotNetCensus): To identify what version of .NET my projects are using
 - [DevOpsMetrics](https://github.com/samsmithnz/DevOpsMetrics): to calculate DORA/DevOps Metrics on my projects
 
 This is how the dependencies look in a graph:
@@ -18,7 +18,7 @@ This is how the dependencies look in a graph:
       GitHubDotNet-->RepoAutomation;
       RepoAutomation-->RepoGovernance;
       SamsFeatureFlags-->RepoGovernance;
-      TechDebtIdentification-->RepoGovernance;
+      DotNetCensus-->RepoGovernance;
       DevOpsMetrics-->RepoGovernance;
 ```
 
