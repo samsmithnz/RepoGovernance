@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RepoAutomation.Core.Models;
 using RepoGovernance.Core.Models;
 using RepoGovernance.Web.Models;
 using RepoGovernance.Web.Services;
@@ -18,7 +19,31 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems("samsmithnz");
-        return View(summaryItems);
+        List<RepoLanguage> repoLanguages = new();
+        Dictionary<string, int> repoLanguagesDictonary = new();
+        int total = 0;
+        foreach (SummaryItem summaryItem in summaryItems)
+        {
+            foreach (RepoLanguage repoLanguage in summaryItem.RepoLanguages)
+            {
+                total += repoLanguage.Total;
+                if (repoLanguagesDictonary.ContainsKey(repoLanguage.Name))
+                {
+                    repoLanguagesDictonary[repoLanguage.Name] += repoLanguage.Total;
+                }
+                else
+                {
+                    repoLanguagesDictonary.Add(repoLanguage.Name, repoLanguage.Total);
+                }
+            }
+        }     
+        SummaryItemsIndex summaryItemsIndex = new()
+        {
+            SummaryItems = summaryItems,
+            SummaryRepoLanguages = repoLanguagesDictonary.OrderByDescending(x => x.Value),
+            SummaryRepoLanguagesTotal = total
+        };
+        return View(summaryItemsIndex);
     }
 
     //[HttpPost]
