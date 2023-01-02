@@ -39,22 +39,12 @@
         </div>
         <div class="col-md-6">
             <div style="font-size:14px;">
-                @{
-                    int i = 0;
-                }
-                @foreach (KeyValuePair<string, int> item in Model.SummaryRepoLanguages)
+                @for (int i = 0; (Model.SummaryRepoLanguages.Count < 5 && i < Model.SummaryRepoLanguages.Count) || i < 5; i++)
                 {
-                    double percent = (double)item.Value / (double)Model.SummaryRepoLanguagesTotal;
-                    @*<span class="box" style="background-color: @item.Color;">&nbsp;&nbsp;&nbsp;&nbsp;</span>*@
-                    <span>@item.Key: @percent.ToString("0%")</span>
+                    RepoLanguage item = Model.SummaryRepoLanguages[i];
+                    <span class="box" style="background-color: @item.Color;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span>@item.Name: @item.Percent.ToString("0%")</span>
                     <br />
-                    {
-                        i++;
-                        if (i >= 5)
-                        {
-                            break;
-                        }
-                    }
                 }
             </div>
         </div>

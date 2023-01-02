@@ -35,13 +35,26 @@ public class HomeController : Controller
                 {
                     repoLanguagesDictonary.Add(repoLanguage.Name, repoLanguage.Total);
                 }
+                if (repoLanguages.Find(x => x.Name == repoLanguage.Name) == null)
+                {
+                    repoLanguages.Add(repoLanguage);
+                }
             }
-        }     
+        }
+        foreach (KeyValuePair<string, int> sortedLanguage in repoLanguagesDictonary.OrderByDescending(x => x.Value))
+        {
+            RepoLanguage? repoLanguage = repoLanguages.Find(x => x.Name == sortedLanguage.Key);
+            if (repoLanguage != null)
+            {
+                repoLanguage.Total = sortedLanguage.Value;
+                repoLanguage.Percent = (decimal)repoLanguage.Total / (decimal)total;
+            }
+        }
+
         SummaryItemsIndex summaryItemsIndex = new()
         {
             SummaryItems = summaryItems,
-            SummaryRepoLanguages = repoLanguagesDictonary.OrderByDescending(x => x.Value),
-            SummaryRepoLanguagesTotal = total
+            SummaryRepoLanguages = repoLanguages.OrderByDescending(x => x.Total).ToList()
         };
         return View(summaryItemsIndex);
     }
