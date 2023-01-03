@@ -1,18 +1,18 @@
 ﻿@using RepoAutomation.Core.Models
 @using RepoGovernance.Core.Models
 @using System.Text.Json;
-@model List<SummaryItem>
+@model SummaryItemsIndex
 @{
     ViewData["Title"] = "Home Page";
 
     TimeSpan ts = new();
     string lastUpdated = "[unknown]";
     string user = "[unknown]";
-    if (Model.Count > 0)
+    if (Model.SummaryItems.Count > 0)
     {
         DateTime minDate = DateTime.Now;
         DateTime maxDate = DateTime.Now;
-        @foreach (SummaryItem item in Model)
+        @foreach (SummaryItem item in Model.SummaryItems)
         {
             if (minDate > item.LastUpdated)
             {
@@ -25,17 +25,33 @@
         }
         ts = maxDate - minDate;
         lastUpdated = maxDate.ToString("dd-MMM-yyyy h:mm:sstt");
-        user = Model[0].User;
+        user = Model.SummaryItems[0].User;
     }
 }
 
 <div>
-    <h4>For user <code>@user</code>@* (last updated at @lastUpdated)*@</h4>
-    <b>Legend</b>: <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="No recommendations"></i>=Repo is OK, no recommendations
-    <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="Recommendations for improvement"></i>=Recommendations for improvement
-    <br /><br />
+    <div class="row">
+        <div class="col-md-6">
+            <h4>For user <code>@user</code>@* (last updated at @lastUpdated)*@</h4>
+            <b>Legend</b>: <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="No recommendations"></i>=Repo is OK, no recommendations
+            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="Recommendations for improvement"></i>=Recommendations for improvement
+        </div>
+        <div class="col-md-6">
+            <h4>&nbsp;</h4>
+            <div style="font-size:14px;">
+                <strong>Top 5 languages detected:</strong><br />
+                @for (int i = 0; (Model.SummaryRepoLanguages.Count < 5 && i < Model.SummaryRepoLanguages.Count) || i < 5; i++)
+                {
+                    RepoLanguage item = Model.SummaryRepoLanguages[i];
+                    <span class="box" style="background-color: @item.Color;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span>@item.Name: @item.Percent.ToString("0%")</span>
+                }
+            </div>
+            <br />
+        </div>
+    </div>            
     <div>
-        @foreach (SummaryItem item in Model)
+        @foreach (SummaryItem item in Model.SummaryItems)
         {
             string visibility = item.RepoSettings.visibility switch
             {
@@ -150,39 +166,39 @@
                         </div>
                     }
                     @*<canvas id="doughnut-chart-@(item.Repo)" width="200" height="200"></canvas>
-                    <script>
-                        @{
-                            string[] names = new string[item.RepoLanguages.Count];
-                            int[] totals = new int[item.RepoLanguages.Count];
-                            for (int i = 0; i < item.RepoLanguages.Count; i++)
-                            {
-                                names[i] = item.RepoLanguages[i].Name;
-                                totals[i] = (int)(item.RepoLanguages[i].Percent * 100);
-                            }
-                        }
-                                                var labels = @Html.Raw(JsonSerializer.Serialize(names));
-                        var backgroundColor = [];
-                        var data = @Html.Raw(JsonSerializer.Serialize(totals));
+                <script>
+                @{
+                string[] names = new string[item.RepoLanguages.Count];
+                int[] totals = new int[item.RepoLanguages.Count];
+                for (int i = 0; i < item.RepoLanguages.Count; i++)
+                {
+                names[i] = item.RepoLanguages[i].Name;
+                totals[i] = (int)(item.RepoLanguages[i].Percent * 100);
+                }
+                }
+                var labels = @Html.Raw(JsonSerializer.Serialize(names));
+                var backgroundColor = [];
+                var data = @Html.Raw(JsonSerializer.Serialize(totals));
 
-                        new Chart(document.getElementById("doughnut-chart-@(item.Repo)"), {
-                            type: 'doughnut',
-                            data: {
-                                labels: labels,
-                                datasets: [
-                                    {
-                                        label: "Languages %",
-                                        backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
-                                        data: data
-                                    }
-                                ]
-                            },
-                            options: {
-                                title: {
-                                    display: true,
-                                    text: 'Languages detected:'
-                                }
-                            }
-                        });
+                new Chart(document.getElementById("doughnut-chart-@(item.Repo)"), {
+                type: 'doughnut',
+                data: {
+                labels: labels,
+                datasets: [
+                {
+                label: "Languages %",
+                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                data: data
+                }
+                ]
+                },
+                options: {
+                title: {
+                display: true,
+                text: 'Languages detected:'
+                }
+                }
+                });
                 </script>*@
                 </div>
                 <div class="col-md-2">

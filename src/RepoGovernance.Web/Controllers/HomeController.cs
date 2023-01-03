@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RepoAutomation.Core.Models;
 using RepoGovernance.Core.Models;
 using RepoGovernance.Web.Models;
 using RepoGovernance.Web.Services;
@@ -18,7 +19,44 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems("samsmithnz");
-        return View(summaryItems);
+        List<RepoLanguage> repoLanguages = new();
+        Dictionary<string, int> repoLanguagesDictonary = new();
+        int total = 0;
+        foreach (SummaryItem summaryItem in summaryItems)
+        {
+            foreach (RepoLanguage repoLanguage in summaryItem.RepoLanguages)
+            {
+                total += repoLanguage.Total;
+                if (repoLanguagesDictonary.ContainsKey(repoLanguage.Name))
+                {
+                    repoLanguagesDictonary[repoLanguage.Name] += repoLanguage.Total;
+                }
+                else
+                {
+                    repoLanguagesDictonary.Add(repoLanguage.Name, repoLanguage.Total);
+                }
+                if (repoLanguages.Find(x => x.Name == repoLanguage.Name) == null)
+                {
+                    repoLanguages.Add(repoLanguage);
+                }
+            }
+        }
+        foreach (KeyValuePair<string, int> sortedLanguage in repoLanguagesDictonary.OrderByDescending(x => x.Value))
+        {
+            RepoLanguage? repoLanguage = repoLanguages.Find(x => x.Name == sortedLanguage.Key);
+            if (repoLanguage != null)
+            {
+                repoLanguage.Total = sortedLanguage.Value;
+                repoLanguage.Percent = (decimal)repoLanguage.Total / (decimal)total;
+            }
+        }
+
+        SummaryItemsIndex summaryItemsIndex = new()
+        {
+            SummaryItems = summaryItems,
+            SummaryRepoLanguages = repoLanguages.OrderByDescending(x => x.Total).ToList()
+        };
+        return View(summaryItemsIndex);
     }
 
     //[HttpPost]
