@@ -40,7 +40,12 @@ public class HomeController : Controller
                     repoLanguages.Add(repoLanguage);
                 }
             }
+            foreach (RepoLanguage repoLanguage in summaryItem.RepoLanguages)
+            {
+                Debug.WriteLine(summaryItem.Repo + ":" + repoLanguage.Name + ":" + repoLanguage.Total);
+            }
         }
+        //Update the percent
         foreach (KeyValuePair<string, int> sortedLanguage in repoLanguagesDictonary.OrderByDescending(x => x.Value))
         {
             RepoLanguage? repoLanguage = repoLanguages.Find(x => x.Name == sortedLanguage.Key);
