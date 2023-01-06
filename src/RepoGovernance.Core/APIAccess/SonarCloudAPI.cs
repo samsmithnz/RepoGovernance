@@ -1,9 +1,8 @@
-﻿using Newtonsoft.Json;
-using RepoGovernance.Core.Models;
+﻿using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Core.APIAccess
 {
-    public static class SonarCloudAPI
+    public static class SonarCloudApi
     {
         public async static Task<SonarCloud?> GetSonarCloudMetrics(string owner, string repo)
         {
