@@ -40,16 +40,19 @@
             <h4>&nbsp;</h4>
             <div style="font-size:14px;">
                 <strong>Top 5 languages detected:</strong><br />
-                @for (int i = 0; (Model.SummaryRepoLanguages.Count < 5 && i < Model.SummaryRepoLanguages.Count) || i < 5; i++)
+                @if (Model.SummaryRepoLanguages != null && Model.SummaryRepoLanguages.Count > 0)
                 {
-                    RepoLanguage item = Model.SummaryRepoLanguages[i];
-                    <span class="box" style="background-color: @item.Color;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    <span>@item.Name: @(Math.Round(item.Percent * 100, 1))%</span>
+                    for (int i = 0; (Model.SummaryRepoLanguages.Count < 5 && i < Model.SummaryRepoLanguages.Count) || i < 5; i++)
+                    {
+                        RepoLanguage item = Model.SummaryRepoLanguages[i];
+                        <span class="box" style="background-color: @item.Color;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <span>@item.Name: @item.Percent.ToString("0.0")%</span>
+                    }
                 }
             </div>
             <br />
         </div>
-    </div>            
+    </div>
     <div>
         @foreach (SummaryItem item in Model.SummaryItems)
         {
@@ -159,7 +162,7 @@
                                 if (language.Percent > 0.001M)
                                 {
                                     <span class="box" style="background-color: @language.Color;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <span>@language.Name: @(Math.Round(language.Percent * 100,1))%</span>
+                                    <span>@language.Name: @language.Percent.ToString("0.0")%</span>
                                     <br />
                                 }
                             }
