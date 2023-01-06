@@ -222,7 +222,7 @@ namespace RepoGovernance.Core
 
             //Get Pull Request details
             List<PullRequest> pullRequests = await GitHubApiAccess.GetPullRequests(clientId, secret, owner, repo);
-            if (summaryItem != null && pullRequests != null && pullRequests.Count >= 0)
+            if (summaryItem != null && pullRequests != null && pullRequests.Count > 0)
             {
                 foreach (PullRequest pr in pullRequests)
                 {
