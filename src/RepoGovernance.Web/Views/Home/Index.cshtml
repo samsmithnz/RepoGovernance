@@ -113,7 +113,7 @@
                             <br />
                             @if (item.Release != null)
                             {
-                                <a href="@item.Release.html_url" target="_blank"><img src="https://img.shields.io/static/v1?label=Latest%20release&logo=github&message=@item.Release.name%20@(item.Release.ToTimingString())&color=blue"></a>
+                                <a href="@item.Release.html_url" target="_blank"><img src="https://img.shields.io/static/v1?label=Latest%20release&logo=github&message=@item.Release.name%20@(item.Release.ToTimingString())&color=blue" alt="Release badge"></a>
                             }
                             @if (item.CoverallsCodeCoverage != null)
                             {
@@ -126,7 +126,7 @@
                                 {
                                     codeCoverageColor = "brightgreen";
                                 }
-                                <a href="https://coveralls.io/github/@(item.OwnerRepo)/@(item.Repo)" target="_blank"><img src="https://img.shields.io/static/v1?label=Code%20coverage&logo=coveralls&message=@item.CoverallsCodeCoverage.covered_percent.ToString("0")%&color=@codeCoverageColor"></a>
+                                <a href="https://coveralls.io/github/@(item.OwnerRepo)/@(item.Repo)" target="_blank"><img src="https://img.shields.io/static/v1?label=Code%20coverage&logo=coveralls&message=@item.CoverallsCodeCoverage.covered_percent.ToString("0")%&color=@codeCoverageColor" alt="Coveralls code coverage badge"></a>
                             }
                             @if (item.SonarCloud != null)
                             {
@@ -221,13 +221,13 @@
                 <div class="col-md-3">
                     @if (item.DORASummary != null)
                     {
-                        <img src="@item.DORASummary.DeploymentFrequencyBadgeWithMetricURL" />
+                        <img src="@item.DORASummary.DeploymentFrequencyBadgeWithMetricURL" alt="Deployment frequency badge" />
                         <br />
-                        <img src="@item.DORASummary.LeadTimeForChangesBadgeWithMetricURL" />
+                        <img src="@item.DORASummary.LeadTimeForChangesBadgeWithMetricURL" alt="Lead time for changes badge" />
                         <br />
-                        <img src="@item.DORASummary.MeanTimeToRestoreBadgeURL" />
+                        <img src="@item.DORASummary.MeanTimeToRestoreBadgeURL" alt="Mean time to restore badge"/>
                         <br />
-                        <img src="@item.DORASummary.ChangeFailureRateBadgeURL" />
+                        <img src="@item.DORASummary.ChangeFailureRateBadgeURL" alt="Change failure rate badge"/>
                     }
                 </div>
             </div>
