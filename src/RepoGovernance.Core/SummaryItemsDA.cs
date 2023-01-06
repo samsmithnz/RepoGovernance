@@ -274,7 +274,7 @@ namespace RepoGovernance.Core
             }
 
             //Get Coveralls.io Code Coverage
-            CoverallsCodeCoverage? coverallsCodeCoverage = await CoverallsCodeCoverageAPI.GetCoverallsCodeCoverage(owner, repo);
+            CoverallsCodeCoverage? coverallsCodeCoverage = await CoverallsCodeCoverageApi.GetCoverallsCodeCoverage(owner, repo);
             if (summaryItem != null && coverallsCodeCoverage != null)
             {
                 summaryItem.CoverallsCodeCoverage = coverallsCodeCoverage;

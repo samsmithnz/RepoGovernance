@@ -2,7 +2,7 @@
 
 namespace RepoGovernance.Core.APIAccess
 {
-    public static class CoverallsCodeCoverageAPI
+    public static class CoverallsCodeCoverageApi
     {
         public async static Task<CoverallsCodeCoverage?> GetCoverallsCodeCoverage(string owner, string repo)
         {
