@@ -222,7 +222,7 @@ namespace RepoGovernance.Core
 
             //Get Pull Request details
             List<PullRequest> pullRequests = await GitHubApiAccess.GetPullRequests(clientId, secret, owner, repo);
-            if (summaryItem != null && pullRequests != null && pullRequests.Count >= 0)
+            if (summaryItem != null && pullRequests != null && pullRequests.Count > 0)
             {
                 foreach (PullRequest pr in pullRequests)
                 {
@@ -254,7 +254,7 @@ namespace RepoGovernance.Core
             //Get DevOps Metrics
             if (summaryItem != null && devOpsServiceURL != null)
             {
-                DevOpsMetricServiceAPI devopsAPI = new(devOpsServiceURL);
+                DevOpsMetricServiceApi devopsAPI = new(devOpsServiceURL);
                 DORASummaryItem? dORASummaryItem = await devopsAPI.GetDORASummaryItems(owner, repo);
                 if (dORASummaryItem != null)
                 {
@@ -274,14 +274,14 @@ namespace RepoGovernance.Core
             }
 
             //Get Coveralls.io Code Coverage
-            CoverallsCodeCoverage? coverallsCodeCoverage = await CoverallsCodeCoverageAPI.GetCoverallsCodeCoverage(owner, repo);
+            CoverallsCodeCoverage? coverallsCodeCoverage = await CoverallsCodeCoverageApi.GetCoverallsCodeCoverage(owner, repo);
             if (summaryItem != null && coverallsCodeCoverage != null)
             {
                 summaryItem.CoverallsCodeCoverage = coverallsCodeCoverage;
             }
 
             //Get SonarCloud metrics (note that we use user here instead of owner)
-            SonarCloud? sonarCloud = await SonarCloudAPI.GetSonarCloudMetrics(user, repo);
+            SonarCloud? sonarCloud = await SonarCloudApi.GetSonarCloudMetrics(user, repo);
             if (summaryItem != null && sonarCloud != null)
             {
                 summaryItem.SonarCloud = sonarCloud;

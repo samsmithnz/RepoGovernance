@@ -9,9 +9,9 @@ namespace RepoGovernance.Web.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly SummaryItemsServiceAPIClient _ServiceApiClient;
+    private readonly SummaryItemsServiceApiClient _ServiceApiClient;
 
-    public HomeController(SummaryItemsServiceAPIClient ServiceApiClient)
+    public HomeController(SummaryItemsServiceApiClient ServiceApiClient)
     {
         _ServiceApiClient = ServiceApiClient;
     }
@@ -37,17 +37,28 @@ public class HomeController : Controller
                 }
                 if (repoLanguages.Find(x => x.Name == repoLanguage.Name) == null)
                 {
-                    repoLanguages.Add(repoLanguage);
+                    repoLanguages.Add(new RepoLanguage
+                    {
+                        Name = repoLanguage.Name,
+                        Total = repoLanguage.Total,
+                        Color = repoLanguage.Color,
+                        Percent = repoLanguage.Percent
+                    });
                 }
             }
+            //foreach (RepoLanguage repoLanguage in summaryItem.RepoLanguages)
+            //{
+            //    Debug.WriteLine(summaryItem.Repo + ":" + repoLanguage.Name + ":" + repoLanguage.Total);
+            //}
         }
+        //Update the percent
         foreach (KeyValuePair<string, int> sortedLanguage in repoLanguagesDictonary.OrderByDescending(x => x.Value))
         {
             RepoLanguage? repoLanguage = repoLanguages.Find(x => x.Name == sortedLanguage.Key);
             if (repoLanguage != null)
             {
                 repoLanguage.Total = sortedLanguage.Value;
-                repoLanguage.Percent = (decimal)repoLanguage.Total / (decimal)total;
+                repoLanguage.Percent = Math.Round((decimal)repoLanguage.Total / (decimal)total * 100M, 1);
             }
         }
 

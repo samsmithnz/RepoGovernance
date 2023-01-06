@@ -3,9 +3,9 @@ using System.Text;
 
 namespace RepoGovernance.Web.Services
 {
-    public class BaseServiceAPIClient
+    public class BaseServiceApiClient
     {
-        private HttpClient _client;
+        private HttpClient  _client;
         public void SetupClient(HttpClient client)
         {
             _client = client;

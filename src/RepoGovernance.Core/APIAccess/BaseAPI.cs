@@ -1,15 +1,8 @@
-﻿using DotNetCensus.Core.Models.GitHub;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
 namespace RepoGovernance.Core.APIAccess
 {
-    public static class BaseAPI
+    public static class BaseApi
     {
         public static async Task<T?> GetResponse<T>(HttpClient client, string url, bool ignoreErrors = false)
         {
