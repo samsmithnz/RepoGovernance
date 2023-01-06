@@ -1,14 +1,12 @@
-﻿using Newtonsoft.Json;
-using RepoGovernance.Core.Models;
-using System.Diagnostics;
+﻿using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Core.APIAccess
 {
-    public class DevOpsMetricServiceAPI
+    public class DevOpsMetricServiceApi
     {
         private HttpClient Client;
 
-        public DevOpsMetricServiceAPI(string devOpsServiceURL)
+        public DevOpsMetricServiceApi(string devOpsServiceURL)
         {
             Client = new HttpClient
             {

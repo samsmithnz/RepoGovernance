@@ -254,7 +254,7 @@ namespace RepoGovernance.Core
             //Get DevOps Metrics
             if (summaryItem != null && devOpsServiceURL != null)
             {
-                DevOpsMetricServiceAPI devopsAPI = new(devOpsServiceURL);
+                DevOpsMetricServiceApi devopsAPI = new(devOpsServiceURL);
                 DORASummaryItem? dORASummaryItem = await devopsAPI.GetDORASummaryItems(owner, repo);
                 if (dORASummaryItem != null)
                 {
