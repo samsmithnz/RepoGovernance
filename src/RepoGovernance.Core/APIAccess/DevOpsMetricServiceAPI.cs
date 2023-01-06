@@ -20,7 +20,7 @@ namespace RepoGovernance.Core.APIAccess
         {
             // api/DORASummary/GetDORASummaryItems?owner=samsmithnz&repository=DevOpsMetrics
             string url = $"/api/DORASummary/GetDORASummaryItems?owner={owner}&repository={repository}";
-            return await BaseAPI.GetResponse<DORASummaryItem>(Client, url);
+            return await BaseApi.GetResponse<DORASummaryItem>(Client, url);
         }
 
         
