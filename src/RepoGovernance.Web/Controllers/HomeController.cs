@@ -9,9 +9,9 @@ namespace RepoGovernance.Web.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly SummaryItemsServiceAPIClient _ServiceApiClient;
+    private readonly SummaryItemsServiceApiClient _ServiceApiClient;
 
-    public HomeController(SummaryItemsServiceAPIClient ServiceApiClient)
+    public HomeController(SummaryItemsServiceApiClient ServiceApiClient)
     {
         _ServiceApiClient = ServiceApiClient;
     }

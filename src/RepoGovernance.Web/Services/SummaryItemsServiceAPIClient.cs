@@ -2,11 +2,11 @@
 
 namespace RepoGovernance.Web.Services
 {
-    public class SummaryItemsServiceAPIClient : BaseServiceAPIClient
+    public class SummaryItemsServiceApiClient : BaseServiceApiClient
     {
         private readonly IConfiguration _configuration;
 
-        public SummaryItemsServiceAPIClient(IConfiguration configuration)
+        public SummaryItemsServiceApiClient(IConfiguration configuration)
         {
             _configuration = configuration;
             HttpClient client = new()
