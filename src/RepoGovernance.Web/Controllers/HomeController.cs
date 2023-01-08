@@ -27,23 +27,26 @@ public class HomeController : Controller
             foreach (RepoLanguage repoLanguage in summaryItem.RepoLanguages)
             {
                 total += repoLanguage.Total;
-                if (repoLanguagesDictonary.ContainsKey(repoLanguage.Name))
+                if (repoLanguage.Name != null)
                 {
-                    repoLanguagesDictonary[repoLanguage.Name] += repoLanguage.Total;
-                }
-                else
-                {
-                    repoLanguagesDictonary.Add(repoLanguage.Name, repoLanguage.Total);
-                }
-                if (repoLanguages.Find(x => x.Name == repoLanguage.Name) == null)
-                {
-                    repoLanguages.Add(new RepoLanguage
+                    if (repoLanguagesDictonary.ContainsKey(repoLanguage.Name))
                     {
-                        Name = repoLanguage.Name,
-                        Total = repoLanguage.Total,
-                        Color = repoLanguage.Color,
-                        Percent = repoLanguage.Percent
-                    });
+                        repoLanguagesDictonary[repoLanguage.Name] += repoLanguage.Total;
+                    }
+                    else
+                    {
+                        repoLanguagesDictonary.Add(repoLanguage.Name, repoLanguage.Total);
+                    }
+                    if (repoLanguages.Find(x => x.Name == repoLanguage.Name) == null)
+                    {
+                        repoLanguages.Add(new RepoLanguage
+                        {
+                            Name = repoLanguage.Name,
+                            Total = repoLanguage.Total,
+                            Color = repoLanguage.Color,
+                            Percent = repoLanguage.Percent
+                        });
+                    }
                 }
             }
             //foreach (RepoLanguage repoLanguage in summaryItem.RepoLanguages)
