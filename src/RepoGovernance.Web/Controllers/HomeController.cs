@@ -78,7 +78,6 @@ public class HomeController : Controller
     public async Task<IActionResult> UpdateRow(string user, string owner, string repo)
     {
         await _ServiceApiClient.UpdateSummaryItem(user, owner, repo);
-        //return RedirectToAction("Index", new { anchor = repo });
         return Redirect(Url.RouteUrl(new { controller = "Home", action = "Index" }) + "#" + repo);
     }
 
