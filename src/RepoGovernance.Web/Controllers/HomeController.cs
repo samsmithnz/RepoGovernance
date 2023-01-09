@@ -51,10 +51,6 @@ public class HomeController : Controller
                     }
                 }
             }
-            //foreach (RepoLanguage repoLanguage in summaryItem.RepoLanguages)
-            //{
-            //    Debug.WriteLine(summaryItem.Repo + ":" + repoLanguage.Name + ":" + repoLanguage.Total);
-            //}
         }
         //Update the percent
         foreach (KeyValuePair<string, int> sortedLanguage in repoLanguagesDictonary.OrderByDescending(x => x.Value))
