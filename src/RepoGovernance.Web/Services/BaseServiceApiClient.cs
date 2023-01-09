@@ -5,7 +5,7 @@ namespace RepoGovernance.Web.Services
 {
     public class BaseServiceApiClient
     {
-        private HttpClient  _client;
+        private HttpClient _client;
         public void SetupClient(HttpClient client)
         {
             _client = client;
@@ -22,7 +22,6 @@ namespace RepoGovernance.Web.Services
                     StreamReader reader = new(stream);
                     string text = reader.ReadToEnd();
                     return JsonConvert.DeserializeObject<List<T>>(text);
-                    //return await JsonSerializer.DeserializeAsync<List<T>>(stream);
                 }
                 else
                 {

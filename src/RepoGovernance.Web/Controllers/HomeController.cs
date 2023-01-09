@@ -49,10 +49,6 @@ public class HomeController : Controller
                     }
                 }
             }
-            //foreach (RepoLanguage repoLanguage in summaryItem.RepoLanguages)
-            //{
-            //    Debug.WriteLine(summaryItem.Repo + ":" + repoLanguage.Name + ":" + repoLanguage.Total);
-            //}
         }
         //Update the percent
         foreach (KeyValuePair<string, int> sortedLanguage in repoLanguagesDictonary.OrderByDescending(x => x.Value))
@@ -73,11 +69,10 @@ public class HomeController : Controller
         return View(summaryItemsIndex);
     }
 
-    //[HttpPost]
     public async Task<IActionResult> UpdateRow(string user, string owner, string repo)
     {
         await _ServiceApiClient.UpdateSummaryItem(user, owner, repo);
-        return RedirectToAction("Index");
+        return Redirect(Url.RouteUrl(new { controller = "Home", action = "Index" }) + "#" + repo);
     }
 
     public async Task<IActionResult> UpdateAll()

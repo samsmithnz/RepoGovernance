@@ -39,24 +39,9 @@ namespace RepoGovernance.Core.TableStorage
             AzureStorageTableModel row = new(partitionKey, rowKey, json);
             await tableBuildsDA.SaveItem(row);
             itemsAdded++;
-            //if (await tableBuildsDA.AddItem(row) == true)
-            //{
-            //    itemsAdded++;
-            //}
-            //else
-            //{
-            //    await tableBuildsDA.SaveItem(row);
-            //    itemsAdded++;
-            //}
 
             return itemsAdded;
         }
-
-        ////TODO: Move this into Azure Storage - currently this is a single static list of repos
-        //public static List<UserOwnerRepo> GetRepos(string user)
-        //{
-        //    return DatabaseAccess.GetRepos(user);
-        //}
 
     }
 }
