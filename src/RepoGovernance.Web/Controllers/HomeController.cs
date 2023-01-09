@@ -4,8 +4,6 @@ using RepoGovernance.Core.Models;
 using RepoGovernance.Web.Models;
 using RepoGovernance.Web.Services;
 using System.Diagnostics;
-using System.Threading;
-using YamlDotNet.Core.Tokens;
 
 namespace RepoGovernance.Web.Controllers;
 
