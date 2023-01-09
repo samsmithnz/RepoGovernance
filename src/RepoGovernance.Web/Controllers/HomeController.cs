@@ -4,6 +4,7 @@ using RepoGovernance.Core.Models;
 using RepoGovernance.Web.Models;
 using RepoGovernance.Web.Services;
 using System.Diagnostics;
+using YamlDotNet.Core.Tokens;
 
 namespace RepoGovernance.Web.Controllers;
 
@@ -16,7 +17,7 @@ public class HomeController : Controller
         _ServiceApiClient = ServiceApiClient;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? anchor = null)
     {
         List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems("samsmithnz");
         List<RepoLanguage> repoLanguages = new();
@@ -77,7 +78,7 @@ public class HomeController : Controller
     public async Task<IActionResult> UpdateRow(string user, string owner, string repo)
     {
         await _ServiceApiClient.UpdateSummaryItem(user, owner, repo);
-        return RedirectToAction("Index");
+        return RedirectToAction("Index", new { anchor = repo });
     }
 
     public async Task<IActionResult> UpdateAll()
