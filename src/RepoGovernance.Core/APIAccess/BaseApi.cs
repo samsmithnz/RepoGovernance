@@ -9,8 +9,6 @@ namespace RepoGovernance.Core.APIAccess
             T? obj = default;
             if (client != null && url != null)
             {
-                //Debug.WriteLine("Running url: " + client.BaseAddress.ToString() + url);
-                //Console.WriteLine("Running url: " + client.BaseAddress.ToString() + url);
                 using (HttpResponseMessage response = await client.GetAsync(url))
                 {
                     if (ignoreErrors == true || response.IsSuccessStatusCode == true)
