@@ -22,7 +22,6 @@ namespace RepoGovernance.Web.Services
                     StreamReader reader = new(stream);
                     string text = reader.ReadToEnd();
                     return JsonConvert.DeserializeObject<List<T>>(text);
-                    //return await JsonSerializer.DeserializeAsync<List<T>>(stream);
                 }
                 else
                 {
