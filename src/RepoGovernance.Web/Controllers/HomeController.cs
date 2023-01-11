@@ -18,7 +18,8 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems("samsmithnz");
+        string currentUser = "samsmithnz";
+        List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
         List<RepoLanguage> repoLanguages = new();
         Dictionary<string, int> repoLanguagesDictonary = new();
         int total = 0;
@@ -77,7 +78,8 @@ public class HomeController : Controller
 
     public async Task<IActionResult> UpdateAll()
     {
-        List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems("samsmithnz");
+        string currentUser = "samsmithnz";
+        List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
         foreach (SummaryItem summaryItem in summaryItems)
         {
             await _ServiceApiClient.UpdateSummaryItem(summaryItem.User, summaryItem.Owner, summaryItem.Repo);
@@ -87,10 +89,11 @@ public class HomeController : Controller
 
     public async Task<IActionResult> ApprovePRsForAllRepos(string user, string owner, string repo)
     {
-        List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems("samsmithnz");
+        string currentUser = "samsmithnz";
+        List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
         foreach (SummaryItem summaryItem in summaryItems)
         {
-            await _ServiceApiClient.ApproveSummaryItemPRs(summaryItem.User, summaryItem.Owner, summaryItem.Repo);
+            await _ServiceApiClient.ApproveSummaryItemPRs(summaryItem.User, summaryItem.Owner, summaryItem.Repo, currentUser);
         }
         return RedirectToAction("Index");
     }

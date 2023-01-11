@@ -308,15 +308,22 @@ namespace RepoGovernance.Core
             return itemsUpdated;
         }
 
-        public static async Task<int> ApproveSummaryItemPRs(string? clientId,
+        //TODO: convert this bool to int to count updates!
+        public static async Task<bool> ApproveSummaryItemPRs(string? clientId,
             string? secret,
             string? connectionString,
             string? devOpsServiceURL,
             string user,
             string owner,
-            string repo)
+            string repo,
+            string approver)
         {
-            return 0;
+            int itemsUpdated = 0;
+
+            bool result = await GitHubApiAccess.ApprovePullRequests(clientId, secret, owner, repo, approver);
+
+            return result;
+            ;
         }
     }
 }
