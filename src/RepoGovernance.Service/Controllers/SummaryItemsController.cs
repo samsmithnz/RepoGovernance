@@ -50,5 +50,17 @@ namespace RepoGovernance.Service.Controllers
                 Configuration["AppSettings:StorageConnectionString"],
                 user);
         }
+
+
+        [HttpGet("ApproveSummaryItemPRs")]
+        public async Task<bool> ApproveSummaryItemPRs(string user, string owner, string repo, string approver)
+        {
+            return await SummaryItemsDA.ApproveSummaryItemPRs(
+               Configuration["AppSettings:GitHubClientId"],
+               Configuration["AppSettings:GitHubClientSecret"],
+               Configuration["AppSettings:StorageConnectionString"],
+               Configuration["AppSettings:DevOpsServiceURL"],
+               user, owner, repo, approver);
+        }
     }
 }
