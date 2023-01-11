@@ -36,10 +36,10 @@ namespace RepoGovernance.Web.Services
             return await base.ReadMessageItem<int>(url);
         }
 
-        public async Task<int> ApproveSummaryItemPRs(string user, string owner, string repo, string approver)
+        public async Task<bool> ApproveSummaryItemPRs(string user, string owner, string repo, string approver)
         {
             Uri url = new($"api/SummaryItems/ApproveSummaryItemPRs?user=" + user + "&owner=" + owner + "&repo=" + repo + "&approver=" + approver, UriKind.Relative);
-            return await base.ReadMessageItem<int>(url);
+            return await base.ReadMessageItem<bool>(url);
         }
 
     }
