@@ -201,7 +201,7 @@ namespace RepoGovernance.Core
                     Name = project.Framework,
                     Color = DotNetRepoScanner.GetColorFromStatus(project.Status)
                 };
-                if (project.Framework != null && 
+                if (project.Framework != null &&
                     summaryItem?.DotNetFrameworks.Where(p => p.Name == project.Framework).FirstOrDefault() == null)
                 {
                     summaryItem?.DotNetFrameworks.Add(framework);
@@ -289,11 +289,11 @@ namespace RepoGovernance.Core
 
             //Get Repo Language stats
             List<RepoLanguage> repoLanguages = await RepoLanguageHelper.GetRepoLanguages(clientId, secret, owner, repo);
-            if (summaryItem != null && repoLanguages !=null && repoLanguages.Count > 0)
+            if (summaryItem != null && repoLanguages != null && repoLanguages.Count > 0)
             {
-                summaryItem.RepoLanguages = repoLanguages; 
+                summaryItem.RepoLanguages = repoLanguages;
             }
-            
+
             //Save the summary item
             if (connectionString != null)
             {
@@ -306,6 +306,17 @@ namespace RepoGovernance.Core
             }
 
             return itemsUpdated;
+        }
+
+        public static async Task<int> ApproveSummaryItemPRs(string? clientId,
+            string? secret,
+            string? connectionString,
+            string? devOpsServiceURL,
+            string user,
+            string owner,
+            string repo)
+        {
+            return 0;
         }
     }
 }

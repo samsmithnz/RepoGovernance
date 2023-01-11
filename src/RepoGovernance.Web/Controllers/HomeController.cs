@@ -85,6 +85,16 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
+    public async Task<IActionResult> ApprovePRsForAllRepos(string user, string owner, string repo)
+    {
+        List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems("samsmithnz");
+        foreach (SummaryItem summaryItem in summaryItems)
+        {
+            await _ServiceApiClient.ApproveSummaryItemPRs(summaryItem.User, summaryItem.Owner, summaryItem.Repo);
+        }
+        return RedirectToAction("Index");
+    }
+
     public IActionResult Privacy()
     {
         return View();
