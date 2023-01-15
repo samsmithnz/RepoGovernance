@@ -44,9 +44,9 @@ namespace RepoGovernance.Service.Controllers
         /// <param name="user">The user - often is also the owner, that has access to organizations</param>
         /// <returns></returns>
         [HttpGet("GetSummaryItems")]
-        public List<SummaryItem> GetSummaryItems(string user)
+        public async Task<List<SummaryItem>> GetSummaryItems(string user)
         {
-            return SummaryItemsDA.GetSummaryItems(
+            return await SummaryItemsDA.GetSummaryItems(
                 Configuration["AppSettings:StorageConnectionString"],
                 user);
         }

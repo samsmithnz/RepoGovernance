@@ -55,13 +55,13 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
     //}
 
     [TestMethod]
-    public void GetSummaryItemsTest()
+    public async Task GetSummaryItemsTest()
     {
         //Arrange
         string owner = "samsmithnz";
 
         //Act
-        List<SummaryItem> summaryItems = SummaryItemsDA.GetSummaryItems(AzureStorageConnectionString, owner);
+        List<SummaryItem> summaryItems = await SummaryItemsDA.GetSummaryItems(AzureStorageConnectionString, owner);
 
         //Assert
         Assert.IsNotNull(summaryItems);
