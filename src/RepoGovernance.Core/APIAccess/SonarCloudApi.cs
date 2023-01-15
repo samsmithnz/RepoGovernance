@@ -7,13 +7,19 @@ namespace RepoGovernance.Core.APIAccess
         public async static Task<SonarCloud?> GetSonarCloudMetrics(string owner, string repo)
         {
             string? codeSmellsBadgeImage = await GetSonarCloudCodeSmells(owner, repo);
+            string? bugsBadgeImage = await GetSonarCloudCodeBugs(owner, repo);
             string? linesOfCodeBadgeImage = await GetSonarCloudLinesOfCode(owner, repo);
 
             SonarCloud? sonarCloud = new();
             if (string.IsNullOrEmpty(codeSmellsBadgeImage) == false)
             {
                 sonarCloud.CodeSmellsBadgeImage = codeSmellsBadgeImage;
-                sonarCloud.CodeSmellsLink = $"https://sonarcloud.io/project/issues?resolved=false&id={owner}_{repo}";
+                sonarCloud.CodeSmellsLink = $"https://sonarcloud.io/project/issues?resolved=false&types=CODE_SMELL&id={owner}_{repo}";
+            }
+            if (string.IsNullOrEmpty(bugsBadgeImage) == false)
+            {
+                sonarCloud.BugsBadgeImage = bugsBadgeImage;
+                sonarCloud.BugsLink = $"https://sonarcloud.io/project/issues?resolved=false&types=BUG&id={owner}_{repo}";
             }
             if (string.IsNullOrEmpty(linesOfCodeBadgeImage) == false)
             {
@@ -22,6 +28,7 @@ namespace RepoGovernance.Core.APIAccess
             }
             //If there were no links, return null
             if (string.IsNullOrEmpty(codeSmellsBadgeImage) == true &&
+                string.IsNullOrEmpty(bugsBadgeImage) == true &&
                 string.IsNullOrEmpty(linesOfCodeBadgeImage) == true)
             {
                 sonarCloud = null;
@@ -32,6 +39,12 @@ namespace RepoGovernance.Core.APIAccess
         public async static Task<string?> GetSonarCloudCodeSmells(string owner, string repo)
         {
             string url = $"https://sonarcloud.io/api/project_badges/measure?project={owner}_{repo}&metric=code_smells";
+            return await GetResponseString(new(), url, true);
+        }
+
+        public async static Task<string?> GetSonarCloudCodeBugs(string owner, string repo)
+        {
+            string url = $"https://sonarcloud.io/api/project_badges/measure?project={owner}_{repo}&metric=bugs";
             return await GetResponseString(new(), url, true);
         }
 
