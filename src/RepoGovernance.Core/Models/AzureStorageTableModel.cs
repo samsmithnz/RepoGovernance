@@ -13,6 +13,9 @@ namespace RepoGovernance.Core.Models
 
         public string? Data { get; set; }
 
+        //Public parameterless constructor needed for storage table access
+        public AzureStorageTableModel() { }
+
         public AzureStorageTableModel(string partitionKey, string rowKey, string data)
         {
             PartitionKey = TableStorageCommonDA.EncodePartitionKey(partitionKey);

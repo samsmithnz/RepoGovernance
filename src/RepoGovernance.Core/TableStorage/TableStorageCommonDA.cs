@@ -17,15 +17,18 @@ namespace RepoGovernance.Core.TableStorage
         //This is needed for Dependency Injection
         public TableStorageCommonDA() { }
 
-        private async Task<TableServiceClient> CreateConnection()
+        private async Task<TableClient> CreateConnection()
         {
             //Create a connection to the Azure Table
             TableServiceClient serviceClient = new(ConfigurationString);
 
-            //Create the table if it doesn't already exist
-            await serviceClient.CreateTableIfNotExistsAsync(TableName);
+            // Get a reference to the TableClient from the service client instance.
+            TableClient tableClient = serviceClient.GetTableClient(TableName);
 
-            return serviceClient;
+            // Create the table if it doesn't exist.
+            await tableClient.CreateIfNotExistsAsync();
+
+            return tableClient;
         }
 
         public async Task<AzureStorageTableModel> GetItem(string partitionKey, string rowKey)
@@ -34,12 +37,12 @@ namespace RepoGovernance.Core.TableStorage
             partitionKey = EncodePartitionKey(partitionKey);
 
             //Create a connection to the Azure Table
-            TableServiceClient tableClient = await CreateConnection();
+            TableClient tableClient = await CreateConnection();
 
             // Create a retrieve operation that takes a customer entity.
             AzureStorageTableModel result = tableClient.GetEntity<AzureStorageTableModel>(partitionKey, rowKey);
 
-            return result; 
+            return result;
         }
 
         //This can't be async, because of how it queries the underlying data
