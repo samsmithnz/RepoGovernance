@@ -1,7 +1,6 @@
-﻿using Microsoft.Azure.Cosmos.Table;
+﻿using Azure.Data.Tables;
 using RepoGovernance.Core.Models;
 
-//TODO: Update: https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/tables/Azure.Data.Tables/MigrationGuide.md
 namespace RepoGovernance.Core.TableStorage
 {
     public class TableStorageCommonDA
@@ -18,32 +17,24 @@ namespace RepoGovernance.Core.TableStorage
         //This is needed for Dependency Injection
         public TableStorageCommonDA() { }
 
-        private CloudTable CreateConnection()
+        private async Task<TableServiceClient> CreateConnection()
         {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationString);
+            //Create a connection to the Azure Table
+            TableServiceClient serviceClient = new(ConfigurationString);
 
-            // Create the table client.
-            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+            //Create the table if it doesn't already exist
+            await serviceClient.CreateTableIfNotExistsAsync(TableName);
 
-            // Get a reference to a table named "items"
-            CloudTable table = tableClient.GetTableReference(TableName);
-
-            // Create the table if it doesn't exist
-            // DON"T use table.CreateIfNotExists, it throws an internal 409 in App insights: https://stackoverflow.com/questions/48893519/azure-table-storage-exception-409-conflict-unexpected
-            if (!table.Exists())
-            {
-                table.Create();
-            }
-
-            return table;
-        }      
+            return serviceClient;
+        }
 
         public async Task<AzureStorageTableModel> GetItem(string partitionKey, string rowKey)
         {
             //prepare the partition key
             partitionKey = EncodePartitionKey(partitionKey);
 
-            CloudTable table = CreateConnection();
+            //Create a connection to the Azure Table
+            TableServiceClient table = await CreateConnection();
 
             // Create a retrieve operation that takes a customer entity.
             TableOperation retrieveOperation = TableOperation.Retrieve<AzureStorageTableModel>(partitionKey, rowKey);
@@ -59,7 +50,8 @@ namespace RepoGovernance.Core.TableStorage
         {
             partitionKey = EncodePartitionKey(partitionKey);
 
-            CloudTable table = CreateConnection();
+            //Create a connection to the Azure Table
+            TableServiceClient table = await CreateConnection();
 
             // execute the query on the table
             List<AzureStorageTableModel> list = table.CreateQuery<AzureStorageTableModel>()
@@ -71,7 +63,8 @@ namespace RepoGovernance.Core.TableStorage
 
         public async Task<bool> SaveItem(AzureStorageTableModel data)
         {
-            CloudTable table = CreateConnection();
+            //Create a connection to the Azure Table
+            TableServiceClient table = await CreateConnection();
 
             // Create the TableOperation that inserts/merges the entity.
             TableOperation operation = TableOperation.InsertOrMerge(data);
