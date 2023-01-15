@@ -26,14 +26,14 @@ namespace RepoGovernance.Core
         /// <param name="owner"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static List<SummaryItem> GetSummaryItems(
+        public static async Task<List<SummaryItem>> GetSummaryItems(
             string? connectionString,
             string owner)
         {
             List<SummaryItem> results;
             if (connectionString != null)
             {
-                results = AzureTableStorageDA.GetSummaryItemsFromTable(connectionString, "Summary", owner);
+                results = await AzureTableStorageDA.GetSummaryItemsFromTable(connectionString, "Summary", owner);
             }
             else
             {
