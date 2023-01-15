@@ -103,7 +103,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
                 Assert.IsNotNull(item1.SonarCloud.CodeSmellsBadgeImage);
                 Assert.AreEqual("https://sonarcloud.io/project/issues?resolved=false&types=CODE_SMELL&id=samsmithnz_AzurePipelinesToGitHubActionsConverter", item1.SonarCloud.CodeSmellsLink);
                 Assert.IsNotNull(item1.SonarCloud.BugsBadgeImage);
-                Assert.AreEqual("https://sonarcloud.io/project/issues?resolved=false&types=BUGS&id=samsmithnz_AzurePipelinesToGitHubActionsConverter", item1.SonarCloud.BugsLink);
+                Assert.AreEqual("https://sonarcloud.io/project/issues?resolved=false&types=BUG&id=samsmithnz_AzurePipelinesToGitHubActionsConverter", item1.SonarCloud.BugsLink);
                 Assert.IsNotNull(item1.SonarCloud.LinesOfCodeBadgeImage);
                 Assert.AreEqual("https://sonarcloud.io/component_measures?metric=ncloc&id=samsmithnz_AzurePipelinesToGitHubActionsConverter", item1.SonarCloud.LinesOfCodeLink);
             }
