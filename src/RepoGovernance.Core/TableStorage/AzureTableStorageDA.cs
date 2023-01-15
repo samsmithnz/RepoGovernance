@@ -6,11 +6,11 @@ namespace RepoGovernance.Core.TableStorage
     //Note that these calls to Azure Storage table can't be async due to performance issues with Azure Storage when you retrieve items
     public static class AzureTableStorageDA
     {
-        public static List<SummaryItem> GetSummaryItemsFromTable(string connectionString, string tableName,
+        public static async Task<List<SummaryItem>> GetSummaryItemsFromTable(string connectionString, string tableName,
             string partitionKey)
         {
             TableStorageCommonDA tableDA = new(connectionString, tableName);
-            List<AzureStorageTableModel> items = tableDA.GetItems(partitionKey);
+            List<AzureStorageTableModel> items = await tableDA.GetItems(partitionKey);
             List<SummaryItem> results = new();
             foreach (AzureStorageTableModel item in items)
             {

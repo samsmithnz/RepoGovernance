@@ -1,4 +1,5 @@
-﻿using Azure.Data.Tables;
+﻿using Azure;
+using Azure.Data.Tables;
 using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Core.TableStorage
@@ -46,17 +47,18 @@ namespace RepoGovernance.Core.TableStorage
         }
 
         //This can't be async, because of how it queries the underlying data
-        public List<AzureStorageTableModel> GetItems(string partitionKey)
+        public async Task<List<AzureStorageTableModel>> GetItems(string partitionKey)
         {
             partitionKey = EncodePartitionKey(partitionKey);
 
             //Create a connection to the Azure Table
-            TableServiceClient tableClient = await CreateConnection();
+            TableClient tableClient = await CreateConnection();
 
-            // execute the query on the table
-            List<AzureStorageTableModel> list = table.CreateQuery<AzureStorageTableModel>()
-                                     .Where(ent => ent.PartitionKey == partitionKey)
-                                     .ToList();
+            // Create the query
+            Pageable<AzureStorageTableModel>? query = tableClient.Query<AzureStorageTableModel>(e => e.PartitionKey == partitionKey);
+
+            // Execute the query.
+            List<AzureStorageTableModel> list = query.ToList();
 
             return list;
         }
@@ -64,12 +66,12 @@ namespace RepoGovernance.Core.TableStorage
         public async Task<bool> SaveItem(AzureStorageTableModel data)
         {
             //Create a connection to the Azure Table
-            TableServiceClient tableClient = await CreateConnection();
+            TableClient tableClient = await CreateConnection();
 
             // Create the TableOperation that inserts/merges the entity.
-            TableOperation operation = TableOperation.InsertOrMerge(data);
-            await table.ExecuteAsync(operation);
-            return true;
+            Response response = await tableClient.UpsertEntityAsync(data);
+
+            return !response.IsError;
         }
 
         public static string EncodePartitionKey(string text)
