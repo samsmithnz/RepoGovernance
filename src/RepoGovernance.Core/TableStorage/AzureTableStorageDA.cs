@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json;
 using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Core.TableStorage
@@ -17,7 +17,7 @@ namespace RepoGovernance.Core.TableStorage
                 string? data = item.Data?.ToString();
                 if (data != null)
                 {
-                    SummaryItem? summaryItem = JsonConvert.DeserializeObject<SummaryItem>(data);
+                    SummaryItem? summaryItem = JsonSerializer.Deserialize<SummaryItem>(data);
                     if (summaryItem != null)
                     {
                         results.Add(summaryItem);
@@ -29,13 +29,14 @@ namespace RepoGovernance.Core.TableStorage
 
         //Update the storage with the data
         public static async Task<int> UpdateSummaryItemsIntoTable(string connectionString,
-                string user, string owner, string repo, string json)
+                string user, string owner, string repo, SummaryItem summaryItem)
         {
             int itemsAdded = 0;
             TableStorageCommonDA tableBuildsDA = new(connectionString, "Summary");
-
+            string json = JsonSerializer.Serialize(summaryItem);
             string partitionKey = user;
             string rowKey = owner + "_" + repo;
+
             AzureStorageTableModel row = new(partitionKey, rowKey, json);
             await tableBuildsDA.SaveItem(row);
             itemsAdded++;
