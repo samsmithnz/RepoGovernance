@@ -318,7 +318,7 @@ namespace RepoGovernance.Core
             string repo,
             string approver)
         {
-            int itemsUpdated = 0;
+            //int itemsUpdated = 0;
 
             bool result = await GitHubApiAccess.ApprovePullRequests(clientId, secret, owner, repo, approver);
 
