@@ -310,9 +310,9 @@ namespace RepoGovernance.Core
         //TODO: convert this bool to int to count updates!
         public static async Task<bool> ApproveSummaryItemPRs(string? clientId,
             string? secret,
-            string? connectionString,
-            string? devOpsServiceURL,
-            string user,
+            //string? connectionString,
+            //string? devOpsServiceURL,
+            //string user,
             string owner,
             string repo,
             string approver)
