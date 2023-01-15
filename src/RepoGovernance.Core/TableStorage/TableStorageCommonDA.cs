@@ -34,15 +34,12 @@ namespace RepoGovernance.Core.TableStorage
             partitionKey = EncodePartitionKey(partitionKey);
 
             //Create a connection to the Azure Table
-            TableServiceClient table = await CreateConnection();
+            TableServiceClient tableClient = await CreateConnection();
 
             // Create a retrieve operation that takes a customer entity.
-            TableOperation retrieveOperation = TableOperation.Retrieve<AzureStorageTableModel>(partitionKey, rowKey);
+            AzureStorageTableModel result = tableClient.GetEntity<AzureStorageTableModel>(partitionKey, rowKey);
 
-            // Execute the retrieve operation.
-            TableResult retrievedResult = await table.ExecuteAsync(retrieveOperation);
-
-            return (AzureStorageTableModel)retrievedResult.Result;
+            return result; 
         }
 
         //This can't be async, because of how it queries the underlying data
@@ -51,7 +48,7 @@ namespace RepoGovernance.Core.TableStorage
             partitionKey = EncodePartitionKey(partitionKey);
 
             //Create a connection to the Azure Table
-            TableServiceClient table = await CreateConnection();
+            TableServiceClient tableClient = await CreateConnection();
 
             // execute the query on the table
             List<AzureStorageTableModel> list = table.CreateQuery<AzureStorageTableModel>()
@@ -64,7 +61,7 @@ namespace RepoGovernance.Core.TableStorage
         public async Task<bool> SaveItem(AzureStorageTableModel data)
         {
             //Create a connection to the Azure Table
-            TableServiceClient table = await CreateConnection();
+            TableServiceClient tableClient = await CreateConnection();
 
             // Create the TableOperation that inserts/merges the entity.
             TableOperation operation = TableOperation.InsertOrMerge(data);
