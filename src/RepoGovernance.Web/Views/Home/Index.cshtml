@@ -131,17 +131,13 @@
                             }
                             @if (item.SonarCloud != null)
                             {
-                                if (item.SonarCloud.BugsBadgeImage != null)
-                                {
-                                    <a href="@item.SonarCloud.BugsLink" target="_blank">
-                                        @Html.Raw(item.SonarCloud.BugsBadgeImage)
-                                    </a>
-                                }
                                 if (item.SonarCloud.CodeSmellsBadgeImage != null)
                                 {
-                                    <a href="@item.SonarCloud.CodeSmellsLink" target="_blank">
-                                        @Html.Raw(item.SonarCloud.CodeSmellsBadgeImage)
-                                    </a>
+                                    <a href="@item.SonarCloud.CodeSmellsLink" target="_blank">@Html.Raw(item.SonarCloud.CodeSmellsBadgeImage)</a>
+                                }
+                                if (item.SonarCloud.BugsBadgeImage != null)
+                                {
+                                    <a href="@item.SonarCloud.BugsLink" target="_blank">@Html.Raw(item.SonarCloud.BugsBadgeImage)</a>
                                 }
                             }
                         }

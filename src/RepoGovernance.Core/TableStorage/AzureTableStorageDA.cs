@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json;
 using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Core.TableStorage
@@ -6,18 +6,18 @@ namespace RepoGovernance.Core.TableStorage
     //Note that these calls to Azure Storage table can't be async due to performance issues with Azure Storage when you retrieve items
     public static class AzureTableStorageDA
     {
-        public static List<SummaryItem> GetSummaryItemsFromTable(string connectionString, string tableName,
+        public static async Task<List<SummaryItem>> GetSummaryItemsFromTable(string connectionString, string tableName,
             string partitionKey)
         {
             TableStorageCommonDA tableDA = new(connectionString, tableName);
-            List<AzureStorageTableModel> items = tableDA.GetItems(partitionKey);
+            List<AzureStorageTableModel> items = await tableDA.GetItems(partitionKey);
             List<SummaryItem> results = new();
             foreach (AzureStorageTableModel item in items)
             {
                 string? data = item.Data?.ToString();
                 if (data != null)
                 {
-                    SummaryItem? summaryItem = JsonConvert.DeserializeObject<SummaryItem>(data);
+                    SummaryItem? summaryItem = JsonSerializer.Deserialize<SummaryItem>(data);
                     if (summaryItem != null)
                     {
                         results.Add(summaryItem);
@@ -29,13 +29,14 @@ namespace RepoGovernance.Core.TableStorage
 
         //Update the storage with the data
         public static async Task<int> UpdateSummaryItemsIntoTable(string connectionString,
-                string user, string owner, string repo, string json)
+                string user, string owner, string repo, SummaryItem summaryItem)
         {
             int itemsAdded = 0;
             TableStorageCommonDA tableBuildsDA = new(connectionString, "Summary");
-
+            string json = JsonSerializer.Serialize(summaryItem);
             string partitionKey = user;
             string rowKey = owner + "_" + repo;
+
             AzureStorageTableModel row = new(partitionKey, rowKey, json);
             await tableBuildsDA.SaveItem(row);
             itemsAdded++;

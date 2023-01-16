@@ -93,7 +93,8 @@ public class HomeController : Controller
         List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
         foreach (SummaryItem summaryItem in summaryItems)
         {
-            await _ServiceApiClient.ApproveSummaryItemPRs(summaryItem.User, summaryItem.Owner, summaryItem.Repo, currentUser);
+            await _ServiceApiClient.ApproveSummaryItemPRs(//summaryItem.User,
+                                                          summaryItem.Owner, summaryItem.Repo, currentUser);
         }
         return RedirectToAction("Index");
     }

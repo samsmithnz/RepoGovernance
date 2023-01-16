@@ -33,7 +33,7 @@ namespace RepoGovernance.Service.Controllers
             return await SummaryItemsDA.UpdateSummaryItem(
                Configuration["AppSettings:GitHubClientId"],
                Configuration["AppSettings:GitHubClientSecret"],
-               Configuration["AppSettings:StorageConnectionString"],
+               Configuration["AppSettings:CosmosDBConnectionString"],//Configuration["AppSettings:StorageConnectionString"],
                Configuration["AppSettings:DevOpsServiceURL"],
                user, owner, repo);
         }
@@ -44,23 +44,25 @@ namespace RepoGovernance.Service.Controllers
         /// <param name="user">The user - often is also the owner, that has access to organizations</param>
         /// <returns></returns>
         [HttpGet("GetSummaryItems")]
-        public List<SummaryItem> GetSummaryItems(string user)
+        public async Task<List<SummaryItem>> GetSummaryItems(string user)
         {
-            return SummaryItemsDA.GetSummaryItems(
+            return await SummaryItemsDA.GetSummaryItems(
                 Configuration["AppSettings:StorageConnectionString"],
                 user);
         }
 
 
         [HttpGet("ApproveSummaryItemPRs")]
-        public async Task<bool> ApproveSummaryItemPRs(string user, string owner, string repo, string approver)
+        public async Task<bool> ApproveSummaryItemPRs(//string user, 
+            string owner, string repo, string approver)
         {
             return await SummaryItemsDA.ApproveSummaryItemPRs(
                Configuration["AppSettings:GitHubClientId"],
                Configuration["AppSettings:GitHubClientSecret"],
-               Configuration["AppSettings:StorageConnectionString"],
-               Configuration["AppSettings:DevOpsServiceURL"],
-               user, owner, repo, approver);
+               //Configuration["AppSettings:StorageConnectionString"],
+               //Configuration["AppSettings:DevOpsServiceURL"],
+               //user, 
+               owner, repo, approver);
         }
     }
 }

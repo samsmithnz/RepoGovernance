@@ -26,14 +26,14 @@ namespace RepoGovernance.Core
         /// <param name="owner"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static List<SummaryItem> GetSummaryItems(
+        public static async Task<List<SummaryItem>> GetSummaryItems(
             string? connectionString,
             string owner)
         {
             List<SummaryItem> results;
             if (connectionString != null)
             {
-                results = AzureTableStorageDA.GetSummaryItemsFromTable(connectionString, "Summary", owner);
+                results = await AzureTableStorageDA.GetSummaryItemsFromTable(connectionString, "Summary", owner);
             }
             else
             {
@@ -297,8 +297,7 @@ namespace RepoGovernance.Core
             //Save the summary item
             if (connectionString != null)
             {
-                string json = JsonConvert.SerializeObject(summaryItem);
-                itemsUpdated += await AzureTableStorageDA.UpdateSummaryItemsIntoTable(connectionString, user, owner, repo, json);
+                itemsUpdated += await AzureTableStorageDA.UpdateSummaryItemsIntoTable(connectionString, user, owner, repo, summaryItem);
             }
             else
             {
@@ -311,14 +310,14 @@ namespace RepoGovernance.Core
         //TODO: convert this bool to int to count updates!
         public static async Task<bool> ApproveSummaryItemPRs(string? clientId,
             string? secret,
-            string? connectionString,
-            string? devOpsServiceURL,
-            string user,
+            //string? connectionString,
+            //string? devOpsServiceURL,
+            //string user,
             string owner,
             string repo,
             string approver)
         {
-            int itemsUpdated = 0;
+            //int itemsUpdated = 0;
 
             bool result = await GitHubApiAccess.ApprovePullRequests(clientId, secret, owner, repo, approver);
 

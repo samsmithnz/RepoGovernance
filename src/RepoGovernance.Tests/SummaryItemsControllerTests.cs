@@ -19,7 +19,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //Arrange
         string user = "samsmithnz";
         string owner = "samsmithnz";
-        string repo = "AzurePipelinesToGitHubActionsConverter";
+        string repo = "Dependabot-Configuration-Builder";
 
         //Act - runs a repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(GitHubId, GitHubSecret, AzureStorageConnectionString, DevOpsServiceURL, user, owner, repo);
@@ -55,13 +55,13 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
     //}
 
     [TestMethod]
-    public void GetSummaryItemsTest()
+    public async Task GetSummaryItemsTest()
     {
         //Arrange
         string owner = "samsmithnz";
 
         //Act
-        List<SummaryItem> summaryItems = SummaryItemsDA.GetSummaryItems(AzureStorageConnectionString, owner);
+        List<SummaryItem> summaryItems = await SummaryItemsDA.GetSummaryItems(AzureStorageConnectionString, owner);
 
         //Assert
         Assert.IsNotNull(summaryItems);
