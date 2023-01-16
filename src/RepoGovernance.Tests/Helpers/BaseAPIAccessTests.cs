@@ -24,7 +24,7 @@ public class BaseAPIAccessTests
 
         GitHubId = configuration["AppSettings:GitHubClientId"];
         GitHubSecret = configuration["AppSettings:GitHubClientSecret"];
-        AzureStorageConnectionString = configuration["AppSettings:StorageConnectionString"];
+        AzureStorageConnectionString = configuration["AppSettings:CosmosDBConnectionString"]; // configuration["AppSettings:StorageConnectionString"];
         DevOpsServiceURL = configuration["AppSettings:DevOpsServiceURL"];
     }
 }
