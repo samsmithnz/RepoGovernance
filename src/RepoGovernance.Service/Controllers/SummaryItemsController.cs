@@ -33,7 +33,7 @@ namespace RepoGovernance.Service.Controllers
             return await SummaryItemsDA.UpdateSummaryItem(
                Configuration["AppSettings:GitHubClientId"],
                Configuration["AppSettings:GitHubClientSecret"],
-               Configuration["AppSettings:StorageConnectionString"],
+               Configuration["AppSettings:CosmosDBConnectionString"],//Configuration["AppSettings:StorageConnectionString"],
                Configuration["AppSettings:DevOpsServiceURL"],
                user, owner, repo);
         }
