@@ -47,7 +47,7 @@ namespace RepoGovernance.Service.Controllers
         public async Task<List<SummaryItem>> GetSummaryItems(string user)
         {
             return await SummaryItemsDA.GetSummaryItems(
-                Configuration["AppSettings:StorageConnectionString"],
+                Configuration["AppSettings:CosmosDBConnectionString"], //Configuration["AppSettings:StorageConnectionString"],
                 user);
         }
 
