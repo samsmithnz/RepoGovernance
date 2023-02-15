@@ -65,7 +65,8 @@ public class HomeController : Controller
         SummaryItemsIndex summaryItemsIndex = new()
         {
             SummaryItems = summaryItems,
-            SummaryRepoLanguages = repoLanguages.OrderByDescending(x => x.Total).ToList()
+            SummaryRepoLanguages = repoLanguages.OrderByDescending(x => x.Total).ToList(),
+            IsContributor = isContributor
         };
         return View(summaryItemsIndex);
     }
@@ -73,7 +74,16 @@ public class HomeController : Controller
     public async Task<IActionResult> UpdateRow(string user, string owner, string repo, bool isContributor = false)
     {
         await _ServiceApiClient.UpdateSummaryItem(user, owner, repo);
-        return Redirect(Url.RouteUrl(new { controller = "Home", action = "Index" }) + "#" + repo);
+
+        //This is a hack for now - hide controls behind this iscontributor flag, but never show iscontributor=false in query string
+        if (isContributor)
+        {
+            return Redirect(Url.RouteUrl(new { controller = "Home", action = "Index" }) + "?isContributor=true" + "#" + repo);
+        }
+        else
+        {
+            return Redirect(Url.RouteUrl(new { controller = "Home", action = "Index" }) + "#" + repo);
+        }
     }
 
     public async Task<IActionResult> UpdateAll(bool isContributor = false)
@@ -84,7 +94,16 @@ public class HomeController : Controller
         {
             await _ServiceApiClient.UpdateSummaryItem(summaryItem.User, summaryItem.Owner, summaryItem.Repo);
         }
-        return RedirectToAction("Index");
+        
+        //This is a hack for now - hide controls behind this iscontributor flag, but never show iscontributor=false in query string
+        if (isContributor)
+        {
+            return RedirectToAction("Index", new { isContributor = true });
+        }
+        else
+        {
+            return RedirectToAction("Index");
+        }
     }
 
     public async Task<IActionResult> ApprovePRsForAllRepos(string user, string owner, string repo, bool isContributor = false)
@@ -96,7 +115,16 @@ public class HomeController : Controller
             await _ServiceApiClient.ApproveSummaryItemPRs(//summaryItem.User,
                                                           summaryItem.Owner, summaryItem.Repo, currentUser);
         }
-        return RedirectToAction("Index");
+
+        //This is a hack for now - hide controls behind this iscontributor flag, but never show iscontributor=false in query string
+        if (isContributor)
+        {
+            return RedirectToAction("Index", new { isContributor = true });
+        }
+        else
+        {
+            return RedirectToAction("Index");
+        }
     }
 
     public IActionResult Privacy()
