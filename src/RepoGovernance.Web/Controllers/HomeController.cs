@@ -16,7 +16,7 @@ public class HomeController : Controller
         _ServiceApiClient = ServiceApiClient;
     }
 
-    public async Task<IActionResult> Index(bool isAdmin = false)
+    public async Task<IActionResult> Index(bool isContributor = false)
     {
         string currentUser = "samsmithnz";
         List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
@@ -70,13 +70,13 @@ public class HomeController : Controller
         return View(summaryItemsIndex);
     }
 
-    public async Task<IActionResult> UpdateRow(string user, string owner, string repo, bool isAdmin = false)
+    public async Task<IActionResult> UpdateRow(string user, string owner, string repo, bool isContributor = false)
     {
         await _ServiceApiClient.UpdateSummaryItem(user, owner, repo);
         return Redirect(Url.RouteUrl(new { controller = "Home", action = "Index" }) + "#" + repo);
     }
 
-    public async Task<IActionResult> UpdateAll(bool isAdmin = false)
+    public async Task<IActionResult> UpdateAll(bool isContributor = false)
     {
         string currentUser = "samsmithnz";
         List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
@@ -87,7 +87,7 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
-    public async Task<IActionResult> ApprovePRsForAllRepos(string user, string owner, string repo, bool isAdmin = false)
+    public async Task<IActionResult> ApprovePRsForAllRepos(string user, string owner, string repo, bool isContributor = false)
     {
         string currentUser = "samsmithnz";
         List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
