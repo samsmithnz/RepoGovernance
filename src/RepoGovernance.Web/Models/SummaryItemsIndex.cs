@@ -7,5 +7,6 @@ namespace RepoGovernance.Web.Models
     {
         public List<SummaryItem> SummaryItems { get; set; }
         public List<RepoLanguage> SummaryRepoLanguages { get; set; }
+        public bool IsContributor { get; set; }
     }
 }

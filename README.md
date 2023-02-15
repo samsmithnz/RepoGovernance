@@ -24,8 +24,10 @@ This is how the dependencies look in a graph:
 
 ## Current solution
 Currently hosted at https://repogovernance-prod-eu-web.azurewebsites.net/. This shows current projects I have configured, with recommendations, pull requests, latest build info, code coverage, SonarCloud warnings, latest release and version information, languages detected, .NET frameworks detected, and current DORA DevOps metrics
-
 ![image](https://user-images.githubusercontent.com/8389039/210186797-3a65c4fe-2db2-452b-a0e1-623abed0a4da.png)
+
+There are options to refresh all repos, and approval all dependabot PR's, hidden behind a very simple contributor flag.
+![image](https://user-images.githubusercontent.com/8389039/219071756-13bda8e8-b5ea-444d-abfd-7fc7031d647c.png)
 
 ## The future?
 - Remediation: allowing users to not just identify an issue, but to resolve it with a few clicks. 

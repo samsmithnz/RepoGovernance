@@ -152,7 +152,10 @@
 
                             <span class="lastUpdatedRedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }
-                        <a href="@Url.Action("UpdateRow", "Home", new { user = item.User, owner = item.Owner, repo = item.Repo })" class="lastUpdatedText">Update metrics</a>
+                        @if (Model.IsContributor)
+                        {
+                            <a href="@Url.Action("UpdateRow", "Home", new { user = item.User, owner = item.Owner, repo = item.Repo, isContributor = Model.IsContributor })" class="lastUpdatedText">Update metrics</a>
+                        }
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -228,16 +231,21 @@
                         <br />
                         <img src="@item.DORASummary.LeadTimeForChangesBadgeWithMetricURL" alt="Lead time for changes badge" />
                         <br />
-                        <img src="@item.DORASummary.MeanTimeToRestoreBadgeURL" alt="Mean time to restore badge"/>
+                        <img src="@item.DORASummary.MeanTimeToRestoreBadgeURL" alt="Mean time to restore badge" />
                         <br />
-                        <img src="@item.DORASummary.ChangeFailureRateBadgeURL" alt="Change failure rate badge"/>
+                        <img src="@item.DORASummary.ChangeFailureRateBadgeURL" alt="Change failure rate badge" />
                     }
                 </div>
             </div>
         }
     </div>
     <div>
-        <a href="@Url.Action("UpdateAll", "Home")" class="lastUpdatedText">Update all. Warning- takes a ~minute</a><br />
-        <a href="@Url.Action("ApprovePRsForAllRepos", "Home")" class="lastUpdatedText">Approve all open PRs. Warning- takes a ~minute</a>
+        @if (Model.IsContributor)
+        {
+            <a href="@Url.Action("UpdateAll", "Home", new { isContributor = Model.IsContributor })" class="lastUpdatedText">Update all. Warning- takes a ~minute</a>
+
+            <br />
+            <a href="@Url.Action("ApprovePRsForAllRepos", "Home", new { isContributor = Model.IsContributor })" class="lastUpdatedText">Approve all open PRs. Warning- takes a ~minute</a>
+        }
     </div>
 </div>
