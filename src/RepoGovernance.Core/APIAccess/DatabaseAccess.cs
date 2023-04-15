@@ -21,6 +21,7 @@ public static class DatabaseAccess
             new UserOwnerRepo(user, user, "FictionBook"),
             new UserOwnerRepo(user, user, "GitHubActionsDotNet"),
             new UserOwnerRepo(user, user, "OpinionatedSoftwareAdvice"),
+            new UserOwnerRepo(user, user, "MermaidDotNet"),
             new UserOwnerRepo(user, user, "PuzzleSolver"),
             new UserOwnerRepo(user, user, "RepoAutomation"),
             new UserOwnerRepo(user, user, "RepoAutomationUnitTests"),
