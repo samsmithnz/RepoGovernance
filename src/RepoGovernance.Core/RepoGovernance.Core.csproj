@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.Data.Tables" Version="12.8.0" />
-    <PackageReference Include="DotNetCensus.Core" Version="1.4.1" />
+    <PackageReference Include="DotNetCensus.Core" Version="1.5.2" />
     <PackageReference Include="GitHubActionsDotNet" Version="1.0.26" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
     <PackageReference Include="RepoAutomation.Core" Version="1.4.5" />	  
