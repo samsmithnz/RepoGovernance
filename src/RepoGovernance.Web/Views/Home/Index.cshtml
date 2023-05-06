@@ -158,7 +158,7 @@
                         }
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 divBorder">
                     @if (item.RepoLanguages.Count > 0)
                     {
                         <div style="font-size:14px;">
@@ -210,7 +210,8 @@
                 });
                 </script>*@
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 divBorder">                    
+                    <strong style="font-size:14px;">.NET targets:</strong><br />
                     @if (item.DotNetFrameworks.Count == 0)
                     {
                         <span class="badge bg-secondary">None found</span>
@@ -224,7 +225,8 @@
                         }
                     }
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 divBorder">
+                    <strong style="font-size:14px;">DORA metrics:</strong><br />
                     @if (item.DORASummary != null)
                     {
                         <img src="@item.DORASummary.DeploymentFrequencyBadgeWithMetricURL" alt="Deployment frequency badge" />
