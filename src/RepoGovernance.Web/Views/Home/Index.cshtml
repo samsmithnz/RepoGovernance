@@ -211,6 +211,7 @@
                 </script>*@
                 </div>
                 <div class="col-md-2">
+                    <strong>.NET targets:</strong><br />
                     @if (item.DotNetFrameworks.Count == 0)
                     {
                         <span class="badge bg-secondary">None found</span>
@@ -225,6 +226,7 @@
                     }
                 </div>
                 <div class="col-md-3">
+                    <strong>DORA metrics:</strong><br />
                     @if (item.DORASummary != null)
                     {
                         <img src="@item.DORASummary.DeploymentFrequencyBadgeWithMetricURL" alt="Deployment frequency badge" />
