@@ -15,7 +15,6 @@ public static class DatabaseAccess
             new UserOwnerRepo(user, user, "CustomQueue"),
             new UserOwnerRepo(user, user, "Dependabot-Configuration-Builder"),
             new UserOwnerRepo(user, user, "DotNetCensus"),
-            new UserOwnerRepo(user, user, "DevOpsMetrics"),
             new UserOwnerRepo(user, user, "DSPTree"),
             new UserOwnerRepo(user, user, "Factory"),
             new UserOwnerRepo(user, user, "FictionBook"),
@@ -34,7 +33,10 @@ public static class DatabaseAccess
             new UserOwnerRepo(user, user, "SamsDotNetSonarCloudAction"),            
             new UserOwnerRepo(user, user, "TBS"),
             new UserOwnerRepo(user, "SamSmithNZ-dotcom", "SamSmithNZ.com"),
-            new UserOwnerRepo(user, "SamSmithNZ-dotcom", "MandMCounter")
+            new UserOwnerRepo(user, "SamSmithNZ-dotcom", "MandMCounter"),
+            new UserOwnerRepo(user, "DeveloperMetrics", "DevOpsMetrics"),
+            new UserOwnerRepo(user, "DeveloperMetrics", "deployment-frequency"),
+            new UserOwnerRepo(user, "DeveloperMetrics", "lead-time-for-changes"),
         };
 
         return results;
