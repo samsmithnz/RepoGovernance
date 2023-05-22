@@ -17,7 +17,7 @@ namespace RepoGovernance.Core.APIAccess
         public async Task<DORASummaryItem?> GetDORASummaryItems(string owner, string repository)
         {
             // api/DORASummary/GetDORASummaryItems?owner=samsmithnz&repository=DevOpsMetrics
-            string url = $"/api/DORASummary/GetDORASummaryItems?owner={owner}&repository={repository}";
+            string url = $"/api/DORASummary/GetDORASummaryItem?owner={owner}&repository={repository}";
             return await BaseApi.GetResponse<DORASummaryItem>(Client, url);
         }
 
