@@ -18,8 +18,8 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
     {
         //Arrange
         string user = "samsmithnz";
-        string owner = "DeveloperMetrics";
-        string repo = "DevOpsMetrics";
+        string owner = "samsmithnz";
+        string repo = "AzurePipelinesToGitHubActionsConverter";
 
         //Act - runs a repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(GitHubId, GitHubSecret, AzureStorageConnectionString, DevOpsServiceURL, user, owner, repo);
