@@ -145,12 +145,12 @@
                         <br>
                         @if (@item.LastUpdated > DateTime.Now.AddDays(-7))
                         {
-                            <span class="lastUpdatedText">Last updated: @item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
+                            <span class="lastUpdatedText">Last updated: </span>
+                            <span class="lastUpdatedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }
                         else
                         {
                             <span class="lastUpdatedText">Last updated: </span>
-
                             <span class="lastUpdatedRedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }
                         @if (Model.IsContributor)
