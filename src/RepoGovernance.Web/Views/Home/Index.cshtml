@@ -227,7 +227,14 @@
                     }
                 </div>
                 <div class="col-md-3 divBorder">
-                    <strong style="font-size:14px;">DORA metrics (last 30 days):</strong><br />
+                    @{
+                        string doraTitle = "DORA metrics (last 30 days):"
+                        if (item.DORASummary.NumberOfDays > 0)
+                        {
+                            doraTitle = $"DORA metrics (last {@item.DORASummary.NumberOfDays} days):";
+                        }
+                    }
+                    <strong style="font-size:14px;">@doraTitle</strong><br />
                     @if (item.DORASummary != null)
                     {
                         @if (item.DORASummary.DeploymentFrequency > 0)
