@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Diagnostics;
 using System.Text;
 
 namespace RepoGovernance.Web.Services
@@ -13,6 +14,7 @@ namespace RepoGovernance.Web.Services
 
         public async Task<List<T>> ReadMessageList<T>(Uri url)
         {
+            Debug.WriteLine("ReadMessageList: " + url.ToString());
             HttpResponseMessage response = await _client.GetAsync(url);
             if (response.IsSuccessStatusCode == true)
             {
@@ -37,6 +39,7 @@ namespace RepoGovernance.Web.Services
 
         public async Task<T> ReadMessageItem<T>(Uri url)
         {
+            Debug.WriteLine("ReadMessageItem: " + url.ToString());
             HttpResponseMessage response = await _client.GetAsync(url);
             if (response.IsSuccessStatusCode == true)
             {
@@ -61,6 +64,7 @@ namespace RepoGovernance.Web.Services
 
         public async Task<bool> SaveMessageItem<T>(Uri url, T obj)
         {
+            Debug.WriteLine("SaveMessageItem: " + url.ToString());
             string jsonInString = System.Text.Json.JsonSerializer.Serialize(obj);
             StringContent content = new(jsonInString, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await _client.PostAsync(url, content);
@@ -80,6 +84,7 @@ namespace RepoGovernance.Web.Services
         //The type, R, is different than T. For example, if T is an Album, R is typically a string or int.
         public async Task<R> GetMessageScalar<R>(Uri url)
         {
+            Debug.WriteLine("GetMessageScalar: " + url.ToString());
             HttpResponseMessage response = await _client.GetAsync(url);
             if (response.IsSuccessStatusCode == true)
             {

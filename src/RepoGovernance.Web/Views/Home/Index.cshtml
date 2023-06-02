@@ -228,13 +228,17 @@
                 </div>
                 <div class="col-md-3 divBorder">
                     @{
-                        string doraTitle = "DORA metrics (last 30 days):";
-                        if (item.DORASummary.NumberOfDays > 0)
+                        string doraTitle = "DORA metrics (last 30 days)";
+                        if (item.DORASummary != null && item.DORASummary.NumberOfDays > 0)
                         {
-                            doraTitle = $"DORA metrics (last {@item.DORASummary.NumberOfDays} days):";
+                            doraTitle = $"DORA metrics (last {@item.DORASummary.NumberOfDays} days)";
                         }
                     }
-                    <strong style="font-size:14px;">@doraTitle</strong><br />
+                    <strong style="font-size:14px;">@doraTitle</strong>
+                    @if (item.DORASummary != null && string.IsNullOrEmpty(item.DORASummary.ProcessingLogMessage) == false)
+                    {
+                    <i class="bi bi-info-circle" title="@item.DORASummary.ProcessingLogMessage"></i>
+                    }<br />
                     @if (item.DORASummary != null)
                     {
                         @if (item.DORASummary.DeploymentFrequency > 0)
@@ -272,7 +276,6 @@
                         {
                             <img src="@item.DORASummary.ChangeFailureRateBadgeURL" alt="Change failure rate badge" />
                         }
-                        <br><span class="lastUpdatedText" style="font-size: 10px">@item.DORASummary.ProcessingLogMessage</span>                    
                     }
                 </div>
             </div>
