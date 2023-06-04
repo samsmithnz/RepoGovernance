@@ -12,7 +12,7 @@ namespace RepoGovernance.Web.Services
             _client = client;
         }
 
-        public async Task<List<T>> ReadMessageList<T>(Uri url)
+        public async Task<List<T>?> ReadMessageList<T>(Uri url)
         {
             Debug.WriteLine("ReadMessageList: " + url.ToString());
             HttpResponseMessage response = await _client.GetAsync(url);
@@ -37,7 +37,7 @@ namespace RepoGovernance.Web.Services
             }
         }
 
-        public async Task<T> ReadMessageItem<T>(Uri url)
+        public async Task<T?> ReadMessageItem<T>(Uri url)
         {
             Debug.WriteLine("ReadMessageItem: " + url.ToString());
             HttpResponseMessage response = await _client.GetAsync(url);
@@ -82,7 +82,7 @@ namespace RepoGovernance.Web.Services
         }
 
         //The type, R, is different than T. For example, if T is an Album, R is typically a string or int.
-        public async Task<R> GetMessageScalar<R>(Uri url)
+        public async Task<R?> GetMessageScalar<R>(Uri url)
         {
             Debug.WriteLine("GetMessageScalar: " + url.ToString());
             HttpResponseMessage response = await _client.GetAsync(url);

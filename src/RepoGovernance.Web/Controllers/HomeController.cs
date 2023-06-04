@@ -106,14 +106,13 @@ public class HomeController : Controller
         }
     }
 
-    public async Task<IActionResult> ApprovePRsForAllRepos(string user, string owner, string repo, bool isContributor = false)
+    public async Task<IActionResult> ApprovePRsForAllRepos(bool isContributor = false)
     {
         string currentUser = "samsmithnz";
         List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
         foreach (SummaryItem summaryItem in summaryItems)
         {
-            await _ServiceApiClient.ApproveSummaryItemPRs(//summaryItem.User,
-                                                          summaryItem.Owner, summaryItem.Repo, currentUser);
+            await _ServiceApiClient.ApproveSummaryItemPRs(summaryItem.Owner, summaryItem.Repo, currentUser);
         }
 
         //This is a hack for now - hide controls behind this iscontributor flag, but never show iscontributor=false in query string

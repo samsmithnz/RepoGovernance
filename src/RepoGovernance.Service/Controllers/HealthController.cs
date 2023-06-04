@@ -7,6 +7,7 @@ namespace RepoGovernance.Service.Controllers
     [ApiController]
     public class HealthController : ControllerBase
     {
+        [HttpGet("Get")]
         public string Get()
         {
             return Health.GetHealth();
