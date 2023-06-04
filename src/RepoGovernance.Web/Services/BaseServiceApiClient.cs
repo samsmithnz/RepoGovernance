@@ -12,7 +12,7 @@ namespace RepoGovernance.Web.Services
             _client = client;
         }
 
-        public async Task<List<T>> ReadMessageList<T>(Uri url)
+        public async Task<List<T>?> ReadMessageList<T>(Uri url)
         {
             Debug.WriteLine("ReadMessageList: " + url.ToString());
             HttpResponseMessage response = await _client.GetAsync(url);
