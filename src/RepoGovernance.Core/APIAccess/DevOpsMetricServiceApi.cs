@@ -4,7 +4,7 @@ namespace RepoGovernance.Core.APIAccess
 {
     public class DevOpsMetricServiceApi
     {
-        private HttpClient Client;
+        private readonly HttpClient Client;
 
         public DevOpsMetricServiceApi(string devOpsServiceURL)
         {

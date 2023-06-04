@@ -263,12 +263,14 @@ namespace RepoGovernance.Core
                 else
                 {
                     //Initialize an empty DORA summary item
-                    dORASummaryItem = new(owner, repo);
-                    dORASummaryItem.DeploymentFrequency = 0;
-                    dORASummaryItem.LeadTimeForChanges = 0;
-                    dORASummaryItem.MeanTimeToRestore = 0;
-                    dORASummaryItem.ChangeFailureRate = -1; //change failure rate is a percentage, so -1 is a good default value
-                    dORASummaryItem.ProcessingLogMessage = "This doesn't exist";
+                    dORASummaryItem = new(owner, repo)
+                    {
+                        DeploymentFrequency = 0,
+                        LeadTimeForChanges = 0,
+                        MeanTimeToRestore = 0,
+                        ChangeFailureRate = -1, //change failure rate is a percentage, so -1 is a good default value
+                        ProcessingLogMessage = "This doesn't exist"
+                    };
                     summaryItem.DORASummary = dORASummaryItem;
                 }
             }
