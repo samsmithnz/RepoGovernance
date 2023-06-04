@@ -254,27 +254,21 @@ namespace RepoGovernance.Core
             //Get DevOps Metrics
             if (summaryItem != null && devOpsServiceURL != null)
             {
-                try
+                DevOpsMetricServiceApi devopsAPI = new(devOpsServiceURL);
+                DORASummaryItem? dORASummaryItem = await devopsAPI.GetDORASummaryItems(owner, repo);
+                if (dORASummaryItem != null)
                 {
-                    DevOpsMetricServiceApi devopsAPI = new(devOpsServiceURL);
-                    DORASummaryItem? dORASummaryItem = await devopsAPI.GetDORASummaryItems(owner, repo);
-                    if (dORASummaryItem != null)
-                    {
-                        summaryItem.DORASummary = dORASummaryItem;
-                    }
-                    else
-                    {
-                        summaryItem.DORASummary = new DORASummaryItem(owner, repo);
-                    }
+                    summaryItem.DORASummary = dORASummaryItem;
                 }
-                catch (Exception ex)
+                else
                 {
-                    DORASummaryItem? dORASummaryItem = new(owner, repo);
+                    //Initialize an empty DORA summary item
+                    dORASummaryItem = new(owner, repo);
                     dORASummaryItem.DeploymentFrequency = 0;
                     dORASummaryItem.LeadTimeForChanges = 0;
                     dORASummaryItem.MeanTimeToRestore = 0;
-                    dORASummaryItem.ChangeFailureRate = -1;
-                    dORASummaryItem.ProcessingLogMessage = "This probably doesn't exist: " + ex.Message;
+                    dORASummaryItem.ChangeFailureRate = -1; //change failure rate is a percentage, so -1 is a good default value
+                    dORASummaryItem.ProcessingLogMessage = "This doesn't exist";
                     summaryItem.DORASummary = dORASummaryItem;
                 }
             }
