@@ -235,9 +235,9 @@
                         }
                     }
                     <strong style="font-size:14px;">@doraTitle</strong>
-                    @if (item.DORASummary != null && string.IsNullOrEmpty(item.DORASummary.ProcessingLogMessage) == false)
+                    @if (item.DORASummary != null && string.IsNullOrEmpty(item.DORASummary.LastUpdatedMessage) == false)
                     {
-                    <i class="bi bi-info-circle" title="@item.DORASummary.ProcessingLogMessage"></i>
+                    <i class="bi bi-info-circle" title="@item.DORASummary.LastUpdatedMessage"></i>
                     }<br />
                     @if (item.DORASummary != null)
                     {

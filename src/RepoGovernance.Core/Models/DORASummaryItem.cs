@@ -20,7 +20,7 @@
             ChangeFailureRate = 0;
             ChangeFailureRateBadgeURL = "https://img.shields.io/badge/Change%20failure%20rate-None-lightgrey";
             ChangeFailureRateBadgeWithMetricURL = "https://img.shields.io/badge/Change%20failure%20rate%20-None-lightgrey";
-            ProcessingLogMessage = "No data available";
+            LastUpdatedMessage = "No data available";
         }
 
         public string Owner
@@ -83,7 +83,11 @@
         {
             get; set;
         }
-        public string ProcessingLogMessage
+        public string LastUpdatedMessage
+        {
+            get; set;
+        }
+        public DateTime LastUpdated
         {
             get; set;
         }

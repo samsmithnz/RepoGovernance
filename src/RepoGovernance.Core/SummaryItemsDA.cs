@@ -269,7 +269,7 @@ namespace RepoGovernance.Core
                         LeadTimeForChanges = 0,
                         MeanTimeToRestore = 0,
                         ChangeFailureRate = -1, //change failure rate is a percentage, so -1 is a good default value
-                        ProcessingLogMessage = "This doesn't exist"
+                        LastUpdatedMessage = "DORA statistics for this project doesn't exist"
                     };
                     summaryItem.DORASummary = dORASummaryItem;
                 }
