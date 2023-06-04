@@ -7,7 +7,7 @@ namespace RepoGovernance.Web.Services
     public class BaseServiceApiClient
     {
         private readonly HttpClient _client;
-        public void SetupClient(HttpClient client)
+        public BaseServiceApiClient(HttpClient client)
         {
             _client = client;
         }
