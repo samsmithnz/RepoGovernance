@@ -302,7 +302,7 @@ namespace RepoGovernance.Core
             }
 
             //Save the summary item
-            if (connectionString != null)
+            if (connectionString != null && summaryItem !=null)
             {
                 itemsUpdated += await AzureTableStorageDA.UpdateSummaryItemsIntoTable(connectionString, user, owner, repo, summaryItem);
             }
