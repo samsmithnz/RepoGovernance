@@ -82,7 +82,7 @@ namespace RepoGovernance.Web.Services
         }
 
         //The type, R, is different than T. For example, if T is an Album, R is typically a string or int.
-        public async Task<R> GetMessageScalar<R>(Uri url)
+        public async Task<R?> GetMessageScalar<R>(Uri url)
         {
             Debug.WriteLine("GetMessageScalar: " + url.ToString());
             HttpResponseMessage response = await _client.GetAsync(url);
