@@ -37,7 +37,7 @@ namespace RepoGovernance.Web.Services
             }
         }
 
-        public async Task<T> ReadMessageItem<T>(Uri url)
+        public async Task<T?> ReadMessageItem<T>(Uri url)
         {
             Debug.WriteLine("ReadMessageItem: " + url.ToString());
             HttpResponseMessage response = await _client.GetAsync(url);
