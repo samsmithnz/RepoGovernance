@@ -15,6 +15,7 @@ namespace RepoGovernance.Service.Controllers
             Configuration = configuration;
         }
 
+        [HttpGet("GetRepos")]
         public List<UserOwnerRepo> GetRepos(string owner)
         {
             return SummaryItemsDA.GetRepos(owner);
