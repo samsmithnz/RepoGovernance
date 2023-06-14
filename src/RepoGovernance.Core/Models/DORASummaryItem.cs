@@ -3,9 +3,14 @@
     //This class will mirror the result from DevOpsMetrics
     public class DORASummaryItem
     {
-        public DORASummaryItem(string owner, string repo)
+        public DORASummaryItem()
+        {
+        }
+
+        public DORASummaryItem(string owner, string project, string repo)
         {
             Owner = owner;
+            Project = project;
             Repo = repo;
             //Set the properties to defaults (none)
             DeploymentFrequency = 0;
@@ -24,6 +29,10 @@
         }
 
         public string Owner
+        {
+            get; set;
+        }
+        public string Project
         {
             get; set;
         }

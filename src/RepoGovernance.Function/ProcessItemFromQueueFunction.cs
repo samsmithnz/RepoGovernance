@@ -20,6 +20,7 @@ namespace RepoGovernance.Function
             string[] parts = myQueueItem.Split('_');
             string user = "";
             string owner = "";
+            string project = "";
             string repo = "";
             if (parts.Length == 2)
             {
@@ -51,7 +52,7 @@ namespace RepoGovernance.Function
                 Configuration["GitHubClientSecret"],
                 Configuration["SummaryQueueConnection"],
                 Configuration["DevOpsServiceURL"],
-                user, owner, repo);
+                user, owner, project, repo);
             if (itemsUpdated > 0)
             {
                 log.LogInformation($"C# Queue trigger function completed updating {itemsUpdated} items at: {DateTime.Now}");
