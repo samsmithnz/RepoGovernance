@@ -44,6 +44,26 @@ namespace RepoGovernance.Core
             return results;
         }
 
+        private static async Task<SummaryItem?> GetSummaryItem(string connectionString,
+            string owner, string repo)
+        {
+            SummaryItem? result = null;
+            List<SummaryItem> summaryItems = await GetSummaryItems(connectionString, owner);
+            if (summaryItems != null)
+            {
+                foreach (SummaryItem item in summaryItems)
+                {
+                    if (item.Owner == owner && item.Repo == repo)
+                    {
+                        result = item;
+                        break;
+                    }
+                }
+            }
+            return result;
+        }
+
+
         /// <summary>
         /// Update a single repo's record into Azure Storage
         /// </summary>
@@ -63,248 +83,264 @@ namespace RepoGovernance.Core
             string repo)
         {
             int itemsUpdated = 0;
-
             //Initialize the summary item
-            SummaryItem summaryItem = new(user, owner, repo);
+            SummaryItem? summaryItem = new(user, owner, repo);
 
-            //Get repo settings
-            RepoAutomation.Core.Models.Repo? repoSettings = await GitHubApiAccess.GetRepo(clientId, secret, owner, repo);
-            if (repoSettings != null)
+            try
             {
-                summaryItem.RepoSettings = repoSettings;
-                if (summaryItem.RepoSettings.allow_auto_merge == false)
+                //Get repo settings
+                RepoAutomation.Core.Models.Repo? repoSettings = await GitHubApiAccess.GetRepo(clientId, secret, owner, repo);
+                if (repoSettings != null)
                 {
-                    summaryItem.RepoSettingsRecommendations.Add("Consider enabling 'Allow Auto-Merge' in repo settings to streamline PR merging");
-                }
-                if (summaryItem.RepoSettings.delete_branch_on_merge == false)
-                {
-                    summaryItem.RepoSettingsRecommendations.Add("Consider disabling 'Delete branch on merge' in repo settings to streamline PR merging and auto-cleanup completed branches");
-                }
-                if (summaryItem.RepoSettings.allow_rebase_merge == true)
-                {
-                    summaryItem.RepoSettingsRecommendations.Add("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing");
-                }
-            }
-
-            //Get any actions
-            List<string>? actions = await GitHubFiles.GetFiles(clientId, secret, owner, repo,
-            null, null, ".github/workflows");
-            if (actions != null)
-            {
-                summaryItem.Actions = actions;
-            }
-            if (summaryItem.Actions.Count == 0)
-            {
-                summaryItem.ActionRecommendations.Add("Consider adding an action to build your project");
-            }
-
-            //Get any dependabot files
-            List<string>? dependabot = await GitHubFiles.GetFiles(
-                clientId, secret,
-                owner, repo,
-                "dependabot.yml", null, ".github");
-            if (dependabot != null)
-            {
-                summaryItem.Dependabot = dependabot;
-            }
-            if (summaryItem.Dependabot.Count >= 1)
-            {
-                if (summaryItem.Dependabot.Count > 1)
-                {
-                    summaryItem.DependabotRecommendations.Add("Consider consolidating your Dependabot files to just one file");
-                }
-                summaryItem.DependabotFile = await GitHubFiles.GetFileContents(clientId, secret, owner, repo, ".github/dependabot.yml");
-                summaryItem.DependabotRoot = DependabotSerialization.Deserialize(summaryItem?.DependabotFile?.content);
-                if (summaryItem?.DependabotRoot?.updates.Count == 0)
-                {
-                    summaryItem.DependabotRecommendations.Add("Dependabot file exists, but is not configured to scan any manifest files");
-                }
-            }
-            else
-            {
-                summaryItem.DependabotRecommendations.Add("Consider adding a Dependabot file to automatically update dependencies");
-            }
-            //Check each line of the dependabot file
-            int actionsCount = 0;
-            if (summaryItem?.DependabotRoot?.updates != null)
-            {
-                foreach (Package? item in summaryItem.DependabotRoot.updates)
-                {
-                    if (item.package_ecosystem == "github-actions")
+                    summaryItem.RepoSettings = repoSettings;
+                    if (summaryItem.RepoSettings.allow_auto_merge == false)
                     {
-                        actionsCount++;
+                        summaryItem.RepoSettingsRecommendations.Add("Consider enabling 'Allow Auto-Merge' in repo settings to streamline PR merging");
                     }
-                    if (item.assignees == null || item.assignees.Count == 0)
+                    if (summaryItem.RepoSettings.delete_branch_on_merge == false)
                     {
-                        summaryItem.DependabotRecommendations.Add("Consider adding an assignee to ensure the Dependabot PR has an owner to the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
+                        summaryItem.RepoSettingsRecommendations.Add("Consider disabling 'Delete branch on merge' in repo settings to streamline PR merging and auto-cleanup completed branches");
                     }
-                    if (item.open_pull_requests_limit == null)
+                    if (summaryItem.RepoSettings.allow_rebase_merge == true)
                     {
-                        summaryItem.DependabotRecommendations.Add("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
+                        summaryItem.RepoSettingsRecommendations.Add("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing");
                     }
                 }
-                if (summaryItem.Actions.Count > 0 && actionsCount == 0)
-                {
-                    summaryItem.DependabotRecommendations.Add("Consider adding github-actions ecosystem to Dependabot to auto-update actions dependencies");
-                }
-            }
 
-            //Get branch policies
-            BranchProtectionPolicy? branchPolicies = await GitHubApiAccess.GetBranchProtectionPolicy(clientId, secret, owner, repo, "main");
-            if (branchPolicies == null)
-            {
-                summaryItem?.BranchPoliciesRecommendations.Add("Consider adding a branch policy to protect the main branch");
-            }
-            else if (summaryItem != null)
-            {
-                summaryItem.BranchPolicies = branchPolicies;
-                if (summaryItem.BranchPolicies.enforce_admins == null || summaryItem.BranchPolicies.enforce_admins.enabled == false)
+                //Get any actions
+                List<string>? actions = await GitHubFiles.GetFiles(clientId, secret, owner, repo,
+                null, null, ".github/workflows");
+                if (actions != null)
                 {
-                    summaryItem.BranchPoliciesRecommendations.Add("Consider enabling 'Enforce Admins', to ensure that all users of the repo must follow branch policy rules");
+                    summaryItem.Actions = actions;
                 }
-                if (summaryItem.BranchPolicies.required_conversation_resolution == null || summaryItem.BranchPolicies.required_conversation_resolution.enabled == false)
+                if (summaryItem.Actions.Count == 0)
                 {
-                    summaryItem.BranchPoliciesRecommendations.Add("Consider enabling 'Require Conversation Resolution', to ensure that all comments have been resolved in the PR before merging to the main branch");
+                    summaryItem.ActionRecommendations.Add("Consider adding an action to build your project");
                 }
-                if (summaryItem?.BranchPolicies?.required_status_checks?.checks == null || summaryItem.BranchPolicies.required_status_checks.checks.Length == 0)
+
+                //Get any dependabot files
+                List<string>? dependabot = await GitHubFiles.GetFiles(
+                    clientId, secret,
+                    owner, repo,
+                    "dependabot.yml", null, ".github");
+                if (dependabot != null)
                 {
-                    summaryItem?.BranchPoliciesRecommendations.Add("Consider adding status checks to the branch policy, to ensure that builds and tests pass successfully before the branch is merged to the main branch");
+                    summaryItem.Dependabot = dependabot;
                 }
-            }
-
-            //Get Gitversion files
-            List<string>? gitversion = await GitHubFiles.GetFiles(
-                clientId, secret,
-                owner, repo,
-                "GitVersion.yml", null, "");
-            if (summaryItem != null && gitversion != null && gitversion.Count > 0)
-            {
-                summaryItem.GitVersion = gitversion;
-            }
-            else
-            {
-                summaryItem?.GitVersionRecommendations.Add("Consider adding Git Versioning to this repo");
-            }
-
-            //Get Frameworks, using the DotNetCensus library we built in another project
-            DotNetCensus.Core.Models.Repo? repo2 = new(owner, repo)
-            {
-                User = clientId,
-                Password = secret,
-                Branch = "main"
-            };
-            List<FrameworkSummary> frameworkSummaries = DotNetCensus.Core.Main.GetFrameworkSummary(null, repo2, false);
-            foreach (FrameworkSummary project in frameworkSummaries)
-            {
-                Framework framework = new()
+                if (summaryItem.Dependabot.Count >= 1)
                 {
-                    Name = project.Framework,
-                    Color = DotNetRepoScanner.GetColorFromStatus(project.Status)
-                };
-                if (project.Framework != null &&
-                    summaryItem?.DotNetFrameworks.Where(p => p.Name == project.Framework).FirstOrDefault() == null)
-                {
-                    summaryItem?.DotNetFrameworks.Add(framework);
-                }
-            }
-            //Order the frameworks so they appear in alphabetically
-            if (summaryItem != null && summaryItem.DotNetFrameworks != null)
-            {
-                summaryItem.DotNetFrameworks = summaryItem.DotNetFrameworks.OrderBy(o => o.Name).ToList();
-            }
-
-            //Get the last commit
-            string? lastCommitSha = await GitHubApiAccess.GetLastCommit(clientId, secret, owner, repo);
-            if (summaryItem != null && lastCommitSha != null)
-            {
-                summaryItem.LastCommitSha = lastCommitSha;
-            }
-
-            //Get Pull Request details
-            List<PullRequest> pullRequests = await GitHubApiAccess.GetPullRequests(clientId, secret, owner, repo);
-            if (summaryItem != null && pullRequests != null && pullRequests.Count > 0)
-            {
-                foreach (PullRequest pr in pullRequests)
-                {
-                    //Check if the PR has been reviewed
-                    if (pr.Number != null)
+                    if (summaryItem.Dependabot.Count > 1)
                     {
-                        List<PRReview> prReviews = await GitHubApiAccess.GetPullRequestReview(clientId, secret, owner, repo, pr.Number);
-                        if (prReviews != null && prReviews.Count > 0 && prReviews[^1] != null)
-                        {
-                            string? state = prReviews[^1].state;
-                            if (state == "APPROVED")
-                            {
-                                pr.Approved = true;
-                            }
-                        }
+                        summaryItem.DependabotRecommendations.Add("Consider consolidating your Dependabot files to just one file");
                     }
-                    //Check if the PR has was created by dependabot
-                    foreach (string prLabel in pr.Labels)
+                    summaryItem.DependabotFile = await GitHubFiles.GetFileContents(clientId, secret, owner, repo, ".github/dependabot.yml");
+                    summaryItem.DependabotRoot = DependabotSerialization.Deserialize(summaryItem?.DependabotFile?.content);
+                    if (summaryItem?.DependabotRoot?.updates.Count == 0)
                     {
-                        if (prLabel == "dependencies")
-                        {
-                            pr.IsDependabotPR = true;
-                        }
+                        summaryItem.DependabotRecommendations.Add("Dependabot file exists, but is not configured to scan any manifest files");
                     }
-                }
-                summaryItem.PullRequests = pullRequests;
-            }
-
-            //Get DevOps Metrics
-            if (summaryItem != null && devOpsServiceURL != null)
-            {
-                DevOpsMetricServiceApi devopsAPI = new(devOpsServiceURL);
-                DORASummaryItem? dORASummaryItem = await devopsAPI.GetDORASummaryItems(owner, repo);
-                if (dORASummaryItem != null)
-                {
-                    summaryItem.DORASummary = dORASummaryItem;
                 }
                 else
                 {
-                    //Initialize an empty DORA summary item
-                    dORASummaryItem = new(owner, repo)
+                    summaryItem.DependabotRecommendations.Add("Consider adding a Dependabot file to automatically update dependencies");
+                }
+                //Check each line of the dependabot file
+                int actionsCount = 0;
+                if (summaryItem?.DependabotRoot?.updates != null)
+                {
+                    foreach (Package? item in summaryItem.DependabotRoot.updates)
                     {
-                        DeploymentFrequency = 0,
-                        LeadTimeForChanges = 0,
-                        MeanTimeToRestore = 0,
-                        ChangeFailureRate = -1, //change failure rate is a percentage, so -1 is a good default value
-                        LastUpdatedMessage = "DORA statistics for this project doesn't exist"
+                        if (item.package_ecosystem == "github-actions")
+                        {
+                            actionsCount++;
+                        }
+                        if (item.assignees == null || item.assignees.Count == 0)
+                        {
+                            summaryItem.DependabotRecommendations.Add("Consider adding an assignee to ensure the Dependabot PR has an owner to the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
+                        }
+                        if (item.open_pull_requests_limit == null)
+                        {
+                            summaryItem.DependabotRecommendations.Add("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
+                        }
+                    }
+                    if (summaryItem.Actions.Count > 0 && actionsCount == 0)
+                    {
+                        summaryItem.DependabotRecommendations.Add("Consider adding github-actions ecosystem to Dependabot to auto-update actions dependencies");
+                    }
+                }
+
+                //Get branch policies
+                BranchProtectionPolicy? branchPolicies = await GitHubApiAccess.GetBranchProtectionPolicy(clientId, secret, owner, repo, "main");
+                if (branchPolicies == null)
+                {
+                    summaryItem?.BranchPoliciesRecommendations.Add("Consider adding a branch policy to protect the main branch");
+                }
+                else if (summaryItem != null)
+                {
+                    summaryItem.BranchPolicies = branchPolicies;
+                    if (summaryItem.BranchPolicies.enforce_admins == null || summaryItem.BranchPolicies.enforce_admins.enabled == false)
+                    {
+                        summaryItem.BranchPoliciesRecommendations.Add("Consider enabling 'Enforce Admins', to ensure that all users of the repo must follow branch policy rules");
+                    }
+                    if (summaryItem.BranchPolicies.required_conversation_resolution == null || summaryItem.BranchPolicies.required_conversation_resolution.enabled == false)
+                    {
+                        summaryItem.BranchPoliciesRecommendations.Add("Consider enabling 'Require Conversation Resolution', to ensure that all comments have been resolved in the PR before merging to the main branch");
+                    }
+                    if (summaryItem?.BranchPolicies?.required_status_checks?.checks == null || summaryItem.BranchPolicies.required_status_checks.checks.Length == 0)
+                    {
+                        summaryItem?.BranchPoliciesRecommendations.Add("Consider adding status checks to the branch policy, to ensure that builds and tests pass successfully before the branch is merged to the main branch");
+                    }
+                }
+
+                //Get Gitversion files
+                List<string>? gitversion = await GitHubFiles.GetFiles(
+                    clientId, secret,
+                    owner, repo,
+                    "GitVersion.yml", null, "");
+                if (summaryItem != null && gitversion != null && gitversion.Count > 0)
+                {
+                    summaryItem.GitVersion = gitversion;
+                }
+                else
+                {
+                    summaryItem?.GitVersionRecommendations.Add("Consider adding Git Versioning to this repo");
+                }
+
+                //Get Frameworks, using the DotNetCensus library we built in another project
+                DotNetCensus.Core.Models.Repo? repo2 = new(owner, repo)
+                {
+                    User = clientId,
+                    Password = secret,
+                    Branch = "main"
+                };
+                List<FrameworkSummary> frameworkSummaries = DotNetCensus.Core.Main.GetFrameworkSummary(null, repo2, false);
+                foreach (FrameworkSummary project in frameworkSummaries)
+                {
+                    Framework framework = new()
+                    {
+                        Name = project.Framework,
+                        Color = DotNetRepoScanner.GetColorFromStatus(project.Status)
                     };
-                    summaryItem.DORASummary = dORASummaryItem;
+                    if (project.Framework != null &&
+                        summaryItem?.DotNetFrameworks.Where(p => p.Name == project.Framework).FirstOrDefault() == null)
+                    {
+                        summaryItem?.DotNetFrameworks.Add(framework);
+                    }
+                }
+                //Order the frameworks so they appear in alphabetically
+                if (summaryItem != null && summaryItem.DotNetFrameworks != null)
+                {
+                    summaryItem.DotNetFrameworks = summaryItem.DotNetFrameworks.OrderBy(o => o.Name).ToList();
+                }
+
+                //Get the last commit
+                string? lastCommitSha = await GitHubApiAccess.GetLastCommit(clientId, secret, owner, repo);
+                if (summaryItem != null && lastCommitSha != null)
+                {
+                    summaryItem.LastCommitSha = lastCommitSha;
+                }
+
+                //Get Pull Request details
+                List<PullRequest> pullRequests = await GitHubApiAccess.GetPullRequests(clientId, secret, owner, repo);
+                if (summaryItem != null && pullRequests != null && pullRequests.Count > 0)
+                {
+                    foreach (PullRequest pr in pullRequests)
+                    {
+                        //Check if the PR has been reviewed
+                        if (pr.Number != null)
+                        {
+                            List<PRReview> prReviews = await GitHubApiAccess.GetPullRequestReview(clientId, secret, owner, repo, pr.Number);
+                            if (prReviews != null && prReviews.Count > 0 && prReviews[^1] != null)
+                            {
+                                string? state = prReviews[^1].state;
+                                if (state == "APPROVED")
+                                {
+                                    pr.Approved = true;
+                                }
+                            }
+                        }
+                        //Check if the PR has was created by dependabot
+                        foreach (string prLabel in pr.Labels)
+                        {
+                            if (prLabel == "dependencies")
+                            {
+                                pr.IsDependabotPR = true;
+                            }
+                        }
+                    }
+                    summaryItem.PullRequests = pullRequests;
+                }
+
+                //Get DevOps Metrics
+                if (summaryItem != null && devOpsServiceURL != null)
+                {
+                    DevOpsMetricServiceApi devopsAPI = new(devOpsServiceURL);
+                    DORASummaryItem? dORASummaryItem = await devopsAPI.GetDORASummaryItems(owner, repo);
+                    if (dORASummaryItem != null)
+                    {
+                        summaryItem.DORASummary = dORASummaryItem;
+                    }
+                    else
+                    {
+                        //Initialize an empty DORA summary item
+                        dORASummaryItem = new(owner, repo)
+                        {
+                            DeploymentFrequency = 0,
+                            LeadTimeForChanges = 0,
+                            MeanTimeToRestore = 0,
+                            ChangeFailureRate = -1, //change failure rate is a percentage, so -1 is a good default value
+                            LastUpdatedMessage = "DORA statistics for this project doesn't exist"
+                        };
+                        summaryItem.DORASummary = dORASummaryItem;
+                    }
+                }
+
+                //Get the Release info
+                Release? release = await GitHubApiAccess.GetReleaseLatest(clientId, secret, owner, repo);
+                if (summaryItem != null && release != null)
+                {
+                    summaryItem.Release = release;
+                }
+
+                //Get Coveralls.io Code Coverage
+                CoverallsCodeCoverage? coverallsCodeCoverage = await CoverallsCodeCoverageApi.GetCoverallsCodeCoverage(owner, repo);
+                if (summaryItem != null && coverallsCodeCoverage != null)
+                {
+                    summaryItem.CoverallsCodeCoverage = coverallsCodeCoverage;
+                }
+
+                //Get SonarCloud metrics (note that we use user here instead of owner)
+                SonarCloud? sonarCloud = await SonarCloudApi.GetSonarCloudMetrics(user, repo);
+                if (summaryItem != null && sonarCloud != null)
+                {
+                    summaryItem.SonarCloud = sonarCloud;
+                }
+
+                //Get Repo Language stats
+                List<RepoLanguage> repoLanguages = await RepoLanguageHelper.GetRepoLanguages(clientId, secret, owner, repo);
+                if (summaryItem != null && repoLanguages != null && repoLanguages.Count > 0)
+                {
+                    summaryItem.RepoLanguages = repoLanguages;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //If there was an error, update with the error message
+                string message = ex.ToString();
+                if (connectionString != null)
+                {
+                    summaryItem = await GetSummaryItem(connectionString, owner, repo);
+                    if (summaryItem != null)
+                    {
+                        summaryItem.LastUpdatedMessage = "Error at " + DateTime.Now.ToString() + ": " + ex.ToString();
+                    }
                 }
             }
 
-            //Get the Release info
-            Release? release = await GitHubApiAccess.GetReleaseLatest(clientId, secret, owner, repo);
-            if (summaryItem != null && release != null)
-            {
-                summaryItem.Release = release;
-            }
-
-            //Get Coveralls.io Code Coverage
-            CoverallsCodeCoverage? coverallsCodeCoverage = await CoverallsCodeCoverageApi.GetCoverallsCodeCoverage(owner, repo);
-            if (summaryItem != null && coverallsCodeCoverage != null)
-            {
-                summaryItem.CoverallsCodeCoverage = coverallsCodeCoverage;
-            }
-
-            //Get SonarCloud metrics (note that we use user here instead of owner)
-            SonarCloud? sonarCloud = await SonarCloudApi.GetSonarCloudMetrics(user, repo);
-            if (summaryItem != null && sonarCloud != null)
-            {
-                summaryItem.SonarCloud = sonarCloud;
-            }
-
-            //Get Repo Language stats
-            List<RepoLanguage> repoLanguages = await RepoLanguageHelper.GetRepoLanguages(clientId, secret, owner, repo);
-            if (summaryItem != null && repoLanguages != null && repoLanguages.Count > 0)
-            {
-                summaryItem.RepoLanguages = repoLanguages;
-            }
-
             //Save the summary item
-            if (connectionString != null && summaryItem !=null)
+            if (connectionString != null && summaryItem != null)
             {
                 itemsUpdated += await AzureTableStorageDA.UpdateSummaryItemsIntoTable(connectionString, user, owner, repo, summaryItem);
             }
