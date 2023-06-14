@@ -47,6 +47,7 @@ namespace RepoGovernance.Core.Models
         public Release? Release { get; set; }
         public string? LastCommitSha { get; set; }
         public DateTime LastUpdated { get; set; }
+        public string? LastUpdatedMessage { get; set; }
         public CoverallsCodeCoverage? CoverallsCodeCoverage { get; set; }
         public SonarCloud? SonarCloud { get; set; }
 
