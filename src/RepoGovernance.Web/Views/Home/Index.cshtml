@@ -145,7 +145,7 @@
                         <br>
                         @if (item.LastUpdatedMessage != null)
                         {
-                            <i class="bi bi-info-circle" title="@item.LastUpdatedMessage"></i>
+                            <i class="bi bi-info-circle" style="color:red" title="@item.LastUpdatedMessage"></i>
                         }
                         <span class="lastUpdatedText">Last updated: </span>
                         @if (@item.LastUpdated > DateTime.Now.AddDays(-7))
