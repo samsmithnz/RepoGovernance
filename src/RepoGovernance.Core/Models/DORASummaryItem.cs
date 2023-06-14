@@ -3,6 +3,10 @@
     //This class will mirror the result from DevOpsMetrics
     public class DORASummaryItem
     {
+        public DORASummaryItem()
+        {
+        }
+
         public DORASummaryItem(string owner, string repo)
         {
             Owner = owner;
