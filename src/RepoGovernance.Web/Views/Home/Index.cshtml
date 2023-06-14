@@ -143,14 +143,17 @@
                             }
                         }
                         <br>
+                        @if (item.LastUpdatedMessage != null)
+                        {
+                            <i class="bi bi-info-circle" title="@item.LastUpdatedMessage"></i>
+                        }
+                        <span class="lastUpdatedText">Last updated: </span>
                         @if (@item.LastUpdated > DateTime.Now.AddDays(-7))
                         {
-                            <span class="lastUpdatedText">Last updated: </span>
                             <span class="lastUpdatedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }
                         else
                         {
-                            <span class="lastUpdatedText">Last updated: </span>
                             <span class="lastUpdatedRedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }
                         @if (Model.IsContributor)
@@ -237,7 +240,7 @@
                     <strong style="font-size:14px;">@doraTitle</strong>
                     @if (item.DORASummary != null && string.IsNullOrEmpty(item.DORASummary.LastUpdatedMessage) == false)
                     {
-                    <i class="bi bi-info-circle" title="@item.DORASummary.LastUpdatedMessage"></i>
+                        <i class="bi bi-info-circle" title="@item.DORASummary.LastUpdatedMessage"></i>
                     }<br />
                     @if (item.DORASummary != null)
                     {
