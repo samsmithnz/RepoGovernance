@@ -143,11 +143,11 @@
                             }
                         }
                         <br>
-                        @if (item.LastUpdatedMessage != null)
+                        <span class="lastUpdatedText">Last updated: </span>
+                                                @if (item.LastUpdatedMessage != null)
                         {
                             <i class="bi bi-info-circle" style="color:red" title="@item.LastUpdatedMessage"></i>
                         }
-                        <span class="lastUpdatedText">Last updated: </span>
                         @if (@item.LastUpdated > DateTime.Now.AddDays(-7))
                         {
                             <span class="lastUpdatedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
