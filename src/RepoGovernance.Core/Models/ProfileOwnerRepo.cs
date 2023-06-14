@@ -2,7 +2,7 @@
 {
     public class UserOwnerRepo
     {
-        public UserOwnerRepo(string user, string owner, string repo)
+        public UserOwnerRepo(string user, string owner,  string repo)
         {
             User = user;
             Owner = owner;

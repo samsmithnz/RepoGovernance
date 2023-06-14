@@ -80,6 +80,7 @@ namespace RepoGovernance.Core
             string? devOpsServiceURL,
             string user,
             string owner,
+            string project,
             string repo)
         {
             int itemsUpdated = 0;
@@ -215,15 +216,15 @@ namespace RepoGovernance.Core
                     Branch = "main"
                 };
                 List<FrameworkSummary> frameworkSummaries = DotNetCensus.Core.Main.GetFrameworkSummary(null, repo2, false);
-                foreach (FrameworkSummary project in frameworkSummaries)
+                foreach (FrameworkSummary frameworkSummary in frameworkSummaries)
                 {
                     Framework framework = new()
                     {
-                        Name = project.Framework,
-                        Color = DotNetRepoScanner.GetColorFromStatus(project.Status)
+                        Name = frameworkSummary.Framework,
+                        Color = DotNetRepoScanner.GetColorFromStatus(frameworkSummary.Status)
                     };
-                    if (project.Framework != null &&
-                        summaryItem?.DotNetFrameworks.Where(p => p.Name == project.Framework).FirstOrDefault() == null)
+                    if (frameworkSummary.Framework != null &&
+                        summaryItem?.DotNetFrameworks.Where(p => p.Name == frameworkSummary.Framework).FirstOrDefault() == null)
                     {
                         summaryItem?.DotNetFrameworks.Add(framework);
                     }
@@ -284,7 +285,7 @@ namespace RepoGovernance.Core
                     else
                     {
                         //Initialize an empty DORA summary item
-                        dORASummaryItem = new(owner, repo)
+                        dORASummaryItem = new(owner, project, repo)
                         {
                             DeploymentFrequency = 0,
                             LeadTimeForChanges = 0,
