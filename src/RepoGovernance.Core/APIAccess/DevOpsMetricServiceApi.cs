@@ -19,7 +19,7 @@ namespace RepoGovernance.Core.APIAccess
             try
             {
                 // api/DORASummary/GetDORASummaryItems?owner=samsmithnz&repository=DevOpsMetrics
-                string url = $"/api/DORASummary/GetDORASummaryItem?owner={owner}&repository={repo}";
+                string url = $"/api/DORASummary/GetDORASummaryItem?owner={owner}&project=&repository={repo}";
                 return await BaseApi.GetResponse<DORASummaryItem>(Client, url);
             }
             catch (Exception ex)
@@ -31,9 +31,9 @@ namespace RepoGovernance.Core.APIAccess
                     DeploymentFrequency = 0,
                     DeploymentFrequencyBadgeURL = "https://img.shields.io/badge/Deployment%20frequency-None-lightgrey",
                     LeadTimeForChanges = 0,
-                    LeadTimeForChangesBadgeWithMetricURL = "https://img.shields.io/badge/Lead%20time%20for%20changes-None-lightgrey",
+                    LeadTimeForChangesBadgeURL = "https://img.shields.io/badge/Lead%20time%20for%20changes-None-lightgrey",
                     MeanTimeToRestore = 0,
-                    MeanTimeToRestoreBadgeURL = "https://img.shields.io/badge/Lead%20time%20for%20changes-None-lightgrey",
+                    MeanTimeToRestoreBadgeURL = "https://img.shields.io/badge/Meant%20time%20to%20restore-None-lightgrey",
                     ChangeFailureRate = -1, //This is -1 because the value is a percentage, and 0 means something
                     ChangeFailureRateBadgeURL = "https://img.shields.io/badge/Change%20failure%20rate-None-lightgrey",
                     LastUpdated = DateTime.Now,

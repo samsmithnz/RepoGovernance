@@ -20,7 +20,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         string user = "samsmithnz";
         string owner = "samsmithnz";
         string project = null;
-        string repo = "CustomQueue";
+        string repo = "Sams2048";
 
         //Act - runs a repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(GitHubId, GitHubSecret, AzureStorageConnectionString, DevOpsServiceURL, user, owner, project, repo);
