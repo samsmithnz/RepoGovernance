@@ -33,7 +33,6 @@ namespace RepoGovernance.Core.APIAccess
                     LastUpdatedMessage = "Error getting DORA summary item: " + ex.ToString()
                 };
             }
-
-
         }
     }
+}
