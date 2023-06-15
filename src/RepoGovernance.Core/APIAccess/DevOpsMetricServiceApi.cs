@@ -28,7 +28,14 @@ namespace RepoGovernance.Core.APIAccess
                 {
                     Owner = owner,
                     Repo = repo,
+                    DeploymentFrequency = 0,
+                    DeploymentFrequencyBadgeURL = "https://img.shields.io/badge/Deployment%20frequency-None-lightgrey",
+                    LeadTimeForChanges = 0,
+                    LeadTimeForChangesBadgeWithMetricURL = "https://img.shields.io/badge/Lead%20time%20for%20changes-None-lightgrey",
+                    MeanTimeToRestore = 0,
+                    MeanTimeToRestoreBadgeURL = "https://img.shields.io/badge/Lead%20time%20for%20changes-None-lightgrey",
                     ChangeFailureRate = -1,
+                    ChangeFailureRateBadgeURL = "https://img.shields.io/badge/Change%20failure%20rate-None-lightgrey",
                     LastUpdated = DateTime.Now,
                     LastUpdatedMessage = "Error getting DORA summary item: " + ex.ToString()
                 };
