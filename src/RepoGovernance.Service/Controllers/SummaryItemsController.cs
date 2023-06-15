@@ -29,14 +29,14 @@ namespace RepoGovernance.Service.Controllers
         /// <param name="repo">the repository being updated</param>
         /// <returns></returns>
         [HttpGet("UpdateSummaryItem")]
-        public async Task<int> UpdateSummaryItem(string user, string owner,string project, string repo)
+        public async Task<int> UpdateSummaryItem(string user, string owner, string repo)
         {
             return await SummaryItemsDA.UpdateSummaryItem(
                Configuration["AppSettings:GitHubClientId"],
                Configuration["AppSettings:GitHubClientSecret"],
                Configuration["AppSettings:CosmosDBConnectionString"],//Configuration["AppSettings:StorageConnectionString"],
                Configuration["AppSettings:DevOpsServiceURL"],
-               user, owner, project, repo);
+               user, owner, repo);
         }
 
         /// <summary>

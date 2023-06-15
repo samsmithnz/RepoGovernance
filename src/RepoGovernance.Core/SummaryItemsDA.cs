@@ -80,7 +80,6 @@ namespace RepoGovernance.Core
             string? devOpsServiceURL,
             string user,
             string owner,
-            string project,
             string repo)
         {
             int itemsUpdated = 0;
@@ -280,19 +279,6 @@ namespace RepoGovernance.Core
                     DORASummaryItem? dORASummaryItem = await devopsAPI.GetDORASummaryItems(owner, repo);
                     if (dORASummaryItem != null)
                     {
-                        summaryItem.DORASummary = dORASummaryItem;
-                    }
-                    else
-                    {
-                        //Initialize an empty DORA summary item
-                        dORASummaryItem = new(owner, project, repo)
-                        {
-                            DeploymentFrequency = 0,
-                            LeadTimeForChanges = 0,
-                            MeanTimeToRestore = 0,
-                            ChangeFailureRate = -1, //change failure rate is a percentage, so -1 is a good default value
-                            LastUpdatedMessage = "DORA statistics for this project doesn't exist"
-                        };
                         summaryItem.DORASummary = dORASummaryItem;
                     }
                 }
