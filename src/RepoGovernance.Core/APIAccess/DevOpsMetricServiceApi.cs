@@ -19,7 +19,7 @@ namespace RepoGovernance.Core.APIAccess
             try
             {
                 // api/DORASummary/GetDORASummaryItems?owner=samsmithnz&repository=DevOpsMetrics
-                string url = $"/api/DORASummary/GetDORASummaryItem?owner={owner}&project=&repository={repo}";
+                string url = $"/api/DORASummary/GetDORASummaryItem?owner={owner}&project=&repo={repo}";
                 return await BaseApi.GetResponse<DORASummaryItem>(Client, url);
             }
             catch (Exception ex)

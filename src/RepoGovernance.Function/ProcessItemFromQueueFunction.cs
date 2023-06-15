@@ -52,7 +52,7 @@ namespace RepoGovernance.Function
                 Configuration["GitHubClientSecret"],
                 Configuration["SummaryQueueConnection"],
                 Configuration["DevOpsServiceURL"],
-                user, owner, project, repo);
+                user, owner, repo);
             if (itemsUpdated > 0)
             {
                 log.LogInformation($"C# Queue trigger function completed updating {itemsUpdated} items at: {DateTime.Now}");
