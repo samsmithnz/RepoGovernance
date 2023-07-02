@@ -230,54 +230,53 @@
                     }
                 </div>
                 <div class="col-md-3 divBorder">
-                    @{
+                    @if (item.DORASummary != null)
+                    {
                         string doraTitle = "DORA metrics (last 30 days)";
                         if (item.DORASummary != null && item.DORASummary.NumberOfDays > 0)
                         {
                             doraTitle = $"DORA metrics (last {@item.DORASummary.NumberOfDays} days)";
                         }
-                    }
-                    <strong style="font-size:14px;">@doraTitle</strong>
-                    @if (item.DORASummary != null && string.IsNullOrEmpty(item.DORASummary.LastUpdatedMessage) == false)
-                    {
-                        <i class="bi bi-info-circle" title="@item.DORASummary.LastUpdatedMessage"></i>
-                    }<br />
-                    @if (item.DORASummary != null)
-                    {
-                        @if (item.DORASummary.DeploymentFrequency > 0)
+                        <strong style="font-size:14px;">@doraTitle</strong>
+                        @if (item.DORASummary != null && string.IsNullOrEmpty(item.DORASummary.LastUpdatedMessage) == false)
                         {
-                            <img src="@item.DORASummary.DeploymentFrequencyBadgeWithMetricURL" alt="Deployment frequency badge" />
-                        }
-                        else
-                        {
-                            <img src="@item.DORASummary.DeploymentFrequencyBadgeURL" alt="Deployment frequency badge" />
+                            <i class="bi bi-info-circle" title="@item.DORASummary.LastUpdatedMessage"></i>
                         }
                         <br />
-                        @if (item.DORASummary.LeadTimeForChanges > 0)
+                        @if (item?.DORASummary?.DeploymentFrequency > 0)
                         {
-                            <img src="@item.DORASummary.LeadTimeForChangesBadgeWithMetricURL" alt="Lead time for changes badge" />
+                            <img src="@item?.DORASummary?.DeploymentFrequencyBadgeWithMetricURL" alt="Deployment frequency badge" />
                         }
                         else
                         {
-                            <img src="@item.DORASummary.LeadTimeForChangesBadgeURL" alt="Lead time for changes badge" />
+                            <img src="@item?.DORASummary?.DeploymentFrequencyBadgeURL" alt="Deployment frequency badge" />
                         }
                         <br />
-                        @if (item.DORASummary.MeanTimeToRestore > 0)
+                        @if (item?.DORASummary?.LeadTimeForChanges > 0)
                         {
-                            <img src="@item.DORASummary.MeanTimeToRestoreBadgeWithMetricURL" alt="Mean time to restore badge" />
+                            <img src="@item?.DORASummary?.LeadTimeForChangesBadgeWithMetricURL" alt="Lead time for changes badge" />
                         }
                         else
                         {
-                            <img src="@item.DORASummary.MeanTimeToRestoreBadgeURL" alt="Mean time to restore badge" />
+                            <img src="@item?.DORASummary?.LeadTimeForChangesBadgeURL" alt="Lead time for changes badge" />
                         }
                         <br />
-                        @if (item.DORASummary.ChangeFailureRate >= 0) //Note that change failure rate is -1 instead of 0 when there is no value
+                        @if (item?.DORASummary?.MeanTimeToRestore > 0)
                         {
-                            <img src="@item.DORASummary.ChangeFailureRateBadgeWithMetricURL" alt="Change failure rate badge" />
+                            <img src="@item?.DORASummary?.MeanTimeToRestoreBadgeWithMetricURL" alt="Mean time to restore badge" />
                         }
                         else
                         {
-                            <img src="@item.DORASummary.ChangeFailureRateBadgeURL" alt="Change failure rate badge" />
+                            <img src="@item?.DORASummary?.MeanTimeToRestoreBadgeURL" alt="Mean time to restore badge" />
+                        }
+                        <br />
+                        @if (item?.DORASummary?.ChangeFailureRate >= 0) //Note that change failure rate is -1 instead of 0 when there is no value
+                        {
+                            <img src="@item?.DORASummary?.ChangeFailureRateBadgeWithMetricURL" alt="Change failure rate badge" />
+                        }
+                        else
+                        {
+                            <img src="@item?.DORASummary?.ChangeFailureRateBadgeURL" alt="Change failure rate badge" />
                         }
                     }
                 </div>

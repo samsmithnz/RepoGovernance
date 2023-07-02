@@ -11,7 +11,6 @@ public static class DatabaseAccess
         {
             new UserOwnerRepo(user, user, "AzurePipelinesToGitHubActionsConverter"),
             new UserOwnerRepo(user, user, "AzurePipelinesToGitHubActionsConverterWeb"),
-            new UserOwnerRepo(user, user, "Battle"),
             new UserOwnerRepo(user, user, "CustomQueue"),
             new UserOwnerRepo(user, user, "Dependabot-Configuration-Builder"),
             new UserOwnerRepo(user, user, "DotNetCensus"),
@@ -32,6 +31,7 @@ public static class DatabaseAccess
             new UserOwnerRepo(user, user, "SatisfactoryTree"),
             new UserOwnerRepo(user, user, "SamsDotNetSonarCloudAction"),            
             new UserOwnerRepo(user, user, "TBS"),
+            new UserOwnerRepo(user, user, "TurnBasedEngine"),
             new UserOwnerRepo(user, "SamSmithNZ-dotcom", "SamSmithNZ.com"),
             new UserOwnerRepo(user, "SamSmithNZ-dotcom", "MandMCounter"),
             new UserOwnerRepo(user, "DeveloperMetrics", "DevOpsMetrics"),
