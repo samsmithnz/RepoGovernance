@@ -202,7 +202,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
 
 
         //Ensure they are alphabetical
-        Assert.AreEqual("TBS", summaryItems[^1].Repo);
+        Assert.AreEqual("TurnBasedEngine", summaryItems[^1].Repo);
     }
 
     [TestMethod]
