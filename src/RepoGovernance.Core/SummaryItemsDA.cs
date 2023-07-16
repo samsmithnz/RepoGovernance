@@ -305,7 +305,7 @@ namespace RepoGovernance.Core
                 }
 
                 //Get Repo Language stats
-                List<RepoLanguage> repoLanguages = await RepoLanguageHelper.GetRepoLanguages(clientId, secret, owner, repo);
+                List<RepoLanguage>? repoLanguages = await RepoLanguageHelper.GetRepoLanguages(clientId, secret, owner, repo);
                 if (summaryItem != null && repoLanguages != null && repoLanguages.Count > 0)
                 {
                     summaryItem.RepoLanguages = repoLanguages;
