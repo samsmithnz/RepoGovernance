@@ -310,6 +310,15 @@ namespace RepoGovernance.Core
                 {
                     summaryItem.RepoLanguages = repoLanguages;
                 }
+                else if (summaryItem != null && repoLanguages == null && connectionString != null)
+                {
+                    //If we couldn't find languages last time - lets pull up the existing summary item and use that
+                    SummaryItem? summaryItem2 = await GetSummaryItem(connectionString, owner, repo);
+                    if (summaryItem2 != null && summaryItem2.RepoLanguages != null)
+                    {
+                        summaryItem.RepoLanguages = summaryItem2.RepoLanguages;
+                    }   
+                }
 
             }
             catch (Exception ex)
