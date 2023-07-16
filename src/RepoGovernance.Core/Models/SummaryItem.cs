@@ -75,5 +75,6 @@ namespace RepoGovernance.Core.Models
 
         public DORASummaryItem? DORASummary { get; set; }
         public List<RepoLanguage> RepoLanguages { get; set; }
+        public DateTime? RepoLanguagesLastUpdated { get; set; }
     }
 }
