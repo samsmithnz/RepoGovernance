@@ -166,7 +166,13 @@
                     @if (item.RepoLanguages.Count > 0)
                     {
                         <div style="font-size:14px;">
-                            <strong>Languages detected:</strong><br />
+                            <strong>Languages detected:</strong>
+                            @if (item.RepoLanguagesLastUpdated != null)
+                            {
+                                DateTime repoLanguagesDateTime = (DateTime)item.RepoLanguagesLastUpdated;
+                                <i class="bi bi-info-circle" title='Repo langauges last updated on @repoLanguagesDateTime.ToString("d-MMM-yyyy hh:mm:sstt")'></i>
+                            }
+                            <br />
                             @foreach (RepoLanguage language in item.RepoLanguages)
                             {
                                 if (language.Percent > 0.001M)
