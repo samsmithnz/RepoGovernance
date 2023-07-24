@@ -1,7 +1,6 @@
 ﻿using DotNetCensus.Core.Models;
 using GitHubActionsDotNet.Models.Dependabot;
 using GitHubActionsDotNet.Serialization;
-using Newtonsoft.Json;
 using RepoAutomation.Core.APIAccess;
 using RepoAutomation.Core.Helpers;
 using RepoAutomation.Core.Models;
