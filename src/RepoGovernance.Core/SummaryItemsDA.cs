@@ -220,7 +220,8 @@ namespace RepoGovernance.Core
                     Framework framework = new()
                     {
                         Name = frameworkSummary.Framework,
-                        Color = DotNetRepoScanner.GetColorFromStatus(frameworkSummary.Status)
+                        Color = DotNetRepoScanner.GetColorFromStatus(frameworkSummary.Status),
+                        Count = frameworkSummary.Count
                     };
                     if (frameworkSummary.Framework != null &&
                         summaryItem?.DotNetFrameworks.Where(p => p.Name == frameworkSummary.Framework).FirstOrDefault() == null)
