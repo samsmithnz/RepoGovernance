@@ -31,18 +31,28 @@ namespace RepoGovernance.Web.Services
             }
         }
 
-        public async Task<SummaryItem?> GetSummaryItem(string owner, string repo)
+        public async Task<SummaryItem?> GetSummaryItem(string user, string owner, string repo)
         {
-            Uri url = new($"api/SummaryItems/GetSummaryItem?owner=" + owner + "&repo=" + repo, UriKind.Relative);
-            SummaryItem? result = await base.ReadMessageItem<SummaryItem>(url);
-            if (result == null)
+            List<SummaryItem>? results = await GetSummaryItems(user);
+            foreach (SummaryItem? item in results)
             {
-                return new SummaryItem(owner, owner, repo);
+                if (item.Owner == owner && item.Repo == repo)
+                {
+                    return item;
+                }
             }
-            else
-            {
-                return result;
-            }
+            return null;
+            //Uri url = new($"api/SummaryItems/GetSummaryItem?owner=" + owner + "&repo=" + repo, UriKind.Relative);
+            //SummaryItem? result = await base.ReadMessageItem<SummaryItem>(url);
+            //if (result == null)
+            //{
+            //    throw new Exception(url.ToString());
+            //    //return new SummaryItem(owner, owner, repo);
+            //}
+            //else
+            //{
+            //    return result;
+            //}
         }
 
         public async Task<int> UpdateSummaryItem(string user, string owner, string repo)

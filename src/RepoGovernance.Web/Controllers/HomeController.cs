@@ -128,7 +128,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Config(string user, string owner, string repo, bool isContributor = false)
     {
-        SummaryItem? summaryItem = await _ServiceApiClient.GetSummaryItem(owner, repo);
+        SummaryItem? summaryItem = await _ServiceApiClient.GetSummaryItem(user, owner, repo);
 
         SummaryItemConfig summaryItemConfig = new()
         {
