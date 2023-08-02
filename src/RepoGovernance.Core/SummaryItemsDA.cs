@@ -43,7 +43,7 @@ namespace RepoGovernance.Core
             return results;
         }
 
-        private static async Task<SummaryItem?> GetSummaryItem(string connectionString,
+        public static async Task<SummaryItem?> GetSummaryItem(string connectionString,
             string owner, string repo)
         {
             SummaryItem? result = null;

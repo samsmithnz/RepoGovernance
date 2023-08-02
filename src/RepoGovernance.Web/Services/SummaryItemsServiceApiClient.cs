@@ -1,4 +1,5 @@
-﻿using RepoGovernance.Core.Models;
+﻿using RepoAutomation.Core.Models;
+using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Web.Services
 {
@@ -27,6 +28,20 @@ namespace RepoGovernance.Web.Services
             else
             {
                 return results;
+            }
+        }
+
+        public async Task<SummaryItem?> GetSummaryItem(string owner, string repo)
+        {
+            Uri url = new($"api/SummaryItems/GetSummaryItem?owner=" + owner + "&repo=" + repo, UriKind.Relative);
+            SummaryItem? result = await base.ReadMessageItem<SummaryItem>(url);
+            if (result == null)
+            {
+                return new SummaryItem(owner, owner, repo);
+            }
+            else
+            {
+                return result;
             }
         }
 

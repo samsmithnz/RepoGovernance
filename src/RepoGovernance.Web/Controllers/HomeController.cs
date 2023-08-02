@@ -94,7 +94,7 @@ public class HomeController : Controller
         {
             await _ServiceApiClient.UpdateSummaryItem(summaryItem.User, summaryItem.Owner, summaryItem.Repo);
         }
-        
+
         //This is a hack for now - hide controls behind this iscontributor flag, but never show iscontributor=false in query string
         if (isContributor)
         {
@@ -124,6 +124,13 @@ public class HomeController : Controller
         {
             return RedirectToAction("Index");
         }
+    }
+
+    public async Task<IActionResult> Config(string owner, string repo)
+    {
+        SummaryItem? summaryItem = await _ServiceApiClient.GetSummaryItem(owner, repo);
+
+        return View(summaryItem);
     }
 
     public IActionResult Privacy()
