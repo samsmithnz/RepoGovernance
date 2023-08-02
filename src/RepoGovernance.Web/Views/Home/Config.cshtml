@@ -1,9 +1,10 @@
 ﻿@using RepoGovernance.Core.Models
-@model SummaryItem
+@model SummaryItemConfig
 @{
     ViewData["Title"] = "Configuration";
 }
 
 <h1>Config</h1>
 
-
+<span>Owner: @Model.SummaryItem?.Owner</span>
+<span>Repo: @Model.SummaryItem?.Repo</span>
