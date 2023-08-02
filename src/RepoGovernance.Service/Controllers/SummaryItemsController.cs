@@ -52,6 +52,20 @@ namespace RepoGovernance.Service.Controllers
                 user);
         }
 
+        /// <summary>
+        /// Get a summary item
+        /// </summary>
+        /// <param name="owner">the owner or organization</param>
+        /// <param name="repo">the repo</param>
+        /// <returns></returns>
+        [HttpGet("GetSummaryItem")]
+        public async Task<SummaryItem?> GetSummaryItem(string owner, string repo)
+        {
+            return await SummaryItemsDA.GetSummaryItem(
+                               Configuration["AppSettings:CosmosDBConnectionString"],
+                               owner, repo); 
+        }
+
 
         [HttpGet("ApproveSummaryItemPRs")]
         public async Task<bool> ApproveSummaryItemPRs(//string user, 
