@@ -6,7 +6,13 @@
 
 <h1>Config</h1>
 
-<span>User: @Model.SummaryItem?.User</span><br />
-<span>Owner: @Model.SummaryItem?.Owner</span><br />
-<span>Repo: @Model.SummaryItem?.Repo</span><br />
-
+<span>User: </span>
+<input type="text" value="@Model.SummaryItem?.User" />
+<br />
+<span>Owner: </span>
+<input type="text" value="@Model.SummaryItem?.Owner" />
+<br />
+<span>Repo: </span>
+<input type="text" value="@Model.SummaryItem?.Repo" />
+<br />
+<input type="submit" value="Save" />
