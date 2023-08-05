@@ -185,41 +185,6 @@
                             }
                         </div>
                     }
-                    @*<canvas id="doughnut-chart-@(item.Repo)" width="200" height="200"></canvas>
-                <script>
-                @{
-                string[] names = new string[item.RepoLanguages.Count];
-                int[] totals = new int[item.RepoLanguages.Count];
-                for (int i = 0; i < item.RepoLanguages.Count; i++)
-                {
-                names[i] = item.RepoLanguages[i].Name;
-                totals[i] = (int)(item.RepoLanguages[i].Percent * 100);
-                }
-                }
-                var labels = @Html.Raw(JsonSerializer.Serialize(names));
-                var backgroundColor = [];
-                var data = @Html.Raw(JsonSerializer.Serialize(totals));
-
-                new Chart(document.getElementById("doughnut-chart-@(item.Repo)"), {
-                type: 'doughnut',
-                data: {
-                labels: labels,
-                datasets: [
-                {
-                label: "Languages %",
-                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
-                data: data
-                }
-                ]
-                },
-                options: {
-                title: {
-                display: true,
-                text: 'Languages detected:'
-                }
-                }
-                });
-                </script>*@
                 </div>
                 <div class="col-md-2 divBorder">
                     <strong style="font-size:14px;">.NET targets:</strong><br />
