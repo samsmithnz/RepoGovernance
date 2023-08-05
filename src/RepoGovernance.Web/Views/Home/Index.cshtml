@@ -143,9 +143,10 @@
                             }
                         }
                         <br>
+                        <br>
                         @if (item.RepoLanguages.Count > 0)
                         {
-                            <div style="font-size:14px;">
+                            <div class="descriptionText">
                                 <span>Repo languages: </span>
                                 @if (item.RepoLanguagesLastUpdated != null)
                                 {
@@ -162,7 +163,6 @@
                                 }
                             </div>
                         }
-                        <br>
                         <span class="lastUpdatedText">Last updated: </span>
                         @if (item.LastUpdatedMessage != null)
                         {
