@@ -170,11 +170,13 @@
                         }
                         @if (@item.LastUpdated > DateTime.Now.AddDays(-7))
                         {
-                            <span class="lastUpdatedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
+                            @*<span class="lastUpdatedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>*@
+                            <span class="badge bg-dark">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }
                         else
                         {
-                            <span class="lastUpdatedRedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
+                            @*<span class="lastUpdatedRedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>*@
+                            <span class="badge bg-warning">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }
                         @if (Model.IsContributor)
                         {
@@ -202,12 +204,15 @@
                     }
                 </div>
                 <div class="col-md-2 divBorder">
-                    <strong style="font-size:14px;">Azure deployment:</strong><br />
-                    <div style="font-size:12px;">
-                        Secret 1 expiration: 6 months<br />
-                        Secret 2 expiration: <span style="color:red">2 days</span><br />
-                        Deployed URL: https://repogovernance-prod-eu-web.azurewebsites.net/<br />
-                    </div>
+                    @if (item.DORASummary != null && item?.DORASummary?.DeploymentFrequency > 0)
+                    {
+                        <strong style="font-size:14px;">Azure deployment:</strong><br />
+                        <div style="font-size:12px;">
+                            Secret 1 expiration: 6 months<br />
+                            Secret 2 expiration: <span style="color:red">2 days</span><br />
+                            Deployed URL: https://repogovernance-prod-eu-web.azurewebsites.net/<br />
+                        </div>
+                    }
                 </div>
                 <div class="col-md-3 divBorder">
                     @if (item.DORASummary != null)
