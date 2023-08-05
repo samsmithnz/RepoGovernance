@@ -143,6 +143,26 @@
                             }
                         }
                         <br>
+                        @if (item.RepoLanguages.Count > 0)
+                        {
+                            <div style="font-size:14px;">
+                                <span>Repo languages: </span>
+                                @if (item.RepoLanguagesLastUpdated != null)
+                                {
+                                    DateTime repoLanguagesDateTime = (DateTime)item.RepoLanguagesLastUpdated;
+                                    <i class="bi bi-info-circle" title='Repo langauges last updated on @repoLanguagesDateTime.ToString("d-MMM-yyyy hh:mm:sstt")'></i>
+                                }
+                                @foreach (RepoLanguage language in item.RepoLanguages)
+                                {
+                                    if (language.Percent > 0.001M)
+                                    {
+                                        <span class="box" style="background-color: @language.Color;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                        <span>@language.Name: @language.Percent.ToString("0.0")%</span>
+                                    }
+                                }
+                            </div>
+                        }
+                        <br>
                         <span class="lastUpdatedText">Last updated: </span>
                         @if (item.LastUpdatedMessage != null)
                         {
@@ -164,29 +184,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 divBorder">
-                    @if (item.RepoLanguages.Count > 0)
-                    {
-                        <div style="font-size:14px;">
-                            <strong>Languages detected:</strong>
-                            @if (item.RepoLanguagesLastUpdated != null)
-                            {
-                                DateTime repoLanguagesDateTime = (DateTime)item.RepoLanguagesLastUpdated;
-                                <i class="bi bi-info-circle" title='Repo langauges last updated on @repoLanguagesDateTime.ToString("d-MMM-yyyy hh:mm:sstt")'></i>
-                            }
-                            <br />
-                            @foreach (RepoLanguage language in item.RepoLanguages)
-                            {
-                                if (language.Percent > 0.001M)
-                                {
-                                    <span class="box" style="background-color: @language.Color;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <span>@language.Name: @language.Percent.ToString("0.0")%</span>
-                                    <br />
-                                }
-                            }
-                        </div>
-                    }
-                </div>
-                <div class="col-md-2 divBorder">
+
                     <strong style="font-size:14px;">.NET targets:</strong><br />
                     @if (item.DotNetFrameworks.Count == 0)
                     {
@@ -196,10 +194,20 @@
                     {
                         foreach (Framework framework in item.DotNetFrameworks)
                         {
-                            <span class="badge @framework.Color">@framework.Name</span><span style="font-size:0.75em;font-weight:700;"> x @framework.Count</span>
+                            <span class="badge @framework.Color">@framework.Name</span>
+
+                            <span style="font-size:0.75em;font-weight:700;"> x @framework.Count</span>
                             <br />
                         }
                     }
+                </div>
+                <div class="col-md-2 divBorder">
+                    <strong style="font-size:14px;">Deployment:</strong><br />
+                    <div style="font-size:12px;">
+                        Secret 1 expiration: 6 months<br />
+                        Secret 2 expiration: <span style="color:red">2 days</span><br />
+                        Deployed URL: https://repogovernance-prod-eu-web.azurewebsites.net/<br />
+                    </div>
                 </div>
                 <div class="col-md-3 divBorder">
                     @if (item.DORASummary != null)
