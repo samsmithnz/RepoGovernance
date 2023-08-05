@@ -148,11 +148,11 @@
                         {
                             <div class="descriptionText">
                                 <span>Repo languages: </span>
-                                @if (item.RepoLanguagesLastUpdated != null)
+ @*                               @if (item.RepoLanguagesLastUpdated != null)
                                 {
                                     DateTime repoLanguagesDateTime = (DateTime)item.RepoLanguagesLastUpdated;
                                     <i class="bi bi-info-circle" title='Repo langauges last updated on @repoLanguagesDateTime.ToString("d-MMM-yyyy hh:mm:sstt")'></i>
-                                }
+                                }*@
                                 @foreach (RepoLanguage language in item.RepoLanguages)
                                 {
                                     if (language.Percent > 0.001M)
