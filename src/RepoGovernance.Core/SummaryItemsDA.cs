@@ -325,6 +325,40 @@ namespace RepoGovernance.Core
                     }
                 }
 
+                //Get the Azure Deployment information
+                if (repo == "RepoGovernance")
+                {
+                    AzureDeployment azureDeployment = new()
+                    {
+                        DeployedURL = "https://repogovernance-prod-eu-web.azurewebsites.net/",
+                        AppRegistrations = new()
+                        {
+                            new AzureAppRegistration() { Name = "RepoGovernancePrincipal2023" }
+                        }
+                    };
+                    if (summaryItem != null && azureDeployment != null)
+                    {
+                        summaryItem.AzureDeployment = azureDeployment;
+                    }
+                }
+                else if (repo == "DevOpsMetrics")
+                {
+                    AzureDeployment azureDeployment = new()
+                    {
+                        DeployedURL = "https://devops-prod-eu-web.azurewebsites.net//",
+                        AppRegistrations = new()
+                        {
+                            new AzureAppRegistration() { Name = "DeveloperMetricsOrgSP2023" },
+                            new AzureAppRegistration() { Name = "DevOpsMetrics" },
+                            new AzureAppRegistration() { Name = "DevOpsMetricsServicePrincipal2022" }
+                        }
+                    };
+                    if (summaryItem != null && azureDeployment != null)
+                    {
+                        summaryItem.AzureDeployment = azureDeployment;
+                    }
+                }
+
             }
             catch (Exception ex)
             {
