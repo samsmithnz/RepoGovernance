@@ -46,7 +46,7 @@ namespace RepoGovernance.Tests
             AzureApi azureApi = new(TenantId, ClientId, ClientSecret);
             AzureDeployment azureDeployment = new();
 
-            //Act - runs a repo in about 4s
+            //Act
             AzureDeployment result = await azureApi.GetApplications(azureDeployment);
 
             //Assert
