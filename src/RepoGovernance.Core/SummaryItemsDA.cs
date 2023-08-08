@@ -333,7 +333,8 @@ namespace RepoGovernance.Core
                         DeployedURL = "https://repogovernance-prod-eu-web.azurewebsites.net/",
                         AppRegistrations = new()
                         {
-                            new AzureAppRegistration() { Name = "RepoGovernancePrincipal2023" }
+                            new AzureAppRegistration() { Name = "RepoGovernancePrincipal2023" },
+                           new AzureAppRegistration() { Name = "RepoGovernanceGraphAPIAccess" }
                         }
                     };
                     if (summaryItem != null && azureDeployment != null)
