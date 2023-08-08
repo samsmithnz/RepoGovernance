@@ -36,7 +36,7 @@ namespace RepoGovernance.Tests
         }
 
         [TestMethod]
-        public async Task GetAppliationsItemTest()
+        public async Task GetApplicationsItemTest()
         {
             //Arrange
             Assert.IsNotNull(TenantId);

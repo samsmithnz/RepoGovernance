@@ -38,6 +38,9 @@ namespace RepoGovernance.Core.APIAccess
 
             if (Client != null)
             {
+                //Get a list of applications from Azure AD
+
+
                 ApplicationCollectionResponse? application = await Client.Applications.GetAsync();
                 return application;
             }
