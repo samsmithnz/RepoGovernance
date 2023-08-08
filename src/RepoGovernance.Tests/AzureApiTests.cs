@@ -44,9 +44,10 @@ namespace RepoGovernance.Tests
             Assert.IsNotNull(ClientId);
             Assert.IsNotNull(ClientSecret);
             AzureApi azureApi = new(TenantId, ClientId, ClientSecret);
+            AzureDeployment azureDeployment = new();
 
             //Act - runs a repo in about 4s
-            AzureDeployment result = await azureApi.GetApplications();
+            AzureDeployment result = await azureApi.GetApplications(azureDeployment);
 
             //Assert
             Assert.IsNotNull(result);

@@ -30,7 +30,7 @@ namespace RepoGovernance.Core.APIAccess
             Client = new(clientSecretCredential, scopes);
         }
 
-        public async Task<AzureDeployment> GetApplications()
+        public async Task<AzureDeployment> GetApplications(AzureDeployment azureDeployment)
         {
             AzureDeployment results = new();
             //string url = "applications";
@@ -39,9 +39,9 @@ namespace RepoGovernance.Core.APIAccess
             if (Client != null)
             {
                 //Get a list of applications from Azure AD
-
                 ApplicationCollectionResponse? application = await Client.Applications.GetAsync();
-                //return application;
+
+
             }
 
             return results;

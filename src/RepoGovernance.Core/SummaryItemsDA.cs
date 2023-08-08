@@ -360,10 +360,13 @@ namespace RepoGovernance.Core
                     }
                 }
                 //If there are azure deployment records, then process the summary item
-                if (azureDeployment != null)
+                if (azureDeployment != null &&
+                    azureTenantId != null &&
+                    azureClientId != null &&
+                   azureClientSecret != null)
                 {
                     AzureApi azureApi = new(azureTenantId, azureClientId, azureClientSecret);
-                    azureDeployment = await azureApi.GetApplications();
+                    azureDeployment = await azureApi.GetApplications(azureDeployment);
                     if (summaryItem != null && azureDeployment != null)
                     {
                         summaryItem.AzureDeployment = azureDeployment;
