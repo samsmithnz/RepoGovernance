@@ -32,10 +32,6 @@ namespace RepoGovernance.Core.APIAccess
 
         public async Task<AzureDeployment> GetApplications(AzureDeployment azureDeployment)
         {
-            AzureDeployment results = new();
-            //string url = "applications";
-            //Application? applications = await BaseApi.GetResponse<Application>(Client, url);
-
             if (Client != null)
             {
                 //Get a list of applications from Azure AD
@@ -43,11 +39,13 @@ namespace RepoGovernance.Core.APIAccess
 
                 if (application != null && application.Value != null && application.Value.Count > 0)
                 {
+                    //iterate through the list of applications and add the expiration dates to the AzureAppRegistration object
                     foreach (AzureAppRegistration azureAppRegistration in azureDeployment.AppRegistrations)
                     {
                         foreach (Application app in application.Value)
                         {
-                            if (app.DisplayName == azureAppRegistration.Name)
+                            if (app.DisplayName == azureAppRegistration.Name &&
+                                app.PasswordCredentials != null)
                             {
                                 foreach (PasswordCredential item in app.PasswordCredentials)
                                 {
@@ -55,12 +53,11 @@ namespace RepoGovernance.Core.APIAccess
                                 }
                             }
                         }
-                        //azureAppRegistration.Name 
                     }
                 }
             }
 
-            return results;
+            return azureDeployment;
         }
 
     }
