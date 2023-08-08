@@ -3,6 +3,7 @@ using Microsoft.Graph.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoGovernance.Core;
 using RepoGovernance.Core.APIAccess;
+using RepoGovernance.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -45,7 +46,7 @@ namespace RepoGovernance.Tests
             AzureApi azureApi = new(TenantId, ClientId, ClientSecret);
 
             //Act - runs a repo in about 4s
-            ApplicationCollectionResponse result = await azureApi.GetApplications();
+            AzureDeployment result = await azureApi.GetApplications();
 
             //Assert
             Assert.IsNotNull(result);

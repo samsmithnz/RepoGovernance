@@ -22,7 +22,15 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         string repo = "Sams2048";
 
         //Act - runs a repo in about 4s
-        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(GitHubId, GitHubSecret, AzureStorageConnectionString, DevOpsServiceURL, user, owner, repo);
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
+            GitHubId, 
+            GitHubSecret, 
+            AzureStorageConnectionString, 
+            DevOpsServiceURL, 
+            user, owner, repo,
+            AzureTenantId,
+            AzureClientId,
+            AzureClientSecret);
 
         //Assert
         Assert.AreEqual(1, itemsUpdated);
