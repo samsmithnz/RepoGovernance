@@ -11,6 +11,9 @@ public class BaseAPIAccessTests
     public string? GitHubSecret { get; set; }
     public string? AzureStorageConnectionString { get; set; }
     public string? DevOpsServiceURL { get; set; }
+    public string? AzureTenantId { get; set; }
+    public string? AzureClientId { get; set; }
+    public string? AzureClientSecret { get; set; }
 
     [TestInitialize]
     public void InitializeIntegrationTests()
@@ -26,5 +29,8 @@ public class BaseAPIAccessTests
         GitHubSecret = configuration["AppSettings:GitHubClientSecret"];
         AzureStorageConnectionString = configuration["AppSettings:CosmosDBConnectionString"]; // configuration["AppSettings:StorageConnectionString"];
         DevOpsServiceURL = configuration["AppSettings:DevOpsServiceURL"];
+        AzureTenantId = configuration["AppSettings:AzureTenantId"];
+        AzureClientId = configuration["AppSettings:AzureClientId"];
+        AzureClientSecret = configuration["AppSettings:AzureClientSecret"];
     }
 }

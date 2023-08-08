@@ -32,11 +32,14 @@ namespace RepoGovernance.Service.Controllers
         public async Task<int> UpdateSummaryItem(string user, string owner, string repo)
         {
             return await SummaryItemsDA.UpdateSummaryItem(
-               Configuration["AppSettings:GitHubClientId"],
-               Configuration["AppSettings:GitHubClientSecret"],
-               Configuration["AppSettings:CosmosDBConnectionString"],//Configuration["AppSettings:StorageConnectionString"],
-               Configuration["AppSettings:DevOpsServiceURL"],
-               user, owner, repo);
+                Configuration["AppSettings:GitHubClientId"],
+                Configuration["AppSettings:GitHubClientSecret"],
+                Configuration["AppSettings:CosmosDBConnectionString"],//Configuration["AppSettings:StorageConnectionString"],
+                Configuration["AppSettings:DevOpsServiceURL"],
+                user, owner, repo,
+                Configuration["AppSettings:AzureTenantId"],
+                Configuration["AppSettings:AzureClientId"],
+                Configuration["AppSettings:AzureClientSecret"]);
         }
 
         /// <summary>

@@ -79,7 +79,10 @@ namespace RepoGovernance.Core
             string? devOpsServiceURL,
             string user,
             string owner,
-            string repo)
+            string repo,
+            string? azureTenantId,
+            string? azureClientId,
+            string? azureClientSecret)
         {
             int itemsUpdated = 0;
             //Initialize the summary item
@@ -326,9 +329,10 @@ namespace RepoGovernance.Core
                 }
 
                 //Get the Azure Deployment information
+                AzureDeployment? azureDeployment = null;
                 if (repo == "RepoGovernance")
                 {
-                    AzureDeployment azureDeployment = new()
+                    azureDeployment = new()
                     {
                         DeployedURL = "https://repogovernance-prod-eu-web.azurewebsites.net/",
                         AppRegistrations = new()
@@ -337,14 +341,10 @@ namespace RepoGovernance.Core
                            new AzureAppRegistration() { Name = "RepoGovernanceGraphAPIAccess" }
                         }
                     };
-                    if (summaryItem != null && azureDeployment != null)
-                    {
-                        summaryItem.AzureDeployment = azureDeployment;
-                    }
                 }
                 else if (repo == "DevOpsMetrics")
                 {
-                    AzureDeployment azureDeployment = new()
+                    azureDeployment = new()
                     {
                         DeployedURL = "https://devops-prod-eu-web.azurewebsites.net//",
                         AppRegistrations = new()
@@ -354,6 +354,16 @@ namespace RepoGovernance.Core
                             new AzureAppRegistration() { Name = "DevOpsMetricsServicePrincipal2022" }
                         }
                     };
+                    if (summaryItem != null && azureDeployment != null)
+                    {
+                        summaryItem.AzureDeployment = azureDeployment;
+                    }
+                }
+                //If there are azure deployment records, then process the summary item
+                if (azureDeployment != null)
+                {
+                    AzureApi azureApi = new(azureTenantId, azureClientId, azureClientSecret);
+                    azureDeployment = await azureApi.GetApplications();
                     if (summaryItem != null && azureDeployment != null)
                     {
                         summaryItem.AzureDeployment = azureDeployment;
