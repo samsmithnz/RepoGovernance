@@ -2,14 +2,19 @@
 {
     public class AzureAppRegistration
     {
-        public string Name { get; set; }
-        public DateTime ExpirationDate { get; set; }
+        public string? Name { get; set; }
+        public List<DateTimeOffset?> ExpirationDates { get; set; }
         public string ExpirationDateString
         {
             get
             {
                 return "";
             }
+        }
+
+        public AzureAppRegistration()
+        {
+            ExpirationDates = new();
         }
     }
 }

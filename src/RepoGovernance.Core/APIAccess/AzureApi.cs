@@ -11,7 +11,7 @@ namespace RepoGovernance.Core.APIAccess
         private readonly GraphServiceClient Client;
 
         public AzureApi(string tenantId, string clientId, string clientSecret)//string azureAPIURL = "https://graph.microsoft.com/v1.0/")
-        { 
+        {
             // The client credentials flow requires that you request the
             // /.default scope, and pre-configure your permissions on the
             // app registration in Azure. An administrator must grant consent
@@ -41,7 +41,23 @@ namespace RepoGovernance.Core.APIAccess
                 //Get a list of applications from Azure AD
                 ApplicationCollectionResponse? application = await Client.Applications.GetAsync();
 
-
+                if (application != null && application.Value != null && application.Value.Count > 0)
+                {
+                    foreach (AzureAppRegistration azureAppRegistration in azureDeployment.AppRegistrations)
+                    {
+                        foreach (Application app in application.Value)
+                        {
+                            if (app.DisplayName == azureAppRegistration.Name)
+                            {
+                                foreach (PasswordCredential item in app.PasswordCredentials)
+                                {
+                                    azureAppRegistration.ExpirationDates.Add(item.EndDateTime);
+                                }
+                            }
+                        }
+                        //azureAppRegistration.Name 
+                    }
+                }
             }
 
             return results;

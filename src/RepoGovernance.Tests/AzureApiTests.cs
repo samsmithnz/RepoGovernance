@@ -44,14 +44,22 @@ namespace RepoGovernance.Tests
             Assert.IsNotNull(ClientId);
             Assert.IsNotNull(ClientSecret);
             AzureApi azureApi = new(TenantId, ClientId, ClientSecret);
-            AzureDeployment azureDeployment = new();
+            AzureDeployment azureDeployment = new()
+            {
+                DeployedURL = "https://repogovernance-prod-eu-web.azurewebsites.net/",
+                AppRegistrations = new()
+                {
+                    new AzureAppRegistration() { Name = "RepoGovernancePrincipal2023" },
+                    new AzureAppRegistration() { Name = "RepoGovernanceGraphAPIAccess" }
+                }
+            };
 
             //Act
             AzureDeployment result = await azureApi.GetApplications(azureDeployment);
 
             //Assert
             Assert.IsNotNull(result);
-            
+
         }
     }
 }
