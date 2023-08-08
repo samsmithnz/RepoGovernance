@@ -30,15 +30,16 @@ namespace RepoGovernance.Core.APIAccess
             Client = new(clientSecretCredential, scopes);
         }
 
-        public async Task<List<AzureAppRegistration>> GetApplications()
+        public async Task<ApplicationCollectionResponse> GetApplications()
         {
-            List<AzureAppRegistration> results = new();
+            ApplicationCollectionResponse results = new();
             //string url = "applications";
             //Application? applications = await BaseApi.GetResponse<Application>(Client, url);
 
             if (Client != null)
             {
                 ApplicationCollectionResponse? application = await Client.Applications.GetAsync();
+                return application;
             }
 
             return results;
