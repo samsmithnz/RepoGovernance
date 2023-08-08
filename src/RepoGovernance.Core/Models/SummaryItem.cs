@@ -24,7 +24,7 @@ namespace RepoGovernance.Core.Models
             DotNetFrameworksRecommendations = new();
             PullRequests = new();
             RepoLanguages = new();
-            AzureDeployment = new();
+            AzureDeployment = null;
         }
 
         public string User { get; internal set; }

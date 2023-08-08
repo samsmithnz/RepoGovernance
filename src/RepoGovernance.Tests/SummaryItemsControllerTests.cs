@@ -191,6 +191,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
             Assert.IsNotNull(item2.Release);
             Assert.IsTrue(item2.PullRequests.Count >= 0);
+            Assert.IsNotNull(item2.AzureDeployment);
         }
 
         //third repo
@@ -204,6 +205,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.AreEqual("public", item3.RepoSettings.visibility);
             Assert.IsNotNull(item3.DORASummary);
             Assert.IsNotNull(item3.SonarCloud);
+            Assert.IsNotNull(item3.AzureDeployment);
         }
 
         //fourth repo
