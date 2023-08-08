@@ -364,7 +364,7 @@ namespace RepoGovernance.Core
                 if (azureDeployment != null &&
                     azureTenantId != null &&
                     azureClientId != null &&
-                   azureClientSecret != null)
+                    azureClientSecret != null)
                 {
                     AzureApi azureApi = new(azureTenantId, azureClientId, azureClientSecret);
                     azureDeployment = await azureApi.GetApplications(azureDeployment);

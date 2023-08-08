@@ -77,6 +77,9 @@ jobs:
         AppSettings.GitHubClientSecret: "${{ secrets.GitHubClientSecret }}" 
         AppSettings.StorageConnectionString: "${{ secrets.StorageConnectionString }}" 
         AppSettings.CosmosDBConnectionString: "${{ secrets.CosmosDBConnectionString }}" 
+        AppSettings:AzureTenantId: "${{ secrets.AzureTenantId }}" 
+        AppSettings:AzureClientId: "${{ secrets.AzureClientId }}" 
+        AppSettings:AzureClientSecret: "${{ secrets.AzureClientSecret }}"
     - name: .NET test
       run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj --configuration Debug --logger trx -e:CollectCoverage=true -e:CoverletOutput=TestResults/ -e:CoverletOutputFormat=lcov
     - name: Publish coverage report to coveralls.io
@@ -134,7 +137,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_SP }} 
       - name: Set service secrets
-        run: az webapp config appsettings set --name "repogovernance-prod-eu-service" --resource-group "RepoGovernance" --settings "AppSettings:GitHubClientId=${{ secrets.GitHubClientId }}" "AppSettings:GitHubClientSecret=${{ secrets.GitHubClientSecret }}" "AppSettings:StorageConnectionString=${{ secrets.StorageConnectionString }}"  "AppSettings:CosmosDBConnectionString=${{ secrets.CosmosDBConnectionString }}" #--slot staging   
+        run: az webapp config appsettings set --name "repogovernance-prod-eu-service" --resource-group "RepoGovernance" --settings "AppSettings:GitHubClientId=${{ secrets.GitHubClientId }}" "AppSettings:GitHubClientSecret=${{ secrets.GitHubClientSecret }}" "AppSettings:StorageConnectionString=${{ secrets.StorageConnectionString }}"  "AppSettings:CosmosDBConnectionString=${{ secrets.CosmosDBConnectionString }}" "AppSettings:AzureTenantId=${{ secrets.AzureTenantId }}" "AppSettings:AzureClientId=${{ secrets.AzureClientId }}" "AppSettings:AzureClientSecret=${{ secrets.AzureClientSecret }}" #--slot staging   
       - name: Deploy to Azure Web App Service
         id: deploy-to-servicesapp
         uses: azure/webapps-deploy@v2
