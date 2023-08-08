@@ -64,7 +64,6 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             }
         };
 
-
         //Act - runs a repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
             GitHubId, 
