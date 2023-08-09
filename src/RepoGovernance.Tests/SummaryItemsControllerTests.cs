@@ -89,7 +89,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         string repo = "SamsFeatureFlags";
         AzureDeployment azureDeployment = new()
         {
-            DeployedURL = "https://devops-prod-eu-web.azurewebsites.net//",
+            DeployedURL = "https://featureflags-prod-eu-web.azurewebsites.net/",
             AppRegistrations = new()
             {
                 new AzureAppRegistration() { Name = "SamsFeatureFlagsAzureSP" },
@@ -122,7 +122,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         string repo = "SamSmithNZ.com";
         AzureDeployment azureDeployment = new()
         {
-            DeployedURL = "https://devops-prod-eu-web.azurewebsites.net//",
+            DeployedURL = "https://samsmithnz.com",
             AppRegistrations = new()
             {
                 new AzureAppRegistration() { Name = "SamsSmithDotComServicePrincipal2022" }
@@ -154,7 +154,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         string repo = "AzurePipelinesToGitHubActionsConverterWeb";
         AzureDeployment azureDeployment = new()
         {
-            DeployedURL = "https://devops-prod-eu-web.azurewebsites.net//",
+            DeployedURL = "https://pipelinestoactions.azurewebsites.net/",
             AppRegistrations = new()
             {
                 new AzureAppRegistration() { Name = "SamsPipelinesToActions2022ServicePrincipal" }
