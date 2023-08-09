@@ -10,7 +10,15 @@
             {
                 if (ExpirationDate != null)
                 {
-                    return "Expiring on " + ExpirationDate?.ToString("R");
+                    if (ExpirationDate < DateTime.Now)
+                    {
+                        return "Expired on " + ExpirationDate?.ToString("R");
+                    }
+                    else
+                    {
+                        return "Expiring on " + ExpirationDate?.ToString("R");
+                    }
+                    
                 }
                 else
                 {
