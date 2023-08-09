@@ -56,14 +56,18 @@ namespace RepoGovernance.Tests
 
             //Act
             AzureDeployment result = await azureApi.GetApplications(azureDeployment);
-            Console.WriteLine(TenantId);
 
             //Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result.AppRegistrations.Count);
             Assert.AreEqual(1, result.AppRegistrations[0].ExpirationDates.Count);
             Assert.AreEqual(1, result.AppRegistrations[1].ExpirationDates.Count);
+        }
 
+        [TestMethod]
+        public void TestTenantId()
+        {
+            Assert.AreEqual("tenant id: " , TenantId);
         }
     }
 }
