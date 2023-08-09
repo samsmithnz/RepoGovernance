@@ -29,6 +29,11 @@ Currently hosted at https://repogovernance-prod-eu-web.azurewebsites.net/. This 
 There are options to refresh all repos, and approval all dependabot PR's, hidden behind a very simple contributor flag.
 ![image](https://user-images.githubusercontent.com/8389039/219071756-13bda8e8-b5ea-444d-abfd-7fc7031d647c.png)
 
+## Setup
+Note that an App Registration must be created with the following permissions to access the Azure App Registration and secret information:
+![image](https://github.com/samsmithnz/RepoGovernance/assets/8389039/ede6c551-dc11-4958-a304-83756491eea1)
+
+
 ## The future?
 - Remediation: allowing users to not just identify an issue, but to resolve it with a few clicks. 
 - A GitHubApp: so that it's easy for anyone to setup, configure, and use - as well as adding authenication!

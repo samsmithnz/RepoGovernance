@@ -79,7 +79,11 @@ namespace RepoGovernance.Core
             string? devOpsServiceURL,
             string user,
             string owner,
-            string repo)
+            string repo,
+            string? azureTenantId,
+            string? azureClientId,
+            string? azureClientSecret,
+            AzureDeployment? azureDeployment = null)
         {
             int itemsUpdated = 0;
             //Initialize the summary item
@@ -322,6 +326,51 @@ namespace RepoGovernance.Core
                         {
                             summaryItem.RepoLanguagesLastUpdated = summaryItem2.RepoLanguagesLastUpdated;
                         }
+                    }
+                }
+
+                //Get the Azure Deployment information
+                //AzureDeployment? azureDeployment = null;
+                //if (repo == "RepoGovernance")
+                //{
+                //    azureDeployment = new()
+                //    {
+                //        DeployedURL = "https://repogovernance-prod-eu-web.azurewebsites.net/",
+                //        AppRegistrations = new()
+                //        {
+                //            new AzureAppRegistration() { Name = "RepoGovernancePrincipal2023" },
+                //           new AzureAppRegistration() { Name = "RepoGovernanceGraphAPIAccess" }
+                //        }
+                //    };
+                //}
+                //else if (repo == "DevOpsMetrics")
+                //{
+                //    azureDeployment = new()
+                //    {
+                //        DeployedURL = "https://devops-prod-eu-web.azurewebsites.net//",
+                //        AppRegistrations = new()
+                //        {
+                //            new AzureAppRegistration() { Name = "DeveloperMetricsOrgSP2023" },
+                //            new AzureAppRegistration() { Name = "DevOpsMetrics" },
+                //            new AzureAppRegistration() { Name = "DevOpsMetricsServicePrincipal2022" }
+                //        }
+                //    };
+                //    if (summaryItem != null && azureDeployment != null)
+                //    {
+                //        summaryItem.AzureDeployment = azureDeployment;
+                //    }
+                //}
+                //If there are azure deployment records, then process the summary item and save the detail
+                if (azureDeployment != null &&
+                    azureTenantId != null &&
+                    azureClientId != null &&
+                    azureClientSecret != null)
+                {
+                    AzureApi azureApi = new(azureTenantId, azureClientId, azureClientSecret);
+                    azureDeployment = await azureApi.GetApplications(azureDeployment);
+                    if (summaryItem != null && azureDeployment != null)
+                    {
+                        summaryItem.AzureDeployment = azureDeployment;
                     }
                 }
 

@@ -24,6 +24,7 @@ namespace RepoGovernance.Core.Models
             DotNetFrameworksRecommendations = new();
             PullRequests = new();
             RepoLanguages = new();
+            AzureDeployment = null;
         }
 
         public string User { get; internal set; }
@@ -50,6 +51,7 @@ namespace RepoGovernance.Core.Models
         public string? LastUpdatedMessage { get; set; }
         public CoverallsCodeCoverage? CoverallsCodeCoverage { get; set; }
         public SonarCloud? SonarCloud { get; set; }
+        public AzureDeployment? AzureDeployment { get; set; }
 
 
         public string OwnerRepo

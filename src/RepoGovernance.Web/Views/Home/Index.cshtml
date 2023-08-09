@@ -143,6 +143,26 @@
                             }
                         }
                         <br>
+                        <br>
+                        @if (item.RepoLanguages.Count > 0)
+                        {
+                            <div class="descriptionText" style="font-size:12px;">
+                                <span><b>Repo languages: </b></span>
+ @*                               @if (item.RepoLanguagesLastUpdated != null)
+                                {
+                                    DateTime repoLanguagesDateTime = (DateTime)item.RepoLanguagesLastUpdated;
+                                    <i class="bi bi-info-circle" title='Repo langauges last updated on @repoLanguagesDateTime.ToString("d-MMM-yyyy hh:mm:sstt")'></i>
+                                }*@
+                                @foreach (RepoLanguage language in item.RepoLanguages)
+                                {
+                                    if (language.Percent > 0.001M)
+                                    {
+                                        <span class="box" style="background-color: @language.Color;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                        <span>@language.Name: @language.Percent.ToString("0.0")%</span>
+                                    }
+                                }
+                            </div>
+                        }
                         <span class="lastUpdatedText">Last updated: </span>
                         @if (item.LastUpdatedMessage != null)
                         {
@@ -150,78 +170,23 @@
                         }
                         @if (@item.LastUpdated > DateTime.Now.AddDays(-7))
                         {
-                            <span class="lastUpdatedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
+                            @*<span class="lastUpdatedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>*@
+                            <span class="badge bg-dark">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }
                         else
                         {
-                            <span class="lastUpdatedRedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
+                            @*<span class="lastUpdatedRedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>*@
+                            <span class="badge bg-warning">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }
                         @if (Model.IsContributor)
                         {
                             <a href="@Url.Action("UpdateRow", "Home", new { user = item.User, owner = item.Owner, repo = item.Repo, isContributor = Model.IsContributor })" class="lastUpdatedText">Update metrics</a>
+                            <a href="@Url.Action("Config", "Home", new { user = item.User, owner = item.Owner, repo = item.Repo, isContributor = Model.IsContributor })" class="lastUpdatedText">Update configuration</a>
                         }
                     </div>
                 </div>
                 <div class="col-md-2 divBorder">
-                    @if (item.RepoLanguages.Count > 0)
-                    {
-                        <div style="font-size:14px;">
-                            <strong>Languages detected:</strong>
-                            @if (item.RepoLanguagesLastUpdated != null)
-                            {
-                                DateTime repoLanguagesDateTime = (DateTime)item.RepoLanguagesLastUpdated;
-                                <i class="bi bi-info-circle" title='Repo langauges last updated on @repoLanguagesDateTime.ToString("d-MMM-yyyy hh:mm:sstt")'></i>
-                            }
-                            <br />
-                            @foreach (RepoLanguage language in item.RepoLanguages)
-                            {
-                                if (language.Percent > 0.001M)
-                                {
-                                    <span class="box" style="background-color: @language.Color;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <span>@language.Name: @language.Percent.ToString("0.0")%</span>
-                                    <br />
-                                }
-                            }
-                        </div>
-                    }
-                    @*<canvas id="doughnut-chart-@(item.Repo)" width="200" height="200"></canvas>
-                <script>
-                @{
-                string[] names = new string[item.RepoLanguages.Count];
-                int[] totals = new int[item.RepoLanguages.Count];
-                for (int i = 0; i < item.RepoLanguages.Count; i++)
-                {
-                names[i] = item.RepoLanguages[i].Name;
-                totals[i] = (int)(item.RepoLanguages[i].Percent * 100);
-                }
-                }
-                var labels = @Html.Raw(JsonSerializer.Serialize(names));
-                var backgroundColor = [];
-                var data = @Html.Raw(JsonSerializer.Serialize(totals));
-
-                new Chart(document.getElementById("doughnut-chart-@(item.Repo)"), {
-                type: 'doughnut',
-                data: {
-                labels: labels,
-                datasets: [
-                {
-                label: "Languages %",
-                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
-                data: data
-                }
-                ]
-                },
-                options: {
-                title: {
-                display: true,
-                text: 'Languages detected:'
-                }
-                }
-                });
-                </script>*@
-                </div>
-                <div class="col-md-2 divBorder">
-                    <strong style="font-size:14px;">.NET targets:</strong><br />
+                    <strong style="font-size:14px;">.NET verisons found:</strong><br />
                     @if (item.DotNetFrameworks.Count == 0)
                     {
                         <span class="badge bg-secondary">None found</span>
@@ -230,9 +195,31 @@
                     {
                         foreach (Framework framework in item.DotNetFrameworks)
                         {
-                            <span class="badge @framework.Color">@framework.Name</span><span style="font-size:0.75em;font-weight:700;"> x @framework.Count</span>
+                            <span class="badge @framework.Color">@framework.Name</span>
+
+                            <span style="font-size:0.75em;font-weight:700;"> x @framework.Count</span>
                             <br />
                         }
+                    }
+                </div>
+                <div class="col-md-2 divBorder">
+                    @if (item.DORASummary != null && item?.DORASummary?.DeploymentFrequency > 0 &&
+                        (item.Repo == "RepoGovernance" || item.Repo == "DevOpsMetrics"))
+                    {
+                        <strong style="font-size:14px;">Azure status:</strong><br />
+                        <div style="font-size:12px;">
+                            (SAMPLE DATA) <br>
+                            App registrations: 2<br /> 
+                            <ul>
+                                <li>[Secret 1] status: Current (6 months)</li>
+                                <li>[Secret 2] status: <span style="color:red">Expiring soon (2 days)</span></li>
+                            </ul>
+@*                            Deployed URL: https://repogovernance-prod-eu-web.azurewebsites.net/<br />
+                            Resource group: repogovernance-prod-eu<br />
+                            Failed requests (last 30 days): 797<br/>
+                            Server response time (avg) (last 30 days): 1.89s<br />
+Server requests (last 30 days): *@
+                        </div>
                     }
                 </div>
                 <div class="col-md-3 divBorder">

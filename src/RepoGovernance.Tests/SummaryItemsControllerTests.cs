@@ -19,10 +19,62 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         //Arrange
         string user = "samsmithnz";
         string owner = "samsmithnz";
-        string repo = "Sams2048";
+        string repo = "RepoGovernance";
+        AzureDeployment azureDeployment = new()
+        {
+            DeployedURL = "https://repogovernance-prod-eu-web.azurewebsites.net/",
+            AppRegistrations = new()
+            {
+                new AzureAppRegistration() { Name = "RepoGovernancePrincipal2023" },
+                new AzureAppRegistration() { Name = "RepoGovernanceGraphAPIAccess" }
+            }
+        };
 
         //Act - runs a repo in about 4s
-        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(GitHubId, GitHubSecret, AzureStorageConnectionString, DevOpsServiceURL, user, owner, repo);
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
+            GitHubId, 
+            GitHubSecret, 
+            AzureStorageConnectionString, 
+            DevOpsServiceURL, 
+            user, owner, repo,
+            AzureTenantId,
+            AzureClientId,
+            AzureClientSecret,
+            azureDeployment);
+
+        //Assert
+        Assert.AreEqual(1, itemsUpdated);
+    }
+
+    [TestMethod]
+    public async Task UpdateDevOpsMetricsSummaryItemTest()
+    {
+        //Arrange
+        string user = "samsmithnz";
+        string owner = "DeveloperMetrics";
+        string repo = "DevOpsMetrics";
+        AzureDeployment azureDeployment = new()
+        {
+            DeployedURL = "https://devops-prod-eu-web.azurewebsites.net//",
+            AppRegistrations = new()
+            {
+                new AzureAppRegistration() { Name = "DeveloperMetricsOrgSP2023" },
+                new AzureAppRegistration() { Name = "DevOpsMetrics" },
+                new AzureAppRegistration() { Name = "DevOpsMetricsServicePrincipal2022" }
+            }
+        };
+
+        //Act - runs a repo in about 4s
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
+            GitHubId, 
+            GitHubSecret, 
+            AzureStorageConnectionString, 
+            DevOpsServiceURL, 
+            user, owner, repo,
+            AzureTenantId,
+            AzureClientId,
+            AzureClientSecret,
+            azureDeployment);
 
         //Assert
         Assert.AreEqual(1, itemsUpdated);
@@ -139,6 +191,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
             Assert.IsNotNull(item2.Release);
             Assert.IsTrue(item2.PullRequests.Count >= 0);
+            Assert.IsNull(item2.AzureDeployment);
         }
 
         //third repo
@@ -152,6 +205,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.AreEqual("public", item3.RepoSettings.visibility);
             Assert.IsNotNull(item3.DORASummary);
             Assert.IsNotNull(item3.SonarCloud);
+            Assert.IsNotNull(item3.AzureDeployment);
         }
 
         //fourth repo

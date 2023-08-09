@@ -1,9 +1,18 @@
 ﻿@using RepoGovernance.Core.Models
-@model SummaryItem
+@model SummaryItemConfig
 @{
     ViewData["Title"] = "Configuration";
 }
 
 <h1>Config</h1>
 
-
+<span>User: </span>
+<input type="text" value="@Model.SummaryItem?.User" />
+<br />
+<span>Owner: </span>
+<input type="text" value="@Model.SummaryItem?.Owner" />
+<br />
+<span>Repo: </span>
+<input type="text" value="@Model.SummaryItem?.Repo" />
+<br />
+<input type="submit" value="Save" />
