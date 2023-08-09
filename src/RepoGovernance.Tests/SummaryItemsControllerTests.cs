@@ -80,6 +80,103 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, itemsUpdated);
     }
 
+    [TestMethod]
+    public async Task UpdateSamsFeatureFlagsSummaryItemTest()
+    {
+        //Arrange
+        string user = "samsmithnz";
+        string owner = "samsmithnz";
+        string repo = "SamsFeatureFlags";
+        AzureDeployment azureDeployment = new()
+        {
+            DeployedURL = "https://devops-prod-eu-web.azurewebsites.net//",
+            AppRegistrations = new()
+            {
+                new AzureAppRegistration() { Name = "SamsFeatureFlagsAzureSP" },
+                new AzureAppRegistration() { Name = "SamsFeatureFlagsSP2022" }
+            }
+        };
+
+        //Act - runs a repo in about 4s
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
+            GitHubId, 
+            GitHubSecret, 
+            AzureStorageConnectionString, 
+            DevOpsServiceURL, 
+            user, owner, repo,
+            AzureTenantId,
+            AzureClientId,
+            AzureClientSecret,
+            azureDeployment);
+
+        //Assert
+        Assert.AreEqual(1, itemsUpdated);
+    }
+
+    [TestMethod]
+    public async Task UpdateSamSmithNZdotComSummaryItemTest()
+    {
+        //Arrange
+        string user = "samsmithnz";
+        string owner = "SamSmithNZ-dotcom";
+        string repo = "SamSmithNZ.com";
+        AzureDeployment azureDeployment = new()
+        {
+            DeployedURL = "https://devops-prod-eu-web.azurewebsites.net//",
+            AppRegistrations = new()
+            {
+                new AzureAppRegistration() { Name = "SamsSmithDotComServicePrincipal2022" }
+            }
+        };
+
+        //Act - runs a repo in about 4s
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
+            GitHubId, 
+            GitHubSecret, 
+            AzureStorageConnectionString, 
+            DevOpsServiceURL, 
+            user, owner, repo,
+            AzureTenantId,
+            AzureClientId,
+            AzureClientSecret,
+            azureDeployment);
+
+        //Assert
+        Assert.AreEqual(1, itemsUpdated);
+    }
+
+    [TestMethod]
+    public async Task UpdateAzurePipelinesToGitHubActionsConverterWebSummaryItemTest()
+    {
+        //Arrange
+        string user = "samsmithnz";
+        string owner = "samsmithnz";
+        string repo = "AzurePipelinesToGitHubActionsConverterWeb";
+        AzureDeployment azureDeployment = new()
+        {
+            DeployedURL = "https://devops-prod-eu-web.azurewebsites.net//",
+            AppRegistrations = new()
+            {
+                new AzureAppRegistration() { Name = "SamsPipelinesToActions2022ServicePrincipal" }
+            }
+        };
+
+        //Act - runs a repo in about 4s
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
+            GitHubId, 
+            GitHubSecret, 
+            AzureStorageConnectionString, 
+            DevOpsServiceURL, 
+            user, owner, repo,
+            AzureTenantId,
+            AzureClientId,
+            AzureClientSecret,
+            azureDeployment);
+
+        //Assert
+        Assert.AreEqual(1, itemsUpdated);
+    }
+
     //[TestMethod]
     //public async Task UpdateAllItemsTest()
     //{
