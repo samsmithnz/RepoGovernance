@@ -89,6 +89,16 @@ namespace RepoGovernance.Core
             //Initialize the summary item
             SummaryItem? summaryItem = new(user, owner, repo);
 
+            if (azureDeployment == null && connectionString != null)
+            {
+                //check to make sure there isn't data in the table already for Azure deployments, and pull it out to save it
+                SummaryItem? existingItem = await GetSummaryItem(connectionString, owner, repo);
+                if (existingItem != null && existingItem.AzureDeployment != null)
+                {
+                    azureDeployment = existingItem.AzureDeployment;
+                }
+            }
+
             try
             {
                 //Get repo settings
