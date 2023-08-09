@@ -61,6 +61,7 @@ namespace RepoGovernance.Tests
             Assert.IsNotNull(result);
             Assert.AreEqual(2, result.AppRegistrations.Count);
             Assert.AreEqual(1, result.AppRegistrations[0].ExpirationDates.Count);
+            Assert.IsNotNull(result.AppRegistrations[0].ExpirationDate);
             Assert.AreEqual(1, result.AppRegistrations[1].ExpirationDates.Count);
         }
 
