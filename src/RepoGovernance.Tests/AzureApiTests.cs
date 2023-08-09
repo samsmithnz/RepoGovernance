@@ -56,6 +56,7 @@ namespace RepoGovernance.Tests
 
             //Act
             AzureDeployment result = await azureApi.GetApplications(azureDeployment);
+            Console.WriteLine(TenantId);
 
             //Assert
             Assert.IsNotNull(result);
