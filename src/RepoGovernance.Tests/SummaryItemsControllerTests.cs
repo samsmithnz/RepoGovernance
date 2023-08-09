@@ -258,6 +258,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             }
             Assert.IsNotNull(item1.RepoLanguages);
             Assert.IsTrue(item1.RepoLanguages.Count > 0);
+            Assert.IsNull(item1.AzureDeployment);
         }
 
         //second repo
