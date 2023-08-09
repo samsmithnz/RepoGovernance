@@ -196,14 +196,16 @@
                     }
                 </div>
                 <div class="col-md-2 divBorder">
-                    @if (item.DORASummary != null && item?.DORASummary?.DeploymentFrequency > 0 &&
-                        (item.Repo == "RepoGovernance" || item.Repo == "DevOpsMetrics"))
+                    @if (item.AzureDeployment != null)
                     {
                         <strong style="font-size:14px;">Azure status:</strong><br />
-                        <div style="font-size:12px;">
-                            (SAMPLE DATA) <br>
-                            App registrations: 2<br /> 
+                        <div style="font-size:12px;">                            
+                            App registrations: @item.AzureDeployment.AppRegistrations.Count<br /> 
                             <ul>
+                                @foreach (AzureAppRegistration appRegItem in item.AzureDeployment.AppRegistrations)
+                                {
+                                    <li>@appRegItem.Name</li>
+                                }
                                 <li>[Secret 1] status: Current (6 months)</li>
                                 <li>[Secret 2] status: <span style="color:red">Expiring soon (2 days)</span></li>
                             </ul>
