@@ -80,6 +80,7 @@ jobs:
         AppSettings:AzureTenantId: "${{ secrets.AzureTenantId }}" 
         AppSettings:AzureClientId: "${{ secrets.AzureClientId }}" 
         AppSettings:AzureClientSecret: "${{ secrets.AzureClientSecret }}"
+    - run: echo "Tenant Id: " + "${{ env.AppSettings:AzureTenantId }}"
     - name: .NET test
       run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj --configuration Debug --logger trx -e:CollectCoverage=true -e:CoverletOutput=TestResults/ -e:CoverletOutputFormat=lcov
     - name: Publish coverage report to coveralls.io
