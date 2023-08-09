@@ -18,7 +18,7 @@
                 }
                 if (minDate != null)
                 {
-                    return minDate?.ToString("R");
+                    return "Expiring on " + minDate?.ToString("R");
                 }
                 else
                 {
