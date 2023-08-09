@@ -14,9 +14,8 @@
                 }
                 else
                 {
-                    return "No Expiration Date Found";
+                    return "No expiration date found";
                 }
-
             }
         }
         public DateTimeOffset? ExpirationDate
@@ -26,7 +25,7 @@
                 DateTimeOffset? minDate = null;
                 foreach (DateTimeOffset? item in ExpirationDates)
                 {
-                    if (item != null && item < minDate)
+                    if (item != null && (minDate == null || item < minDate))
                     {
                         minDate = item;
                     }
