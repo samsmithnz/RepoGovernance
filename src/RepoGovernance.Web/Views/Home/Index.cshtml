@@ -207,8 +207,8 @@
                                 @for (int i = 0; i < item.AzureDeployment.AppRegistrations.Count; i++)
                                 {
                                     <li>
-                                        Secret #@(i + 1)
-                                        <i class="bi bi-info-circle" title='Expiring on @item.AzureDeployment.AppRegistrations[i].ExpirationDateString'></i>
+                                        Service principal #@(i + 1)
+                                        <i class="bi bi-info-circle" title='@item.AzureDeployment.AppRegistrations[i].Name, @item.AzureDeployment.AppRegistrations[i].ExpirationDateString'></i>
                                     </li>
                                 }
                                 @* <li>[Secret 1] status: Current (6 months)</li>
