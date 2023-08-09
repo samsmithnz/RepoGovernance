@@ -8,7 +8,30 @@
         {
             get
             {
-                return "";
+                if (ExpirationDate != null)
+                {
+                    return "Expiring on " + ExpirationDate?.ToString("R");
+                }
+                else
+                {
+                    return "No Expiration Date Found";
+                }
+
+            }
+        }
+        public DateTimeOffset? ExpirationDate
+        {
+            get
+            {
+                DateTimeOffset? minDate = null;
+                foreach (DateTimeOffset? item in ExpirationDates)
+                {
+                    if (item != null && item < minDate)
+                    {
+                        minDate = item;
+                    }
+                }
+                return minDate;
             }
         }
 

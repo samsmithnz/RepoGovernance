@@ -143,16 +143,15 @@
                             }
                         }
                         <br>
-                        <br>
                         @if (item.RepoLanguages.Count > 0)
                         {
-                            <div class="descriptionText" style="font-size:12px;">
+                            <div class="descriptionText" style="font-size:12px; margin-top: 10px;">
                                 <span><b>Repo languages: </b></span>
- @*                               @if (item.RepoLanguagesLastUpdated != null)
-                                {
-                                    DateTime repoLanguagesDateTime = (DateTime)item.RepoLanguagesLastUpdated;
-                                    <i class="bi bi-info-circle" title='Repo langauges last updated on @repoLanguagesDateTime.ToString("d-MMM-yyyy hh:mm:sstt")'></i>
-                                }*@
+                                @*                               @if (item.RepoLanguagesLastUpdated != null)
+                        {
+                        DateTime repoLanguagesDateTime = (DateTime)item.RepoLanguagesLastUpdated;
+                        <i class="bi bi-info-circle" title='Repo langauges last updated on @repoLanguagesDateTime.ToString("d-MMM-yyyy hh:mm:sstt")'></i>
+                        }*@
                                 @foreach (RepoLanguage language in item.RepoLanguages)
                                 {
                                     if (language.Percent > 0.001M)
@@ -164,19 +163,13 @@
                             </div>
                         }
                         <span class="lastUpdatedText">Last updated: </span>
-                        @if (item.LastUpdatedMessage != null)
-                        {
-                            <i class="bi bi-info-circle" style="color:red" title="@item.LastUpdatedMessage"></i>
-                        }
                         @if (@item.LastUpdated > DateTime.Now.AddDays(-7))
                         {
-                            @*<span class="lastUpdatedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>*@
-                            <span class="badge bg-dark">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
+                            <span class="lastUpdatedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }
                         else
                         {
-                            @*<span class="lastUpdatedRedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>*@
-                            <span class="badge bg-warning">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
+                            <span class="lastUpdatedRedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }
                         @if (Model.IsContributor)
                         {
@@ -203,22 +196,30 @@
                     }
                 </div>
                 <div class="col-md-2 divBorder">
-                    @if (item.DORASummary != null && item?.DORASummary?.DeploymentFrequency > 0 &&
-                        (item.Repo == "RepoGovernance" || item.Repo == "DevOpsMetrics"))
+                    @if (item.AzureDeployment != null)
                     {
-                        <strong style="font-size:14px;">Azure status:</strong><br />
+                        <strong style="font-size:14px;">Azure status:</strong>
+
+                        <br />
                         <div style="font-size:12px;">
-                            (SAMPLE DATA) <br>
-                            App registrations: 2<br /> 
+                            App registrations: @item.AzureDeployment.AppRegistrations.Count<br />
                             <ul>
-                                <li>[Secret 1] status: Current (6 months)</li>
-                                <li>[Secret 2] status: <span style="color:red">Expiring soon (2 days)</span></li>
+                                @for (int i = 0; i < item.AzureDeployment.AppRegistrations.Count; i++)
+                                {
+                                    <li>
+                                        Secret #@(i + 1)
+                                        <i class="bi bi-info-circle" title='Expiring on @item.AzureDeployment.AppRegistrations[i].ExpirationDateString'></i>
+                                    </li>
+                                }
+                                @* <li>[Secret 1] status: Current (6 months)</li>
+                        <li>[Se cret 2] status: <span style="color:red">Expiring soon (2 days)</span></li>*@
                             </ul>
-@*                            Deployed URL: https://repogovernance-prod-eu-web.azurewebsites.net/<br />
-                            Resource group: repogovernance-prod-eu<br />
-                            Failed requests (last 30 days): 797<br/>
-                            Server response time (avg) (last 30 days): 1.89s<br />
-Server requests (last 30 days): *@
+                            @*
+                    Deployed URL: https://repogovernance-prod-eu-web.azurewebsites.net/<br />
+                    Resource group: repogovernance-prod-eu<br />
+                    Failed requests (last 30 days): 797<br/>
+                    Server response time (avg) (last 30 days): 1.89s<br />
+                    Server requests (last 30 days): *@
                         </div>
                     }
                 </div>
