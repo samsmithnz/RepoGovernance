@@ -89,6 +89,16 @@ namespace RepoGovernance.Core
             //Initialize the summary item
             SummaryItem? summaryItem = new(user, owner, repo);
 
+            if (azureDeployment == null && connectionString != null)
+            {
+                //check to make sure there isn't data in the table already for Azure deployments, and pull it out to save it
+                SummaryItem? existingItem = await GetSummaryItem(connectionString, owner, repo);
+                if (existingItem != null && existingItem.AzureDeployment != null)
+                {
+                    azureDeployment = existingItem.AzureDeployment;
+                }
+            }
+
             try
             {
                 //Get repo settings
@@ -329,37 +339,6 @@ namespace RepoGovernance.Core
                     }
                 }
 
-                //Get the Azure Deployment information
-                //AzureDeployment? azureDeployment = null;
-                //if (repo == "RepoGovernance")
-                //{
-                //    azureDeployment = new()
-                //    {
-                //        DeployedURL = "https://repogovernance-prod-eu-web.azurewebsites.net/",
-                //        AppRegistrations = new()
-                //        {
-                //            new AzureAppRegistration() { Name = "RepoGovernancePrincipal2023" },
-                //           new AzureAppRegistration() { Name = "RepoGovernanceGraphAPIAccess" }
-                //        }
-                //    };
-                //}
-                //else if (repo == "DevOpsMetrics")
-                //{
-                //    azureDeployment = new()
-                //    {
-                //        DeployedURL = "https://devops-prod-eu-web.azurewebsites.net//",
-                //        AppRegistrations = new()
-                //        {
-                //            new AzureAppRegistration() { Name = "DeveloperMetricsOrgSP2023" },
-                //            new AzureAppRegistration() { Name = "DevOpsMetrics" },
-                //            new AzureAppRegistration() { Name = "DevOpsMetricsServicePrincipal2022" }
-                //        }
-                //    };
-                //    if (summaryItem != null && azureDeployment != null)
-                //    {
-                //        summaryItem.AzureDeployment = azureDeployment;
-                //    }
-                //}
                 //If there are azure deployment records, then process the summary item and save the detail
                 if (azureDeployment != null &&
                     azureTenantId != null &&

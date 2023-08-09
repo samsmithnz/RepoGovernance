@@ -30,15 +30,16 @@
         {
             get
             {
-                DateTimeOffset? minDate = null;
+                DateTimeOffset? maxDate = null;
                 foreach (DateTimeOffset? item in ExpirationDates)
                 {
-                    if (item != null && (minDate == null || item < minDate))
+                    //Get the date furthest in the future
+                    if (item != null && (maxDate == null || item > maxDate))
                     {
-                        minDate = item;
+                        maxDate = item;
                     }
                 }
-                return minDate;
+                return maxDate;
             }
         }
 
