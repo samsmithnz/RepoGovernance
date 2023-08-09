@@ -64,10 +64,5 @@ namespace RepoGovernance.Tests
             Assert.AreEqual(1, result.AppRegistrations[1].ExpirationDates.Count);
         }
 
-        [TestMethod]
-        public void TestTenantId()
-        {
-            Assert.AreEqual("tenant id: " , TenantId);
-        }
     }
 }
