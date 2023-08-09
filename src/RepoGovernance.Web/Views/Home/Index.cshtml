@@ -143,10 +143,9 @@
                             }
                         }
                         <br>
-                        <br>
                         @if (item.RepoLanguages.Count > 0)
                         {
-                            <div class="descriptionText" style="font-size:12px;">
+                            <div class="descriptionText" style="font-size:12px; margin-top: 10px;">
                                 <span><b>Repo languages: </b></span>
  @*                               @if (item.RepoLanguagesLastUpdated != null)
                                 {
@@ -164,19 +163,13 @@
                             </div>
                         }
                         <span class="lastUpdatedText">Last updated: </span>
-                        @if (item.LastUpdatedMessage != null)
-                        {
-                            <i class="bi bi-info-circle" style="color:red" title="@item.LastUpdatedMessage"></i>
-                        }
                         @if (@item.LastUpdated > DateTime.Now.AddDays(-7))
                         {
-                            @*<span class="lastUpdatedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>*@
-                            <span class="badge bg-dark">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
+                            <span class="lastUpdatedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }
                         else
                         {
-                            @*<span class="lastUpdatedRedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>*@
-                            <span class="badge bg-warning">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
+                            <span class="lastUpdatedRedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }
                         @if (Model.IsContributor)
                         {
