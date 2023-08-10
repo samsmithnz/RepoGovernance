@@ -62,11 +62,11 @@ namespace RepoGovernance.Service.Controllers
         /// <param name="repo">the repo</param>
         /// <returns></returns>
         [HttpGet("GetSummaryItem")]
-        public async Task<SummaryItem?> GetSummaryItem(string owner, string repo)
+        public async Task<SummaryItem?> GetSummaryItem(string user, string owner, string repo)
         {
             return await SummaryItemsDA.GetSummaryItem(
-                               Configuration["AppSettings:CosmosDBConnectionString"],
-                               owner, repo); 
+                Configuration["AppSettings:CosmosDBConnectionString"],
+                user, owner, repo);
         }
 
 

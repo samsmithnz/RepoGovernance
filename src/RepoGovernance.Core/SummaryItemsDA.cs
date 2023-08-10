@@ -44,10 +44,10 @@ namespace RepoGovernance.Core
         }
 
         public static async Task<SummaryItem?> GetSummaryItem(string connectionString,
-            string owner, string repo)
+            string user, string owner, string repo)
         {
             SummaryItem? result = null;
-            List<SummaryItem> summaryItems = await GetSummaryItems(connectionString, owner);
+            List<SummaryItem> summaryItems = await GetSummaryItems(connectionString, user);
             if (summaryItems != null)
             {
                 foreach (SummaryItem item in summaryItems)
@@ -92,7 +92,7 @@ namespace RepoGovernance.Core
             if (azureDeployment == null && connectionString != null)
             {
                 //check to make sure there isn't data in the table already for Azure deployments, and pull it out to save it
-                SummaryItem? existingItem = await GetSummaryItem(connectionString, owner, repo);
+                SummaryItem? existingItem = await GetSummaryItem(connectionString, user, owner, repo);
                 if (existingItem != null && existingItem.AzureDeployment != null)
                 {
                     azureDeployment = existingItem.AzureDeployment;
@@ -328,7 +328,7 @@ namespace RepoGovernance.Core
                 else if (summaryItem != null && repoLanguages == null && connectionString != null)
                 {
                     //If we couldn't find languages last time - lets pull up the existing summary item and use that
-                    SummaryItem? summaryItem2 = await GetSummaryItem(connectionString, owner, repo);
+                    SummaryItem? summaryItem2 = await GetSummaryItem(connectionString, user, owner, repo);
                     if (summaryItem2 != null && summaryItem2.RepoLanguages != null)
                     {
                         summaryItem.RepoLanguages = summaryItem2.RepoLanguages;
@@ -360,7 +360,7 @@ namespace RepoGovernance.Core
                 string message = ex.ToString();
                 if (connectionString != null)
                 {
-                    summaryItem = await GetSummaryItem(connectionString, owner, repo);
+                    summaryItem = await GetSummaryItem(connectionString, user, owner, repo);
                     if (summaryItem != null)
                     {
                         summaryItem.LastUpdatedMessage = "Error at " + DateTime.Now.ToString() + ": " + ex.ToString();

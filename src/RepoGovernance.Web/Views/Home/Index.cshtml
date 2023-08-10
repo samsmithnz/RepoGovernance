@@ -174,7 +174,7 @@
                         @if (Model.IsContributor)
                         {
                             <a href="@Url.Action("UpdateRow", "Home", new { user = item.User, owner = item.Owner, repo = item.Repo, isContributor = Model.IsContributor })" class="lastUpdatedText">Update metrics</a>
-                            <a href="@Url.Action("Config", "Home", new { user = item.User, owner = item.Owner, repo = item.Repo, isContributor = Model.IsContributor })" class="lastUpdatedText">Update configuration</a>
+                            @* <a href="@Url.Action("Config", "Home", new { user = item.User, owner = item.Owner, repo = item.Repo, isContributor = Model.IsContributor })" class="lastUpdatedText">Update configuration</a> *@
                         }
                     </div>
                 </div>

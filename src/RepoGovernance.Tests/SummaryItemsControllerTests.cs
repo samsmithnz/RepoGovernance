@@ -53,16 +53,17 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         string user = "samsmithnz";
         string owner = "DeveloperMetrics";
         string repo = "DevOpsMetrics";
-        AzureDeployment azureDeployment = new()
-        {
-            DeployedURL = "https://devops-prod-eu-web.azurewebsites.net//",
-            AppRegistrations = new()
-            {
-                new AzureAppRegistration() { Name = "DeveloperMetricsOrgSP2023" },
-                new AzureAppRegistration() { Name = "DevOpsMetrics" },
-                new AzureAppRegistration() { Name = "DevOpsMetricsServicePrincipal2022" }
-            }
-        };
+        AzureDeployment azureDeployment = null;
+        //AzureDeployment azureDeployment = new()
+        //{
+        //    DeployedURL = "https://devops-prod-eu-web.azurewebsites.net//",
+        //    AppRegistrations = new()
+        //    {
+        //        new AzureAppRegistration() { Name = "DeveloperMetricsOrgSP2023" },
+        //        new AzureAppRegistration() { Name = "DevOpsMetrics" },
+        //        new AzureAppRegistration() { Name = "DevOpsMetricsServicePrincipal2022" }
+        //    }
+        //};
 
         //Act - runs a repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
