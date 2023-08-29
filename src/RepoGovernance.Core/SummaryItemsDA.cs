@@ -176,6 +176,10 @@ namespace RepoGovernance.Core
                         {
                             summaryItem.DependabotRecommendations.Add("Consider adding an open_pull_requests_limit to ensure Dependabot doesn't open too many PR's in the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
                         }
+                        if (item.groups == null)
+                        {
+                            summaryItem.DependabotRecommendations.Add("Consider adding groups to consolidate Dependabot PR's in the " + item.directory + " project, " + item.package_ecosystem + " ecosystem");
+                        }
                     }
                     if (summaryItem.Actions.Count > 0 && actionsCount == 0)
                     {
