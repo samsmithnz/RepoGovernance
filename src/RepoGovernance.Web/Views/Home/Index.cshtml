@@ -163,13 +163,17 @@
                             </div>
                         }
                         <span class="lastUpdatedText">Last updated: </span>
-                        @if (@item.LastUpdated > DateTime.Now.AddDays(-7))
+                        @if (item.LastUpdated > DateTime.Now.AddDays(-7))
                         {
                             <span class="lastUpdatedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
                         }
                         else
                         {
                             <span class="lastUpdatedRedText">@item.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
+                        }
+                        @if (item.LastUpdatedMessage != null)
+                        {
+                            <span><i class="bi bi-exclamation-circle lastUpdatedRedText" title="@item.LastUpdatedMessage"></i></span>
                         }
                         @if (Model.IsContributor)
                         {
