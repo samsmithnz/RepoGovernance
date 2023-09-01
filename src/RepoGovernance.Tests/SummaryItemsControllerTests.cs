@@ -273,7 +273,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             //Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item2.RepoSettingsRecommendations[0]);
             Assert.AreEqual(1, item2.Actions.Count);
             Assert.AreEqual(0, item2.ActionRecommendations.Count);
-            Assert.AreEqual(0, item2.Dependabot.Count);
+            Assert.AreEqual(1, item2.Dependabot.Count);
             Assert.AreEqual(null, item2.DependabotFile);
             Assert.AreEqual(null, item2.DependabotRoot);
             Assert.AreEqual(0, item2.DependabotRecommendations.Count);
