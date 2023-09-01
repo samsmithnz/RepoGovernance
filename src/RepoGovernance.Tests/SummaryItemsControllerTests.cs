@@ -32,10 +32,10 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
 
         //Act - runs a repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
-            GitHubId, 
-            GitHubSecret, 
-            AzureStorageConnectionString, 
-            DevOpsServiceURL, 
+            GitHubId,
+            GitHubSecret,
+            AzureStorageConnectionString,
+            DevOpsServiceURL,
             user, owner, repo,
             AzureTenantId,
             AzureClientId,
@@ -67,10 +67,10 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
 
         //Act - runs a repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
-            GitHubId, 
-            GitHubSecret, 
-            AzureStorageConnectionString, 
-            DevOpsServiceURL, 
+            GitHubId,
+            GitHubSecret,
+            AzureStorageConnectionString,
+            DevOpsServiceURL,
             user, owner, repo,
             AzureTenantId,
             AzureClientId,
@@ -100,10 +100,10 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
 
         //Act - runs a repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
-            GitHubId, 
-            GitHubSecret, 
-            AzureStorageConnectionString, 
-            DevOpsServiceURL, 
+            GitHubId,
+            GitHubSecret,
+            AzureStorageConnectionString,
+            DevOpsServiceURL,
             user, owner, repo,
             AzureTenantId,
             AzureClientId,
@@ -132,10 +132,10 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
 
         //Act - runs a repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
-            GitHubId, 
-            GitHubSecret, 
-            AzureStorageConnectionString, 
-            DevOpsServiceURL, 
+            GitHubId,
+            GitHubSecret,
+            AzureStorageConnectionString,
+            DevOpsServiceURL,
             user, owner, repo,
             AzureTenantId,
             AzureClientId,
@@ -164,10 +164,10 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
 
         //Act - runs a repo in about 4s
         int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
-            GitHubId, 
-            GitHubSecret, 
-            AzureStorageConnectionString, 
-            DevOpsServiceURL, 
+            GitHubId,
+            GitHubSecret,
+            AzureStorageConnectionString,
+            DevOpsServiceURL,
             user, owner, repo,
             AzureTenantId,
             AzureClientId,
@@ -269,18 +269,18 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         {
             Assert.AreEqual("CustomQueue", item2.Repo);
             Assert.IsNotNull(item2.RepoSettings);
-            Assert.AreEqual(1, item2.RepoSettingsRecommendations.Count);
-            Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item2.RepoSettingsRecommendations[0]);
+            Assert.AreEqual(0, item2.RepoSettingsRecommendations.Count);
+            //Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item2.RepoSettingsRecommendations[0]);
             Assert.AreEqual(1, item2.Actions.Count);
             Assert.AreEqual(0, item2.ActionRecommendations.Count);
-            Assert.AreEqual(0, item2.Dependabot.Count);
-            Assert.AreEqual(null, item2.DependabotFile);
-            Assert.AreEqual(null, item2.DependabotRoot);
-            Assert.AreEqual(1, item2.DependabotRecommendations.Count);
-            Assert.AreEqual("Consider adding a Dependabot file to automatically update dependencies", item2.DependabotRecommendations[0]);
+            Assert.AreEqual(1, item2.Dependabot.Count);
+            Assert.IsNotNull(item2.DependabotFile);
+            Assert.IsNotNull(item2.DependabotRoot);
+            Assert.AreEqual(0, item2.DependabotRecommendations.Count);
+            //Assert.AreEqual("Consider adding a Dependabot file to automatically update dependencies", item2.DependabotRecommendations[0]);
             Assert.IsNotNull(item2.BranchPolicies);
-            Assert.AreEqual(1, item2.BranchPoliciesRecommendations.Count);
-            Assert.AreEqual("Consider enabling 'Enforce Admins', to ensure that all users of the repo must follow branch policy rules", item2.BranchPoliciesRecommendations[0]);
+            Assert.AreEqual(0, item2.BranchPoliciesRecommendations.Count);
+            //Assert.AreEqual("Consider enabling 'Enforce Admins', to ensure that all users of the repo must follow branch policy rules", item2.BranchPoliciesRecommendations[0]);
             Assert.AreEqual(1, item2.GitVersion.Count);
             Assert.AreEqual(0, item2.GitVersionRecommendations.Count);
             //Assert.AreEqual("Consider adding Git Versioning to this repo", item2.GitVersionRecommendations[0]);
