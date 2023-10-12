@@ -141,13 +141,13 @@ jobs:
         run: az webapp config appsettings set --name "repogovernance-prod-eu-service" --resource-group "RepoGovernance" --settings "AppSettings:GitHubClientId=${{ secrets.GitHubClientId }}" "AppSettings:GitHubClientSecret=${{ secrets.GitHubClientSecret }}" "AppSettings:StorageConnectionString=${{ secrets.StorageConnectionString }}"  "AppSettings:CosmosDBConnectionString=${{ secrets.CosmosDBConnectionString }}" "AppSettings:AzureTenantId=${{ secrets.AzureTenantId }}" "AppSettings:AzureClientId=${{ secrets.AzureClientId }}" "AppSettings:AzureClientSecret=${{ secrets.AzureClientSecret }}" #--slot staging   
       - name: Deploy to Azure Web App Service
         id: deploy-to-servicesapp
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         with:
           app-name: repogovernance-prod-eu-service
           package: service
       - name: Deploy to Azure Web App Website
         id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         with:
           app-name: repogovernance-prod-eu-web
           package: web
