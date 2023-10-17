@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepoGovernance.Core", "Repo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepoGovernance.Function", "RepoGovernance.Function\RepoGovernance.Function.csproj", "{84587E38-7DE7-4344-89B0-597A5B29ADE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoGovernance.BlazorPOC", "RepoGovernance.BlazorPOC\RepoGovernance.BlazorPOC.csproj", "{8D85CEE6-3362-4936-A6B2-E81FE10D10A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepoGovernance.BlazorPOC", "RepoGovernance.BlazorPOC\RepoGovernance.BlazorPOC.csproj", "{8D85CEE6-3362-4936-A6B2-E81FE10D10A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
