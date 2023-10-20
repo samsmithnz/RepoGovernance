@@ -12,7 +12,7 @@
     <PackageReference Include="DotNetCensus.Core" Version="1.6.4" />
     <PackageReference Include="GitHubActionsDotNet" Version="1.2.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Graph" Version="5.30.0" />
+    <PackageReference Include="Microsoft.Graph" Version="5.31.0" />
     <PackageReference Include="RepoAutomation.Core" Version="1.5.6" />	  
   </ItemGroup>
 
