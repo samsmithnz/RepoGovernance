@@ -7,9 +7,9 @@ namespace RepoGovernance.Core.Helpers
 {
     public class DotNetPackages
     {
-        public List<string> GetNugetPackagesOutdated(string path)
+        public List<NugetResult> GetNugetPackagesOutdated(string path)
         {
-            List<string> result = new();
+            List<NugetResult> results = new();
 
             Process process = new();
             ProcessStartInfo startInfo = new()
@@ -30,17 +30,26 @@ namespace RepoGovernance.Core.Helpers
             {
                 foreach (Project project in root.Projects)
                 {
-                    foreach (Framework framework in project.frameworks)
+                    if (project.frameworks != null)
                     {
-                        foreach (Package package in framework.topLevelPackages)
+                        foreach (Framework framework in project.frameworks)
                         {
-                            result.Add(project.path + ";" + package.id + ";" + package.latestVersion);
+                            foreach (Package package in framework.topLevelPackages)
+                            {
+                                results.Add(new NugetResult()
+                                {
+                                    Path = project.path,
+                                    Framework = framework.framework,
+                                    PackageId = package.id,
+                                    PackageVersion = package.latestVersion
+                                });
+                            }
                         }
                     }
                 }
             }
 
-            return result;
+            return results;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using RepoGovernance.Core.Helpers;
 using System.Collections.Generic;
+using RepoGovernance.Core.Models.NuGetPackages;
 
 namespace RepoGovernance.Tests
 {
@@ -20,7 +21,7 @@ namespace RepoGovernance.Tests
             DotNetPackages dotNetPackages = new();
 
             //Act - runs a repo in about 4s
-List<string> results = dotNetPackages.GetNugetPackagesOutdated(path);
+            List<NugetResult> results = dotNetPackages.GetNugetPackagesOutdated(path);
 
             //Assert
             Assert.IsNotNull(results);
