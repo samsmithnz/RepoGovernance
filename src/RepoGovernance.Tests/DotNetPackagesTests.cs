@@ -17,7 +17,7 @@ namespace RepoGovernance.Tests
         public void NugetPackagesOutdatedTest()
         {
             //Arrange
-            string path = "C:\\Users\\samsm\\source\\repos\\DotNetCensus\\src";
+            string path = "C:\\Users\\samsm\\source\\repos\\RepoAutomationUnitTests\\src";
             DotNetPackages dotNetPackages = new();
 
             //Act - runs a repo in about 4s
@@ -25,7 +25,7 @@ namespace RepoGovernance.Tests
 
             //Assert
             Assert.IsNotNull(results);
-            Assert.AreEqual(3, results.Count);
+            Assert.AreEqual(5, results.Count);
         }
     }
 }
