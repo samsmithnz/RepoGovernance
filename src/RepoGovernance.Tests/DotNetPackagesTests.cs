@@ -14,6 +14,22 @@ namespace RepoGovernance.Tests
     public class DotNetPackagesTests
     {
         [TestMethod]
+        public void NugetPackagesDeprecatedTest()
+        {
+            //Arrange
+            string path = "C:\\Users\\samsm\\source\\repos\\RepoAutomationUnitTests\\src";
+            DotNetPackages dotNetPackages = new();
+
+            //Act - runs a repo in about 4s
+            List<NugetResult> results = dotNetPackages.GetNugetPackagesDeprecated(path);
+
+            //Assert
+            Assert.IsNotNull(results);
+            Assert.AreEqual(5, results.Count);
+        }
+
+
+        [TestMethod]
         public void NugetPackagesOutdatedTest()
         {
             //Arrange
@@ -22,6 +38,22 @@ namespace RepoGovernance.Tests
 
             //Act - runs a repo in about 4s
             List<NugetResult> results = dotNetPackages.GetNugetPackagesOutdated(path);
+
+            //Assert
+            Assert.IsNotNull(results);
+            Assert.AreEqual(5, results.Count);
+        }
+
+
+        [TestMethod]
+        public void NugetPackagesVulnerableTest()
+        {
+            //Arrange
+            string path = "C:\\Users\\samsm\\source\\repos\\RepoAutomationUnitTests\\src";
+            DotNetPackages dotNetPackages = new();
+
+            //Act - runs a repo in about 4s
+            List<NugetResult> results = dotNetPackages.GetNugetPackagesVulnerable(path);
 
             //Assert
             Assert.IsNotNull(results);

@@ -7,6 +7,12 @@ namespace RepoGovernance.Core.Helpers
 {
     public class DotNetPackages
     {
+        public List<NugetResult> GetNugetPackagesDeprecated(string path)
+        {
+            List<NugetResult> results = new();
+            return results;
+        }
+
         public List<NugetResult> GetNugetPackagesOutdated(string path)
         {
             List<NugetResult> results = new();
@@ -50,6 +56,13 @@ namespace RepoGovernance.Core.Helpers
             }
 
             return results;
+        }
+
+        public List<NugetResult> GetNugetPackagesVulnerable(string path)
+        {
+            List<NugetResult> results = new();
+            return results;
+
         }
     }
 }
