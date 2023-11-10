@@ -6,5 +6,6 @@
         public string requestedVersion { get; set; }
         public string resolvedVersion { get; set; }
         public string latestVersion { get; set; }
+        public string[] deprecationReasons { get; set; }
     }
 }
