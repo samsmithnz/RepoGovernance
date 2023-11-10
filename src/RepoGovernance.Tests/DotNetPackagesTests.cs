@@ -16,7 +16,7 @@ namespace RepoGovernance.Tests
         {
             //Arrange
             System.IO.DirectoryInfo dir = new(Directory.GetCurrentDirectory());
-            string path = dir.Parent.Parent.Parent.FullName + @"\Sample\src\";
+            string path = dir.Parent.Parent.Parent.FullName + @"/Sample/src/";
             DotNetPackages dotNetPackages = new();
 
             //Act - runs a repo in about 4s
@@ -33,7 +33,7 @@ namespace RepoGovernance.Tests
         {
             //Arrange
             System.IO.DirectoryInfo dir = new(Directory.GetCurrentDirectory());
-            string path = dir.Parent.Parent.Parent.FullName + @"\Sample\src\";
+            string path = dir.Parent.Parent.Parent.FullName + @"/Sample/src/";
             DotNetPackages dotNetPackages = new();
 
             //Act - runs a repo in about 4s
@@ -50,7 +50,7 @@ namespace RepoGovernance.Tests
         {
             //Arrange
             System.IO.DirectoryInfo dir = new(Directory.GetCurrentDirectory());
-            string path = dir.Parent.Parent.Parent.FullName + @"\Sample\src\";
+            string path = dir.Parent.Parent.Parent.FullName + @"/Sample/src/";
             DotNetPackages dotNetPackages = new();
 
             //Act - runs a repo in about 4s
