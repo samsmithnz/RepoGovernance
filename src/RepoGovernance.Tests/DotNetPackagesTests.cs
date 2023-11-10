@@ -14,7 +14,7 @@ namespace RepoGovernance.Tests
         public void NugetPackagesDeprecatedTest()
         {
             //Arrange
-            string path = @"C:\Users\samsm\source\repos\RepoGovernance\src\RepoGovernance.Tests\Sample\RepoAutomationUnitTests\";
+            string path = @"C:\Users\samsm\source\repos\RepoGovernance\src\RepoGovernance.Tests\Sample\src\";
             DotNetPackages dotNetPackages = new();
 
             //Act - runs a repo in about 4s
@@ -30,7 +30,7 @@ namespace RepoGovernance.Tests
         public void NugetPackagesOutdatedTest()
         {
             //Arrange
-            string path = @"C:\Users\samsm\source\repos\RepoGovernance\src\RepoGovernance.Tests\Sample\RepoAutomationUnitTests\";
+            string path = @"C:\Users\samsm\source\repos\RepoGovernance\src\RepoGovernance.Tests\Sample\src\";
             DotNetPackages dotNetPackages = new();
 
             //Act - runs a repo in about 4s
@@ -38,7 +38,7 @@ namespace RepoGovernance.Tests
 
             //Assert
             Assert.IsNotNull(results);
-            Assert.AreEqual(5, results.Count);
+            Assert.AreEqual(6, results.Count);
         }
 
 
@@ -46,7 +46,7 @@ namespace RepoGovernance.Tests
         public void NugetPackagesVulnerableTest()
         {
             //Arrange
-            string path = @"C:\Users\samsm\source\repos\RepoGovernance\src\RepoGovernance.Tests\Sample\RepoAutomationUnitTests\";
+            string path = @"C:\Users\samsm\source\repos\RepoGovernance\src\RepoGovernance.Tests\Sample\src\";
             DotNetPackages dotNetPackages = new();
 
             //Act - runs a repo in about 4s
