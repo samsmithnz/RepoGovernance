@@ -3,6 +3,7 @@ using RepoGovernance.Core.Helpers;
 using RepoGovernance.Core.Models.NuGetPackages;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 
 namespace RepoGovernance.Tests
 {
@@ -14,7 +15,8 @@ namespace RepoGovernance.Tests
         public void NugetPackagesDeprecatedTest()
         {
             //Arrange
-            string path = @"C:\Users\samsm\source\repos\RepoGovernance\src\RepoGovernance.Tests\Sample\src\";
+            System.IO.DirectoryInfo dir = new(Directory.GetCurrentDirectory());
+            string path = dir.Parent.Parent.Parent.FullName + @"\Sample\src\";
             DotNetPackages dotNetPackages = new();
 
             //Act - runs a repo in about 4s
@@ -30,7 +32,8 @@ namespace RepoGovernance.Tests
         public void NugetPackagesOutdatedTest()
         {
             //Arrange
-            string path = @"C:\Users\samsm\source\repos\RepoGovernance\src\RepoGovernance.Tests\Sample\src\";
+            System.IO.DirectoryInfo dir = new(Directory.GetCurrentDirectory());
+            string path = dir.Parent.Parent.Parent.FullName + @"\Sample\src\";
             DotNetPackages dotNetPackages = new();
 
             //Act - runs a repo in about 4s
@@ -46,7 +49,8 @@ namespace RepoGovernance.Tests
         public void NugetPackagesVulnerableTest()
         {
             //Arrange
-            string path = @"C:\Users\samsm\source\repos\RepoGovernance\src\RepoGovernance.Tests\Sample\src\";
+            System.IO.DirectoryInfo dir = new(Directory.GetCurrentDirectory());
+            string path = dir.Parent.Parent.Parent.FullName + @"\Sample\src\";
             DotNetPackages dotNetPackages = new();
 
             //Act - runs a repo in about 4s
