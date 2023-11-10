@@ -1,11 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RepoGovernance.Core.Models;
-using RepoGovernance.Core;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 using RepoGovernance.Core.Helpers;
-using System.Collections.Generic;
 using RepoGovernance.Core.Models.NuGetPackages;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RepoGovernance.Tests
 {
@@ -17,7 +14,7 @@ namespace RepoGovernance.Tests
         public void NugetPackagesDeprecatedTest()
         {
             //Arrange
-            string path = "C:\\Users\\samsm\\source\\repos\\RepoAutomationUnitTests\\src";
+            string path = @"C:\Users\samsm\source\repos\RepoGovernance\src\RepoGovernance.Tests\Sample\RepoAutomationUnitTests\";
             DotNetPackages dotNetPackages = new();
 
             //Act - runs a repo in about 4s
@@ -33,7 +30,7 @@ namespace RepoGovernance.Tests
         public void NugetPackagesOutdatedTest()
         {
             //Arrange
-            string path = "C:\\Users\\samsm\\source\\repos\\RepoAutomationUnitTests\\src";
+            string path = @"C:\Users\samsm\source\repos\RepoGovernance\src\RepoGovernance.Tests\Sample\RepoAutomationUnitTests\";
             DotNetPackages dotNetPackages = new();
 
             //Act - runs a repo in about 4s
@@ -49,7 +46,7 @@ namespace RepoGovernance.Tests
         public void NugetPackagesVulnerableTest()
         {
             //Arrange
-            string path = "C:\\Users\\samsm\\source\\repos\\RepoAutomationUnitTests\\src";
+            string path = @"C:\Users\samsm\source\repos\RepoGovernance\src\RepoGovernance.Tests\Sample\RepoAutomationUnitTests\";
             DotNetPackages dotNetPackages = new();
 
             //Act - runs a repo in about 4s

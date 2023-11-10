@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoAutomationUnitTests.Tests", "RepoAutomationUnitTests.Tests\RepoAutomationUnitTests.Tests.csproj", "{EBF2221F-9A05-4636-A943-31B32AAD67E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepoAutomationUnitTests", "RepoAutomationUnitTests\RepoAutomationUnitTests.csproj", "{FAFA0A1D-7E16-4B24-9828-6482EA2037AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EBF2221F-9A05-4636-A943-31B32AAD67E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBF2221F-9A05-4636-A943-31B32AAD67E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBF2221F-9A05-4636-A943-31B32AAD67E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBF2221F-9A05-4636-A943-31B32AAD67E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAFA0A1D-7E16-4B24-9828-6482EA2037AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAFA0A1D-7E16-4B24-9828-6482EA2037AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAFA0A1D-7E16-4B24-9828-6482EA2037AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAFA0A1D-7E16-4B24-9828-6482EA2037AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
