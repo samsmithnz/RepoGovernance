@@ -54,7 +54,7 @@ namespace RepoGovernance.Tests
 
             //Assert
             Assert.IsNotNull(results);
-            Assert.AreEqual(0, results.Count);
+            Assert.AreEqual(1, results.Count);
         }
     }
 }

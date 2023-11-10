@@ -7,5 +7,14 @@
         public string resolvedVersion { get; set; }
         public string latestVersion { get; set; }
         public string[] deprecationReasons { get; set; }
+        public List<Vulnerability> vulnerabilities { get; set; }
+        public string GetFirstVulnerability()
+        {
+            if (vulnerabilities != null && vulnerabilities.Count > 0)
+            {
+                return vulnerabilities[0].severity;
+            }
+            return string.Empty;
+        }
     }
 }

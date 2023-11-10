@@ -30,7 +30,7 @@ namespace RepoGovernance.Core.Helpers
                                     Path = project.path,
                                     Framework = framework.framework,
                                     PackageId = package.id,
-                                    PackageVersion = package.resolvedVersion
+                                    PackageVersion = package.requestedVersion
                                 });
                             }
                         }
@@ -82,6 +82,30 @@ namespace RepoGovernance.Core.Helpers
             string output = GetProcessOutput(path, "list package --vulnerable --format json");
 
             //Process the output
+            Root? root = JsonConvert.DeserializeObject<Root>(output);
+            if (root != null && root.Projects != null && root.Projects.Count > 0)
+            {
+                foreach (Project project in root.Projects)
+                {
+                    if (project.frameworks != null)
+                    {
+                        foreach (Framework framework in project.frameworks)
+                        {
+                            foreach (Package package in framework.topLevelPackages)
+                            {
+                                results.Add(new NugetResult()
+                                {
+                                    Path = project.path,
+                                    Framework = framework.framework,
+                                    PackageId = package.id,
+                                    PackageVersion = package.requestedVersion,
+                                    Severity = package.GetFirstVulnerability(),
+                                });
+                            }
+                        }
+                    }
+                }
+            }
 
             return results;
         }
