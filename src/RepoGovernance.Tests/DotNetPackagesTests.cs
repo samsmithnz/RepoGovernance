@@ -2,6 +2,7 @@
 using RepoGovernance.Core.Helpers;
 using RepoGovernance.Core.Models.NuGetPackages;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
@@ -17,6 +18,8 @@ namespace RepoGovernance.Tests
             //Arrange
             System.IO.DirectoryInfo dir = new(Directory.GetCurrentDirectory());
             string path = dir.Parent.Parent.Parent.FullName + @"/Sample/src/";
+            Debug.WriteLine("Path to test");
+            Debug.WriteLine(path);
             DotNetPackages dotNetPackages = new();
 
             //Act - runs a repo in about 4s
