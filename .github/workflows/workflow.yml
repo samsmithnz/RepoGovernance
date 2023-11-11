@@ -82,7 +82,7 @@ jobs:
         AppSettings.AzureClientSecret: "${{ secrets.AzureClientSecret }}"
     #- run: echo "Tenant Id: $(env.AppSettings.AzureTenantId)"
     - name: .NET test
-      run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj --configuration Debug --logger trx -e:CollectCoverage=true -e:CoverletOutput=TestResults/ -e:CoverletOutputFormat=lcov
+      run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj --configuration Debug --logger trx -e:CollectCoverage=true -e:CoverletOutput=TestResults/ -e:CoverletOutputFormat=lcov -l "console;verbosity=detailed"
     - name: Publish coverage report to coveralls.io
       uses: coverallsapp/github-action@master
       with:
