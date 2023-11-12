@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RepoGovernance.Core;
 using RepoGovernance.Core.Models;
+using RepoGovernance.Service.Models;
 
 namespace RepoGovernance.Service.Controllers
 {
@@ -40,6 +41,32 @@ namespace RepoGovernance.Service.Controllers
                 Configuration["AppSettings:AzureTenantId"],
                 Configuration["AppSettings:AzureClientId"],
                 Configuration["AppSettings:AzureClientSecret"]);
+        }
+
+        [HttpPost("UpdateSummaryItemNuGetPackageStats")]
+            public async Task<int> UpdateSummaryItemNuGetPackageStats(NuGetPayload nugetPayload)
+        {
+            if (nugetPayload != null)
+            {
+                string? repo = nugetPayload?.Repo;
+                string? owner = nugetPayload?.Owner;
+                string? user = nugetPayload?.User;
+                string? jsonPayload = nugetPayload?.JsonPayload;
+                string? payloadType = nugetPayload?.PayloadType;
+
+                if (repo == null || owner == null || user == null || jsonPayload == null)
+                {
+                    return -1;
+                }
+                return await SummaryItemsDA.UpdateSummaryItemNuGetPackageStats(
+                    Configuration["AppSettings:CosmosDBConnectionString"],
+                    user, owner, repo,
+                    jsonPayload, payloadType);
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         /// <summary>

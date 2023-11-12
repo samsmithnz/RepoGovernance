@@ -7,6 +7,7 @@ using RepoAutomation.Core.Models;
 using RepoGovernance.Core.APIAccess;
 using RepoGovernance.Core.Helpers;
 using RepoGovernance.Core.Models;
+using RepoGovernance.Core.Models.NuGetPackages;
 using RepoGovernance.Core.TableStorage;
 
 namespace RepoGovernance.Core
@@ -162,7 +163,7 @@ namespace RepoGovernance.Core
                 int actionsCount = 0;
                 if (summaryItem?.DependabotRoot?.updates != null)
                 {
-                    foreach (Package? item in summaryItem.DependabotRoot.updates)
+                    foreach (GitHubActionsDotNet.Models.Dependabot.Package? item in summaryItem.DependabotRoot.updates)
                     {
                         if (item.package_ecosystem == "github-actions")
                         {
@@ -234,7 +235,7 @@ namespace RepoGovernance.Core
                 List<FrameworkSummary> frameworkSummaries = DotNetCensus.Core.Main.GetFrameworkSummary(null, repo2, false);
                 foreach (FrameworkSummary frameworkSummary in frameworkSummaries)
                 {
-                    Framework framework = new()
+                    Models.Framework framework = new()
                     {
                         Name = frameworkSummary.Framework,
                         Color = DotNetRepoScanner.GetColorFromStatus(frameworkSummary.Status),
@@ -401,6 +402,48 @@ namespace RepoGovernance.Core
 
             return result;
             ;
+        }
+
+        public static async Task<int> UpdateSummaryItemNuGetPackageStats(string? connectionString,
+            string user,
+            string owner,
+            string repo,
+            string nugetPayload,
+            string payloadType)
+        {
+            int itemsUpdated = 0;
+
+            //Get the summary item
+            SummaryItem? summaryItem = await GetSummaryItem(connectionString, user, owner, repo);
+            if (summaryItem != null && nugetPayload != null && payloadType != null)
+            {
+                //Process the NuGet Package JSON payload
+                DotNetPackages dotNetPackages = new();
+                List<NugetPackage>? nugetResults = null;
+                switch (payloadType)
+                {
+                    case "Deprecated":
+                        nugetResults = dotNetPackages.GetNugetPackagesDeprecated(nugetPayload);
+                        break;
+                    case "Outdated":
+                        nugetResults = dotNetPackages.GetNugetPackagesOutdated(nugetPayload);
+                        break;
+                    case "Vulnerable":
+                        nugetResults = dotNetPackages.GetNugetPackagesVulnerable(nugetPayload);
+                        break;
+                }
+                if (nugetResults != null)
+                {
+                    //First remove results with the same type
+                    summaryItem.NuGetPackages.RemoveAll(x => x.Type == payloadType);
+
+                    //Add the results to the summary item
+                    summaryItem.NuGetPackages.AddRange(nugetResults);
+                    itemsUpdated += await AzureTableStorageDA.UpdateSummaryItemsIntoTable(connectionString, user, owner, repo, summaryItem);
+                }
+            }
+
+            return itemsUpdated;
         }
     }
 }
