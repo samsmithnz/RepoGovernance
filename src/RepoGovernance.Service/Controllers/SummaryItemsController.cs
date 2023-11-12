@@ -44,7 +44,7 @@ namespace RepoGovernance.Service.Controllers
         }
 
         [HttpPost("UpdateSummaryItemNuGetPackageStats")]
-            public async Task<int> UpdateSummaryItemNuGetPackageStats(NuGetPayload nugetPayload)
+        public async Task<int> UpdateSummaryItemNuGetPackageStats(NuGetPayload nugetPayload)
         {
             if (nugetPayload != null)
             {
