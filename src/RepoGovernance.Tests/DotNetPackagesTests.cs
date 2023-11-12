@@ -17,13 +17,15 @@ namespace RepoGovernance.Tests
         {
             //Arrange
             System.IO.DirectoryInfo dir = new(Directory.GetCurrentDirectory());
-            string path = dir.Parent.Parent.Parent.FullName + @"\Sample\src\";
+            string path = dir?.Parent?.Parent?.Parent?.FullName + @"\Sample\src\";
             //Debug.WriteLine("Path to test");
             //Debug.WriteLine(path);
             DotNetPackages dotNetPackages = new();
+            //Get the output from the process
+            string json = dotNetPackages.GetProcessOutput(path, "list package --deprecated --format json");
 
             //Act - runs a repo in about 4s
-            List<NugetResult> results = dotNetPackages.GetNugetPackagesDeprecated(path);
+            List<NugetPackage> results = dotNetPackages.GetNugetPackagesDeprecated(json);
 
             //Assert
             Assert.IsNotNull(results);
@@ -37,11 +39,13 @@ namespace RepoGovernance.Tests
         {
             //Arrange
             System.IO.DirectoryInfo dir = new(Directory.GetCurrentDirectory());
-            string path = dir.Parent.Parent.Parent.FullName + @"\Sample\src\";
+            string path = dir?.Parent?.Parent?.Parent?.FullName + @"\Sample\src\";
             DotNetPackages dotNetPackages = new();
+            //Get the output from the process
+            string json = dotNetPackages.GetProcessOutput(path, "list package --outdated --format json");
 
             //Act - runs a repo in about 4s
-            List<NugetResult> results = dotNetPackages.GetNugetPackagesOutdated(path);
+            List<NugetPackage> results = dotNetPackages.GetNugetPackagesOutdated(json);
 
             //Assert
             Assert.IsNotNull(results);
@@ -55,12 +59,14 @@ namespace RepoGovernance.Tests
         public void NugetPackagesVulnerableTest()
         {
             //Arrange
-            System.IO.DirectoryInfo dir = new(Directory.GetCurrentDirectory());
-            string path = dir.Parent.Parent.Parent.FullName + @"\Sample\src\";
+            DirectoryInfo dir = new(Directory.GetCurrentDirectory());
+            string path = dir?.Parent?.Parent?.Parent?.FullName + @"\Sample\src\";
             DotNetPackages dotNetPackages = new();
+            //Get the output from the process
+            string json = dotNetPackages.GetProcessOutput(path, "list package --deprecated --format json");
 
             //Act - runs a repo in about 4s
-            List<NugetResult> results = dotNetPackages.GetNugetPackagesVulnerable(path);
+            List<NugetPackage> results = dotNetPackages.GetNugetPackagesVulnerable(json);
 
             //Assert
             Assert.IsNotNull(results);

@@ -7,14 +7,12 @@ namespace RepoGovernance.Core.Helpers
 {
     public class DotNetPackages
     {
-        public List<NugetResult> GetNugetPackagesDeprecated(string path)
+        public List<NugetPackage> GetNugetPackagesDeprecated(string json)
         {
-            List<NugetResult> results = new();
-            //Get the output from the process
-            string output = GetProcessOutput(path, "list package --deprecated --format json");
+            List<NugetPackage> results = new();
 
             //Process the output
-            Root? root = JsonConvert.DeserializeObject<Root>(output);
+            Root? root = JsonConvert.DeserializeObject<Root>(json);
             if (root != null && root.Projects != null && root.Projects.Count > 0)
             {
                 foreach (Project project in root.Projects)
@@ -25,12 +23,13 @@ namespace RepoGovernance.Core.Helpers
                         {
                             foreach (Package package in framework.topLevelPackages)
                             {
-                                results.Add(new NugetResult()
+                                results.Add(new NugetPackage()
                                 {
                                     Path = project.path,
                                     Framework = framework.framework,
                                     PackageId = package.id,
-                                    PackageVersion = package.requestedVersion
+                                    PackageVersion = package.requestedVersion,
+                                    Type = "Deprecated"
                                 });
                             }
                         }
@@ -41,14 +40,12 @@ namespace RepoGovernance.Core.Helpers
             return results;
         }
 
-        public List<NugetResult> GetNugetPackagesOutdated(string path)
+        public List<NugetPackage> GetNugetPackagesOutdated(string json)
         {
-            List<NugetResult> results = new();
-            //Get the output from the process
-            string output = GetProcessOutput(path, "list package --outdated --format json");
-
+            List<NugetPackage> results = new();
+            
             //Process the output
-            Root? root = JsonConvert.DeserializeObject<Root>(output);
+            Root? root = JsonConvert.DeserializeObject<Root>(json);
             if (root != null && root.Projects != null && root.Projects.Count > 0)
             {
                 foreach (Project project in root.Projects)
@@ -59,12 +56,13 @@ namespace RepoGovernance.Core.Helpers
                         {
                             foreach (Package package in framework.topLevelPackages)
                             {
-                                results.Add(new NugetResult()
+                                results.Add(new NugetPackage()
                                 {
                                     Path = project.path,
                                     Framework = framework.framework,
                                     PackageId = package.id,
-                                    PackageVersion = package.latestVersion
+                                    PackageVersion = package.latestVersion,
+                                    Type = "Outdated"
                                 });
                             }
                         }
@@ -75,14 +73,12 @@ namespace RepoGovernance.Core.Helpers
             return results;
         }
 
-        public List<NugetResult> GetNugetPackagesVulnerable(string path)
+        public List<NugetPackage> GetNugetPackagesVulnerable(string json)
         {
-            List<NugetResult> results = new();
-            //Get the output from the process
-            string output = GetProcessOutput(path, "list package --vulnerable --format json");
+            List<NugetPackage> results = new();
 
             //Process the output
-            Root? root = JsonConvert.DeserializeObject<Root>(output);
+            Root? root = JsonConvert.DeserializeObject<Root>(json);
             if (root != null && root.Projects != null && root.Projects.Count > 0)
             {
                 foreach (Project project in root.Projects)
@@ -93,13 +89,14 @@ namespace RepoGovernance.Core.Helpers
                         {
                             foreach (Package package in framework.topLevelPackages)
                             {
-                                results.Add(new NugetResult()
+                                results.Add(new NugetPackage()
                                 {
                                     Path = project.path,
                                     Framework = framework.framework,
                                     PackageId = package.id,
                                     PackageVersion = package.requestedVersion,
                                     Severity = package.GetFirstVulnerability(),
+                                    Type = "Vulnerable"
                                 });
                             }
                         }
@@ -110,7 +107,7 @@ namespace RepoGovernance.Core.Helpers
             return results;
         }
 
-        private string GetProcessOutput(string path, string arguments)
+        public string GetProcessOutput(string path, string arguments)
         {
             Process process = new();
             ProcessStartInfo startInfo = new()

@@ -1,5 +1,6 @@
 ﻿using GitHubActionsDotNet.Models.Dependabot;
 using RepoAutomation.Core.Models;
+using RepoGovernance.Core.Models.NuGetPackages;
 
 namespace RepoGovernance.Core.Models
 {
@@ -25,6 +26,7 @@ namespace RepoGovernance.Core.Models
             PullRequests = new();
             RepoLanguages = new();
             AzureDeployment = null;
+            NuGetPackages = new();
         }
 
         public string User { get; internal set; }
@@ -52,6 +54,7 @@ namespace RepoGovernance.Core.Models
         public CoverallsCodeCoverage? CoverallsCodeCoverage { get; set; }
         public SonarCloud? SonarCloud { get; set; }
         public AzureDeployment? AzureDeployment { get; set; }
+        public List<NugetPackage> NuGetPackages { get; set; }
 
 
         public string OwnerRepo
