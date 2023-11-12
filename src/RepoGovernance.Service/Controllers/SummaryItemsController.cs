@@ -51,7 +51,8 @@ namespace RepoGovernance.Service.Controllers
                 string? repo = nugetPayload?.Repo;
                 string? owner = nugetPayload?.Owner;
                 string? user = nugetPayload?.User;
-                string? jsonPayload = nugetPayload?.JsonPayload;
+                //There is some weirdness when the json is embedded in this object and then the object is serialized a second time - it returns an array of strings.
+                string? jsonPayload = nugetPayload?.JsonPayloadString;
                 string? payloadType = nugetPayload?.PayloadType;
 
                 if (repo == null || owner == null || user == null || jsonPayload == null || payloadType == null)
