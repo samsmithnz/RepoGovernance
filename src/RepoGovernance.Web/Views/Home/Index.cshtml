@@ -244,10 +244,12 @@
                     {
                         <strong style="font-size:14px;">NuGet packages :</strong>
                         <br />
-                        <div>
-                            Deprecated packages: @item.NuGetPackages.Count(n=>n.Type == "Deprecated")<br>
-                            Outdated packages: @item.NuGetPackages.Count(n=>n.Type == "Outdated")<br>
-                            Vulnerable packages: @item.NuGetPackages.Count(n=>n.Type == "Vulnerable")<br>
+                        <div style="font-size:12px;">
+                            <ul>
+                                <li>Deprecated packages: @item.NuGetPackages.Count(n=>n.Type == "Deprecated")</li>
+                                <li>Outdated packages: @item.NuGetPackages.Count(n=>n.Type == "Outdated")</li>
+                                <li>Vulnerable packages: @item.NuGetPackages.Count(n=>n.Type == "Vulnerable")</li>
+                            </ul>
                         </div>
                     }
                 </div>
