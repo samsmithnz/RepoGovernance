@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RepoGovernance.Core.APIAccess;
+using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Service.Controllers
 {
@@ -10,5 +12,10 @@ namespace RepoGovernance.Service.Controllers
         //{
         //    RepoGovernance.Core.APIAccess.GitHubApiAccess.GetRepo();
         //}
+        [HttpGet("GetRepos")]
+        public List<UserOwnerRepo> GetRepos(string user)
+        {
+            return DatabaseAccess.GetRepos(user);
+        }
     }
 }
