@@ -404,7 +404,8 @@ namespace RepoGovernance.Core
             ;
         }
 
-        public static async Task<int> UpdateSummaryItemNuGetPackageStats(string? connectionString,
+        public static async Task<int> UpdateSummaryItemNuGetPackageStats(
+            string? connectionString,
             string user,
             string owner,
             string repo,

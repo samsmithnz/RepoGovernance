@@ -54,7 +54,7 @@ namespace RepoGovernance.Service.Controllers
                 string? jsonPayload = nugetPayload?.JsonPayload;
                 string? payloadType = nugetPayload?.PayloadType;
 
-                if (repo == null || owner == null || user == null || jsonPayload == null)
+                if (repo == null || owner == null || user == null || jsonPayload == null || payloadType == null)
                 {
                     return -1;
                 }
