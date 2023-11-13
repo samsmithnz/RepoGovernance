@@ -210,7 +210,6 @@
                     @if (item.AzureDeployment != null)
                     {
                         <strong style="font-size:14px;">Azure status:</strong>
-
                         <br />
                         <div style="font-size:12px;">
                             App registrations: @item.AzureDeployment.AppRegistrations.Count<br />
@@ -239,6 +238,18 @@
                     Failed requests (last 30 days): 797<br/>
                     Server response time (avg) (last 30 days): 1.89s<br />
                     Server requests (last 30 days): *@
+                        </div>
+                    }
+                    @if (item.NuGetPackages != null && item.NuGetPackages.Count > 0)
+                    {
+                        <strong style="font-size:14px;">NuGet packages :</strong>
+                        <br />
+                        <div style="font-size:12px;">
+                            <ul>
+                                <li>Deprecated packages: @item.NuGetPackages.Count(n=>n.Type == "Deprecated")</li>
+                                <li>Outdated packages: @item.NuGetPackages.Count(n=>n.Type == "Outdated")</li>
+                                <li>Vulnerable packages: @item.NuGetPackages.Count(n=>n.Type == "Vulnerable")</li>
+                            </ul>
                         </div>
                     }
                 </div>
