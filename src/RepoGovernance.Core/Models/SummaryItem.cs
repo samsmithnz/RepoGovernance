@@ -74,7 +74,8 @@ namespace RepoGovernance.Core.Models
                     DependabotRecommendations.Count +
                     BranchPoliciesRecommendations.Count +
                     GitVersionRecommendations.Count +
-                    DotNetFrameworksRecommendations.Count;
+                    DotNetFrameworksRecommendations.Count + 
+                    NuGetPackages.Count;
             }
         }
 

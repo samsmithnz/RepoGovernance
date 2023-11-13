@@ -80,11 +80,12 @@
                     <div>
                         @if (item.TotalRecommendationCount >= 0)
                         {
-                            @if (item.RepoSettingsRecommendations.Count == 0 &&
+                            @if (item != null && item.RepoSettingsRecommendations.Count == 0 &&
                            item.BranchPolicies != null && item.BranchPoliciesRecommendations.Count == 0 &&
                            item.Actions.Count > 0 && item.ActionRecommendations.Count == 0 &&
                            item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0 &&
-                           item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0)
+                           item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0 &&
+                           item.NuGetPackages != null && item.NuGetPackages.Count == 0)
                             {
                                 <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="OK"></i> <span>0</span>
                             }
@@ -110,6 +111,10 @@
                                 foreach (string itemRec in item.GitVersionRecommendations)
                                 {
                                     recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
+                                }
+                                if (item != null && item.NuGetPackages != null && item.NuGetPackages.Count > 0)
+                                {
+                                    recommendation += " - " + item.NuGetPackages.Count.ToString() + " NuGet packages require upgrades" + Environment.NewLine + Environment.NewLine;
                                 }
                                 <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i> <span style="font-size: 14px;">@item.TotalRecommendationCount</span>
                             }
@@ -242,7 +247,7 @@
                     }
                     @if (item.NuGetPackages != null && item.NuGetPackages.Count > 0)
                     {
-                        <strong style="font-size:14px;">NuGet packages :</strong>
+                        <strong style="font-size:14px;">NuGet updates required:</strong>
                         <br />
                         <div style="font-size:12px;">
                             <ul>
