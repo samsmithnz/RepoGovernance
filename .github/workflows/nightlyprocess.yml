@@ -1,4 +1,4 @@
-name: Run job
+name: Nightly Job
 
 on:
   schedule:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   processRepos:
-    name: Process repos
+    name: Process Linux repos
     env:
       user: samsmithnz
     strategy:
@@ -121,7 +121,7 @@ jobs:
 
 
   processWindowsRepos:
-    name: Process repos
+    name: Process Windows repos
     env:
       user: samsmithnz
     strategy:
