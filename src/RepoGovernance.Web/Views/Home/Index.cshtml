@@ -111,6 +111,10 @@
                                 {
                                     recommendation += " - " + itemRec + Environment.NewLine + Environment.NewLine;
                                 }
+                                if (item!= null && item.NuGetPackages != null && item.NuGetPackages.Count > 0)
+                                {
+                                    recommendation += " - " + item.NuGetPackages.Count.ToString() + " NuGet packages require upgrades" + Environment.NewLine + Environment.NewLine;
+                                }
                                 <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i> <span style="font-size: 14px;">@item.TotalRecommendationCount</span>
                             }
                         }
@@ -242,7 +246,7 @@
                     }
                     @if (item.NuGetPackages != null && item.NuGetPackages.Count > 0)
                     {
-                        <strong style="font-size:14px;">NuGet packages :</strong>
+                        <strong style="font-size:14px;">NuGet updates required:</strong>
                         <br />
                         <div style="font-size:12px;">
                             <ul>
