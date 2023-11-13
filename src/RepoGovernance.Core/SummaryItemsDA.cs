@@ -1,5 +1,4 @@
 ﻿using DotNetCensus.Core.Models;
-using GitHubActionsDotNet.Models.Dependabot;
 using GitHubActionsDotNet.Serialization;
 using RepoAutomation.Core.APIAccess;
 using RepoAutomation.Core.Helpers;
