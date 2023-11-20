@@ -31,6 +31,7 @@ public static class DatabaseAccess
             new UserOwnerRepo(user, user, "SatisfactoryTree"),
             new UserOwnerRepo(user, user, "SamsDotNetSonarCloudAction"),            
             new UserOwnerRepo(user, user, "TBS"),
+            new UserOwnerRepo(user, user, "TrainSim"),
             new UserOwnerRepo(user, user, "TurnBasedEngine"),
             new UserOwnerRepo(user, "SamSmithNZ-dotcom", "SamSmithNZ.com"),
             new UserOwnerRepo(user, "SamSmithNZ-dotcom", "MandMCounter"),

@@ -178,6 +178,29 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, itemsUpdated);
     }
 
+    [TestMethod]
+    public async Task UpdateTrainSimSummaryItemTest()
+    {
+        //Arrange
+        string user = "samsmithnz";
+        string owner = "samsmithnz";
+        string repo = "TrainSim";
+
+        //Act - runs a repo in about 4s
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
+            GitHubId,
+            GitHubSecret,
+            AzureStorageConnectionString,
+            DevOpsServiceURL,
+            user, owner, repo,
+            AzureTenantId,
+            AzureClientId,
+            AzureClientSecret);
+
+        //Assert
+        Assert.AreEqual(1, itemsUpdated);
+    }
+
     //[TestMethod]
     //public async Task UpdateAllItemsTest()
     //{
@@ -238,7 +261,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.AreEqual(1, item1.GitVersion.Count);
             Assert.AreEqual(0, item1.GitVersionRecommendations.Count);
             Assert.AreEqual(2, item1.DotNetFrameworks.Count);
-            Assert.AreEqual(".NET 7.0", item1.DotNetFrameworks[0].Name);
+            Assert.AreEqual(".NET 8.0", item1.DotNetFrameworks[0].Name);
             Assert.AreEqual("bg-primary", item1.DotNetFrameworks[0].Color);
             Assert.AreEqual(".NET Standard 2.0", item1.DotNetFrameworks[1].Name);
             Assert.AreEqual("bg-primary", item1.DotNetFrameworks[1].Color);
@@ -285,7 +308,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.AreEqual(0, item2.GitVersionRecommendations.Count);
             //Assert.AreEqual("Consider adding Git Versioning to this repo", item2.GitVersionRecommendations[0]);
             Assert.AreEqual(1, item2.DotNetFrameworks.Count);
-            Assert.AreEqual(".NET 7.0", item2.DotNetFrameworks[0].Name);
+            Assert.AreEqual(".NET 8.0", item2.DotNetFrameworks[0].Name);
             Assert.AreEqual("bg-primary", item2.DotNetFrameworks[0].Color);
             Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
             Assert.IsNotNull(item2.Release);
