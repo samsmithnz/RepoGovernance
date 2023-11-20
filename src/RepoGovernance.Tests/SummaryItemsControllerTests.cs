@@ -308,7 +308,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.AreEqual(0, item2.GitVersionRecommendations.Count);
             //Assert.AreEqual("Consider adding Git Versioning to this repo", item2.GitVersionRecommendations[0]);
             Assert.AreEqual(1, item2.DotNetFrameworks.Count);
-            Assert.AreEqual(".NET 7.0", item2.DotNetFrameworks[0].Name);
+            Assert.AreEqual(".NET 8.0", item2.DotNetFrameworks[0].Name);
             Assert.AreEqual("bg-primary", item2.DotNetFrameworks[0].Color);
             Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
             Assert.IsNotNull(item2.Release);
