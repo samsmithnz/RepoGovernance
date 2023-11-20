@@ -178,6 +178,29 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, itemsUpdated);
     }
 
+    [TestMethod]
+    public async Task UpdateTrainSimSummaryItemTest()
+    {
+        //Arrange
+        string user = "samsmithnz";
+        string owner = "samsmithnz";
+        string repo = "TrainSim";
+
+        //Act - runs a repo in about 4s
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
+            GitHubId,
+            GitHubSecret,
+            AzureStorageConnectionString,
+            DevOpsServiceURL,
+            user, owner, repo,
+            AzureTenantId,
+            AzureClientId,
+            AzureClientSecret);
+
+        //Assert
+        Assert.AreEqual(1, itemsUpdated);
+    }
+
     //[TestMethod]
     //public async Task UpdateAllItemsTest()
     //{
