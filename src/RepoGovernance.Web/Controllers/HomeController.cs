@@ -18,56 +18,56 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index(bool isContributor = false)
     {
-        //string currentUser = "samsmithnz";
-        //List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
-        //List<RepoLanguage> repoLanguages = new();
-        //Dictionary<string, int> repoLanguagesDictonary = new();
-        //int total = 0;
-        //foreach (SummaryItem summaryItem in summaryItems)
-        //{
-        //    foreach (RepoLanguage repoLanguage in summaryItem.RepoLanguages)
-        //    {
-        //        total += repoLanguage.Total;
-        //        if (repoLanguage.Name != null)
-        //        {
-        //            if (repoLanguagesDictonary.ContainsKey(repoLanguage.Name))
-        //            {
-        //                repoLanguagesDictonary[repoLanguage.Name] += repoLanguage.Total;
-        //            }
-        //            else
-        //            {
-        //                repoLanguagesDictonary.Add(repoLanguage.Name, repoLanguage.Total);
-        //            }
-        //            if (repoLanguages.Find(x => x.Name == repoLanguage.Name) == null)
-        //            {
-        //                repoLanguages.Add(new RepoLanguage
-        //                {
-        //                    Name = repoLanguage.Name,
-        //                    Total = repoLanguage.Total,
-        //                    Color = repoLanguage.Color,
-        //                    Percent = repoLanguage.Percent
-        //                });
-        //            }
-        //        }
-        //    }
-        //}
-        ////Update the percent
-        //foreach (KeyValuePair<string, int> sortedLanguage in repoLanguagesDictonary.OrderByDescending(x => x.Value))
-        //{
-        //    RepoLanguage? repoLanguage = repoLanguages.Find(x => x.Name == sortedLanguage.Key);
-        //    if (repoLanguage != null)
-        //    {
-        //        repoLanguage.Total = sortedLanguage.Value;
-        //        repoLanguage.Percent = Math.Round((decimal)repoLanguage.Total / (decimal)total * 100M, 1);
-        //    }
-        //}
+        string currentUser = "samsmithnz";
+        List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
+        List<RepoLanguage> repoLanguages = new();
+        Dictionary<string, int> repoLanguagesDictonary = new();
+        int total = 0;
+        foreach (SummaryItem summaryItem in summaryItems)
+        {
+            foreach (RepoLanguage repoLanguage in summaryItem.RepoLanguages)
+            {
+                total += repoLanguage.Total;
+                if (repoLanguage.Name != null)
+                {
+                    if (repoLanguagesDictonary.ContainsKey(repoLanguage.Name))
+                    {
+                        repoLanguagesDictonary[repoLanguage.Name] += repoLanguage.Total;
+                    }
+                    else
+                    {
+                        repoLanguagesDictonary.Add(repoLanguage.Name, repoLanguage.Total);
+                    }
+                    if (repoLanguages.Find(x => x.Name == repoLanguage.Name) == null)
+                    {
+                        repoLanguages.Add(new RepoLanguage
+                        {
+                            Name = repoLanguage.Name,
+                            Total = repoLanguage.Total,
+                            Color = repoLanguage.Color,
+                            Percent = repoLanguage.Percent
+                        });
+                    }
+                }
+            }
+        }
+        //Update the percent
+        foreach (KeyValuePair<string, int> sortedLanguage in repoLanguagesDictonary.OrderByDescending(x => x.Value))
+        {
+            RepoLanguage? repoLanguage = repoLanguages.Find(x => x.Name == sortedLanguage.Key);
+            if (repoLanguage != null)
+            {
+                repoLanguage.Total = sortedLanguage.Value;
+                repoLanguage.Percent = Math.Round((decimal)repoLanguage.Total / (decimal)total * 100M, 1);
+            }
+        }
 
-        SummaryItemsIndex summaryItemsIndex = new();
-        //{
-        //    SummaryItems = summaryItems,
-        //    SummaryRepoLanguages = repoLanguages.OrderByDescending(x => x.Total).ToList(),
-        //    IsContributor = isContributor
-        //};
+        SummaryItemsIndex summaryItemsIndex = new()
+        {
+            SummaryItems = summaryItems,
+            SummaryRepoLanguages = repoLanguages.OrderByDescending(x => x.Total).ToList(),
+            IsContributor = isContributor
+        };
         return View(summaryItemsIndex);
     }
 
