@@ -8,7 +8,7 @@
     TimeSpan ts = new();
     string lastUpdated = "[unknown]";
     string user = "[unknown]";
-    if (Model.SummaryItems.Count > 0)
+    if (Model.SummaryItems != null && Model.SummaryItems.Count > 0)
     {
         DateTime minDate = DateTime.Now;
         DateTime maxDate = DateTime.Now;
@@ -27,6 +27,12 @@
         lastUpdated = maxDate.ToString("dd-MMM-yyyy h:mm:sstt");
         user = Model.SummaryItems[0].User;
     }
+    else
+    {
+        Model.SummaryItems = new();
+        Model.SummaryRepoLanguages = new();
+        Model.IsContributor = true;
+    }
 }
 
 <div>
@@ -42,7 +48,6 @@
                 <span class="badge bg-primary">Total PRs: @Model.SummaryItems.Sum(x => x.PullRequests.Count)</span> &nbsp;
                 <span class="badge bg-primary">Total issues: @Model.SummaryItems.Sum(x => x.TotalRecommendationCount)</span>
             </div>
-            <br />
         </div>
         <div class="col-md-6">
             <h4>&nbsp;</h4>
@@ -58,7 +63,16 @@
                     }
                 }
             </div>
-            <br />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            @if (Model.IsContributor)
+            {
+                <a href="@Url.Action("UpdateAll", "Home", new { isContributor = Model.IsContributor })" class="lastUpdatedText">Update all. Warning- takes a ~minute</a>
+                <br />
+                <a href="@Url.Action("ApprovePRsForAllRepos", "Home", new { isContributor = Model.IsContributor })" class="lastUpdatedText">Approve all open PRs. Warning- takes a ~minute</a>
+            }
         </div>
     </div>
     <div>
@@ -251,9 +265,9 @@
                         <br />
                         <div style="font-size:12px;">
                             <ul>
-                                <li>Deprecated packages: @item.NuGetPackages.Count(n=>n.Type == "Deprecated")</li>
-                                <li>Outdated packages: @item.NuGetPackages.Count(n=>n.Type == "Outdated")</li>
-                                <li>Vulnerable packages: @item.NuGetPackages.Count(n=>n.Type == "Vulnerable")</li>
+                                <li>Deprecated packages: @item.NuGetPackages.Count(n => n.Type == "Deprecated")</li>
+                                <li>Outdated packages: @item.NuGetPackages.Count(n => n.Type == "Outdated")</li>
+                                <li>Vulnerable packages: @item.NuGetPackages.Count(n => n.Type == "Vulnerable")</li>
                             </ul>
                         </div>
                     }
@@ -310,15 +324,6 @@
                     }
                 </div>
             </div>
-        }
-    </div>
-    <div>
-        @if (Model.IsContributor)
-        {
-            <a href="@Url.Action("UpdateAll", "Home", new { isContributor = Model.IsContributor })" class="lastUpdatedText">Update all. Warning- takes a ~minute</a>
-
-            <br />
-            <a href="@Url.Action("ApprovePRsForAllRepos", "Home", new { isContributor = Model.IsContributor })" class="lastUpdatedText">Approve all open PRs. Warning- takes a ~minute</a>
         }
     </div>
 </div>
