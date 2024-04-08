@@ -15,31 +15,31 @@ jobs:
       with:
         fetch-depth: 0
     - name: Setup GitVersion
-      uses: gittools/actions/gitversion/setup@v0.10.2
+      uses: gittools/actions/gitversion/setup@v1.1.1
       with:
         versionSpec: 5.x
     - name: Determine Version
       id: gitversion
-      uses: gittools/actions/gitversion/execute@v0.10.2
+      uses: gittools/actions/gitversion/execute@v1.1.1
     - name: Display GitVersion outputs
       run: |
         echo "Version: ${{ steps.gitversion.outputs.SemVer }}"
         echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}"
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
     - name: .NET publish
       run: dotnet publish src/RepoGovernance.Core/RepoGovernance.Core.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
     - name: Upload package back to GitHub
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: drop
         path: src/RepoGovernance.Core/bin/Release
     - name: .NET publish service
       run: dotnet publish src/RepoGovernance.Web/RepoGovernance.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/web
     - name: Upload package back to GitHub
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: web
         path: ${{ github.workspace }}/web
@@ -47,7 +47,7 @@ jobs:
     - name: .NET publish website
       run: dotnet publish src/RepoGovernance.Service/RepoGovernance.Service.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/service
     - name: Upload package back to GitHub
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: service
         path: ${{ github.workspace }}/service
@@ -55,7 +55,7 @@ jobs:
     - name: .NET publish function
       run: dotnet publish src/RepoGovernance.Function/RepoGovernance.Function.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/function
     - name: Upload package back to GitHub
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: function
         path: ${{ github.workspace }}/function
@@ -65,7 +65,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
     - name: Variable Substitution appsettings file for tests
@@ -91,7 +91,7 @@ jobs:
       continue-on-error: true
     - name: Show test results
       if: false
-      uses: samsmithnz/DotNetTestResults@0.1.5
+      uses: samsmithnz/DotNetTestResults@0.1.9
       with:
         fileName: ${{ github.workspace }}/TestOutput.xml
 
@@ -124,17 +124,17 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: service
           path: service
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: web
           path: web
       - name: Log into Azure
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_SP }} 
       - name: Set service secrets
@@ -166,12 +166,12 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: function
           path: function
       - name: Log into Azure
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_SP }} 
       - name: Set function secrets
