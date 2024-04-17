@@ -160,7 +160,7 @@ jobs:
     - build
     - test
     - sonarCloud
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && 0 == 1
     environment:
       name: 'production'
 
@@ -187,7 +187,7 @@ jobs:
     needs: 
     - build
     - deploy
-    - deployFunction
+    #- deployFunction
     if: github.ref == 'refs/heads/main'
     environment:
       name: 'production'
