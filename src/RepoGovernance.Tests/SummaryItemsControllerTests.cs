@@ -349,9 +349,9 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         if (item5 != null)
         {
             Assert.IsTrue(item5.DotNetFrameworks.Count >= 4);
-            Assert.AreEqual(".NET 6.0", item5.DotNetFrameworks[0].Name);
+            Assert.AreEqual(".NET 8.0", item5.DotNetFrameworks[0].Name);
             Assert.AreEqual("bg-primary", item5.DotNetFrameworks[0].Color);
-            Assert.AreEqual(".NET 6.0-windows", item5.DotNetFrameworks[1].Name);
+            Assert.AreEqual(".NET 8.0-windows7.0", item5.DotNetFrameworks[1].Name);
             Assert.AreEqual("bg-primary", item5.DotNetFrameworks[1].Color);
             Assert.AreEqual(".NET Framework 4.7.1", item5.DotNetFrameworks[2].Name);
             Assert.AreEqual("bg-primary", item5.DotNetFrameworks[2].Color);
