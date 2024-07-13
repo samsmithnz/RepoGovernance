@@ -15,12 +15,12 @@ jobs:
       with:
         fetch-depth: 0
     - name: Setup GitVersion
-      uses: gittools/actions/gitversion/setup@v1.1.1
+      uses: gittools/actions/gitversion/setup@v1.2.0
       with:
         versionSpec: 5.x
     - name: Determine Version
       id: gitversion
-      uses: gittools/actions/gitversion/execute@v1.1.1
+      uses: gittools/actions/gitversion/execute@v1.2.0
     - name: Display GitVersion outputs
       run: |
         echo "Version: ${{ steps.gitversion.outputs.SemVer }}"
@@ -91,7 +91,7 @@ jobs:
       continue-on-error: true
     - name: Show test results
       if: false
-      uses: samsmithnz/DotNetTestResults@0.1.9
+      uses: samsmithnz/DotNetTestResults@0.1.10
       with:
         fileName: ${{ github.workspace }}/TestOutput.xml
 
