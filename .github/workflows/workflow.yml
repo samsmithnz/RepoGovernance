@@ -91,7 +91,7 @@ jobs:
       continue-on-error: true
     - name: Show test results
       if: false
-      uses: samsmithnz/DotNetTestResults@0.1.11
+      uses: samsmithnz/DotNetTestResults@0.1.12
       with:
         fileName: ${{ github.workspace }}/TestOutput.xml
 
