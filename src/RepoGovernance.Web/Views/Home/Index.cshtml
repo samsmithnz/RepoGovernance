@@ -154,7 +154,7 @@
                                 {
                                     codeCoverageColor = "brightgreen";
                                 }
-                                <a href="https://coveralls.io/github/@(item.OwnerRepo)/@(item.Repo)" target="_blank"><img src="https://img.shields.io/static/v1?label=Code%20coverage&logo=coveralls&message=@item.CoverallsCodeCoverage.covered_percent.ToString("0")%&color=@codeCoverageColor" alt="Coveralls code coverage badge"></a>
+                                <a href="https://coveralls.io/github/@(item.OwnerRepo)/@(item.Repo)" target="_blank"><img src="https://img.shields.io/static/v1?label=Code%20coverage&logo=coveralls&message=@item.CoverallsCodeCoverage.covered_percent?.ToString("0")%&color=@codeCoverageColor" alt="Coveralls code coverage badge"></a>
                             }
                             @if (item.SonarCloud != null)
                             {
@@ -204,7 +204,7 @@
                         @if (Model.IsContributor)
                         {
                             <a href="@Url.Action("UpdateRow", "Home", new { user = item.User, owner = item.Owner, repo = item.Repo, isContributor = Model.IsContributor })" class="lastUpdatedText">Update metrics</a>
-                            @* <a href="@Url.Action("Config", "Home", new { user = item.User, owner = item.Owner, repo = item.Repo, isContributor = Model.IsContributor })" class="lastUpdatedText">Update configuration</a> *@
+                            <a href="@Url.Action("Details", "Home", new { user = item.User, owner = item.Owner, repo = item.Repo, isContributor = Model.IsContributor })" class="lastUpdatedText">Update configuration</a>
                         }
                     </div>
                 </div>
