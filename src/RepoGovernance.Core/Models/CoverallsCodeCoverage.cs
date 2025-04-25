@@ -13,11 +13,11 @@
             {
                 if (coverage_change < 0)
                 {
-                    return "-" + coverage_change?.ToString("0");
+                    return "-" + coverage_change.ToString("0");
                 }
                 else
                 {
-                    return "+" + coverage_change?.ToString("0");
+                    return "+" + coverage_change.ToString("0");
                 }
             }
         }
