@@ -1,0 +1,53 @@
+﻿@using RepoAutomation.Core.Models
+@using RepoGovernance.Core.Models
+@using System.Text.Json;
+@model SummaryItem
+@{
+    ViewData["Title"] = "Details Page";
+
+    // Serialize the model to JSON
+    string modelJson = Model != null ? JsonSerializer.Serialize(Model, new JsonSerializerOptions { WriteIndented = true }) : "{}";
+
+}
+
+<div>
+    <div class="row">
+        <div class="col-md-6">
+            <h4><code>@Model.Owner - @Model.Repo</code></h4>
+            @if (Model.LastUpdated > DateTime.Now.AddDays(-7))
+            {
+                <span class="lastUpdatedText">@Model.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
+            }
+            else
+            {
+                <span class="lastUpdatedRedText">@Model.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
+            }
+            <br />
+            @if (Model.LastUpdatedMessage != null)
+            {
+                <span><textarea id="multiLineTextBox" name="multiLineTextBox" rows="5" style="width:100%">@Model.LastUpdatedMessage</textarea></span>
+            }
+
+            <h5>Model JSON:</h5>
+            <pre style="background-color: #f8f9fa; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                @modelJson
+            </pre>
+            
+@*             <b>Legend</b>: <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="No recommendations"></i>=Repo is OK, no recommendations
+            <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="Recommendations for improvement"></i>=Recommendations for improvement
+            <br />
+            <div style="font-size:14px;">
+                <a href="https://github.com/samsmithnz/RepoGovernance" target="_blank" style="font-size:12px">This project source code</a> &nbsp;
+                <span class="badge bg-primary">Total repos: @Model.SummaryItems.Count</span> &nbsp;
+                <span class="badge bg-primary">Total PRs: @Model.SummaryItems.Sum(x => x.PullRequests.Count)</span> &nbsp;
+                <span class="badge bg-primary">Total issues: @Model.SummaryItems.Sum(x => x.TotalRecommendationCount)</span>
+            </div> *@
+        </div>
+    </div>
+     <div class="row">
+        <div class="col-md-6">
+            <a href="@Url.Action("Home","Home")>Go back to index</a>
+        </div>
+    </div> 
+ 
+</div>
