@@ -71,6 +71,22 @@ public class HomeController : Controller
         return View(summaryItemsIndex);
     }
 
+    public async Task<IActionResult> Details(string user, string owner, string repo, bool isContributor = false)
+    {
+        SummaryItem result = null;
+        List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(user);
+        foreach (SummaryItem summaryItem in summaryItems)
+        {
+            if (summaryItem.Owner == owner && summaryItem.Repo == repo)
+            {
+                result = summaryItem;
+                break;
+            }
+        }
+        return View(result);
+    }
+
+
     public async Task<IActionResult> UpdateRow(string user, string owner, string repo, bool isContributor = false)
     {
         await _ServiceApiClient.UpdateSummaryItem(user, owner, repo);

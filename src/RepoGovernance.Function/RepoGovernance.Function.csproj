@@ -5,10 +5,10 @@
     <UserSecretsId>56a80713-9f41-47ac-bcbe-6d61d992bf79</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.Storage.Queues" Version="12.18.0" />
-    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="5.3.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.4.0" />
+    <PackageReference Include="Azure.Storage.Queues" Version="12.22.0" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="5.3.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.4" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.6.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RepoGovernance.Core\RepoGovernance.Core.csproj" />
