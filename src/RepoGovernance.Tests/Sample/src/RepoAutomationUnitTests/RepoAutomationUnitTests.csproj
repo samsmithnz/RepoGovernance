@@ -8,7 +8,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
-		<PackageReference Include="UmbracoForms" Version="8.4.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 
