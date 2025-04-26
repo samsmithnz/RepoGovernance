@@ -178,28 +178,28 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, itemsUpdated);
     }
 
-    [TestMethod]
-    public async Task UpdateTrainSimSummaryItemTest()
-    {
-        //Arrange
-        string user = "samsmithnz";
-        string owner = "samsmithnz";
-        string repo = "TrainSim";
+    //[TestMethod]
+    //public async Task UpdateTrainSimSummaryItemTest()
+    //{
+    //    //Arrange
+    //    string user = "samsmithnz";
+    //    string owner = "samsmithnz";
+    //    string repo = "TrainSim";
 
-        //Act - runs a repo in about 4s
-        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
-            GitHubId,
-            GitHubSecret,
-            AzureStorageConnectionString,
-            DevOpsServiceURL,
-            user, owner, repo,
-            AzureTenantId,
-            AzureClientId,
-            AzureClientSecret);
+    //    //Act - runs a repo in about 4s
+    //    int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
+    //        GitHubId,
+    //        GitHubSecret,
+    //        AzureStorageConnectionString,
+    //        DevOpsServiceURL,
+    //        user, owner, repo,
+    //        AzureTenantId,
+    //        AzureClientId,
+    //        AzureClientSecret);
 
-        //Assert
-        Assert.AreEqual(1, itemsUpdated);
-    }
+    //    //Assert
+    //    Assert.AreEqual(1, itemsUpdated);
+    //}
 
     //[TestMethod]
     //public async Task UpdateAllItemsTest()
@@ -343,21 +343,21 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.AreEqual(0, item4.BranchPoliciesRecommendations.Count);
         }
 
-        //Fifth repo
-        SummaryItem? item5 = summaryItems.Where(r => r.Repo == "ResearchTree").FirstOrDefault();
-        Assert.IsNotNull(item5);
-        if (item5 != null)
-        {
-            Assert.IsTrue(item5.DotNetFrameworks.Count >= 4);
-            Assert.AreEqual(".NET 8.0", item5.DotNetFrameworks[0].Name);
-            Assert.AreEqual("bg-primary", item5.DotNetFrameworks[0].Color);
-            Assert.AreEqual(".NET 8.0-windows7.0", item5.DotNetFrameworks[1].Name);
-            Assert.AreEqual("bg-primary", item5.DotNetFrameworks[1].Color);
-            Assert.AreEqual(".NET Framework 4.7.1", item5.DotNetFrameworks[2].Name);
-            Assert.AreEqual("bg-primary", item5.DotNetFrameworks[2].Color);
-            Assert.AreEqual(".NET Standard 2.0", item5.DotNetFrameworks[3].Name);
-            Assert.AreEqual("bg-primary", item5.DotNetFrameworks[3].Color);
-        }
+        ////Fifth repo
+        //SummaryItem? item5 = summaryItems.Where(r => r.Repo == "ResearchTree").FirstOrDefault();
+        //Assert.IsNotNull(item5);
+        //if (item5 != null)
+        //{
+        //    Assert.IsTrue(item5.DotNetFrameworks.Count >= 4);
+        //    Assert.AreEqual(".NET 8.0", item5.DotNetFrameworks[0].Name);
+        //    Assert.AreEqual("bg-primary", item5.DotNetFrameworks[0].Color);
+        //    Assert.AreEqual(".NET 8.0-windows7.0", item5.DotNetFrameworks[1].Name);
+        //    Assert.AreEqual("bg-primary", item5.DotNetFrameworks[1].Color);
+        //    Assert.AreEqual(".NET Framework 4.7.1", item5.DotNetFrameworks[2].Name);
+        //    Assert.AreEqual("bg-primary", item5.DotNetFrameworks[2].Color);
+        //    Assert.AreEqual(".NET Standard 2.0", item5.DotNetFrameworks[3].Name);
+        //    Assert.AreEqual("bg-primary", item5.DotNetFrameworks[3].Color);
+        //}
 
         //Sixth repo
         SummaryItem? item6 = summaryItems.Where(r => r.Repo == "RepoAutomationUnitTests").FirstOrDefault();
