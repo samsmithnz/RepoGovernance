@@ -6,6 +6,23 @@ namespace RepoGovernance.Core.TableStorage
     //Note that these calls to Azure Storage table can't be async due to performance issues with Azure Storage when you retrieve items
     public static class AzureTableStorageDA
     {
+        public static async Task<List<UserOwnerRepo>> GetUserOwnerRepoItemsFromTable(string connectionString, string tableName,
+            string partitionKey)
+        {
+            TableStorageCommonDA tableDA = new(connectionString, tableName);
+            List<AzureStorageTableModel> items = await tableDA.GetItems(partitionKey);
+            List<UserOwnerRepo> results = new();
+            foreach (AzureStorageTableModel item in items)
+            {
+                string? data = item.RowKey.ToString();
+                if (data != null)
+                {
+                    results.Add(new UserOwnerRepo(data.Split('_')[0], data.Split('_')[1], data.Split('_')[2]));
+                }
+            }
+            return results;
+        }
+
         public static async Task<List<SummaryItem>> GetSummaryItemsFromTable(string connectionString, string tableName,
             string partitionKey)
         {

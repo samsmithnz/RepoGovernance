@@ -13,9 +13,22 @@ namespace RepoGovernance.Core
 {
     public static class SummaryItemsDA
     {
-        public static List<UserOwnerRepo> GetRepos(string user)
+        public static async Task<List<UserOwnerRepo>> GetRepos(string? connectionString, string user)
         {
-            return DatabaseAccess.GetRepos(user);
+            //return DatabaseAccess.GetRepos(user);
+
+            List<UserOwnerRepo> results;
+            if (connectionString != null)
+            {
+                results = await AzureTableStorageDA.GetUserOwnerRepoItemsFromTable(connectionString, "UserOwnerRepo", user);
+            }
+            else
+            {
+                throw new ArgumentException("connectionstring is null");
+            }
+            //sort the list
+            results = results.OrderBy(o => o.Repo).ToList();
+            return results;
         }
 
         /// <summary>

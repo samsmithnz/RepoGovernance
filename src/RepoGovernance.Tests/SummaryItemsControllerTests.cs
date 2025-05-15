@@ -386,13 +386,13 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
     }
 
     [TestMethod]
-    public void GetRepoItemsTest()
+    public async Task GetRepoItemsTest()
     {
         //Arrange
         string owner = "samsmithnz";
 
         //Act
-        List<UserOwnerRepo> repos = SummaryItemsDA.GetRepos(owner);
+        List<UserOwnerRepo> repos = await SummaryItemsDA.GetRepos(AzureStorageConnectionString, owner);
 
         //Assert
         Assert.IsNotNull(repos);
