@@ -17,9 +17,9 @@ namespace RepoGovernance.Service.Controllers
         }
 
         [HttpGet("GetRepos")]
-        public List<UserOwnerRepo> GetRepos(string owner)
+        public async Task<List<UserOwnerRepo>> GetRepos(string owner)
         {
-            return SummaryItemsDA.GetRepos(owner);
+            return await SummaryItemsDA.GetRepos(Configuration["AppSettings:CosmosDBConnectionString"], owner);
         }
 
         /// <summary>
