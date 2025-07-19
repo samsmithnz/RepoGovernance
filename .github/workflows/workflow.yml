@@ -8,36 +8,36 @@ jobs:
   build:
     runs-on: windows-latest
     outputs:
-      Version: ${{ steps.gitversion.outputs.SemVer }}
+      Version: ${{ steps.gitversion.outputs.MajorMinorPatch }}
       CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: Setup GitVersion
-      uses: gittools/actions/gitversion/setup@v3.2.1
+      uses: gittools/actions/gitversion/setup@v4.0.1
       with:
-        versionSpec: 5.x
+        versionSpec: 6.x
     - name: Determine Version
       id: gitversion
-      uses: gittools/actions/gitversion/execute@v3.2.1
+      uses: gittools/actions/gitversion/execute@v4.0.1
     - name: Display GitVersion outputs
       run: |
-        echo "Version: ${{ steps.gitversion.outputs.SemVer }}"
+        echo "Version: ${{ steps.gitversion.outputs.MajorMinorPatch }}"
         echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}"
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
     - name: .NET publish
-      run: dotnet publish src/RepoGovernance.Core/RepoGovernance.Core.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}'
+      run: dotnet publish src/RepoGovernance.Core/RepoGovernance.Core.csproj -c Release -p:Version='${{ steps.gitversion.outputs.MajorMinorPatch }}'
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v4
       with:
         name: drop
         path: src/RepoGovernance.Core/bin/Release
     - name: .NET publish service
-      run: dotnet publish src/RepoGovernance.Web/RepoGovernance.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/web
+      run: dotnet publish src/RepoGovernance.Web/RepoGovernance.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.MajorMinorPatch }}' --output ${{ github.workspace }}/web
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v4
       with:
@@ -45,7 +45,7 @@ jobs:
         path: ${{ github.workspace }}/web
 
     - name: .NET publish website
-      run: dotnet publish src/RepoGovernance.Service/RepoGovernance.Service.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/service
+      run: dotnet publish src/RepoGovernance.Service/RepoGovernance.Service.csproj -c Release -p:Version='${{ steps.gitversion.outputs.MajorMinorPatch }}' --output ${{ github.workspace }}/service
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v4
       with:
@@ -53,7 +53,7 @@ jobs:
         path: ${{ github.workspace }}/service
 
     - name: .NET publish function
-      run: dotnet publish src/RepoGovernance.Function/RepoGovernance.Function.csproj -c Release -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ${{ github.workspace }}/function
+      run: dotnet publish src/RepoGovernance.Function/RepoGovernance.Function.csproj -c Release -p:Version='${{ steps.gitversion.outputs.MajorMinorPatch }}' --output ${{ github.workspace }}/function
     - name: Upload package back to GitHub
       uses: actions/upload-artifact@v4
       with:
