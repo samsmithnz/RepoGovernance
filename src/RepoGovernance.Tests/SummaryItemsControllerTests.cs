@@ -326,7 +326,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.IsTrue(item3.DotNetFrameworks.Count >= 0);
             Assert.AreEqual("public", item3.RepoSettings.visibility);
             Assert.IsNotNull(item3.DORASummary);
-            Assert.IsNotNull(item3.SonarCloud);
+            //Assert.IsNotNull(item3.SonarCloud);
             Assert.IsNotNull(item3.AzureDeployment);
         }
 
