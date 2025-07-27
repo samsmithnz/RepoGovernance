@@ -341,8 +341,7 @@ namespace RepoGovernance.Core
                 }
 
                 //Get GitHub Security alerts count
-                var tupleResult = await GitHubApiAccess.GetSecurityAlertsCount(clientId, secret, owner, repo, "open");
-                SecurityAlertsResult securityAlertsResult = new SecurityAlertsResult(tupleResult.codeScanningCount, tupleResult.secretScanningCount, tupleResult.totalCount);
+                SecurityAlertsResult securityAlertsResult = await SecurityAlertsResult.GetFromGitHubAsync(clientId, secret, owner, repo, "open");
                 if (summaryItem != null)
                 {
                     summaryItem.SecurityIssuesCount = securityAlertsResult.TotalCount;
