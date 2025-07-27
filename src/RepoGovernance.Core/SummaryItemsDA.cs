@@ -341,10 +341,10 @@ namespace RepoGovernance.Core
                 }
 
                 //Get GitHub Security alerts count
-                int securityAlertsCount = await GitHubSecurityApi.GetSecurityAlertsCount(clientId, secret, owner, repo);
+                var securityAlertsResult = await GitHubApiAccess.GetSecurityAlertsCount(clientId, secret, owner, repo, "open");
                 if (summaryItem != null)
                 {
-                    summaryItem.SecurityIssuesCount = securityAlertsCount;
+                    summaryItem.SecurityIssuesCount = securityAlertsResult.totalCount;
                 }
 
                 //Get Repo Language stats
