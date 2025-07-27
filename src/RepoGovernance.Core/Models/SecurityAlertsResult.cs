@@ -1,4 +1,6 @@
-using RepoAutomation.Core.APIAccess;
+using System;
+using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace RepoGovernance.Core.Models
@@ -27,8 +29,57 @@ namespace RepoGovernance.Core.Models
         /// <returns>SecurityAlertsResult containing the security alerts counts</returns>
         public static async Task<SecurityAlertsResult> GetFromGitHubAsync(string? clientId, string? clientSecret, string owner, string repo, string state)
         {
-            var tupleResult = await GitHubApiAccess.GetSecurityAlertsCount(clientId, clientSecret, owner, repo, state);
-            return new SecurityAlertsResult(tupleResult.codeScanningCount, tupleResult.secretScanningCount, tupleResult.totalCount);
+            int codeScanningCount = 0;
+            int secretScanningCount = 0;
+
+            using (HttpClient client = new HttpClient())
+            {
+                // Set up authentication if provided
+                if (!string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
+                {
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
+                        Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes($"{clientId}:{clientSecret}")));
+                }
+
+                client.DefaultRequestHeaders.Add("User-Agent", "RepoGovernance");
+                client.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
+
+                try
+                {
+                    // Get code scanning alerts
+                    string codeScanningUrl = $"https://api.github.com/repos/{owner}/{repo}/code-scanning/alerts?state={state}";
+                    HttpResponseMessage codeScanningResponse = await client.GetAsync(codeScanningUrl);
+                    if (codeScanningResponse.IsSuccessStatusCode)
+                    {
+                        string codeScanningContent = await codeScanningResponse.Content.ReadAsStringAsync();
+                        using (JsonDocument doc = JsonDocument.Parse(codeScanningContent))
+                        {
+                            codeScanningCount = doc.RootElement.GetArrayLength();
+                        }
+                    }
+
+                    // Get secret scanning alerts
+                    string secretScanningUrl = $"https://api.github.com/repos/{owner}/{repo}/secret-scanning/alerts?state={state}";
+                    HttpResponseMessage secretScanningResponse = await client.GetAsync(secretScanningUrl);
+                    if (secretScanningResponse.IsSuccessStatusCode)
+                    {
+                        string secretScanningContent = await secretScanningResponse.Content.ReadAsStringAsync();
+                        using (JsonDocument doc = JsonDocument.Parse(secretScanningContent))
+                        {
+                            secretScanningCount = doc.RootElement.GetArrayLength();
+                        }
+                    }
+                }
+                catch
+                {
+                    // If there's an error accessing security alerts, return zeros
+                    // This handles cases where the repository doesn't have security features enabled
+                    // or access is restricted
+                }
+            }
+
+            int totalCount = codeScanningCount + secretScanningCount;
+            return new SecurityAlertsResult(codeScanningCount, secretScanningCount, totalCount);
         }
     }
 }
