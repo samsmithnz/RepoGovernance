@@ -169,6 +169,7 @@
                             }
                         }
                         @{
+                            // Security badge color logic: Green (0 issues), Orange (1-5 issues), Red (>5 issues)
                             string securityColor = "brightgreen";
                             if (item.SecurityIssuesCount > 0)
                             {

@@ -11,7 +11,7 @@ namespace RepoGovernance.Tests
         public async Task GetSecurityAlertsCount_WithoutCredentials_ShouldReturnZero()
         {
             // Arrange & Act
-            var result = await GitHubApiAccess.GetSecurityAlertsCount(null, null, "test", "test", "open");
+            (int codeScanningCount, int secretScanningCount, int totalCount) result = await GitHubApiAccess.GetSecurityAlertsCount(null, null, "test", "test", "open");
 
             // Assert
             Assert.AreEqual(0, result.totalCount);
@@ -25,7 +25,7 @@ namespace RepoGovernance.Tests
             // This is different behavior from our original implementation but is acceptable
             try
             {
-                var result = await GitHubApiAccess.GetSecurityAlertsCount("", "", "test", "test", "open");
+                (int codeScanningCount, int secretScanningCount, int totalCount) result = await GitHubApiAccess.GetSecurityAlertsCount("", "", "test", "test", "open");
                 Assert.AreEqual(0, result.totalCount);
             }
             catch (System.Exception)
