@@ -140,10 +140,10 @@
                         }
                         &nbsp;&nbsp;
                         <span class="iconify" data-icon="octicon:git-pull-request-16"></span> <a href="https://github.com/@item.Owner/@item.Repo/pulls" target="_blank" title="View all PRs" style="font-size: 14px;">@item.PullRequests.Count</a>
+                        <br />
 
-                        @if (item.Release != null || item.CoverallsCodeCoverage != null || item.SecurityIssuesCount > 0)
+                        @if (item.Release != null || item.CoverallsCodeCoverage != null)
                         {
-                            <br />
                             @if (item.Release != null)
                             {
                                 <a href="@item.Release.html_url" target="_blank"><img src="https://img.shields.io/static/v1?label=Latest%20release&logo=github&message=@item.Release.name%20@(item.Release.ToTimingString())&color=blue" alt="Release badge"></a>
