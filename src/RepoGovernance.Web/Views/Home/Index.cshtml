@@ -99,7 +99,8 @@
                            item.Actions.Count > 0 && item.ActionRecommendations.Count == 0 &&
                            item.Dependabot.Count > 0 && item.DependabotRecommendations.Count == 0 &&
                            item.GitVersion.Count > 0 && item.GitVersionRecommendations.Count == 0 &&
-                           item.NuGetPackages != null && item.NuGetPackages.Count == 0)
+                           item.NuGetPackages != null && item.NuGetPackages.Count == 0 && 
+                           item.SecurityIssuesCount == 0)
                             {
                                 <i class="bi bi-heart-fill greenHeart" data-toggle="tooltip" data-placement="bottom" title="OK"></i> <span>0</span>
                             }
@@ -130,15 +131,19 @@
                                 {
                                     recommendation += " - " + item.NuGetPackages.Count.ToString() + " NuGet packages require upgrades" + Environment.NewLine + Environment.NewLine;
                                 }
+                                if (item != null && item.SecurityIssuesCount > 0)
+                                {
+                                    recommendation += " - " + item.SecurityIssuesCount.ToString() + " Security alerts detected" + Environment.NewLine + Environment.NewLine;
+                                }
                                 <i class="bi bi-heart-pulse redHeart" data-toggle="tooltip" data-placement="bottom" title="@recommendation"></i> <span style="font-size: 14px;">@item.TotalRecommendationCount</span>
                             }
                         }
                         &nbsp;&nbsp;
                         <span class="iconify" data-icon="octicon:git-pull-request-16"></span> <a href="https://github.com/@item.Owner/@item.Repo/pulls" target="_blank" title="View all PRs" style="font-size: 14px;">@item.PullRequests.Count</a>
+                        <br />
 
                         @if (item.Release != null || item.CoverallsCodeCoverage != null)
                         {
-                            <br />
                             @if (item.Release != null)
                             {
                                 <a href="@item.Release.html_url" target="_blank"><img src="https://img.shields.io/static/v1?label=Latest%20release&logo=github&message=@item.Release.name%20@(item.Release.ToTimingString())&color=blue" alt="Release badge"></a>
