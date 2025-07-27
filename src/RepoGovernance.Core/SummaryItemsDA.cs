@@ -340,6 +340,13 @@ namespace RepoGovernance.Core
                     summaryItem.SonarCloud = sonarCloud;
                 }
 
+                //Get GitHub Security alerts count
+                int securityAlertsCount = await GitHubSecurityApi.GetSecurityAlertsCount(clientId, secret, owner, repo);
+                if (summaryItem != null)
+                {
+                    summaryItem.SecurityIssuesCount = securityAlertsCount;
+                }
+
                 //Get Repo Language stats
                 List<RepoLanguage>? repoLanguages = await RepoLanguageHelper.GetRepoLanguages(clientId, secret, owner, repo);
                 if (summaryItem != null && repoLanguages != null && repoLanguages.Count > 0)

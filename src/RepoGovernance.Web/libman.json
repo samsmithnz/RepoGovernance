@@ -2,10 +2,5 @@
   "version": "1.0",
   "defaultProvider": "cdnjs",
   "libraries": [
-    {
-      "provider": "cdnjs",
-      "library": "bootstrap-icons@1.8.1",
-      "destination": "wwwroot/lib/bootstrap-icons/"
-    }
   ]
 }

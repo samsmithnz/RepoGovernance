@@ -27,6 +27,7 @@ namespace RepoGovernance.Core.Models
             RepoLanguages = new();
             AzureDeployment = null;
             NuGetPackages = new();
+            SecurityIssuesCount = 0;
         }
 
         public string User { get; internal set; }
@@ -55,6 +56,7 @@ namespace RepoGovernance.Core.Models
         public SonarCloud? SonarCloud { get; set; }
         public AzureDeployment? AzureDeployment { get; set; }
         public List<NugetPackage> NuGetPackages { get; set; }
+        public int SecurityIssuesCount { get; set; }
 
 
         public string OwnerRepo
