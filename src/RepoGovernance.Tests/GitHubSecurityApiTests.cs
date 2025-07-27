@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoAutomation.Core.APIAccess;
+using RepoGovernance.Core.Models;
 using System.Threading.Tasks;
 
 namespace RepoGovernance.Tests
@@ -11,10 +12,11 @@ namespace RepoGovernance.Tests
         public async Task GetSecurityAlertsCount_WithoutCredentials_ShouldReturnZero()
         {
             // Arrange & Act
-            (int codeScanningCount, int secretScanningCount, int totalCount) result = await GitHubApiAccess.GetSecurityAlertsCount(null, null, "test", "test", "open");
+            var tupleResult = await GitHubApiAccess.GetSecurityAlertsCount(null, null, "test", "test", "open");
+            SecurityAlertsResult result = new SecurityAlertsResult(tupleResult.codeScanningCount, tupleResult.secretScanningCount, tupleResult.totalCount);
 
             // Assert
-            Assert.AreEqual(0, result.totalCount);
+            Assert.AreEqual(0, result.TotalCount);
         }
 
         [TestMethod]
@@ -25,8 +27,9 @@ namespace RepoGovernance.Tests
             // This is different behavior from our original implementation but is acceptable
             try
             {
-                (int codeScanningCount, int secretScanningCount, int totalCount) result = await GitHubApiAccess.GetSecurityAlertsCount("", "", "test", "test", "open");
-                Assert.AreEqual(0, result.totalCount);
+                var tupleResult = await GitHubApiAccess.GetSecurityAlertsCount("", "", "test", "test", "open");
+                SecurityAlertsResult result = new SecurityAlertsResult(tupleResult.codeScanningCount, tupleResult.secretScanningCount, tupleResult.totalCount);
+                Assert.AreEqual(0, result.TotalCount);
             }
             catch (System.Exception)
             {

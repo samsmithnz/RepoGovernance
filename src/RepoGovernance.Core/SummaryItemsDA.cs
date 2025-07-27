@@ -341,10 +341,11 @@ namespace RepoGovernance.Core
                 }
 
                 //Get GitHub Security alerts count
-                (int codeScanningCount, int secretScanningCount, int totalCount) securityAlertsResult = await GitHubApiAccess.GetSecurityAlertsCount(clientId, secret, owner, repo, "open");
+                var tupleResult = await GitHubApiAccess.GetSecurityAlertsCount(clientId, secret, owner, repo, "open");
+                SecurityAlertsResult securityAlertsResult = new SecurityAlertsResult(tupleResult.codeScanningCount, tupleResult.secretScanningCount, tupleResult.totalCount);
                 if (summaryItem != null)
                 {
-                    summaryItem.SecurityIssuesCount = securityAlertsResult.totalCount;
+                    summaryItem.SecurityIssuesCount = securityAlertsResult.TotalCount;
                 }
 
                 //Get Repo Language stats
