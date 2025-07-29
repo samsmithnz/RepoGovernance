@@ -96,7 +96,10 @@ namespace RepoGovernance.Core
             string? azureTenantId,
             string? azureClientId,
             string? azureClientSecret,
-            AzureDeployment? azureDeployment = null)
+            AzureDeployment? azureDeployment = null,
+            string? nugetDeprecatedPayload = null,
+            string? nugetOutdatedPayload = null,
+            string? nugetVulnerablePayload = null)
         {
             int itemsUpdated = 0;
             //Initialize the summary item
@@ -382,6 +385,23 @@ namespace RepoGovernance.Core
                     }
                 }
 
+                //Process NuGet package payloads if provided
+                if (summaryItem != null)
+                {
+                    if (!string.IsNullOrEmpty(nugetDeprecatedPayload))
+                    {
+                        ProcessNuGetPackagePayload(summaryItem, nugetDeprecatedPayload, "Deprecated");
+                    }
+                    if (!string.IsNullOrEmpty(nugetOutdatedPayload))
+                    {
+                        ProcessNuGetPackagePayload(summaryItem, nugetOutdatedPayload, "Outdated");
+                    }
+                    if (!string.IsNullOrEmpty(nugetVulnerablePayload))
+                    {
+                        ProcessNuGetPackagePayload(summaryItem, nugetVulnerablePayload, "Vulnerable");
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -428,6 +448,48 @@ namespace RepoGovernance.Core
             ;
         }
 
+        /// <summary>
+        /// Process NuGet package payload and update the summary item with results
+        /// </summary>
+        /// <param name="summaryItem">The summary item to update</param>
+        /// <param name="nugetPayload">JSON payload from dotnet list package command</param>
+        /// <param name="payloadType">Type of packages (Deprecated, Outdated, Vulnerable)</param>
+        /// <returns>List of NuGet packages found</returns>
+        private static List<NugetPackage>? ProcessNuGetPackagePayload(SummaryItem summaryItem, string nugetPayload, string payloadType)
+        {
+            if (summaryItem == null || string.IsNullOrEmpty(nugetPayload) || string.IsNullOrEmpty(payloadType))
+            {
+                return null;
+            }
+
+            //Process the NuGet Package JSON payload
+            DotNetPackages dotNetPackages = new();
+            List<NugetPackage>? nugetResults = null;
+            switch (payloadType)
+            {
+                case "Deprecated":
+                    nugetResults = dotNetPackages.GetNugetPackagesDeprecated(nugetPayload);
+                    break;
+                case "Outdated":
+                    nugetResults = dotNetPackages.GetNugetPackagesOutdated(nugetPayload);
+                    break;
+                case "Vulnerable":
+                    nugetResults = dotNetPackages.GetNugetPackagesVulnerable(nugetPayload);
+                    break;
+            }
+
+            if (nugetResults != null && nugetResults.Count > 0)
+            {
+                //First remove results with the same type
+                summaryItem.NuGetPackages.RemoveAll(x => x.Type == payloadType);
+
+                //Add the results to the summary item
+                summaryItem.NuGetPackages.AddRange(nugetResults);
+            }
+
+            return nugetResults;
+        }
+
         public static async Task<int> UpdateSummaryItemNuGetPackageStats(
             string? connectionString,
             string user,
@@ -442,28 +504,9 @@ namespace RepoGovernance.Core
             SummaryItem? summaryItem = await GetSummaryItem(connectionString, user, owner, repo);
             if (summaryItem != null && nugetPayload != null && payloadType != null)
             {
-                //Process the NuGet Package JSON payload
-                DotNetPackages dotNetPackages = new();
-                List<NugetPackage>? nugetResults = null;
-                switch (payloadType)
-                {
-                    case "Deprecated":
-                        nugetResults = dotNetPackages.GetNugetPackagesDeprecated(nugetPayload);
-                        break;
-                    case "Outdated":
-                        nugetResults = dotNetPackages.GetNugetPackagesOutdated(nugetPayload);
-                        break;
-                    case "Vulnerable":
-                        nugetResults = dotNetPackages.GetNugetPackagesVulnerable(nugetPayload);
-                        break;
-                }
+                List<NugetPackage>? nugetResults = ProcessNuGetPackagePayload(summaryItem, nugetPayload, payloadType);
                 if (nugetResults != null)
                 {
-                    //First remove results with the same type
-                    summaryItem.NuGetPackages.RemoveAll(x => x.Type == payloadType);
-
-                    //Add the results to the summary item
-                    summaryItem.NuGetPackages.AddRange(nugetResults);
                     itemsUpdated += await AzureTableStorageDA.UpdateSummaryItemsIntoTable(connectionString, user, owner, repo, summaryItem);
                 }
             }

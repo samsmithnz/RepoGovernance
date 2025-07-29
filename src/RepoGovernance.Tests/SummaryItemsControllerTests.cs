@@ -398,4 +398,58 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.IsNotNull(repos);
         Assert.IsTrue(repos.Count > 0);
     }
+
+    [TestMethod]
+    public async Task UpdateSummaryItemWithNuGetPackagesTest()
+    {
+        //Arrange
+        string user = "samsmithnz";
+        string owner = "samsmithnz";
+        string repo = "RepoGovernance";
+        
+        // Sample NuGet package data - simplified JSON for testing
+        string deprecatedPayload = @"{
+            ""projects"": [
+                {
+                    ""path"": ""test.csproj"",
+                    ""frameworks"": [
+                        {
+                            ""framework"": ""net8.0"",
+                            ""topLevelPackages"": [
+                                {
+                                    ""id"": ""TestPackage"",
+                                    ""requestedVersion"": ""1.0.0"",
+                                    ""resolvedVersion"": ""1.0.0"",
+                                    ""latestVersion"": ""2.0.0""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }";
+
+        //Act - Test the enhanced UpdateSummaryItem method with NuGet payloads
+        int itemsUpdated = await SummaryItemsDA.UpdateSummaryItem(
+            GitHubId,
+            GitHubSecret,
+            AzureStorageConnectionString,
+            DevOpsServiceURL,
+            user, owner, repo,
+            AzureTenantId,
+            AzureClientId,
+            AzureClientSecret,
+            null, // azureDeployment
+            deprecatedPayload, // nugetDeprecatedPayload
+            null, // nugetOutdatedPayload  
+            null); // nugetVulnerablePayload
+
+        //Assert
+        Assert.AreEqual(1, itemsUpdated);
+
+        // Verify that the NuGet packages were processed
+        SummaryItem? summaryItem = await SummaryItemsDA.GetSummaryItem(AzureStorageConnectionString, user, owner, repo);
+        Assert.IsNotNull(summaryItem);
+        Assert.IsTrue(summaryItem.NuGetPackages.Any(p => p.Type == "Deprecated"));
+    }
 }
