@@ -112,7 +112,8 @@ public class HomeController : Controller
         string safeRepoFragment = "";
         if (IsValidRepoName(repo))
         {
-            safeRepoFragment = "#" + repo;
+            // Encode the repo value to prevent injection in the fragment
+            safeRepoFragment = "#" + Uri.EscapeDataString(repo);
         }
 
         //This is a hack for now - hide controls behind this iscontributor flag, but never show iscontributor=false in query string
