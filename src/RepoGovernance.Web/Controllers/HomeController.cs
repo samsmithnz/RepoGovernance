@@ -4,6 +4,7 @@ using RepoGovernance.Core.Models;
 using RepoGovernance.Web.Models;
 using RepoGovernance.Web.Services;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace RepoGovernance.Web.Controllers;
 
@@ -14,6 +15,22 @@ public class HomeController : Controller
     public HomeController(SummaryItemsServiceApiClient ServiceApiClient)
     {
         _ServiceApiClient = ServiceApiClient;
+    }
+
+    /// <summary>
+    /// Validates that a repository name is safe for use in URL fragments.
+    /// GitHub repository names can only contain alphanumeric characters, hyphens, underscores, and periods.
+    /// </summary>
+    /// <param name="repoName">The repository name to validate</param>
+    /// <returns>True if the repository name is safe, false otherwise</returns>
+    private static bool IsValidRepoName(string? repoName)
+    {
+        if (string.IsNullOrEmpty(repoName))
+            return false;
+        
+        // GitHub repository names can only contain alphanumeric characters, hyphens, underscores, and periods
+        // and cannot start or end with special characters
+        return Regex.IsMatch(repoName, @"^[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9]$|^[a-zA-Z0-9]$");
     }
 
     public async Task<IActionResult> Index(bool isContributor = false)
@@ -91,14 +108,21 @@ public class HomeController : Controller
     {
         await _ServiceApiClient.UpdateSummaryItem(user, owner, repo);
 
+        // Validate repository name to prevent URL redirection attacks
+        string safeRepoFragment = "";
+        if (IsValidRepoName(repo))
+        {
+            safeRepoFragment = "#" + repo;
+        }
+
         //This is a hack for now - hide controls behind this iscontributor flag, but never show iscontributor=false in query string
         if (isContributor)
         {
-            return Redirect(Url.RouteUrl(new { controller = "Home", action = "Index" }) + "?isContributor=true" + "#" + repo);
+            return Redirect(Url.RouteUrl(new { controller = "Home", action = "Index" }) + "?isContributor=true" + safeRepoFragment);
         }
         else
         {
-            return Redirect(Url.RouteUrl(new { controller = "Home", action = "Index" }) + "#" + repo);
+            return Redirect(Url.RouteUrl(new { controller = "Home", action = "Index" }) + safeRepoFragment);
         }
     }
 
