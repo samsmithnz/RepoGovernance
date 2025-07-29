@@ -7,6 +7,9 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: read
+      actions: read
     outputs:
       Version: ${{ steps.gitversion.outputs.MajorMinorPatch }}
       CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}
@@ -62,6 +65,9 @@ jobs:
   
   test:
     runs-on: windows-latest
+    permissions:
+      contents: read
+      actions: read
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
@@ -99,6 +105,9 @@ jobs:
   sonarCloud:
     name: Run SonarCloud analysis
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
     if: false && github.ref == 'refs/heads/main' 
     steps:
       - name: Run Sonarcloud test
@@ -113,6 +122,11 @@ jobs:
 
   deploy:
     runs-on: windows-latest
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+      deployments: write
     needs: 
     - build
     - test
@@ -156,6 +170,11 @@ jobs:
 
   deployFunction:
     runs-on: windows-latest
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+      deployments: write
     needs:  
     - build
     - test
@@ -184,6 +203,9 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
     needs: 
     - build
     - deploy
