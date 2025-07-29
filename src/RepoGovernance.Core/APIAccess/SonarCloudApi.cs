@@ -14,17 +14,17 @@ namespace RepoGovernance.Core.APIAccess
             if (string.IsNullOrEmpty(codeSmellsBadgeImage) == false)
             {
                 sonarCloud.CodeSmellsBadgeImage = codeSmellsBadgeImage;
-                sonarCloud.CodeSmellsLink = $"https://sonarcloud.io/project/issues?resolved=false&types=CODE_SMELL&id={owner}_{repo}";
+                sonarCloud.CodeSmellsLink = $"https://sonarcloud.io/project/issues?resolved=false&types=CODE_SMELL&id={Uri.EscapeDataString(owner)}_{Uri.EscapeDataString(repo)}";
             }
             if (string.IsNullOrEmpty(bugsBadgeImage) == false)
             {
                 sonarCloud.BugsBadgeImage = bugsBadgeImage;
-                sonarCloud.BugsLink = $"https://sonarcloud.io/project/issues?resolved=false&types=BUG&id={owner}_{repo}";
+                sonarCloud.BugsLink = $"https://sonarcloud.io/project/issues?resolved=false&types=BUG&id={Uri.EscapeDataString(owner)}_{Uri.EscapeDataString(repo)}";
             }
             if (string.IsNullOrEmpty(linesOfCodeBadgeImage) == false)
             {
                 sonarCloud.LinesOfCodeBadgeImage = linesOfCodeBadgeImage;
-                sonarCloud.LinesOfCodeLink = $"https://sonarcloud.io/component_measures?metric=ncloc&id={owner}_{repo}";
+                sonarCloud.LinesOfCodeLink = $"https://sonarcloud.io/component_measures?metric=ncloc&id={Uri.EscapeDataString(owner)}_{Uri.EscapeDataString(repo)}";
             }
             //If there were no links, return null
             if (string.IsNullOrEmpty(codeSmellsBadgeImage) == true &&
@@ -38,19 +38,19 @@ namespace RepoGovernance.Core.APIAccess
 
         public async static Task<string?> GetSonarCloudCodeSmells(string owner, string repo)
         {
-            string url = $"https://sonarcloud.io/api/project_badges/measure?project={owner}_{repo}&metric=code_smells";
+            string url = $"https://sonarcloud.io/api/project_badges/measure?project={Uri.EscapeDataString(owner)}_{Uri.EscapeDataString(repo)}&metric=code_smells";
             return await GetResponseString(new(), url, true);
         }
 
         public async static Task<string?> GetSonarCloudCodeBugs(string owner, string repo)
         {
-            string url = $"https://sonarcloud.io/api/project_badges/measure?project={owner}_{repo}&metric=bugs";
+            string url = $"https://sonarcloud.io/api/project_badges/measure?project={Uri.EscapeDataString(owner)}_{Uri.EscapeDataString(repo)}&metric=bugs";
             return await GetResponseString(new(), url, true);
         }
 
         public async static Task<string?> GetSonarCloudLinesOfCode(string owner, string repo)
         {
-            string url = $"https://sonarcloud.io/api/project_badges/measure?project={owner}_{repo}&metric=ncloc";
+            string url = $"https://sonarcloud.io/api/project_badges/measure?project={Uri.EscapeDataString(owner)}_{Uri.EscapeDataString(repo)}&metric=ncloc";
             return await GetResponseString(new(), url, true);
         }
 
