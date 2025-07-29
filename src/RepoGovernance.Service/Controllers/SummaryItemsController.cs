@@ -43,6 +43,34 @@ namespace RepoGovernance.Service.Controllers
                 Configuration["AppSettings:AzureClientSecret"]);
         }
 
+        /// <summary>
+        /// Update a target of summary item with optional NuGet package data
+        /// </summary>
+        /// <param name="request">The update request containing user, owner, repo, and optional NuGet payloads</param>
+        /// <returns></returns>
+        [HttpPost("UpdateSummaryItem")]
+        public async Task<int> UpdateSummaryItemWithNuGet(UpdateSummaryItemRequest request)
+        {
+            if (request?.User == null || request?.Owner == null || request?.Repo == null)
+            {
+                return -1;
+            }
+
+            return await SummaryItemsDA.UpdateSummaryItem(
+                Configuration["AppSettings:GitHubClientId"],
+                Configuration["AppSettings:GitHubClientSecret"],
+                Configuration["AppSettings:CosmosDBConnectionString"],
+                Configuration["AppSettings:DevOpsServiceURL"],
+                request.User, request.Owner, request.Repo,
+                Configuration["AppSettings:AzureTenantId"],
+                Configuration["AppSettings:AzureClientId"],
+                Configuration["AppSettings:AzureClientSecret"],
+                null, // azureDeployment
+                request.NugetDeprecatedPayload,
+                request.NugetOutdatedPayload,
+                request.NugetVulnerablePayload);
+        }
+
         [HttpPost("UpdateSummaryItemNuGetPackageStats")]
         public async Task<int> UpdateSummaryItemNuGetPackageStats(NuGetPayload nugetPayload)
         {
