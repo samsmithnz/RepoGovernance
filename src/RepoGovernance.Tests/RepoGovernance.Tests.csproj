@@ -32,6 +32,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.7" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.9.3" />
@@ -44,6 +46,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RepoGovernance.Core\RepoGovernance.Core.csproj" />
+    <ProjectReference Include="..\RepoGovernance.Service\RepoGovernance.Service.csproj" />
   </ItemGroup>
 
 </Project>
