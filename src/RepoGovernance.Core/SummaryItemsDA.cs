@@ -8,6 +8,7 @@ using RepoGovernance.Core.Helpers;
 using RepoGovernance.Core.Models;
 using RepoGovernance.Core.Models.NuGetPackages;
 using RepoGovernance.Core.TableStorage;
+using System.IO;
 
 namespace RepoGovernance.Core
 {
@@ -428,6 +429,75 @@ namespace RepoGovernance.Core
             }
 
             return itemsUpdated;
+        }
+
+        /// <summary>
+        /// Update a single repo's record into Azure Storage, performing local NuGet package scanning
+        /// This method can scan local repository files for NuGet packages instead of relying on external payloads
+        /// </summary>
+        /// <param name="clientId">GitHub client ID</param>
+        /// <param name="secret">GitHub secret</param>
+        /// <param name="connectionString">Azure storage connection string</param>
+        /// <param name="devOpsServiceURL">DevOps service URL</param>
+        /// <param name="user">User name</param>
+        /// <param name="owner">Repository owner</param>
+        /// <param name="repo">Repository name</param>
+        /// <param name="azureTenantId">Azure tenant ID</param>
+        /// <param name="azureClientId">Azure client ID</param>
+        /// <param name="azureClientSecret">Azure client secret</param>
+        /// <param name="azureDeployment">Azure deployment info</param>
+        /// <param name="localRepositoryPath">Path to local repository checkout for NuGet scanning (optional)</param>
+        /// <returns>Number of items updated</returns>
+        public static async Task<int> UpdateSummaryItemWithLocalNuGetScan(string? clientId,
+            string? secret,
+            string? connectionString,
+            string? devOpsServiceURL,
+            string user,
+            string owner,
+            string repo,
+            string? azureTenantId,
+            string? azureClientId,
+            string? azureClientSecret,
+            AzureDeployment? azureDeployment = null,
+            string? localRepositoryPath = null)
+        {
+            // Perform local NuGet scanning if path is provided
+            string? nugetDeprecatedPayload = null;
+            string? nugetOutdatedPayload = null;
+            string? nugetVulnerablePayload = null;
+
+            if (!string.IsNullOrEmpty(localRepositoryPath) && Directory.Exists(localRepositoryPath))
+            {
+                try
+                {
+                    DotNetPackages dotNetPackages = new();
+                    
+                    // Check if there are .NET solution files in the path
+                    string[] solutionFiles = Directory.GetFiles(localRepositoryPath, "*.sln", SearchOption.AllDirectories);
+                    if (solutionFiles.Length > 0)
+                    {
+                        // Use the directory containing the first solution file found
+                        string solutionDir = Path.GetDirectoryName(solutionFiles[0]) ?? localRepositoryPath;
+                        
+                        // Perform comprehensive NuGet scan
+                        NugetScanResults scanResults = dotNetPackages.ScanAllPackages(solutionDir);
+                        nugetDeprecatedPayload = scanResults.DeprecatedJson;
+                        nugetOutdatedPayload = scanResults.OutdatedJson;
+                        nugetVulnerablePayload = scanResults.VulnerableJson;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log the error but continue without NuGet data
+                    System.Diagnostics.Debug.WriteLine($"Error during local NuGet scan: {ex.Message}");
+                }
+            }
+
+            // Call the existing UpdateSummaryItem method with the scanned data
+            return await UpdateSummaryItem(
+                clientId, secret, connectionString, devOpsServiceURL,
+                user, owner, repo, azureTenantId, azureClientId, azureClientSecret,
+                azureDeployment, nugetDeprecatedPayload, nugetOutdatedPayload, nugetVulnerablePayload);
         }
 
         //TODO: convert this bool to int to count updates!
