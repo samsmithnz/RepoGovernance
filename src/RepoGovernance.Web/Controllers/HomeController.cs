@@ -35,6 +35,11 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index(bool isContributor = false)
     {
+        if (!ModelState.IsValid)
+        {
+            return RedirectToAction("Index");
+        }
+
         string currentUser = "samsmithnz";
         List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
         List<RepoLanguage> repoLanguages = new();
