@@ -18,7 +18,7 @@ namespace RepoGovernance.Tests.Helpers
 
         protected string? GitHubId => Configuration["AppSettings:GitHubClientId"];
         protected string? GitHubSecret => Configuration["AppSettings:GitHubClientSecret"];
-        protected string? AzureStorageConnectionString => Configuration["AppSettings:StorageConnectionString"];
+        protected string? AzureStorageConnectionString => Configuration["AppSettings:CosmosDBConnectionString"];
         protected string? DevOpsServiceURL => Configuration["AppSettings:DevOpsServiceURL"] ?? "https://devops-prod-eu-service.azurewebsites.net";
         protected string? AzureTenantId => Configuration["AppSettings:AzureTenantId"];
         protected string? AzureClientId => Configuration["AppSettings:AzureClientId"];
