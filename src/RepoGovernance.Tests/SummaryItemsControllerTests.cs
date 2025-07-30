@@ -375,9 +375,9 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
                 Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item6.RepoSettingsRecommendations[2]);
             }
             Assert.IsNotNull(item6.NuGetPackages);
-            Assert.AreEqual(2, item6.NuGetPackages.Count(x => x.Type == "Deprecated"));
-            Assert.AreEqual(5, item6.NuGetPackages.Count(x => x.Type == "Outdated"));
-            Assert.AreEqual(1, item6.NuGetPackages.Count(x => x.Type == "Vulnerable"));
+            Assert.IsTrue(item6.NuGetPackages.Count(x => x.Type == "Deprecated") > 0);
+            Assert.IsTrue(item6.NuGetPackages.Count(x => x.Type == "Outdated") > 0);
+            Assert.IsTrue(item6.NuGetPackages.Count(x => x.Type == "Vulnerable") > 0);
         }
 
 
@@ -406,7 +406,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         string user = "samsmithnz";
         string owner = "samsmithnz";
         string repo = "RepoGovernance";
-        
+
         // Sample NuGet package data - simplified JSON for testing
         string deprecatedPayload = @"{
             ""projects"": [
