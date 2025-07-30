@@ -90,6 +90,11 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Details(string user, string owner, string repo, bool isContributor = false)
     {
+        if (!ModelState.IsValid)
+        {
+            return RedirectToAction("Index");
+        }
+
         SummaryItem result = null;
         List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(user);
         foreach (SummaryItem summaryItem in summaryItems)
@@ -106,6 +111,11 @@ public class HomeController : Controller
 
     public async Task<IActionResult> UpdateRow(string user, string owner, string repo, bool isContributor = false)
     {
+        if (!ModelState.IsValid)
+        {
+            return RedirectToAction("Index");
+        }
+
         await _ServiceApiClient.UpdateSummaryItem(user, owner, repo);
 
         // Validate repository name to prevent URL redirection attacks
@@ -169,6 +179,11 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Config(string user, string owner, string repo, bool isContributor = false)
     {
+        if (!ModelState.IsValid)
+        {
+            return RedirectToAction("Index");
+        }
+
         SummaryItem? summaryItem = await _ServiceApiClient.GetSummaryItem(user, owner, repo);
 
         SummaryItemConfig summaryItemConfig = new()
