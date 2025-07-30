@@ -118,23 +118,33 @@ public class HomeController : Controller
 
         await _ServiceApiClient.UpdateSummaryItem(user, owner, repo);
 
-        // Validate repository name to prevent URL redirection attacks
-        string safeRepoFragment = "";
+        // Safely pass repo name as query parameter for client-side scrolling
+        // Validate repository name to prevent injection attacks
+        object routeValues;
         if (IsValidRepoName(repo))
         {
-            // Encode the repo value to prevent injection in the fragment
-            safeRepoFragment = "#" + Uri.EscapeDataString(repo);
-        }
-
-        //This is a hack for now - hide controls behind this iscontributor flag, but never show iscontributor=false in query string
-        if (isContributor)
-        {
-            return Redirect(Url.RouteUrl(new { controller = "Home", action = "Index" }) + "?isContributor=true" + safeRepoFragment);
+            if (isContributor)
+            {
+                routeValues = new { isContributor = true, scrollTo = repo };
+            }
+            else
+            {
+                routeValues = new { scrollTo = repo };
+            }
         }
         else
         {
-            return Redirect(Url.RouteUrl(new { controller = "Home", action = "Index" }) + safeRepoFragment);
+            if (isContributor)
+            {
+                routeValues = new { isContributor = true };
+            }
+            else
+            {
+                routeValues = new { };
+            }
         }
+
+        return RedirectToAction("Index", routeValues);
     }
 
     public async Task<IActionResult> UpdateAll(bool isContributor = false)
