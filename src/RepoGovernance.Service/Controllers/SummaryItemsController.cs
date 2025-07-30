@@ -17,8 +17,13 @@ namespace RepoGovernance.Service.Controllers
         }
 
         [HttpGet("GetRepos")]
-        public async Task<List<UserOwnerRepo>> GetRepos(string owner)
+        public async Task<ActionResult<List<UserOwnerRepo>>> GetRepos(string owner)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             return await SummaryItemsDA.GetRepos(Configuration["AppSettings:CosmosDBConnectionString"], owner);
         }
 
@@ -30,8 +35,13 @@ namespace RepoGovernance.Service.Controllers
         /// <param name="repo">the repository being updated</param>
         /// <returns></returns>
         [HttpGet("UpdateSummaryItem")]
-        public async Task<int> UpdateSummaryItem(string user, string owner, string repo)
+        public async Task<ActionResult<int>> UpdateSummaryItem(string user, string owner, string repo)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             return await SummaryItemsDA.UpdateSummaryItem(
                 Configuration["AppSettings:GitHubClientId"],
                 Configuration["AppSettings:GitHubClientSecret"],
@@ -49,11 +59,16 @@ namespace RepoGovernance.Service.Controllers
         /// <param name="request">The update request containing user, owner, repo, and optional NuGet payloads</param>
         /// <returns></returns>
         [HttpPost("UpdateSummaryItem")]
-        public async Task<int> UpdateSummaryItemWithNuGet(UpdateSummaryItemRequest request)
+        public async Task<ActionResult<int>> UpdateSummaryItemWithNuGet(UpdateSummaryItemRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (request?.User == null || request?.Owner == null || request?.Repo == null)
             {
-                return -1;
+                return BadRequest("User, Owner, and Repo are required");
             }
 
             return await SummaryItemsDA.UpdateSummaryItem(
@@ -72,8 +87,13 @@ namespace RepoGovernance.Service.Controllers
         }
 
         [HttpPost("UpdateSummaryItemNuGetPackageStats")]
-        public async Task<int> UpdateSummaryItemNuGetPackageStats(NuGetPayload nugetPayload)
+        public async Task<ActionResult<int>> UpdateSummaryItemNuGetPackageStats(NuGetPayload nugetPayload)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (nugetPayload != null)
             {
                 string? repo = nugetPayload?.Repo;
@@ -85,7 +105,7 @@ namespace RepoGovernance.Service.Controllers
 
                 if (repo == null || owner == null || user == null || jsonPayload == null || payloadType == null)
                 {
-                    return -1;
+                    return BadRequest("Repo, Owner, User, JsonPayloadString, and PayloadType are required");
                 }
                 return await SummaryItemsDA.UpdateSummaryItemNuGetPackageStats(
                     Configuration["AppSettings:CosmosDBConnectionString"],
@@ -94,7 +114,7 @@ namespace RepoGovernance.Service.Controllers
             }
             else
             {
-                return -1;
+                return BadRequest("NuGet payload is required");
             }
         }
 
@@ -104,8 +124,13 @@ namespace RepoGovernance.Service.Controllers
         /// <param name="user">The user - often is also the owner, that has access to organizations</param>
         /// <returns></returns>
         [HttpGet("GetSummaryItems")]
-        public async Task<List<SummaryItem>> GetSummaryItems(string user)
+        public async Task<ActionResult<List<SummaryItem>>> GetSummaryItems(string user)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             return await SummaryItemsDA.GetSummaryItems(
                 Configuration["AppSettings:CosmosDBConnectionString"], //Configuration["AppSettings:StorageConnectionString"],
                 user);
@@ -118,8 +143,13 @@ namespace RepoGovernance.Service.Controllers
         /// <param name="repo">the repo</param>
         /// <returns></returns>
         [HttpGet("GetSummaryItem")]
-        public async Task<SummaryItem?> GetSummaryItem(string user, string owner, string repo)
+        public async Task<ActionResult<SummaryItem?>> GetSummaryItem(string user, string owner, string repo)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             return await SummaryItemsDA.GetSummaryItem(
                 Configuration["AppSettings:CosmosDBConnectionString"],
                 user, owner, repo);
@@ -127,9 +157,14 @@ namespace RepoGovernance.Service.Controllers
 
 
         [HttpGet("ApproveSummaryItemPRs")]
-        public async Task<bool> ApproveSummaryItemPRs(//string user, 
+        public async Task<ActionResult<bool>> ApproveSummaryItemPRs(//string user, 
             string owner, string repo, string approver)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             return await SummaryItemsDA.ApproveSummaryItemPRs(
                Configuration["AppSettings:GitHubClientId"],
                Configuration["AppSettings:GitHubClientSecret"],
