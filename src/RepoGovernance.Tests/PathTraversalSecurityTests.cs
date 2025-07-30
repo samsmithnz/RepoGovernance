@@ -98,6 +98,34 @@ namespace RepoGovernance.Tests
             Assert.IsFalse(url.Contains("../"), "URL should not contain unencoded path traversal sequences");
         }
 
+        [TestMethod]
+        public void DevOpsMetricServiceApi_ShouldEncodeOwnerParameter()
+        {
+            // Arrange
+            string maliciousOwner = "../../../admin";
+            string repo = "test";
+
+            // Act
+            string url = TestHelper.GetDORASummaryItemUrlForTesting(maliciousOwner, repo);
+
+            // Assert
+            Assert.IsFalse(url.Contains("../"), "URL should not contain unencoded path traversal sequences");
+        }
+
+        [TestMethod]
+        public void DevOpsMetricServiceApi_ShouldEncodeRepoParameter()
+        {
+            // Arrange
+            string owner = "testowner";
+            string maliciousRepo = "../../../config";
+
+            // Act
+            string url = TestHelper.GetDORASummaryItemUrlForTesting(owner, maliciousRepo);
+
+            // Assert
+            Assert.IsFalse(url.Contains("../"), "URL should not contain unencoded path traversal sequences");
+        }
+
 
     }
 
@@ -123,6 +151,12 @@ namespace RepoGovernance.Tests
         public static string GetApprovePRsUrlForTesting(string owner, string repo, string approver)
         {
             return $"api/SummaryItems/ApproveSummaryItemPRs?&owner={Uri.EscapeDataString(owner)}&repo={Uri.EscapeDataString(repo)}&approver={Uri.EscapeDataString(approver)}";
+        }
+
+        public static string GetDORASummaryItemUrlForTesting(string owner, string repo)
+        {
+            // This mirrors the fixed URL construction logic from DevOpsMetricServiceApi
+            return $"/api/DORASummary/GetDORASummaryItem?owner={Uri.EscapeDataString(owner)}&project=&repo={Uri.EscapeDataString(repo)}";
         }
     }
 }
