@@ -1,36 +1,27 @@
 using Microsoft.Extensions.Configuration;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
+using System.Diagnostics.CodeAnalysis;
 
-namespace RepoGovernance.Tests.Helpers;
-
-[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-public class BaseAPIAccessTests
+namespace RepoGovernance.Tests.Helpers
 {
-    public string? GitHubId { get; set; }
-    public string? GitHubSecret { get; set; }
-    public string? AzureStorageConnectionString { get; set; }
-    public string? DevOpsServiceURL { get; set; }
-    public string? AzureTenantId { get; set; }
-    public string? AzureClientId { get; set; }
-    public string? AzureClientSecret { get; set; }
-
-    [TestInitialize]
-    public void InitializeIntegrationTests()
+    [ExcludeFromCodeCoverage]
+    public class BaseAPIAccessTests
     {
-        //Load the appsettings.json configuration file
-        IConfigurationBuilder? builder = new ConfigurationBuilder()
-             .SetBasePath(Directory.GetCurrentDirectory())
-             .AddJsonFile("appsettings.json", optional: false)
-             .AddUserSecrets<BaseAPIAccessTests>(true);
-        IConfigurationRoot configuration = builder.Build();
+        protected IConfiguration Configuration { get; private set; }
 
-        GitHubId = configuration["AppSettings:GitHubClientId"];
-        GitHubSecret = configuration["AppSettings:GitHubClientSecret"];
-        AzureStorageConnectionString = configuration["AppSettings:CosmosDBConnectionString"]; // configuration["AppSettings:StorageConnectionString"];
-        DevOpsServiceURL = configuration["AppSettings:DevOpsServiceURL"];
-        AzureTenantId = configuration["AppSettings:AzureTenantId"];
-        AzureClientId = configuration["AppSettings:AzureClientId"];
-        AzureClientSecret = configuration["AppSettings:AzureClientSecret"];
+        public BaseAPIAccessTests()
+        {
+            Configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true)
+                .AddUserSecrets<BaseAPIAccessTests>()
+                .Build();
+        }
+
+        protected string? GitHubId => Configuration["AppSettings:GitHubClientId"];
+        protected string? GitHubSecret => Configuration["AppSettings:GitHubClientSecret"];
+        protected string? AzureStorageConnectionString => Configuration["AppSettings:StorageConnectionString"];
+        protected string? DevOpsServiceURL => Configuration["AppSettings:DevOpsServiceURL"] ?? "https://devops-prod-eu-service.azurewebsites.net";
+        protected string? AzureTenantId => Configuration["AppSettings:AzureTenantId"];
+        protected string? AzureClientId => Configuration["AppSettings:AzureClientId"];
+        protected string? AzureClientSecret => Configuration["AppSettings:AzureClientSecret"];
     }
 }
