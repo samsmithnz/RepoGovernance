@@ -46,8 +46,8 @@ namespace RepoGovernance.Core.Models
 
                 try
                 {
-                    // Get code scanning alerts
-                    string codeScanningUrl = $"https://api.github.com/repos/{owner}/{repo}/code-scanning/alerts?state={state}";
+                    // Get code scanning alerts - properly encode URL parameters
+                    string codeScanningUrl = $"https://api.github.com/repos/{Uri.EscapeDataString(owner)}/{Uri.EscapeDataString(repo)}/code-scanning/alerts?state={Uri.EscapeDataString(state)}";
                     HttpResponseMessage codeScanningResponse = await client.GetAsync(codeScanningUrl);
                     if (codeScanningResponse.IsSuccessStatusCode)
                     {
@@ -58,8 +58,8 @@ namespace RepoGovernance.Core.Models
                         }
                     }
 
-                    // Get secret scanning alerts
-                    string secretScanningUrl = $"https://api.github.com/repos/{owner}/{repo}/secret-scanning/alerts?state={state}";
+                    // Get secret scanning alerts - properly encode URL parameters
+                    string secretScanningUrl = $"https://api.github.com/repos/{Uri.EscapeDataString(owner)}/{Uri.EscapeDataString(repo)}/secret-scanning/alerts?state={Uri.EscapeDataString(state)}";
                     HttpResponseMessage secretScanningResponse = await client.GetAsync(secretScanningUrl);
                     if (secretScanningResponse.IsSuccessStatusCode)
                     {

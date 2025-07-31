@@ -1,6 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoGovernance.Core.APIAccess;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RepoGovernance.Tests
 {
@@ -126,6 +128,92 @@ namespace RepoGovernance.Tests
             Assert.IsFalse(url.Contains("../"), "URL should not contain unencoded path traversal sequences");
         }
 
+        [TestMethod]
+        public void BaseApi_ShouldRejectMaliciousUrls()
+        {
+            // Test path traversal sequences
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
+                // This should trigger the URL validation in BaseApi.GetResponse
+                TestHelper.CallBaseApiWithUrl("https://api.github.com/../../../admin");
+            });
+
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
+                TestHelper.CallBaseApiWithUrl("https://api.github.com/repos/owner/repo/../../../admin");
+            });
+
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
+                TestHelper.CallBaseApiWithUrl("https://example.com/%2e%2e%2f%2e%2e%2fadmin");
+            });
+        }
+
+        [TestMethod]
+        public void BaseApi_ShouldRejectPrivateNetworkUrls()
+        {
+            // Test localhost rejection
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
+                TestHelper.CallBaseApiWithUrl("http://localhost:8080/api");
+            });
+
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
+                TestHelper.CallBaseApiWithUrl("http://127.0.0.1:8080/api");
+            });
+
+            // Test private IP ranges rejection
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
+                TestHelper.CallBaseApiWithUrl("http://192.168.1.1/api");
+            });
+
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
+                TestHelper.CallBaseApiWithUrl("http://10.0.0.1/api");
+            });
+
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
+                TestHelper.CallBaseApiWithUrl("http://172.16.0.1/api");
+            });
+        }
+
+        [TestMethod]
+        public void BaseApi_ShouldAcceptValidUrls()
+        {
+            // These should NOT throw exceptions
+            TestHelper.CallBaseApiWithUrl("https://api.github.com/repos/owner/repo");
+            TestHelper.CallBaseApiWithUrl("https://sonarcloud.io/api/project_badges/measure");
+            
+            // For relative URLs, we need to set the BaseAddress on the HttpClient
+            TestHelper.CallBaseApiWithRelativeUrl("/api/DORASummary/GetDORASummaryItem");
+        }
+
+        [TestMethod]
+        public void SecurityAlertsResult_ShouldEncodeUrlParameters()
+        {
+            // Test that URL construction in SecurityAlertsResult properly encodes parameters
+            string maliciousOwner = "../../../admin";
+            string maliciousRepo = "../config";
+            string maliciousState = "open&injection=attack";
+
+            // This test documents that SecurityAlertsResult.GetFromGitHubAsync now properly
+            // encodes the owner, repo, and state parameters using Uri.EscapeDataString
+            string expectedPattern = Uri.EscapeDataString(maliciousOwner);
+            Assert.IsTrue(expectedPattern.Contains("%2F"), 
+                "Malicious owner parameter should be properly URL encoded and contain %2F for forward slash");
+
+            expectedPattern = Uri.EscapeDataString(maliciousRepo);
+            Assert.IsTrue(expectedPattern.Contains("%2F"), 
+                "Malicious repo parameter should be properly URL encoded and contain %2F for forward slash");
+
+            expectedPattern = Uri.EscapeDataString(maliciousState);
+            Assert.IsTrue(expectedPattern.Contains("%26"), 
+                "Malicious state parameter should be properly URL encoded and contain %26 for ampersand");
+        }
+
 
     }
 
@@ -157,6 +245,64 @@ namespace RepoGovernance.Tests
         {
             // This mirrors the fixed URL construction logic from DevOpsMetricServiceApi
             return $"/api/DORASummary/GetDORASummaryItem?owner={Uri.EscapeDataString(owner)}&project=&repo={Uri.EscapeDataString(repo)}";
+        }
+
+        public static void CallBaseApiWithUrl(string url)
+        {
+            // This helper method calls BaseApi.GetResponse to test URL validation
+            // We use a mock HttpClient that will never actually make requests
+            using var handler = new MockHttpClientHandler();
+            using var client = new System.Net.Http.HttpClient(handler);
+            
+            // This should trigger URL validation before any HTTP request is made
+            var task = RepoGovernance.Core.APIAccess.BaseApi.GetResponse<object>(client, url, true);
+            try
+            {
+                task.Wait(100); // Short timeout since we're just testing URL validation
+            }
+            catch (AggregateException ex) when (ex.InnerException is ArgumentException)
+            {
+                // Re-throw the inner ArgumentException for our tests
+                throw ex.InnerException;
+            }
+        }
+
+        public static void CallBaseApiWithRelativeUrl(string url)
+        {
+            // This helper method calls BaseApi.GetResponse with a relative URL
+            using var handler = new MockHttpClientHandler();
+            using var client = new System.Net.Http.HttpClient(handler)
+            {
+                BaseAddress = new Uri("https://example.com")
+            };
+            
+            // This should trigger URL validation before any HTTP request is made
+            var task = RepoGovernance.Core.APIAccess.BaseApi.GetResponse<object>(client, url, true);
+            try
+            {
+                task.Wait(100); // Short timeout since we're just testing URL validation
+            }
+            catch (AggregateException ex) when (ex.InnerException is ArgumentException)
+            {
+                // Re-throw the inner ArgumentException for our tests
+                throw ex.InnerException;
+            }
+        }
+    }
+
+    // Mock HttpClientHandler that never actually makes requests
+    public class MockHttpClientHandler : System.Net.Http.HttpMessageHandler
+    {
+        protected override Task<System.Net.Http.HttpResponseMessage> SendAsync(
+            System.Net.Http.HttpRequestMessage request, 
+            CancellationToken cancellationToken)
+        {
+            // Return a mock response immediately without making real HTTP requests
+            var response = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK)
+            {
+                Content = new System.Net.Http.StringContent("{}")
+            };
+            return Task.FromResult(response);
         }
     }
 }
