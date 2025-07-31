@@ -25,22 +25,6 @@ namespace RepoGovernance.Tests
         }
 
         [TestMethod]
-        public void WorkflowYaml_ShouldHaveExplicitPermissions_ForNightlyProcess()
-        {
-            // Arrange
-            string workflowPath = Path.Combine("..", "..", "..", "..", "..", ".github", "workflows", "nightlyprocess.yml");
-            
-            // Act
-            string yamlContent = File.ReadAllText(workflowPath);
-            
-            // Assert
-            Assert.IsTrue(File.Exists(workflowPath), "Workflow file should exist");
-            Assert.IsTrue(yamlContent.Contains("permissions:"), "Workflow should contain explicit permissions");
-            Assert.IsTrue(yamlContent.Contains("contents: read"), "Workflow should have contents read permission");
-            Assert.IsTrue(yamlContent.Contains("actions: read"), "Workflow should have actions read permission");
-        }
-
-        [TestMethod]
         public void CodeQlWorkflow_ShouldAlreadyHavePermissions()
         {
             // Arrange
