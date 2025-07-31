@@ -12,7 +12,7 @@ namespace RepoGovernance.Tests.Models
         public void CoverallsCodeCoverage_ParameterlessConstructor_PropertiesAreDefault()
         {
             // Act
-            var coverage = new CoverallsCodeCoverage();
+            CoverallsCodeCoverage coverage = new CoverallsCodeCoverage();
 
             // Assert
             Assert.IsNull(coverage.branch);
@@ -26,7 +26,7 @@ namespace RepoGovernance.Tests.Models
         public void CoverallsCodeCoverage_PropertySetters_WorkCorrectly()
         {
             // Arrange
-            var coverage = new CoverallsCodeCoverage();
+            CoverallsCodeCoverage coverage = new CoverallsCodeCoverage();
 
             // Act
             coverage.branch = "main";
@@ -47,7 +47,7 @@ namespace RepoGovernance.Tests.Models
         public void CoverallsCodeCoverage_CoverageChangeString_PositiveChange_ReturnsCorrectFormat()
         {
             // Arrange
-            var coverage = new CoverallsCodeCoverage();
+            CoverallsCodeCoverage coverage = new CoverallsCodeCoverage();
             coverage.coverage_change = 5.7;
 
             // Act
@@ -61,7 +61,7 @@ namespace RepoGovernance.Tests.Models
         public void CoverallsCodeCoverage_CoverageChangeString_NegativeChange_ReturnsCorrectFormat()
         {
             // Arrange
-            var coverage = new CoverallsCodeCoverage();
+            CoverallsCodeCoverage coverage = new CoverallsCodeCoverage();
             coverage.coverage_change = -3.2;
 
             // Act
@@ -75,7 +75,7 @@ namespace RepoGovernance.Tests.Models
         public void CoverallsCodeCoverage_CoverageChangeString_ZeroChange_ReturnsCorrectFormat()
         {
             // Arrange
-            var coverage = new CoverallsCodeCoverage();
+            CoverallsCodeCoverage coverage = new CoverallsCodeCoverage();
             coverage.coverage_change = 0.0;
 
             // Act
@@ -89,7 +89,7 @@ namespace RepoGovernance.Tests.Models
         public void CoverallsCodeCoverage_CoverageChangeString_LargePositiveValue_ReturnsCorrectFormat()
         {
             // Arrange
-            var coverage = new CoverallsCodeCoverage();
+            CoverallsCodeCoverage coverage = new CoverallsCodeCoverage();
             coverage.coverage_change = 15.9;
 
             // Act
@@ -103,7 +103,7 @@ namespace RepoGovernance.Tests.Models
         public void CoverallsCodeCoverage_CoverageChangeString_LargeNegativeValue_ReturnsCorrectFormat()
         {
             // Arrange
-            var coverage = new CoverallsCodeCoverage();
+            CoverallsCodeCoverage coverage = new CoverallsCodeCoverage();
             coverage.coverage_change = -25.1;
 
             // Act

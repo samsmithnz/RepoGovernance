@@ -12,7 +12,7 @@ namespace RepoGovernance.Tests.Models
         public void BaseModel_ParameterlessConstructor_PropertiesAreDefault()
         {
             // Act
-            var model = new BaseModel();
+            BaseModel model = new BaseModel();
 
             // Assert
             Assert.IsNull(model.RawJSON);
@@ -22,7 +22,7 @@ namespace RepoGovernance.Tests.Models
         public void BaseModel_PropertySetters_WorkCorrectly()
         {
             // Arrange
-            var model = new BaseModel();
+            BaseModel model = new BaseModel();
             string testJson = "{\"test\": \"value\"}";
 
             // Act
@@ -36,7 +36,7 @@ namespace RepoGovernance.Tests.Models
         public void BaseModel_PropertySetters_HandleNullValue()
         {
             // Arrange
-            var model = new BaseModel();
+            BaseModel model = new BaseModel();
             model.RawJSON = "initial value";
 
             // Act
@@ -50,7 +50,7 @@ namespace RepoGovernance.Tests.Models
         public void BaseModel_PropertySetters_HandleEmptyString()
         {
             // Arrange
-            var model = new BaseModel();
+            BaseModel model = new BaseModel();
 
             // Act
             model.RawJSON = "";

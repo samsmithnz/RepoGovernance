@@ -24,7 +24,7 @@ namespace RepoGovernance.Tests.APIAccess
         public async Task BaseApi_GetResponse_NullClient_ReturnsDefault()
         {
             // Act
-            var result = await BaseApi.GetResponse<TestModel>(null!, "http://example.com");
+            TestModel? result = await BaseApi.GetResponse<TestModel>(null!, "http://example.com");
 
             // Assert
             Assert.IsNull(result);
@@ -34,10 +34,10 @@ namespace RepoGovernance.Tests.APIAccess
         public async Task BaseApi_GetResponse_NullUrl_ReturnsDefault()
         {
             // Arrange
-            using var client = new HttpClient();
+            using HttpClient client = new HttpClient();
 
             // Act
-            var result = await BaseApi.GetResponse<TestModel>(client, null!);
+            TestModel? result = await BaseApi.GetResponse<TestModel>(client, null!);
 
             // Assert
             Assert.IsNull(result);
@@ -47,12 +47,12 @@ namespace RepoGovernance.Tests.APIAccess
         public async Task BaseApi_GetResponse_ValidJsonResponse_ReturnsDeserializedObject()
         {
             // Arrange
-            var json = "{\"Name\":\"Test\",\"Value\":42}";
-            var handler = new MockHttpMessageHandler(json, HttpStatusCode.OK);
-            using var client = new HttpClient(handler);
+            string json = "{\"Name\":\"Test\",\"Value\":42}";
+            MockHttpMessageHandler handler = new MockHttpMessageHandler(json, HttpStatusCode.OK);
+            using HttpClient client = new HttpClient(handler);
 
             // Act
-            var result = await BaseApi.GetResponse<TestModel>(client, "http://example.com");
+            TestModel? result = await BaseApi.GetResponse<TestModel>(client, "http://example.com");
 
             // Assert
             Assert.IsNotNull(result);
@@ -64,11 +64,11 @@ namespace RepoGovernance.Tests.APIAccess
         public async Task BaseApi_GetResponse_EmptyResponse_ReturnsDefault()
         {
             // Arrange
-            var handler = new MockHttpMessageHandler("", HttpStatusCode.OK);
-            using var client = new HttpClient(handler);
+            MockHttpMessageHandler handler = new MockHttpMessageHandler("", HttpStatusCode.OK);
+            using HttpClient client = new HttpClient(handler);
 
             // Act
-            var result = await BaseApi.GetResponse<TestModel>(client, "http://example.com");
+            TestModel? result = await BaseApi.GetResponse<TestModel>(client, "http://example.com");
 
             // Assert
             Assert.IsNull(result);
@@ -78,12 +78,12 @@ namespace RepoGovernance.Tests.APIAccess
         public async Task BaseApi_GetResponse_NotFoundStatus_ReturnsDefault()
         {
             // Arrange
-            var json = "{\"Name\":\"Test\",\"Value\":42}";
-            var handler = new MockHttpMessageHandler(json, HttpStatusCode.NotFound);
-            using var client = new HttpClient(handler);
+            string json = "{\"Name\":\"Test\",\"Value\":42}";
+            MockHttpMessageHandler handler = new MockHttpMessageHandler(json, HttpStatusCode.NotFound);
+            using HttpClient client = new HttpClient(handler);
 
             // Act
-            var result = await BaseApi.GetResponse<TestModel>(client, "http://example.com", true);
+            TestModel? result = await BaseApi.GetResponse<TestModel>(client, "http://example.com", true);
 
             // Assert
             Assert.IsNull(result);
@@ -93,12 +93,12 @@ namespace RepoGovernance.Tests.APIAccess
         public async Task BaseApi_GetResponse_BadRequestWithIgnoreErrors_ReturnsDeserializedObject()
         {
             // Arrange
-            var json = "{\"Name\":\"Test\",\"Value\":42}";
-            var handler = new MockHttpMessageHandler(json, HttpStatusCode.BadRequest);
-            using var client = new HttpClient(handler);
+            string json = "{\"Name\":\"Test\",\"Value\":42}";
+            MockHttpMessageHandler handler = new MockHttpMessageHandler(json, HttpStatusCode.BadRequest);
+            using HttpClient client = new HttpClient(handler);
 
             // Act
-            var result = await BaseApi.GetResponse<TestModel>(client, "http://example.com", true);
+            TestModel? result = await BaseApi.GetResponse<TestModel>(client, "http://example.com", true);
 
             // Assert
             Assert.IsNotNull(result);
@@ -110,9 +110,9 @@ namespace RepoGovernance.Tests.APIAccess
         public async Task BaseApi_GetResponse_BadRequestWithoutIgnoreErrors_ThrowsException()
         {
             // Arrange
-            var json = "{\"Name\":\"Test\",\"Value\":42}";
-            var handler = new MockHttpMessageHandler(json, HttpStatusCode.BadRequest);
-            using var client = new HttpClient(handler);
+            string json = "{\"Name\":\"Test\",\"Value\":42}";
+            MockHttpMessageHandler handler = new MockHttpMessageHandler(json, HttpStatusCode.BadRequest);
+            using HttpClient client = new HttpClient(handler);
 
             // Act & Assert
             await Assert.ThrowsExceptionAsync<HttpRequestException>(async () =>
@@ -125,9 +125,9 @@ namespace RepoGovernance.Tests.APIAccess
         public async Task BaseApi_GetResponse_InvalidJson_HandledGracefully()
         {
             // Arrange
-            var invalidJson = "{ invalid json }";
-            var handler = new MockHttpMessageHandler(invalidJson, HttpStatusCode.OK);
-            using var client = new HttpClient(handler);
+            string invalidJson = "{ invalid json }";
+            MockHttpMessageHandler handler = new MockHttpMessageHandler(invalidJson, HttpStatusCode.OK);
+            using HttpClient client = new HttpClient(handler);
 
             // Act & Assert
             // The BaseApi method doesn't handle JSON parsing errors gracefully
@@ -153,7 +153,7 @@ namespace RepoGovernance.Tests.APIAccess
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var response = new HttpResponseMessage(_statusCode)
+            HttpResponseMessage response = new HttpResponseMessage(_statusCode)
             {
                 Content = new StringContent(_response, Encoding.UTF8, "application/json")
             };

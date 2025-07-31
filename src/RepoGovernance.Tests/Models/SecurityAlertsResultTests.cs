@@ -17,7 +17,7 @@ namespace RepoGovernance.Tests.Models
             int expectedTotal = 8;
 
             // Act
-            var result = new SecurityAlertsResult(expectedCodeScanning, expectedSecretScanning, expectedTotal);
+            SecurityAlertsResult result = new SecurityAlertsResult(expectedCodeScanning, expectedSecretScanning, expectedTotal);
 
             // Assert
             Assert.AreEqual(expectedCodeScanning, result.CodeScanningCount);
@@ -29,7 +29,7 @@ namespace RepoGovernance.Tests.Models
         public void SecurityAlertsResult_Constructor_HandlesZeroValues()
         {
             // Act
-            var result = new SecurityAlertsResult(0, 0, 0);
+            SecurityAlertsResult result = new SecurityAlertsResult(0, 0, 0);
 
             // Assert
             Assert.AreEqual(0, result.CodeScanningCount);
@@ -46,7 +46,7 @@ namespace RepoGovernance.Tests.Models
             int total = 10; // Intentionally different from sum
 
             // Act
-            var result = new SecurityAlertsResult(codeScanning, secretScanning, total);
+            SecurityAlertsResult result = new SecurityAlertsResult(codeScanning, secretScanning, total);
 
             // Assert
             Assert.AreEqual(codeScanning, result.CodeScanningCount);
@@ -63,7 +63,7 @@ namespace RepoGovernance.Tests.Models
             int expectedTotal = 225;
 
             // Act
-            var result = new SecurityAlertsResult(expectedCodeScanning, expectedSecretScanning, expectedTotal);
+            SecurityAlertsResult result = new SecurityAlertsResult(expectedCodeScanning, expectedSecretScanning, expectedTotal);
 
             // Assert
             Assert.AreEqual(expectedCodeScanning, result.CodeScanningCount);

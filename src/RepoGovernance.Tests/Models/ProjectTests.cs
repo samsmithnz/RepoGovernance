@@ -12,7 +12,7 @@ namespace RepoGovernance.Tests.Models
         public void Project_ParameterlessConstructor_PropertiesAreDefault()
         {
             // Act
-            var project = new Project();
+            Project project = new Project();
 
             // Assert
             Assert.IsNull(project.FileName);
@@ -26,7 +26,7 @@ namespace RepoGovernance.Tests.Models
         public void Project_PropertySetters_WorkCorrectly()
         {
             // Arrange
-            var project = new Project();
+            Project project = new Project();
 
             // Act
             project.FileName = "test.csproj";
@@ -47,7 +47,7 @@ namespace RepoGovernance.Tests.Models
         public void Project_PropertySetters_HandleNullValues()
         {
             // Arrange
-            var project = new Project();
+            Project project = new Project();
             project.FileName = "test";
             project.Path = "test";
             project.Content = "test";
@@ -73,7 +73,7 @@ namespace RepoGovernance.Tests.Models
         public void Project_PropertySetters_HandleEmptyStrings()
         {
             // Arrange
-            var project = new Project();
+            Project project = new Project();
 
             // Act
             project.FileName = "";
@@ -94,7 +94,7 @@ namespace RepoGovernance.Tests.Models
         public void Project_PropertySetters_HandleSpecialCharacters()
         {
             // Arrange
-            var project = new Project();
+            Project project = new Project();
 
             // Act
             project.FileName = "test-file.csproj";

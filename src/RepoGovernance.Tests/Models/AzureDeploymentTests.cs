@@ -12,7 +12,7 @@ namespace RepoGovernance.Tests.Models
         public void AzureDeployment_ParameterlessConstructor_PropertiesAreDefault()
         {
             // Act
-            var deployment = new AzureDeployment();
+            AzureDeployment deployment = new AzureDeployment();
 
             // Assert
             Assert.IsNotNull(deployment.AppRegistrations);
@@ -24,8 +24,8 @@ namespace RepoGovernance.Tests.Models
         public void AzureDeployment_PropertySetters_WorkCorrectly()
         {
             // Arrange
-            var deployment = new AzureDeployment();
-            var appReg = new AzureAppRegistration { Name = "TestApp" };
+            AzureDeployment deployment = new AzureDeployment();
+            AzureAppRegistration appReg = new AzureAppRegistration { Name = "TestApp" };
 
             // Act
             deployment.DeployedURL = "https://example.com";
@@ -41,9 +41,9 @@ namespace RepoGovernance.Tests.Models
         public void AzureDeployment_AppRegistrations_CanAddMultiple()
         {
             // Arrange
-            var deployment = new AzureDeployment();
-            var appReg1 = new AzureAppRegistration { Name = "App1" };
-            var appReg2 = new AzureAppRegistration { Name = "App2" };
+            AzureDeployment deployment = new AzureDeployment();
+            AzureAppRegistration appReg1 = new AzureAppRegistration { Name = "App1" };
+            AzureAppRegistration appReg2 = new AzureAppRegistration { Name = "App2" };
 
             // Act
             deployment.AppRegistrations.Add(appReg1);
@@ -59,7 +59,7 @@ namespace RepoGovernance.Tests.Models
         public void AzureDeployment_DeployedURL_HandleNullValue()
         {
             // Arrange
-            var deployment = new AzureDeployment();
+            AzureDeployment deployment = new AzureDeployment();
             deployment.DeployedURL = "https://example.com";
 
             // Act

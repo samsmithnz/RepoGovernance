@@ -13,7 +13,7 @@ namespace RepoGovernance.Tests.Models
         public void AzureAppRegistration_ParameterlessConstructor_PropertiesAreDefault()
         {
             // Act
-            var appReg = new AzureAppRegistration();
+            AzureAppRegistration appReg = new AzureAppRegistration();
 
             // Assert
             Assert.IsNull(appReg.Name);
@@ -26,9 +26,9 @@ namespace RepoGovernance.Tests.Models
         public void AzureAppRegistration_PropertySetters_WorkCorrectly()
         {
             // Arrange
-            var appReg = new AzureAppRegistration();
-            var date1 = DateTimeOffset.Now.AddDays(30);
-            var date2 = DateTimeOffset.Now.AddDays(60);
+            AzureAppRegistration appReg = new AzureAppRegistration();
+            DateTimeOffset date1 = DateTimeOffset.Now.AddDays(30);
+            DateTimeOffset date2 = DateTimeOffset.Now.AddDays(60);
 
             // Act
             appReg.Name = "TestApp";
@@ -46,10 +46,10 @@ namespace RepoGovernance.Tests.Models
         public void AzureAppRegistration_ExpirationDate_NoExpirationDates_ReturnsNull()
         {
             // Arrange
-            var appReg = new AzureAppRegistration();
+            AzureAppRegistration appReg = new AzureAppRegistration();
 
             // Act
-            var result = appReg.ExpirationDate;
+            DateTimeOffset? result = appReg.ExpirationDate;
 
             // Assert
             Assert.IsNull(result);
@@ -59,12 +59,12 @@ namespace RepoGovernance.Tests.Models
         public void AzureAppRegistration_ExpirationDate_SingleDate_ReturnsThatDate()
         {
             // Arrange
-            var appReg = new AzureAppRegistration();
-            var expectedDate = DateTimeOffset.Now.AddDays(30);
+            AzureAppRegistration appReg = new AzureAppRegistration();
+            DateTimeOffset expectedDate = DateTimeOffset.Now.AddDays(30);
             appReg.ExpirationDates.Add(expectedDate);
 
             // Act
-            var result = appReg.ExpirationDate;
+            DateTimeOffset? result = appReg.ExpirationDate;
 
             // Assert
             Assert.AreEqual(expectedDate, result);
@@ -74,14 +74,14 @@ namespace RepoGovernance.Tests.Models
         public void AzureAppRegistration_ExpirationDate_MultipleDates_ReturnsLatestDate()
         {
             // Arrange
-            var appReg = new AzureAppRegistration();
-            var earlierDate = DateTimeOffset.Now.AddDays(30);
-            var laterDate = DateTimeOffset.Now.AddDays(60);
+            AzureAppRegistration appReg = new AzureAppRegistration();
+            DateTimeOffset earlierDate = DateTimeOffset.Now.AddDays(30);
+            DateTimeOffset laterDate = DateTimeOffset.Now.AddDays(60);
             appReg.ExpirationDates.Add(earlierDate);
             appReg.ExpirationDates.Add(laterDate);
 
             // Act
-            var result = appReg.ExpirationDate;
+            DateTimeOffset? result = appReg.ExpirationDate;
 
             // Assert
             Assert.AreEqual(laterDate, result);
@@ -91,14 +91,14 @@ namespace RepoGovernance.Tests.Models
         public void AzureAppRegistration_ExpirationDate_WithNullValues_ReturnsLatestNonNullDate()
         {
             // Arrange
-            var appReg = new AzureAppRegistration();
-            var validDate = DateTimeOffset.Now.AddDays(30);
+            AzureAppRegistration appReg = new AzureAppRegistration();
+            DateTimeOffset validDate = DateTimeOffset.Now.AddDays(30);
             appReg.ExpirationDates.Add(null);
             appReg.ExpirationDates.Add(validDate);
             appReg.ExpirationDates.Add(null);
 
             // Act
-            var result = appReg.ExpirationDate;
+            DateTimeOffset? result = appReg.ExpirationDate;
 
             // Assert
             Assert.AreEqual(validDate, result);
@@ -108,10 +108,10 @@ namespace RepoGovernance.Tests.Models
         public void AzureAppRegistration_ExpirationDateString_NoExpirationDate_ReturnsCorrectMessage()
         {
             // Arrange
-            var appReg = new AzureAppRegistration();
+            AzureAppRegistration appReg = new AzureAppRegistration();
 
             // Act
-            var result = appReg.ExpirationDateString;
+            string result = appReg.ExpirationDateString;
 
             // Assert
             Assert.AreEqual("No expiration date found", result);
@@ -121,12 +121,12 @@ namespace RepoGovernance.Tests.Models
         public void AzureAppRegistration_ExpirationDateString_FutureDate_ReturnsExpiringMessage()
         {
             // Arrange
-            var appReg = new AzureAppRegistration();
-            var futureDate = DateTimeOffset.Now.AddDays(30);
+            AzureAppRegistration appReg = new AzureAppRegistration();
+            DateTimeOffset futureDate = DateTimeOffset.Now.AddDays(30);
             appReg.ExpirationDates.Add(futureDate);
 
             // Act
-            var result = appReg.ExpirationDateString;
+            string result = appReg.ExpirationDateString;
 
             // Assert
             Assert.IsTrue(result.StartsWith("Expiring on"));
@@ -137,12 +137,12 @@ namespace RepoGovernance.Tests.Models
         public void AzureAppRegistration_ExpirationDateString_PastDate_ReturnsExpiredMessage()
         {
             // Arrange
-            var appReg = new AzureAppRegistration();
-            var pastDate = DateTimeOffset.Now.AddDays(-30);
+            AzureAppRegistration appReg = new AzureAppRegistration();
+            DateTimeOffset pastDate = DateTimeOffset.Now.AddDays(-30);
             appReg.ExpirationDates.Add(pastDate);
 
             // Act
-            var result = appReg.ExpirationDateString;
+            string result = appReg.ExpirationDateString;
 
             // Assert
             Assert.IsTrue(result.StartsWith("Expired on"));
@@ -153,12 +153,12 @@ namespace RepoGovernance.Tests.Models
         public void AzureAppRegistration_ExpirationDateString_OnlyNullDates_ReturnsNoExpirationMessage()
         {
             // Arrange
-            var appReg = new AzureAppRegistration();
+            AzureAppRegistration appReg = new AzureAppRegistration();
             appReg.ExpirationDates.Add(null);
             appReg.ExpirationDates.Add(null);
 
             // Act
-            var result = appReg.ExpirationDateString;
+            string result = appReg.ExpirationDateString;
 
             // Assert
             Assert.AreEqual("No expiration date found", result);

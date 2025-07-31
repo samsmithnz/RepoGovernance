@@ -17,7 +17,7 @@ namespace RepoGovernance.Tests.Models
             string expectedRepo = "testrepo";
 
             // Act
-            var userOwnerRepo = new UserOwnerRepo(expectedUser, expectedOwner, expectedRepo);
+            UserOwnerRepo userOwnerRepo = new UserOwnerRepo(expectedUser, expectedOwner, expectedRepo);
 
             // Assert
             Assert.AreEqual(expectedUser, userOwnerRepo.User);
@@ -29,7 +29,7 @@ namespace RepoGovernance.Tests.Models
         public void UserOwnerRepo_PropertySetters_WorkCorrectly()
         {
             // Arrange
-            var userOwnerRepo = new UserOwnerRepo("user1", "owner1", "repo1");
+            UserOwnerRepo userOwnerRepo = new UserOwnerRepo("user1", "owner1", "repo1");
 
             // Act
             userOwnerRepo.User = "user2";
@@ -46,7 +46,7 @@ namespace RepoGovernance.Tests.Models
         public void UserOwnerRepo_Constructor_HandlesEmptyStrings()
         {
             // Act
-            var userOwnerRepo = new UserOwnerRepo("", "", "");
+            UserOwnerRepo userOwnerRepo = new UserOwnerRepo("", "", "");
 
             // Assert
             Assert.AreEqual("", userOwnerRepo.User);
@@ -63,7 +63,7 @@ namespace RepoGovernance.Tests.Models
             string repo = "TestRepo";
 
             // Act
-            var userOwnerRepo = new UserOwnerRepo(user, owner, repo);
+            UserOwnerRepo userOwnerRepo = new UserOwnerRepo(user, owner, repo);
 
             // Assert
             Assert.AreEqual("TestUser", userOwnerRepo.User);
@@ -80,7 +80,7 @@ namespace RepoGovernance.Tests.Models
             string repo = "repo.name";
 
             // Act
-            var userOwnerRepo = new UserOwnerRepo(user, owner, repo);
+            UserOwnerRepo userOwnerRepo = new UserOwnerRepo(user, owner, repo);
 
             // Assert
             Assert.AreEqual("user-123", userOwnerRepo.User);

@@ -12,7 +12,7 @@ namespace RepoGovernance.Tests.Models
         public void SonarCloud_ParameterlessConstructor_PropertiesAreDefault()
         {
             // Act
-            var sonarCloud = new SonarCloud();
+            SonarCloud sonarCloud = new SonarCloud();
 
             // Assert
             Assert.IsNull(sonarCloud.CodeSmellsBadgeImage);
@@ -27,7 +27,7 @@ namespace RepoGovernance.Tests.Models
         public void SonarCloud_PropertySetters_WorkCorrectly()
         {
             // Arrange
-            var sonarCloud = new SonarCloud();
+            SonarCloud sonarCloud = new SonarCloud();
 
             // Act
             sonarCloud.CodeSmellsBadgeImage = "https://example.com/code-smells.svg";
@@ -50,7 +50,7 @@ namespace RepoGovernance.Tests.Models
         public void SonarCloud_PropertySetters_HandleNullValues()
         {
             // Arrange
-            var sonarCloud = new SonarCloud();
+            SonarCloud sonarCloud = new SonarCloud();
             sonarCloud.CodeSmellsBadgeImage = "test";
             sonarCloud.CodeSmellsLink = "test";
             sonarCloud.BugsBadgeImage = "test";
@@ -79,7 +79,7 @@ namespace RepoGovernance.Tests.Models
         public void SonarCloud_PropertySetters_HandleEmptyStrings()
         {
             // Arrange
-            var sonarCloud = new SonarCloud();
+            SonarCloud sonarCloud = new SonarCloud();
 
             // Act
             sonarCloud.CodeSmellsBadgeImage = "";
