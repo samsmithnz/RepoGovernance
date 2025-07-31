@@ -251,7 +251,7 @@ namespace RepoGovernance.Tests
                 int itemsUpdated = await SummaryItemsDA.UpdateSummaryItemWithLocalNuGetScan(
                     null, // GitHubId
                     null, // GitHubSecret  
-                    null, // AzureStorageConnectionString - will cause exception but that's expected in test
+                    null, // CosmosDBConnectionString - will cause exception but that's expected in test
                     null, // DevOpsServiceURL
                     user, owner, repo,
                     null, // AzureTenantId

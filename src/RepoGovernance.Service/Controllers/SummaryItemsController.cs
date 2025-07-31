@@ -168,9 +168,6 @@ namespace RepoGovernance.Service.Controllers
             return await SummaryItemsDA.ApproveSummaryItemPRs(
                Configuration["AppSettings:GitHubClientId"],
                Configuration["AppSettings:GitHubClientSecret"],
-               //Configuration["AppSettings:StorageConnectionString"],
-               //Configuration["AppSettings:DevOpsServiceURL"],
-               //user, 
                owner, repo, approver);
         }
     }
