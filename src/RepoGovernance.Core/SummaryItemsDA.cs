@@ -114,11 +114,6 @@ namespace RepoGovernance.Core
                 {
                     azureDeployment = existingItem.AzureDeployment;
                 }
-                //save the nuget packages - since they are updated in a separate process, and we don't want to lose them here.
-                if (existingItem != null && existingItem.NuGetPackages.Count > 0)
-                {
-                    summaryItem.NuGetPackages = existingItem.NuGetPackages;
-                }
             }
 
             try
