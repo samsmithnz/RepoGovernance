@@ -22,6 +22,7 @@ This document contains coding standards and guidelines for the RepoGovernance pr
 - Use meaningful namespace organization
 - Keep methods focused and single-purpose
 - Prefer composition over inheritance where appropriate
+- **Always use braces `{ }` for all control statements**, even for single-line if statements and loops
 
 ### Testing Requirements
 - **ALL new code must include comprehensive unit tests**
@@ -132,6 +133,38 @@ public void GetColorFromStatus_ValidStatus_ReturnsExpectedColor()
     // Assert
     Assert.AreEqual(expectedColor, actualColor);
 }
+```
+
+### Correct Brace Usage
+```csharp
+// ✅ Good - Always use braces
+if (user != null)
+{
+    ProcessUser(user);
+}
+
+for (int i = 0; i < items.Count; i++)
+{
+    ProcessItem(items[i]);
+}
+
+while (hasMoreData)
+{
+    data = GetNextData();
+}
+```
+
+### Incorrect Brace Usage
+```csharp
+// ❌ Bad - Missing braces for single statements
+if (user != null)
+    ProcessUser(user);  // Should have braces
+
+for (int i = 0; i < items.Count; i++)
+    ProcessItem(items[i]);  // Should have braces
+
+while (hasMoreData)
+    data = GetNextData();  // Should have braces
 ```
 
 Please ensure all generated code follows these guidelines to maintain consistency and quality across the RepoGovernance codebase.
