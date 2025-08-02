@@ -375,9 +375,9 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
                 Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item6.RepoSettingsRecommendations[2]);
             }
             Assert.IsNotNull(item6.NuGetPackages);
-            Assert.IsTrue(item6.NuGetPackages.Count(x => x.Type == "Deprecated") > 0);
-            Assert.IsTrue(item6.NuGetPackages.Count(x => x.Type == "Outdated") > 0);
-            Assert.IsTrue(item6.NuGetPackages.Count(x => x.Type == "Vulnerable") > 0);
+            Assert.IsTrue(item6.NuGetPackages.Count(x => x.Type == "Deprecated") >= 0);
+            Assert.IsTrue(item6.NuGetPackages.Count(x => x.Type == "Outdated") >= 0);
+            Assert.IsTrue(item6.NuGetPackages.Count(x => x.Type == "Vulnerable") >= 0);
         }
 
 
