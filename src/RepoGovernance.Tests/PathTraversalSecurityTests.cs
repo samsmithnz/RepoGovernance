@@ -214,6 +214,34 @@ namespace RepoGovernance.Tests
                 "Malicious state parameter should be properly URL encoded and contain %26 for ampersand");
         }
 
+        [TestMethod]
+        public void BaseApi_ShouldRejectAdvancedPathTraversalAttacks()
+        {
+            // Test uppercase URL-encoded path traversal
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
+                TestHelper.CallBaseApiWithUrl("https://api.github.com/%2E%2E%2F%2E%2E%2Fadmin");
+            });
+
+            // Test double-encoded path traversal
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
+                TestHelper.CallBaseApiWithUrl("https://api.github.com/%252e%252e%252f%252e%252e%252fadmin");
+            });
+
+            // Test null byte injection
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
+                TestHelper.CallBaseApiWithUrl("https://api.github.com/api%00/../admin");
+            });
+
+            // Test protocol-relative URLs
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
+                TestHelper.CallBaseApiWithUrl("//malicious.com/steal-data");
+            });
+        }
+
 
     }
 
