@@ -249,6 +249,71 @@ namespace RepoGovernance.Tests.APIAccess
                 await BaseApi.GetResponse<TestModel>(client, "   ");
             });
         }
+
+        [TestMethod]
+        public async Task BaseApi_GetResponse_UppercaseUrlEncodedPathTraversal_ThrowsException()
+        {
+            // Arrange
+            using HttpClient client = new HttpClient();
+
+            // Act & Assert
+            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            {
+                await BaseApi.GetResponse<TestModel>(client, "http://example.com/%2E%2E%2F%2E%2E%2Fpasswd");
+            });
+        }
+
+        [TestMethod]
+        public async Task BaseApi_GetResponse_DoubleEncodedPathTraversal_ThrowsException()
+        {
+            // Arrange
+            using HttpClient client = new HttpClient();
+
+            // Act & Assert
+            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            {
+                await BaseApi.GetResponse<TestModel>(client, "http://example.com/%252e%252e%252f%252e%252e%252fpasswd");
+            });
+        }
+
+        [TestMethod]
+        public async Task BaseApi_GetResponse_NullByteInjection_ThrowsException()
+        {
+            // Arrange
+            using HttpClient client = new HttpClient();
+
+            // Act & Assert
+            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            {
+                await BaseApi.GetResponse<TestModel>(client, "http://example.com/api%00/../passwd");
+            });
+        }
+
+        [TestMethod]
+        public async Task BaseApi_GetResponse_ProtocolRelativeUrl_ThrowsException()
+        {
+            // Arrange
+            using HttpClient client = new HttpClient();
+
+            // Act & Assert
+            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            {
+                await BaseApi.GetResponse<TestModel>(client, "//malicious.com/api");
+            });
+        }
+
+        [TestMethod]
+        public async Task BaseApi_GetResponse_MixedCasePathTraversal_ThrowsException()
+        {
+            // Arrange
+            using HttpClient client = new HttpClient();
+
+            // Act & Assert
+            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            {
+                await BaseApi.GetResponse<TestModel>(client, "http://example.com/../..\\..\\passwd");
+            });
+        }
     }
 
     // Mock HTTP message handler for testing
