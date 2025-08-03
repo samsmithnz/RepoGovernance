@@ -13,8 +13,13 @@ namespace RepoGovernance.Service.Controllers
         //    RepoGovernance.Core.APIAccess.GitHubApiAccess.GetRepo();
         //}
         [HttpGet("GetRepos")]
-        public List<UserOwnerRepo> GetRepos(string user)
+        public ActionResult<List<UserOwnerRepo>> GetRepos(string user)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             return DatabaseAccess.GetRepos(user);
         }
     }
