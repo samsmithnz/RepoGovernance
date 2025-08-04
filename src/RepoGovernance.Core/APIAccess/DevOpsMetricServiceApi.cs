@@ -8,10 +8,13 @@ namespace RepoGovernance.Core.APIAccess
 
         public DevOpsMetricServiceApi(string devOpsServiceURL)
         {
-            Client = new HttpClient
+            Client = new HttpClient();
+            
+            // Handle empty/null/invalid URLs gracefully
+            if (!string.IsNullOrEmpty(devOpsServiceURL) && Uri.TryCreate(devOpsServiceURL, UriKind.Absolute, out Uri? baseUri))
             {
-                BaseAddress = new Uri(devOpsServiceURL)
-            };
+                Client.BaseAddress = baseUri;
+            }
         }
 
         public async Task<DORASummaryItem?> GetDORASummaryItems(string owner, string repo)

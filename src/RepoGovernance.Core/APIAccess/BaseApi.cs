@@ -51,8 +51,23 @@ namespace RepoGovernance.Core.APIAccess
                 return false;
             }
 
-            // Check for path traversal sequences
-            if (url.Contains("../") || url.Contains("..\\") || url.Contains("%2e%2e%2f") || url.Contains("%2e%2e%5c"))
+            // Check for path traversal sequences (case-insensitive and double-encoded variants)
+            string urlLower = url.ToLowerInvariant();
+            if (urlLower.Contains("../") || urlLower.Contains("..\\") || 
+                urlLower.Contains("%2e%2e%2f") || urlLower.Contains("%2e%2e%5c") ||
+                urlLower.Contains("%252e%252e%252f") || urlLower.Contains("%252e%252e%255c"))
+            {
+                return false;
+            }
+
+            // Check for null byte injection
+            if (url.Contains('\0') || url.Contains("%00"))
+            {
+                return false;
+            }
+
+            // Block protocol-relative URLs
+            if (url.StartsWith("//"))
             {
                 return false;
             }
