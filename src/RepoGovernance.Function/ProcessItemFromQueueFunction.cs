@@ -54,6 +54,8 @@ namespace RepoGovernance.Function
                 Configuration["SummaryQueueConnection"],
                 Configuration["DevOpsServiceURL"],
                 user, owner, repo,
+                Configuration["GitHubId"],
+                Configuration["GitHubSecret"],
                 Configuration["AzureTenantId"],
                 Configuration["AzureClientId"],
                 Configuration["AzureClientSecret"]);
