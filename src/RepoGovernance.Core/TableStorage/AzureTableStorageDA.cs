@@ -59,26 +59,6 @@ namespace RepoGovernance.Core.TableStorage
                         }
                     }
                 }
-                            // Run the API/database update in parallel
-                            tasks.Add(Task.Run(async () =>
-                            {
-                                SummaryItem newSummaryItem = new(partitionKey, keys[0], keys[1]);
-                                RepoAutomation.Core.Models.Repo? repoSettings = await GitHubApiAccess.GetRepo(gitHubId, gitHubSecret, keys[0], keys[1]);
-                                if (repoSettings != null)
-                                {
-                                    newSummaryItem.RepoSettings = repoSettings;
-                                }
-                                await UpdateSummaryItemsIntoTable(connectionString, partitionKey, keys[0], keys[1], newSummaryItem);
-                                concurrentResults.Add(newSummaryItem);
-                            }));
-                        }
-                    }
-                }
-            }
-            if (tasks.Count > 0)
-            {
-                await Task.WhenAll(tasks);
-                results.AddRange(concurrentResults);
             }
             return results;
         }
