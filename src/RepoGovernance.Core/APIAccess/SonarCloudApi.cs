@@ -38,18 +38,30 @@ namespace RepoGovernance.Core.APIAccess
 
         public async static Task<string?> GetSonarCloudCodeSmells(string owner, string repo)
         {
+            if (owner == null || repo == null)
+            {
+                return null;
+            }
             string url = $"https://sonarcloud.io/api/project_badges/measure?project={Uri.EscapeDataString(owner)}_{Uri.EscapeDataString(repo)}&metric=code_smells";
             return await GetResponseString(new(), url, true);
         }
 
         public async static Task<string?> GetSonarCloudCodeBugs(string owner, string repo)
         {
+            if (owner == null || repo == null)
+            {
+                return null;
+            }
             string url = $"https://sonarcloud.io/api/project_badges/measure?project={Uri.EscapeDataString(owner)}_{Uri.EscapeDataString(repo)}&metric=bugs";
             return await GetResponseString(new(), url, true);
         }
 
         public async static Task<string?> GetSonarCloudLinesOfCode(string owner, string repo)
         {
+            if (owner == null || repo == null)
+            {
+                return null;
+            }
             string url = $"https://sonarcloud.io/api/project_badges/measure?project={Uri.EscapeDataString(owner)}_{Uri.EscapeDataString(repo)}&metric=ncloc";
             return await GetResponseString(new(), url, true);
         }

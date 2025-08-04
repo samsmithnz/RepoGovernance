@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RepoGovernance.Core.Models;
 using RepoGovernance.Service.Controllers;
 using RepoGovernance.Service.Models;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace RepoGovernance.Tests;
@@ -66,6 +68,20 @@ public class ModelStateValidationTests
 
         // Act
         var result = controller.UpdateSummaryItemNuGetPackageStats(payload).Result;
+
+        // Assert
+        Assert.IsInstanceOfType(result.Result, typeof(Microsoft.AspNetCore.Mvc.BadRequestObjectResult));
+    }
+
+    [TestMethod]
+    public void GitHubController_GetRepos_InvalidModelState_ReturnsBadRequest()
+    {
+        // Arrange
+        GitHubController controller = new GitHubController();
+        controller.ModelState.AddModelError("user", "The user field is required");
+
+        // Act
+        ActionResult<List<UserOwnerRepo>> result = controller.GetRepos("testuser");
 
         // Assert
         Assert.IsInstanceOfType(result.Result, typeof(Microsoft.AspNetCore.Mvc.BadRequestObjectResult));

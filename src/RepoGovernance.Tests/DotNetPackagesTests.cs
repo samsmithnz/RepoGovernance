@@ -20,7 +20,7 @@ namespace RepoGovernance.Tests
         {
             //Arrange
             System.IO.DirectoryInfo dir = new(Directory.GetCurrentDirectory());
-            string path = dir?.Parent?.Parent?.Parent?.FullName + @"\Sample\src\";
+            string path = Path.Combine(dir?.Parent?.Parent?.Parent?.FullName ?? "", "Sample", "src");
             //Debug.WriteLine("Path to test");
             //Debug.WriteLine(path);
             DotNetPackages dotNetPackages = new();
@@ -42,7 +42,7 @@ namespace RepoGovernance.Tests
         {
             //Arrange
             System.IO.DirectoryInfo dir = new(Directory.GetCurrentDirectory());
-            string path = dir?.Parent?.Parent?.Parent?.FullName + @"\Sample\src\";
+            string path = Path.Combine(dir?.Parent?.Parent?.Parent?.FullName ?? "", "Sample", "src");
             DotNetPackages dotNetPackages = new();
             //Get the output from the process
             string json = dotNetPackages.GetProcessOutput(path, "list package --outdated --format json");
@@ -63,7 +63,7 @@ namespace RepoGovernance.Tests
         {
             //Arrange
             DirectoryInfo dir = new(Directory.GetCurrentDirectory());
-            string path = dir?.Parent?.Parent?.Parent?.FullName + @"\Sample\src\";
+            string path = Path.Combine(dir?.Parent?.Parent?.Parent?.FullName ?? "", "Sample", "src");
             DotNetPackages dotNetPackages = new();
             //Get the output from the process
             string json = dotNetPackages.GetProcessOutput(path, "list package --deprecated --format json");
