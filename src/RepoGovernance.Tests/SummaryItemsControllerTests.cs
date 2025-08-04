@@ -37,6 +37,8 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             AzureStorageConnectionString,
             DevOpsServiceURL,
             user, owner, repo,
+            GitHubId,
+            GitHubSecret,
             AzureTenantId,
             AzureClientId,
             AzureClientSecret,
@@ -72,6 +74,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             AzureStorageConnectionString,
             DevOpsServiceURL,
             user, owner, repo,
+            GitHubId, GitHubSecret,
             AzureTenantId,
             AzureClientId,
             AzureClientSecret,
@@ -105,6 +108,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             AzureStorageConnectionString,
             DevOpsServiceURL,
             user, owner, repo,
+            GitHubId, GitHubSecret,
             AzureTenantId,
             AzureClientId,
             AzureClientSecret,
@@ -137,6 +141,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             AzureStorageConnectionString,
             DevOpsServiceURL,
             user, owner, repo,
+            GitHubId, GitHubSecret,
             AzureTenantId,
             AzureClientId,
             AzureClientSecret,
@@ -169,6 +174,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             AzureStorageConnectionString,
             DevOpsServiceURL,
             user, owner, repo,
+            GitHubId, GitHubSecret,
             AzureTenantId,
             AzureClientId,
             AzureClientSecret,
@@ -234,7 +240,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         string owner = "samsmithnz";
 
         //Act
-        List<SummaryItem> summaryItems = await SummaryItemsDA.GetSummaryItems(AzureStorageConnectionString, owner);
+        List<SummaryItem> summaryItems = await SummaryItemsDA.GetSummaryItems(AzureStorageConnectionString, owner, GitHubId, GitHubSecret);
 
         //Assert
         Assert.IsNotNull(summaryItems);
@@ -448,7 +454,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
         Assert.AreEqual(1, itemsUpdated);
 
         // Verify that the NuGet packages were processed
-        SummaryItem? summaryItem = await SummaryItemsDA.GetSummaryItem(AzureStorageConnectionString, user, owner, repo);
+        SummaryItem? summaryItem = await SummaryItemsDA.GetSummaryItem(AzureStorageConnectionString, user, owner, repo, GitHubId, GitHubSecret);
         Assert.IsNotNull(summaryItem);
         Assert.IsTrue(summaryItem.NuGetPackages.Any(p => p.Type == "Deprecated"));
     }
