@@ -48,6 +48,8 @@ namespace RepoGovernance.Service.Controllers
                 Configuration["AppSettings:CosmosDBConnectionString"],//Configuration["AppSettings:StorageConnectionString"],
                 Configuration["AppSettings:DevOpsServiceURL"],
                 user, owner, repo,
+                Configuration["AppSettings:GitHubId"],
+                Configuration["AppSettings:GitHubSecret"],
                 Configuration["AppSettings:AzureTenantId"],
                 Configuration["AppSettings:AzureClientId"],
                 Configuration["AppSettings:AzureClientSecret"]);
@@ -77,6 +79,8 @@ namespace RepoGovernance.Service.Controllers
                 Configuration["AppSettings:CosmosDBConnectionString"],
                 Configuration["AppSettings:DevOpsServiceURL"],
                 request.User, request.Owner, request.Repo,
+                Configuration["AppSettings:GitHubId"],
+                Configuration["AppSettings:GitHubSecret"],
                 Configuration["AppSettings:AzureTenantId"],
                 Configuration["AppSettings:AzureClientId"],
                 Configuration["AppSettings:AzureClientSecret"],
@@ -110,6 +114,8 @@ namespace RepoGovernance.Service.Controllers
                 return await SummaryItemsDA.UpdateSummaryItemNuGetPackageStats(
                     Configuration["AppSettings:CosmosDBConnectionString"],
                     user, owner, repo,
+                    Configuration["AppSettings:GitHubId"],
+                    Configuration["AppSettings:GitHubSecret"],
                     jsonPayload, payloadType);
             }
             else
@@ -133,7 +139,9 @@ namespace RepoGovernance.Service.Controllers
 
             return await SummaryItemsDA.GetSummaryItems(
                 Configuration["AppSettings:CosmosDBConnectionString"], //Configuration["AppSettings:StorageConnectionString"],
-                user);
+                user,
+                Configuration["AppSettings:GitHubId"],
+                Configuration["AppSettings:GitHubSecret"]);
         }
 
         /// <summary>
@@ -152,7 +160,9 @@ namespace RepoGovernance.Service.Controllers
 
             return await SummaryItemsDA.GetSummaryItem(
                 Configuration["AppSettings:CosmosDBConnectionString"],
-                user, owner, repo);
+                user, owner, repo,
+                Configuration["AppSettings:GitHubId"],
+                Configuration["AppSettings:GitHubSecret"]);
         }
 
 

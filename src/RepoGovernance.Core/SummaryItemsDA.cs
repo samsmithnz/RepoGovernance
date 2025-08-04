@@ -41,12 +41,14 @@ namespace RepoGovernance.Core
         /// <exception cref="ArgumentException"></exception>
         public static async Task<List<SummaryItem>> GetSummaryItems(
             string? connectionString,
-            string owner)
+            string owner,
+            string? gitHubId,
+            string? gitHubSecret)
         {
             List<SummaryItem> results;
             if (connectionString != null)
             {
-                results = await AzureTableStorageDA.GetSummaryItemsFromTable(connectionString, "Summary", owner);
+                results = await AzureTableStorageDA.GetSummaryItemsFromTable(connectionString, "Summary", owner, gitHubId, gitHubSecret);
             }
             else
             {
@@ -58,10 +60,12 @@ namespace RepoGovernance.Core
         }
 
         public static async Task<SummaryItem?> GetSummaryItem(string connectionString,
-            string user, string owner, string repo)
+            string user, string owner, string repo,
+            string? gitHubId,
+            string? gitHubSecret)
         {
             SummaryItem? result = null;
-            List<SummaryItem> summaryItems = await GetSummaryItems(connectionString, user);
+            List<SummaryItem> summaryItems = await GetSummaryItems(connectionString, user, gitHubId, gitHubSecret);
             if (summaryItems != null)
             {
                 foreach (SummaryItem item in summaryItems)
@@ -94,6 +98,8 @@ namespace RepoGovernance.Core
             string user,
             string owner,
             string repo,
+            string? gitHubId,
+            string? gitHubSecret,
             string? azureTenantId,
             string? azureClientId,
             string? azureClientSecret,
@@ -109,7 +115,7 @@ namespace RepoGovernance.Core
             if (azureDeployment == null && connectionString != null)
             {
                 //check to make sure there isn't data in the table already for Azure deployments, and pull it out to save it
-                SummaryItem? existingItem = await GetSummaryItem(connectionString, user, owner, repo);
+                SummaryItem? existingItem = await GetSummaryItem(connectionString, user, owner, repo, gitHubId, gitHubSecret);
                 if (existingItem != null && existingItem.AzureDeployment != null)
                 {
                     azureDeployment = existingItem.AzureDeployment;
@@ -356,7 +362,7 @@ namespace RepoGovernance.Core
                 else if (summaryItem != null && repoLanguages == null && connectionString != null)
                 {
                     //If we couldn't find languages last time - lets pull up the existing summary item and use that
-                    SummaryItem? summaryItem2 = await GetSummaryItem(connectionString, user, owner, repo);
+                    SummaryItem? summaryItem2 = await GetSummaryItem(connectionString, user, owner, repo, gitHubId, gitHubSecret);
                     if (summaryItem2 != null && summaryItem2.RepoLanguages != null)
                     {
                         summaryItem.RepoLanguages = summaryItem2.RepoLanguages;
@@ -405,7 +411,7 @@ namespace RepoGovernance.Core
                 string message = ex.ToString();
                 if (connectionString != null)
                 {
-                    summaryItem = await GetSummaryItem(connectionString, user, owner, repo);
+                    summaryItem = await GetSummaryItem(connectionString, user, owner, repo, gitHubId, gitHubSecret);
                     if (summaryItem != null)
                     {
                         summaryItem.LastUpdatedMessage = "Error at " + DateTime.Now.ToString() + ": " + ex.ToString();
@@ -450,6 +456,8 @@ namespace RepoGovernance.Core
             string user,
             string owner,
             string repo,
+            string? gitHubId,
+            string? gitHubSecret,
             string? azureTenantId,
             string? azureClientId,
             string? azureClientSecret,
@@ -466,14 +474,14 @@ namespace RepoGovernance.Core
                 try
                 {
                     DotNetPackages dotNetPackages = new();
-                    
+
                     // Check if there are .NET solution files in the path
                     string[] solutionFiles = Directory.GetFiles(localRepositoryPath, "*.sln", SearchOption.AllDirectories);
                     if (solutionFiles.Length > 0)
                     {
                         // Use the directory containing the first solution file found
                         string solutionDir = Path.GetDirectoryName(solutionFiles[0]) ?? localRepositoryPath;
-                        
+
                         // Perform comprehensive NuGet scan
                         NugetScanResults scanResults = dotNetPackages.ScanAllPackages(solutionDir);
                         nugetDeprecatedPayload = scanResults.DeprecatedJson;
@@ -491,7 +499,7 @@ namespace RepoGovernance.Core
             // Call the existing UpdateSummaryItem method with the scanned data
             return await UpdateSummaryItem(
                 clientId, secret, connectionString, devOpsServiceURL,
-                user, owner, repo, azureTenantId, azureClientId, azureClientSecret,
+                user, owner, repo, gitHubId, gitHubSecret, azureTenantId, azureClientId, azureClientSecret,
                 azureDeployment, nugetDeprecatedPayload, nugetOutdatedPayload, nugetVulnerablePayload);
         }
 
@@ -560,13 +568,15 @@ namespace RepoGovernance.Core
             string user,
             string owner,
             string repo,
+            string? gitHubId,
+            string? gitHubSecret,
             string nugetPayload,
             string payloadType)
         {
             int itemsUpdated = 0;
 
             //Get the summary item
-            SummaryItem? summaryItem = await GetSummaryItem(connectionString, user, owner, repo);
+            SummaryItem? summaryItem = await GetSummaryItem(connectionString, user, owner, repo, gitHubId, gitHubSecret);
             if (summaryItem != null && nugetPayload != null && payloadType != null)
             {
                 List<NugetPackage>? nugetResults = ProcessNuGetPackagePayload(summaryItem, nugetPayload, payloadType);
