@@ -1,5 +1,6 @@
-﻿using System.Text.Json;
+﻿using RepoAutomation.Core.APIAccess;
 using RepoGovernance.Core.Models;
+using System.Text.Json;
 
 namespace RepoGovernance.Core.TableStorage
 {
@@ -24,7 +25,7 @@ namespace RepoGovernance.Core.TableStorage
         }
 
         public static async Task<List<SummaryItem>> GetSummaryItemsFromTable(string connectionString, string tableName,
-            string partitionKey)
+            string partitionKey, string? gitHubId, string? gitHubSecret)
         {
             TableStorageCommonDA tableDA = new(connectionString, tableName);
             List<AzureStorageTableModel> items = await tableDA.GetItems(partitionKey);
@@ -32,12 +33,30 @@ namespace RepoGovernance.Core.TableStorage
             foreach (AzureStorageTableModel item in items)
             {
                 string? data = item.Data?.ToString();
-                if (data != null)
+                if (string.IsNullOrEmpty(data) == false)
                 {
                     SummaryItem? summaryItem = JsonSerializer.Deserialize<SummaryItem>(data);
                     if (summaryItem != null)
                     {
                         results.Add(summaryItem);
+                    }
+                }
+                else
+                {
+                    if (item.RowKey != null)
+                    {
+                        string[] keys = item.RowKey.Split('_');
+                        if (keys.Length == 2)
+                        {
+                            SummaryItem newSummaryItem = new(partitionKey, keys[0], keys[1]);
+                            RepoAutomation.Core.Models.Repo? repoSettings = await GitHubApiAccess.GetRepo(gitHubId, gitHubSecret, keys[0], keys[1]);
+                            if (repoSettings != null)
+                            {
+                                newSummaryItem.RepoSettings = repoSettings;
+                            }
+                            await UpdateSummaryItemsIntoTable(connectionString, partitionKey, keys[0], keys[1], newSummaryItem);
+                            results.Add(newSummaryItem);
+                        }
                     }
                 }
             }
