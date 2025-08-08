@@ -142,36 +142,9 @@
                         <span class="iconify" data-icon="octicon:git-pull-request-16"></span> <a href="https://github.com/@item.Owner/@item.Repo/pulls" target="_blank" title="View all PRs" style="font-size: 14px;">@item.PullRequests.Count</a>
                         <br />
 
-                        @if (item.Release != null || item.CoverallsCodeCoverage != null)
+                        @if (item.Release != null)
                         {
-                            @if (item.Release != null)
-                            {
                                 <a href="@item.Release.html_url" target="_blank"><img src="https://img.shields.io/static/v1?label=Latest%20release&logo=github&message=@item.Release.name%20@(item.Release.ToTimingString())&color=blue" alt="Release badge"></a>
-                            }
-                            @if (item.CoverallsCodeCoverage != null)
-                            {
-                                string codeCoverageColor = "yellow";
-                                if (item.CoverallsCodeCoverage.covered_percent < 50)
-                                {
-                                    codeCoverageColor = "red";
-                                }
-                                else if (item.CoverallsCodeCoverage.covered_percent >= 80)
-                                {
-                                    codeCoverageColor = "brightgreen";
-                                }
-                                <a href="https://coveralls.io/github/@(item.Owner)/@(item.Repo)" target="_blank"><img src="https://img.shields.io/static/v1?label=Code%20coverage&logo=coveralls&message=@item.CoverallsCodeCoverage.covered_percent.ToString("0")%&color=@codeCoverageColor" alt="Coveralls code coverage badge"></a>
-                            }
-                            @if (item.SonarCloud != null)
-                            {
-                                if (item.SonarCloud.CodeSmellsBadgeImage != null)
-                                {
-                                    <a href="@item.SonarCloud.CodeSmellsLink" target="_blank">@Html.Raw(item.SonarCloud.CodeSmellsBadgeImage)</a>
-                                }
-                                if (item.SonarCloud.BugsBadgeImage != null)
-                                {
-                                    <a href="@item.SonarCloud.BugsLink" target="_blank">@Html.Raw(item.SonarCloud.BugsBadgeImage)</a>
-                                }
-                            }
                         }
                         @{
                             // Security badge color logic: Green (0 issues), Orange (1-5 issues), Red (>5 issues)
@@ -182,6 +155,32 @@
                             }
                         }
                         <a href="https://github.com/@item.Owner/@item.Repo/security" target="_blank"><img src="https://img.shields.io/static/v1?label=Security%20issues&logo=github&message=@item.SecurityIssuesCount&color=@securityColor" alt="GitHub security issues badge"></a>
+                        <br />
+  
+                        @if (item.CoverallsCodeCoverage != null)
+                        {
+                            string codeCoverageColor = "yellow";
+                            if (item.CoverallsCodeCoverage.covered_percent < 50)
+                            {
+                                codeCoverageColor = "red";
+                            }
+                            else if (item.CoverallsCodeCoverage.covered_percent >= 80)
+                            {
+                                codeCoverageColor = "brightgreen";
+                            }
+                            <a href="https://coveralls.io/github/@(item.Owner)/@(item.Repo)" target="_blank"><img src="https://img.shields.io/static/v1?label=Code%20coverage&logo=coveralls&message=@item.CoverallsCodeCoverage.covered_percent.ToString("0")%&color=@codeCoverageColor" alt="Coveralls code coverage badge"></a>
+                        }
+                        @if (item.SonarCloud != null)
+                        {
+                            if (item.SonarCloud.CodeSmellsBadgeImage != null)
+                            {
+                                <a href="@item.SonarCloud.CodeSmellsLink" target="_blank">@Html.Raw(item.SonarCloud.CodeSmellsBadgeImage)</a>
+                            }
+                            if (item.SonarCloud.BugsBadgeImage != null)
+                            {
+                                <a href="@item.SonarCloud.BugsLink" target="_blank">@Html.Raw(item.SonarCloud.BugsBadgeImage)</a>
+                            }
+                        }
                         <br>
                         @if (item.RepoLanguages.Count > 0)
                         {
