@@ -190,7 +190,7 @@
                                 @*                               @if (item.RepoLanguagesLastUpdated != null)
                         {
                         DateTime repoLanguagesDateTime = (DateTime)item.RepoLanguagesLastUpdated;
-                        <i class="bi bi-info-circle" title='Repo langauges last updated on @repoLanguagesDateTime.ToString("d-MMM-yyyy hh:mm:sstt")'></i>
+                        <i class="bi bi-info-circle" title='Repo langauges last updated on @repoLanguagesDateTime.ToString("d-Mmm-yyyy hh:mm:sstt")'></i>
                         }*@
                                 @foreach (RepoLanguage language in item.RepoLanguages)
                                 {
@@ -250,7 +250,7 @@
                                 @for (int i = 0; i < item.AzureDeployment.AppRegistrations.Count; i++)
                                 {
                                     <li>
-                                        @if (item.AzureDeployment.AppRegistrations[i].ExpirationDate < DateTime.Now)
+                                        @if (item.AzureDeployment.AppRegistrations[i].ExpirationDate < DateTime.Now.AddDays(30))
                                         {
                                             <span style="color:red">Service principal #@(i + 1)</span>
                                             <i class="bi bi-info-circle" title='@item.AzureDeployment.AppRegistrations[i].Name, @item.AzureDeployment.AppRegistrations[i].ExpirationDateString'></i>

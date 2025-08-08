@@ -18,12 +18,12 @@ jobs:
       with:
         fetch-depth: 0
     - name: Setup GitVersion
-      uses: gittools/actions/gitversion/setup@v4.0.1
+      uses: gittools/actions/gitversion/setup@v4.1.0
       with:
         versionSpec: 6.x
     - name: Determine Version
       id: gitversion
-      uses: gittools/actions/gitversion/execute@v4.0.1
+      uses: gittools/actions/gitversion/execute@v4.1.0
     - name: Display GitVersion outputs
       run: |
         echo "Version: ${{ steps.gitversion.outputs.MajorMinorPatch }}"
@@ -97,7 +97,7 @@ jobs:
       continue-on-error: true
     - name: Show test results
       if: false
-      uses: samsmithnz/DotNetTestResults@0.1.16
+      uses: samsmithnz/DotNetTestResults@0.1.17
       with:
         fileName: ${{ github.workspace }}/TestOutput.xml
 
@@ -138,12 +138,12 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: service
           path: service
       - name: Download artifact from build job
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: web
           path: web
@@ -185,7 +185,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: function
           path: function
