@@ -90,7 +90,7 @@ jobs:
     - name: .NET test
       run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj --configuration Debug --logger trx -e:CollectCoverage=true -e:CoverletOutput=TestResults/ -e:CoverletOutputFormat=lcov -l "console;verbosity=detailed"
     - name: Publish coverage report to coveralls.io
-      uses: coverallsapp/github-action@master
+      uses: coverallsapp/github-action@v2.3.6
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: src/RepoGovernance.Tests/TestResults/coverage.info 
