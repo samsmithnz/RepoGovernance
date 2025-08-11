@@ -17,7 +17,7 @@ namespace RepoGovernance.Web.Services
             base.SetupClient(client);
         }
 
-        public async Task<List<SummaryItem>> GetSummaryItems(string user)
+        public virtual async Task<List<SummaryItem>> GetSummaryItems(string user)
         {
             Uri url = new($"api/SummaryItems/GetSummaryItems?user={Uri.EscapeDataString(user)}", UriKind.Relative);
             List<SummaryItem>? results = await base.ReadMessageList<SummaryItem>(url);
@@ -31,7 +31,7 @@ namespace RepoGovernance.Web.Services
             }
         }
 
-        public async Task<SummaryItem?> GetSummaryItem(string user, string owner, string repo)
+        public virtual async Task<SummaryItem?> GetSummaryItem(string user, string owner, string repo)
         {
             List<SummaryItem>? results = await GetSummaryItems(user);
             foreach (SummaryItem? item in results)

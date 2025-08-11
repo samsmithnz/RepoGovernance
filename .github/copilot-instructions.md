@@ -28,6 +28,7 @@ This document contains coding standards and guidelines for the RepoGovernance pr
 - **ALL new code must include comprehensive unit tests**
 - Test classes should follow the naming pattern: `{ClassUnderTest}Tests.cs`
 - Test methods should follow the pattern: `{MethodUnderTest}_{Scenario}_{ExpectedResult}`
+- **Use NSubstitute for all mocking** - Do NOT use MOQ or other mocking frameworks
 - Include tests for:
   - Happy path scenarios
   - Edge cases (null values, empty strings, boundary conditions)
@@ -132,6 +133,25 @@ public void GetColorFromStatus_ValidStatus_ReturnsExpectedColor()
     
     // Assert
     Assert.AreEqual(expectedColor, actualColor);
+}
+```
+
+### NSubstitute Mocking Example
+```csharp
+[TestMethod]
+public void ServiceMethod_WithMockedDependency_ReturnsExpectedResult()
+{
+    // Arrange
+    IConfiguration mockConfig = Substitute.For<IConfiguration>();
+    mockConfig.GetConnectionString("DefaultConnection").Returns("test-connection");
+    
+    MyService service = new MyService(mockConfig);
+    
+    // Act
+    string result = service.GetConnectionString();
+    
+    // Assert
+    Assert.AreEqual("test-connection", result);
 }
 ```
 
