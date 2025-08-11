@@ -292,7 +292,6 @@ public class HomeController : Controller
         }
 
         // Filter out ignored recommendations
-        string currentUser = "samsmithnz";
         List<IgnoredRecommendation> ignoredRecommendations = await _ignoredRecommendationsDA.GetIgnoredRecommendations(currentUser);
         List<string> ignoredIds = ignoredRecommendations.Select(ir => ir.GetUniqueId()).ToList();
         
