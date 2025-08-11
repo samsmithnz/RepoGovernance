@@ -11,10 +11,10 @@ namespace RepoGovernance.Web.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly SummaryItemsServiceApiClient _ServiceApiClient;
+    private readonly ISummaryItemsServiceApiClient _ServiceApiClient;
     private readonly IgnoredRecommendationsDA _ignoredRecommendationsDA;
 
-    public HomeController(SummaryItemsServiceApiClient ServiceApiClient, IConfiguration configuration)
+    public HomeController(ISummaryItemsServiceApiClient ServiceApiClient, IConfiguration configuration)
     {
         _ServiceApiClient = ServiceApiClient;
         

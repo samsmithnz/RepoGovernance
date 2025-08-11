@@ -16,7 +16,7 @@ namespace RepoGovernance.Tests
     {
         private HomeController GetController()
         {
-            SummaryItemsServiceApiClient mockServiceClient = Substitute.For<SummaryItemsServiceApiClient>();
+            ISummaryItemsServiceApiClient mockServiceClient = Substitute.For<ISummaryItemsServiceApiClient>();
             IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
             IConfigurationSection mockSection = Substitute.For<IConfigurationSection>();
             

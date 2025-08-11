@@ -3,7 +3,7 @@ using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Web.Services
 {
-    public class SummaryItemsServiceApiClient : BaseServiceApiClient
+    public class SummaryItemsServiceApiClient : BaseServiceApiClient, ISummaryItemsServiceApiClient
     {
         private readonly IConfiguration _configuration;
 

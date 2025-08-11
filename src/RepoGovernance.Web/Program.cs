@@ -7,7 +7,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
 
 //Add DI for the service api client 
-builder.Services.AddScoped<SummaryItemsServiceApiClient, SummaryItemsServiceApiClient>();
+builder.Services.AddScoped<ISummaryItemsServiceApiClient, SummaryItemsServiceApiClient>();
 
 var app = builder.Build();
 
