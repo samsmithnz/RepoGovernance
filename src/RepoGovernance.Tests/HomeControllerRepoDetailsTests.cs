@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+using NSubstitute;
 using RepoGovernance.Core.Models;
 using RepoGovernance.Web.Controllers;
 using RepoGovernance.Web.Models;
@@ -14,12 +14,12 @@ namespace RepoGovernance.Tests
     {
         private HomeController GetController()
         {
-            Mock<SummaryItemsServiceApiClient> mockServiceClient = new Mock<SummaryItemsServiceApiClient>();
-            Mock<IConfiguration> mockConfiguration = new Mock<IConfiguration>();
-            Mock<IConfigurationSection> mockSection = new Mock<IConfigurationSection>();
+            SummaryItemsServiceApiClient mockServiceClient = Substitute.For<SummaryItemsServiceApiClient>();
+            IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
+            IConfigurationSection mockSection = Substitute.For<IConfigurationSection>();
             
-            mockSection.Setup(s => s.Value).Returns("UseDevelopmentStorage=true");
-            mockConfiguration.Setup(c => c.GetConnectionString("DefaultConnection")).Returns("UseDevelopmentStorage=true");
+            mockSection.Value.Returns("UseDevelopmentStorage=true");
+            mockConfiguration.GetConnectionString("DefaultConnection").Returns("UseDevelopmentStorage=true");
 
             // Create test data
             List<SummaryItem> testSummaryItems = new List<SummaryItem>
@@ -40,10 +40,9 @@ namespace RepoGovernance.Tests
                 }
             };
 
-            mockServiceClient.Setup(s => s.GetSummaryItems(It.IsAny<string>()))
-                           .ReturnsAsync(testSummaryItems);
+            mockServiceClient.GetSummaryItems(Arg.Any<string>()).Returns(testSummaryItems);
 
-            return new HomeController(mockServiceClient.Object, mockConfiguration.Object);
+            return new HomeController(mockServiceClient, mockConfiguration);
         }
 
         [TestMethod]
