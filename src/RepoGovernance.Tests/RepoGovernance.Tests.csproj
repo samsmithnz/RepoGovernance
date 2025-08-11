@@ -47,6 +47,7 @@
   <ItemGroup>
     <ProjectReference Include="..\RepoGovernance.Core\RepoGovernance.Core.csproj" />
     <ProjectReference Include="..\RepoGovernance.Service\RepoGovernance.Service.csproj" />
+    <ProjectReference Include="..\RepoGovernance.Web\RepoGovernance.Web.csproj" />
   </ItemGroup>
 
 </Project>

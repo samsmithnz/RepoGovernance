@@ -45,10 +45,22 @@
                         <tr>
                             <td><strong>@task.Owner</strong></td>
                             <td>
-                                <a href="https://github.com/@task.Owner/@task.Repository" target="_blank" class="text-decoration-none">
-                                    @task.Repository
-                                    <i class="bi bi-box-arrow-up-right" style="font-size: 12px;"></i>
-                                </a>
+                                <div class="d-flex flex-column">
+                                    <div>
+                                        <a href="https://github.com/@task.Owner/@task.Repository" target="_blank" class="text-decoration-none">
+                                            @task.Repository
+                                            <i class="bi bi-box-arrow-up-right" style="font-size: 12px;"></i>
+                                        </a>
+                                    </div>
+                                    <div class="mt-1">
+                                        <a href="@Url.Action("RepoDetails", "Home", new { owner = task.Owner, repo = task.Repository, isContributor = Model.IsContributor })" 
+                                           class="btn btn-sm btn-outline-info"
+                                           style="font-size: 11px; padding: 2px 8px;"
+                                           title="View all recommendations for this repository">
+                                            <i class="bi bi-list-ul" style="font-size: 10px;"></i> View Details
+                                        </a>
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 @{
