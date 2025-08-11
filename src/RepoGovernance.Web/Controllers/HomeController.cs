@@ -220,6 +220,80 @@ public class HomeController : Controller
         return View(summaryItemConfig);
     }
 
+    public async Task<IActionResult> TaskList(bool isContributor = false)
+    {
+        if (!ModelState.IsValid)
+        {
+            return RedirectToAction("Index");
+        }
+
+        string currentUser = "samsmithnz";
+        List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
+        
+        List<TaskItem> tasks = new List<TaskItem>();
+        
+        foreach (SummaryItem item in summaryItems)
+        {
+            // Add repository settings recommendations
+            foreach (string recommendation in item.RepoSettingsRecommendations)
+            {
+                tasks.Add(new TaskItem(item.Owner, item.Repo, "Repository Settings", recommendation));
+            }
+            
+            // Add branch policies recommendations  
+            foreach (string recommendation in item.BranchPoliciesRecommendations)
+            {
+                tasks.Add(new TaskItem(item.Owner, item.Repo, "Branch Policies", recommendation));
+            }
+            
+            // Add action recommendations
+            foreach (string recommendation in item.ActionRecommendations)
+            {
+                tasks.Add(new TaskItem(item.Owner, item.Repo, "GitHub Actions", recommendation));
+            }
+            
+            // Add dependabot recommendations
+            foreach (string recommendation in item.DependabotRecommendations)
+            {
+                tasks.Add(new TaskItem(item.Owner, item.Repo, "Dependabot", recommendation));
+            }
+            
+            // Add git version recommendations
+            foreach (string recommendation in item.GitVersionRecommendations)
+            {
+                tasks.Add(new TaskItem(item.Owner, item.Repo, "Git Version", recommendation));
+            }
+            
+            // Add .NET framework recommendations
+            foreach (string recommendation in item.DotNetFrameworksRecommendations)
+            {
+                tasks.Add(new TaskItem(item.Owner, item.Repo, ".NET Frameworks", recommendation));
+            }
+            
+            // Add NuGet package upgrades
+            if (item.NuGetPackages != null && item.NuGetPackages.Count > 0)
+            {
+                tasks.Add(new TaskItem(item.Owner, item.Repo, "NuGet Packages", 
+                    $"{item.NuGetPackages.Count} NuGet packages require upgrades"));
+            }
+            
+            // Add security issues
+            if (item.SecurityIssuesCount > 0)
+            {
+                tasks.Add(new TaskItem(item.Owner, item.Repo, "Security", 
+                    $"{item.SecurityIssuesCount} Security alerts detected"));
+            }
+        }
+
+        TaskList taskList = new TaskList()
+        {
+            Tasks = tasks.OrderBy(t => t.Owner).ThenBy(t => t.Repository).ThenBy(t => t.RecommendationType).ToList(),
+            IsContributor = isContributor
+        };
+
+        return View(taskList);
+    }
+
     public IActionResult Privacy()
     {
         return View();

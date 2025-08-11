@@ -1,0 +1,124 @@
+@using RepoGovernance.Web.Models
+@model TaskList
+@{
+    ViewData["Title"] = "Task List";
+}
+
+<div>
+    <div class="row">
+        <div class="col-md-8">
+            <h4>Task List - All Recommendations Across Repositories</h4>
+            <p>This page shows all outstanding recommendations and tasks across your repository portfolio.</p>
+            <div style="font-size:14px;">
+                <a href="@Url.Action("Index", "Home")" style="font-size:12px">← Back to repository overview</a> &nbsp;
+                <span class="badge bg-info">Total tasks: @Model.Tasks.Count</span> &nbsp;
+                <span class="badge bg-secondary">Repositories with tasks: @Model.Tasks.Select(t => $"{t.Owner}/{t.Repository}").Distinct().Count()</span>
+            </div>
+        </div>
+    </div>
+    
+    @if (Model.Tasks.Count == 0)
+    {
+        <div class="alert alert-success mt-3" role="alert">
+            <h4 class="alert-heading">No Outstanding Tasks!</h4>
+            <p>Congratulations! All your repositories are following best practices and have no outstanding recommendations.</p>
+            <hr>
+            <p class="mb-0">You can return to the <a href="@Url.Action("Index", "Home")" class="alert-link">repository overview</a> to see your repositories.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive mt-3">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Owner</th>
+                        <th scope="col">Repository</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Recommendation</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (TaskItem task in Model.Tasks)
+                    {
+                        <tr>
+                            <td><strong>@task.Owner</strong></td>
+                            <td>
+                                <a href="https://github.com/@task.Owner/@task.Repository" target="_blank" class="text-decoration-none">
+                                    @task.Repository
+                                    <i class="bi bi-box-arrow-up-right" style="font-size: 12px;"></i>
+                                </a>
+                            </td>
+                            <td>
+                                @{
+                                    string badgeClass = task.RecommendationType switch
+                                    {
+                                        "Repository Settings" => "bg-primary",
+                                        "Branch Policies" => "bg-warning text-dark",
+                                        "GitHub Actions" => "bg-success",
+                                        "Dependabot" => "bg-info",
+                                        "Git Version" => "bg-secondary",
+                                        ".NET Frameworks" => "bg-dark",
+                                        "NuGet Packages" => "bg-warning text-dark",
+                                        "Security" => "bg-danger",
+                                        _ => "bg-light text-dark"
+                                    };
+                                }
+                                <span class="badge @badgeClass">@task.RecommendationType</span>
+                            </td>
+                            <td>@task.RecommendationDetails</td>
+                            <td>
+                                <a href="https://github.com/@task.Owner/@task.Repository" 
+                                   target="_blank" 
+                                   class="btn btn-sm btn-outline-primary"
+                                   title="View repository on GitHub">
+                                    <i class="bi bi-github"></i> View Repo
+                                </a>
+                                @if (Model.IsContributor)
+                                {
+                                    <a href="@Url.Action("UpdateRow", "Home", new { user = "samsmithnz", owner = task.Owner, repo = task.Repository, isContributor = Model.IsContributor })" 
+                                       class="btn btn-sm btn-outline-secondary ms-1"
+                                       title="Update metrics for this repository">
+                                        <i class="bi bi-arrow-clockwise"></i> Update
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // Add simple table sorting functionality
+        $(document).ready(function() {
+            $('th').css('cursor', 'pointer');
+            $('th').on('click', function() {
+                var table = $(this).parents('table').eq(0);
+                var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+                this.asc = !this.asc;
+                if (!this.asc) {
+                    rows = rows.reverse();
+                }
+                for (var i = 0; i < rows.length; i++) {
+                    table.append(rows[i]);
+                }
+            });
+            
+            function comparer(index) {
+                return function(a, b) {
+                    var valA = getCellValue(a, index), valB = getCellValue(b, index);
+                    return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB);
+                }
+            }
+            
+            function getCellValue(row, index) {
+                return $(row).children('td').eq(index).text();
+            }
+        });
+    </script>
+}
