@@ -346,7 +346,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             //Assert.AreEqual("Unity3d v2020.3", item4.DotNetFrameworks[0].Name);
             //Assert.AreEqual("bg-primary", item4.DotNetFrameworks[0].Color);
             Assert.AreEqual("private", item4.RepoSettings.visibility);
-            Assert.AreEqual(0, item4.BranchPoliciesRecommendations.Count);
+            Assert.AreEqual(1, item4.BranchPoliciesRecommendations.Count);
         }
 
         ////Fifth repo
