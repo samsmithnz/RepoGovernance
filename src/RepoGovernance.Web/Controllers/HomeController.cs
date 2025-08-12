@@ -40,6 +40,8 @@ public class HomeController : Controller
             return RedirectToAction("Index");
         }
 
+        ViewBag.IsContributor = isContributor;
+
         string currentUser = "samsmithnz";
         List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
         List<RepoLanguage> repoLanguages = new();
@@ -97,7 +99,14 @@ public class HomeController : Controller
     {
         if (!ModelState.IsValid)
         {
-            return RedirectToAction("Index");
+            if (isContributor)
+            {
+                return RedirectToAction("Index", new { isContributor = true });
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         SummaryItem result = null;
@@ -110,7 +119,16 @@ public class HomeController : Controller
                 break;
             }
         }
-        return View(result);
+
+        ViewBag.IsContributor = isContributor;
+
+        SummaryItemDetails summaryItemDetails = new()
+        {
+            SummaryItem = result,
+            IsContributor = isContributor
+        };
+
+        return View(summaryItemDetails);
     }
 
 
@@ -206,8 +224,17 @@ public class HomeController : Controller
     {
         if (!ModelState.IsValid)
         {
-            return RedirectToAction("Index");
+            if (isContributor)
+            {
+                return RedirectToAction("Index", new { isContributor = true });
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
+
+        ViewBag.IsContributor = isContributor;
 
         SummaryItem? summaryItem = await _ServiceApiClient.GetSummaryItem(user, owner, repo);
 
@@ -224,8 +251,17 @@ public class HomeController : Controller
     {
         if (!ModelState.IsValid)
         {
-            return RedirectToAction("Index");
+            if (isContributor)
+            {
+                return RedirectToAction("Index", new { isContributor = true });
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
+
+        ViewBag.IsContributor = isContributor;
 
         string currentUser = "samsmithnz";
         List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
@@ -304,13 +340,29 @@ public class HomeController : Controller
     {
         if (string.IsNullOrEmpty(owner) || string.IsNullOrEmpty(repo))
         {
-            return RedirectToAction("TaskList");
+            if (isContributor)
+            {
+                return RedirectToAction("TaskList", new { isContributor = true });
+            }
+            else
+            {
+                return RedirectToAction("TaskList");
+            }
         }
 
         if (!ModelState.IsValid)
         {
-            return RedirectToAction("TaskList");
+            if (isContributor)
+            {
+                return RedirectToAction("TaskList", new { isContributor = true });
+            }
+            else
+            {
+                return RedirectToAction("TaskList");
+            }
         }
+
+        ViewBag.IsContributor = isContributor;
 
         string currentUser = "samsmithnz";
         List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
@@ -321,7 +373,14 @@ public class HomeController : Controller
         
         if (repoItem == null)
         {
-            return RedirectToAction("TaskList");
+            if (isContributor)
+            {
+                return RedirectToAction("TaskList", new { isContributor = true });
+            }
+            else
+            {
+                return RedirectToAction("TaskList");
+            }
         }
 
         List<TaskItem> allRecommendations = new List<TaskItem>();
@@ -417,8 +476,9 @@ public class HomeController : Controller
         return Json(new { success = success });
     }
 
-    public IActionResult Privacy()
+    public IActionResult Privacy(bool isContributor = false)
     {
+        ViewBag.IsContributor = isContributor;
         return View();
     }
 

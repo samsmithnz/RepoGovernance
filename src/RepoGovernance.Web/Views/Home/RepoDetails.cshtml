@@ -27,7 +27,14 @@
             <h4 class="alert-heading">No Recommendations!</h4>
             <p>This repository is following best practices and has no outstanding recommendations.</p>
             <hr>
-            <p class="mb-0">You can return to the <a href="@Url.Action("TaskList", "Home")" class="alert-link">task list</a> to see other repositories.</p>
+            @if (Model.IsContributor)
+            {
+                <p class="mb-0">You can return to the <a href="@Url.Action("TaskList", "Home", new { isContributor = Model.IsContributor })" class="alert-link">task list</a> to see other repositories.</p>
+            }
+            else
+            {
+                <p class="mb-0">You can return to the <a href="@Url.Action("TaskList", "Home")" class="alert-link">task list</a> to see other repositories.</p>
+            }
         </div>
     }
     else
