@@ -1,31 +1,32 @@
 ﻿@using RepoAutomation.Core.Models
 @using RepoGovernance.Core.Models
+@using RepoGovernance.Web.Models
 @using System.Text.Json;
-@model SummaryItem
+@model SummaryItemDetails
 @{
     ViewData["Title"] = "Details Page";
 
     // Serialize the model to JSON
-    string modelJson = Model != null ? JsonSerializer.Serialize(Model, new JsonSerializerOptions { WriteIndented = true }) : "{}";
+    string modelJson = Model.SummaryItem != null ? JsonSerializer.Serialize(Model.SummaryItem, new JsonSerializerOptions { WriteIndented = true }) : "{}";
 
 }
 
 <div>
     <div class="row">
         <div class="col-md-6">
-            <h4><code>@Model.Owner - @Model.Repo</code></h4>
-            @if (Model.LastUpdated > DateTime.Now.AddDays(-7))
+            <h4><code>@Model.SummaryItem.Owner - @Model.SummaryItem.Repo</code></h4>
+            @if (Model.SummaryItem.LastUpdated > DateTime.Now.AddDays(-7))
             {
-                <span class="lastUpdatedText">@Model.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
+                <span class="lastUpdatedText">@Model.SummaryItem.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
             }
             else
             {
-                <span class="lastUpdatedRedText">@Model.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
+                <span class="lastUpdatedRedText">@Model.SummaryItem.LastUpdated.ToString("dd-MMM-yyyy HH:mmtt")</span>
             }
             <br />
-            @if (Model.LastUpdatedMessage != null)
+            @if (Model.SummaryItem.LastUpdatedMessage != null)
             {
-                <span><textarea id="multiLineTextBox" name="multiLineTextBox" rows="5" style="width:100%">@Model.LastUpdatedMessage</textarea></span>
+                <span><textarea id="multiLineTextBox" name="multiLineTextBox" rows="5" style="width:100%">@Model.SummaryItem.LastUpdatedMessage</textarea></span>
             }
 
             <h5>Model JSON:</h5>
@@ -46,7 +47,14 @@
     </div>
      <div class="row">
         <div class="col-md-6">
-            <a href="@Url.Action("Home","Home")>Go back to index</a>
+            @if (Model.IsContributor)
+            {
+                <a href="@Url.Action("Index", "Home", new { isContributor = Model.IsContributor })">Go back to index</a>
+            }
+            else
+            {
+                <a href="@Url.Action("Index", "Home")">Go back to index</a>
+            }
         </div>
     </div> 
  
