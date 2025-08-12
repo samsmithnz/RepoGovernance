@@ -10,9 +10,9 @@ namespace RepoGovernance.Web.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly SummaryItemsServiceApiClient _ServiceApiClient;
+    private readonly ISummaryItemsServiceApiClient _ServiceApiClient;
 
-    public HomeController(SummaryItemsServiceApiClient ServiceApiClient)
+    public HomeController(ISummaryItemsServiceApiClient ServiceApiClient)
     {
         _ServiceApiClient = ServiceApiClient;
     }
@@ -285,13 +285,136 @@ public class HomeController : Controller
             }
         }
 
+        // Filter out ignored recommendations
+        List<IgnoredRecommendation> ignoredRecommendations = await _ServiceApiClient.GetAllIgnoredRecommendations(currentUser);
+        List<string> ignoredIds = ignoredRecommendations.Select(ir => ir.GetUniqueId()).ToList();
+        
+        List<TaskItem> filteredTasks = tasks.Where(t => !ignoredIds.Contains(t.Id)).ToList();
+
         TaskList taskList = new TaskList()
         {
-            Tasks = tasks.OrderBy(t => t.Owner).ThenBy(t => t.Repository).ThenBy(t => t.RecommendationType).ToList(),
+            Tasks = filteredTasks.OrderBy(t => t.Owner).ThenBy(t => t.Repository).ThenBy(t => t.RecommendationType).ToList(),
             IsContributor = isContributor
         };
 
         return View(taskList);
+    }
+
+    public async Task<IActionResult> RepoDetails(string owner, string repo, bool isContributor = false)
+    {
+        if (string.IsNullOrEmpty(owner) || string.IsNullOrEmpty(repo))
+        {
+            return RedirectToAction("TaskList");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return RedirectToAction("TaskList");
+        }
+
+        string currentUser = "samsmithnz";
+        List<SummaryItem> summaryItems = await _ServiceApiClient.GetSummaryItems(currentUser);
+        
+        // Find the specific repository
+        SummaryItem? repoItem = summaryItems.FirstOrDefault(s => s.Owner.Equals(owner, StringComparison.OrdinalIgnoreCase) 
+                                                                && s.Repo.Equals(repo, StringComparison.OrdinalIgnoreCase));
+        
+        if (repoItem == null)
+        {
+            return RedirectToAction("TaskList");
+        }
+
+        List<TaskItem> allRecommendations = new List<TaskItem>();
+        
+        // Generate all recommendations for this repository (same logic as TaskList)
+        foreach (string recommendation in repoItem.RepoSettingsRecommendations)
+        {
+            allRecommendations.Add(new TaskItem(repoItem.Owner, repoItem.Repo, "Repository Settings", recommendation));
+        }
+        
+        foreach (string recommendation in repoItem.BranchPoliciesRecommendations)
+        {
+            allRecommendations.Add(new TaskItem(repoItem.Owner, repoItem.Repo, "Branch Policies", recommendation));
+        }
+        
+        foreach (string recommendation in repoItem.ActionRecommendations)
+        {
+            allRecommendations.Add(new TaskItem(repoItem.Owner, repoItem.Repo, "GitHub Actions", recommendation));
+        }
+        
+        foreach (string recommendation in repoItem.DependabotRecommendations)
+        {
+            allRecommendations.Add(new TaskItem(repoItem.Owner, repoItem.Repo, "Dependabot", recommendation));
+        }
+        
+        foreach (string recommendation in repoItem.GitVersionRecommendations)
+        {
+            allRecommendations.Add(new TaskItem(repoItem.Owner, repoItem.Repo, "Git Version", recommendation));
+        }
+        
+        foreach (string recommendation in repoItem.DotNetFrameworksRecommendations)
+        {
+            allRecommendations.Add(new TaskItem(repoItem.Owner, repoItem.Repo, ".NET Frameworks", recommendation));
+        }
+        
+        if (repoItem.NuGetPackages != null && repoItem.NuGetPackages.Count > 0)
+        {
+            allRecommendations.Add(new TaskItem(repoItem.Owner, repoItem.Repo, "NuGet Packages", 
+                $"{repoItem.NuGetPackages.Count} NuGet packages require upgrades"));
+        }
+        
+        if (repoItem.SecurityIssuesCount > 0)
+        {
+            allRecommendations.Add(new TaskItem(repoItem.Owner, repoItem.Repo, "Security", 
+                $"{repoItem.SecurityIssuesCount} Security alerts detected"));
+        }
+
+        // Get ignored recommendations
+        List<IgnoredRecommendation> ignoredRecommendations = await _ServiceApiClient.GetIgnoredRecommendations(currentUser, owner, repo);
+        List<string> ignoredIds = ignoredRecommendations.Select(ir => ir.GetUniqueId()).ToList();
+        
+        // Separate active and ignored recommendations
+        List<TaskItem> activeRecommendations = allRecommendations.Where(r => !ignoredIds.Contains(r.Id)).ToList();
+        List<TaskItem> ignoredTaskItems = allRecommendations.Where(r => ignoredIds.Contains(r.Id)).ToList();
+
+        RepoDetails repoDetails = new RepoDetails(owner, repo)
+        {
+            Recommendations = activeRecommendations.OrderBy(r => r.RecommendationType).ToList(),
+            IgnoredRecommendations = ignoredTaskItems.OrderBy(r => r.RecommendationType).ToList(),
+            IsContributor = isContributor
+        };
+
+        return View(repoDetails);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> IgnoreRecommendation(string owner, string repository, string recommendationType, string recommendationDetails)
+    {
+        if (string.IsNullOrEmpty(owner) || string.IsNullOrEmpty(repository) || 
+            string.IsNullOrEmpty(recommendationType) || string.IsNullOrEmpty(recommendationDetails))
+        {
+            return Json(new { success = false, message = "Missing required parameters" });
+        }
+
+        string currentUser = "samsmithnz";
+        bool success = await _ServiceApiClient.IgnoreRecommendation(currentUser, owner, repository, recommendationType, recommendationDetails);
+        
+        return Json(new { success = success });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UnignoreRecommendation(string owner, string repository, string recommendationType, string recommendationDetails)
+    {
+        if (string.IsNullOrEmpty(owner) || string.IsNullOrEmpty(repository) || 
+            string.IsNullOrEmpty(recommendationType) || string.IsNullOrEmpty(recommendationDetails))
+        {
+            return Json(new { success = false, message = "Missing required parameters" });
+        }
+
+        string currentUser = "samsmithnz";
+        bool success = await _ServiceApiClient.RestoreRecommendation(currentUser, owner, repository, recommendationType, recommendationDetails);
+        
+        return Json(new { success = success });
     }
 
     public IActionResult Privacy()

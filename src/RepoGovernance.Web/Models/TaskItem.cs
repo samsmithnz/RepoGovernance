@@ -9,6 +9,7 @@ namespace RepoGovernance.Web.Models
         public string Repository { get; set; }
         public string RecommendationType { get; set; }
         public string RecommendationDetails { get; set; }
+        public string Id { get; set; }
 
         public TaskItem(string owner, string repository, string recommendationType, string recommendationDetails)
         {
@@ -16,6 +17,7 @@ namespace RepoGovernance.Web.Models
             Repository = repository;
             RecommendationType = recommendationType;
             RecommendationDetails = recommendationDetails;
+            Id = $"{owner}|{repository}|{recommendationType}|{recommendationDetails}";
         }
     }
 }

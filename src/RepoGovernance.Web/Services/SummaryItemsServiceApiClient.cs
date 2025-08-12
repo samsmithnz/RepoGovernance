@@ -3,7 +3,7 @@ using RepoGovernance.Core.Models;
 
 namespace RepoGovernance.Web.Services
 {
-    public class SummaryItemsServiceApiClient : BaseServiceApiClient
+    public class SummaryItemsServiceApiClient : BaseServiceApiClient, ISummaryItemsServiceApiClient
     {
         private readonly IConfiguration _configuration;
 
@@ -17,7 +17,7 @@ namespace RepoGovernance.Web.Services
             base.SetupClient(client);
         }
 
-        public async Task<List<SummaryItem>> GetSummaryItems(string user)
+        public virtual async Task<List<SummaryItem>> GetSummaryItems(string user)
         {
             Uri url = new($"api/SummaryItems/GetSummaryItems?user={Uri.EscapeDataString(user)}", UriKind.Relative);
             List<SummaryItem>? results = await base.ReadMessageList<SummaryItem>(url);
@@ -31,7 +31,7 @@ namespace RepoGovernance.Web.Services
             }
         }
 
-        public async Task<SummaryItem?> GetSummaryItem(string user, string owner, string repo)
+        public virtual async Task<SummaryItem?> GetSummaryItem(string user, string owner, string repo)
         {
             List<SummaryItem>? results = await GetSummaryItems(user);
             foreach (SummaryItem? item in results)
@@ -66,6 +66,46 @@ namespace RepoGovernance.Web.Services
         {
             Uri url = new($"api/SummaryItems/ApproveSummaryItemPRs?&owner={Uri.EscapeDataString(owner)}&repo={Uri.EscapeDataString(repo)}&approver={Uri.EscapeDataString(approver)}", UriKind.Relative);
             return await base.ReadMessageItem<bool>(url);
+        }
+
+        public virtual async Task<bool> IgnoreRecommendation(string user, string owner, string repo, string recommendationType, string recommendationDetails)
+        {
+            Uri url = new($"api/SummaryItems/IgnoreRecommendation?user={Uri.EscapeDataString(user)}&owner={Uri.EscapeDataString(owner)}&repo={Uri.EscapeDataString(repo)}&recommendationType={Uri.EscapeDataString(recommendationType)}&recommendationDetails={Uri.EscapeDataString(recommendationDetails)}", UriKind.Relative);
+            return await base.ReadMessageItem<bool>(url);
+        }
+
+        public virtual async Task<bool> RestoreRecommendation(string user, string owner, string repo, string recommendationType, string recommendationDetails)
+        {
+            Uri url = new($"api/SummaryItems/RestoreRecommendation?user={Uri.EscapeDataString(user)}&owner={Uri.EscapeDataString(owner)}&repo={Uri.EscapeDataString(repo)}&recommendationType={Uri.EscapeDataString(recommendationType)}&recommendationDetails={Uri.EscapeDataString(recommendationDetails)}", UriKind.Relative);
+            return await base.ReadMessageItem<bool>(url);
+        }
+
+        public virtual async Task<List<IgnoredRecommendation>> GetIgnoredRecommendations(string user, string owner, string repo)
+        {
+            Uri url = new($"api/SummaryItems/GetIgnoredRecommendations?user={Uri.EscapeDataString(user)}&owner={Uri.EscapeDataString(owner)}&repo={Uri.EscapeDataString(repo)}", UriKind.Relative);
+            List<IgnoredRecommendation>? results = await base.ReadMessageList<IgnoredRecommendation>(url);
+            if (results == null)
+            {
+                return new List<IgnoredRecommendation>();
+            }
+            else
+            {
+                return results;
+            }
+        }
+
+        public virtual async Task<List<IgnoredRecommendation>> GetAllIgnoredRecommendations(string user)
+        {
+            Uri url = new($"api/SummaryItems/GetAllIgnoredRecommendations?user={Uri.EscapeDataString(user)}", UriKind.Relative);
+            List<IgnoredRecommendation>? results = await base.ReadMessageList<IgnoredRecommendation>(url);
+            if (results == null)
+            {
+                return new List<IgnoredRecommendation>();
+            }
+            else
+            {
+                return results;
+            }
         }
 
     }
