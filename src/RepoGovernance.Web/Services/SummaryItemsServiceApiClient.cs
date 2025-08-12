@@ -71,13 +71,13 @@ namespace RepoGovernance.Web.Services
         public virtual async Task<bool> IgnoreRecommendation(string user, string owner, string repo, string recommendationType, string recommendationDetails)
         {
             Uri url = new($"api/SummaryItems/IgnoreRecommendation?user={Uri.EscapeDataString(user)}&owner={Uri.EscapeDataString(owner)}&repo={Uri.EscapeDataString(repo)}&recommendationType={Uri.EscapeDataString(recommendationType)}&recommendationDetails={Uri.EscapeDataString(recommendationDetails)}", UriKind.Relative);
-            return await base.ReadMessageItem<bool>(url);
+            return await base.SaveMessageItem<object>(url, new { });
         }
 
         public virtual async Task<bool> RestoreRecommendation(string user, string owner, string repo, string recommendationType, string recommendationDetails)
         {
             Uri url = new($"api/SummaryItems/RestoreRecommendation?user={Uri.EscapeDataString(user)}&owner={Uri.EscapeDataString(owner)}&repo={Uri.EscapeDataString(repo)}&recommendationType={Uri.EscapeDataString(recommendationType)}&recommendationDetails={Uri.EscapeDataString(recommendationDetails)}", UriKind.Relative);
-            return await base.ReadMessageItem<bool>(url);
+            return await base.SaveMessageItem<object>(url, new { });
         }
 
         public virtual async Task<List<IgnoredRecommendation>> GetIgnoredRecommendations(string user, string owner, string repo)
