@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace RepoGovernance.Core
 {
-    public class IgnoredRecommendationsDA
+    public class IgnoredRecommendationsDA : IIgnoredRecommendationsDA
     {
         private readonly TableStorageCommonDA _tableStorageDA;
 

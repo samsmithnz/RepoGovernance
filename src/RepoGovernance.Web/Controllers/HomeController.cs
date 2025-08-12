@@ -12,15 +12,12 @@ namespace RepoGovernance.Web.Controllers;
 public class HomeController : Controller
 {
     private readonly ISummaryItemsServiceApiClient _ServiceApiClient;
-    private readonly IgnoredRecommendationsDA _ignoredRecommendationsDA;
+    private readonly IIgnoredRecommendationsDA _ignoredRecommendationsDA;
 
-    public HomeController(ISummaryItemsServiceApiClient ServiceApiClient, IConfiguration configuration)
+    public HomeController(ISummaryItemsServiceApiClient ServiceApiClient, IIgnoredRecommendationsDA ignoredRecommendationsDA)
     {
         _ServiceApiClient = ServiceApiClient;
-        
-        // For now, using a default connection string. In production, this should come from configuration
-        string connectionString = configuration.GetConnectionString("DefaultConnection") ?? "UseDevelopmentStorage=true";
-        _ignoredRecommendationsDA = new IgnoredRecommendationsDA(connectionString);
+        _ignoredRecommendationsDA = ignoredRecommendationsDA;
     }
 
     /// <summary>
