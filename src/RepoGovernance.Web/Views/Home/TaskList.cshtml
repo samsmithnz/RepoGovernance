@@ -10,8 +10,15 @@
             <h4>Task List - All Recommendations Across Repositories</h4>
             <p>This page shows all outstanding recommendations and tasks across your repository portfolio.</p>
             <div style="font-size:14px;">
-                <a href="@Url.Action("Index", "Home")" style="font-size:12px">← Back to repository overview</a> &nbsp;
-                <span class="badge bg-info">Total tasks: @Model.Tasks.Count</span> &nbsp;
+                @if (Model.IsContributor)
+                {
+                    <a href="@Url.Action("Index", "Home", new { isContributor = Model.IsContributor })" style="font-size:12px">← Back to repository overview</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", "Home")" style="font-size:12px">← Back to repository overview</a>
+                }
+                <span class="badge bg-info">Total tasks: @Model.Tasks.Count</span>
                 <span class="badge bg-secondary">Repositories with tasks: @Model.Tasks.Select(t => $"{t.Owner}/{t.Repository}").Distinct().Count()</span>
             </div>
         </div>
@@ -23,7 +30,14 @@
             <h4 class="alert-heading">No Outstanding Tasks!</h4>
             <p>Congratulations! All your repositories are following best practices and have no outstanding recommendations.</p>
             <hr>
-            <p class="mb-0">You can return to the <a href="@Url.Action("Index", "Home")" class="alert-link">repository overview</a> to see your repositories.</p>
+            @if (Model.IsContributor)
+            {
+                <p class="mb-0">You can return to the <a href="@Url.Action("Index", "Home", new { isContributor = Model.IsContributor })" class="alert-link">repository overview</a> to see your repositories.</p>
+            }
+            else
+            {
+                <p class="mb-0">You can return to the <a href="@Url.Action("Index", "Home")" class="alert-link">repository overview</a> to see your repositories.</p>
+            }
         </div>
     }
     else
