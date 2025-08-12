@@ -47,12 +47,24 @@ namespace RepoGovernance.Core
 
         public async Task<bool> IgnoreRecommendation(string user, string owner, string repository, string recommendationType, string recommendationDetails)
         {
-            IgnoredRecommendation ignoredRecommendation = new IgnoredRecommendation(user, owner, repository, recommendationType, recommendationDetails);
-            string data = JsonSerializer.Serialize(ignoredRecommendation);
-            string uniqueId = ignoredRecommendation.GetUniqueId();
-            
-            AzureStorageTableModel storageItem = new AzureStorageTableModel(user, uniqueId, data);
-            return await _tableStorageDA.SaveItem(storageItem);
+            try
+            {
+                Console.WriteLine($"IgnoreRecommendation called with user={user}, owner={owner}, repository={repository}, type={recommendationType}, details={recommendationDetails}");
+                IgnoredRecommendation ignoredRecommendation = new IgnoredRecommendation(user, owner, repository, recommendationType, recommendationDetails);
+                string data = JsonSerializer.Serialize(ignoredRecommendation);
+                string uniqueId = ignoredRecommendation.GetUniqueId();
+                Console.WriteLine($"Generated uniqueId: {uniqueId}");
+                AzureStorageTableModel storageItem = new AzureStorageTableModel(user, uniqueId, data);
+                Console.WriteLine($"Saving item to table storage...");
+                bool result = await _tableStorageDA.SaveItem(storageItem);
+                Console.WriteLine($"SaveItem result: {result}");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in IgnoreRecommendation: {ex.Message}");
+                return false;
+            }
         }
 
         public async Task<bool> UnignoreRecommendation(string user, string owner, string repository, string recommendationType, string recommendationDetails)
