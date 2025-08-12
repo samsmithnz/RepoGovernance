@@ -180,5 +180,141 @@ namespace RepoGovernance.Service.Controllers
                Configuration["AppSettings:GitHubClientSecret"],
                owner, repo, approver);
         }
+
+        /// <summary>
+        /// Ignore a recommendation
+        /// </summary>
+        /// <param name="user">The user - often is also the owner, that has access to organizations</param>
+        /// <param name="owner">The owner or organization</param>
+        /// <param name="repo">The repository name</param>
+        /// <param name="recommendationType">The recommendation type</param>
+        /// <param name="recommendationDetails">The recommendation details</param>
+        /// <returns>True if successful, false otherwise</returns>
+        [HttpPost("IgnoreRecommendation")]
+        public async Task<ActionResult<bool>> IgnoreRecommendation(string user, string owner, string repo, string recommendationType, string recommendationDetails)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(owner) || string.IsNullOrEmpty(repo) || 
+                string.IsNullOrEmpty(recommendationType) || string.IsNullOrEmpty(recommendationDetails))
+            {
+                return BadRequest("User, owner, repo, recommendationType, and recommendationDetails are required");
+            }
+
+            try
+            {
+                string connectionString = Configuration.GetConnectionString("DefaultConnection") ?? "UseDevelopmentStorage=true";
+                IgnoredRecommendationsDA ignoredRecommendationsDA = new IgnoredRecommendationsDA(connectionString);
+                await ignoredRecommendationsDA.IgnoreRecommendation(user, owner, repo, recommendationType, recommendationDetails);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Restore/unignore a recommendation
+        /// </summary>
+        /// <param name="user">The user - often is also the owner, that has access to organizations</param>
+        /// <param name="owner">The owner or organization</param>
+        /// <param name="repo">The repository name</param>
+        /// <param name="recommendationType">The recommendation type</param>
+        /// <param name="recommendationDetails">The recommendation details</param>
+        /// <returns>True if successful, false otherwise</returns>
+        [HttpPost("RestoreRecommendation")]
+        public async Task<ActionResult<bool>> RestoreRecommendation(string user, string owner, string repo, string recommendationType, string recommendationDetails)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(owner) || string.IsNullOrEmpty(repo) || 
+                string.IsNullOrEmpty(recommendationType) || string.IsNullOrEmpty(recommendationDetails))
+            {
+                return BadRequest("User, owner, repo, recommendationType, and recommendationDetails are required");
+            }
+
+            try
+            {
+                string connectionString = Configuration.GetConnectionString("DefaultConnection") ?? "UseDevelopmentStorage=true";
+                IgnoredRecommendationsDA ignoredRecommendationsDA = new IgnoredRecommendationsDA(connectionString);
+                await ignoredRecommendationsDA.UnignoreRecommendation(user, owner, repo, recommendationType, recommendationDetails);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Get all ignored recommendations for a user, owner, and repository
+        /// </summary>
+        /// <param name="user">The user - often is also the owner, that has access to organizations</param>
+        /// <param name="owner">The owner or organization</param>
+        /// <param name="repo">The repository name</param>
+        /// <returns>List of ignored recommendations</returns>
+        [HttpGet("GetIgnoredRecommendations")]
+        public async Task<ActionResult<List<IgnoredRecommendation>>> GetIgnoredRecommendations(string user, string owner, string repo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(owner) || string.IsNullOrEmpty(repo))
+            {
+                return BadRequest("User, owner, and repo are required");
+            }
+
+            try
+            {
+                string connectionString = Configuration.GetConnectionString("DefaultConnection") ?? "UseDevelopmentStorage=true";
+                IgnoredRecommendationsDA ignoredRecommendationsDA = new IgnoredRecommendationsDA(connectionString);
+                List<IgnoredRecommendation> results = await ignoredRecommendationsDA.GetIgnoredRecommendations(user, owner, repo);
+                return results;
+            }
+            catch
+            {
+                return new List<IgnoredRecommendation>();
+            }
+        }
+
+        /// <summary>
+        /// Get all ignored recommendations for a user across all repositories
+        /// </summary>
+        /// <param name="user">The user - often is also the owner, that has access to organizations</param>
+        /// <returns>List of ignored recommendations</returns>
+        [HttpGet("GetAllIgnoredRecommendations")]
+        public async Task<ActionResult<List<IgnoredRecommendation>>> GetAllIgnoredRecommendations(string user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (string.IsNullOrEmpty(user))
+            {
+                return BadRequest("User is required");
+            }
+
+            try
+            {
+                string connectionString = Configuration.GetConnectionString("DefaultConnection") ?? "UseDevelopmentStorage=true";
+                IgnoredRecommendationsDA ignoredRecommendationsDA = new IgnoredRecommendationsDA(connectionString);
+                List<IgnoredRecommendation> results = await ignoredRecommendationsDA.GetIgnoredRecommendations(user);
+                return results;
+            }
+            catch
+            {
+                return new List<IgnoredRecommendation>();
+            }
+        }
     }
 }

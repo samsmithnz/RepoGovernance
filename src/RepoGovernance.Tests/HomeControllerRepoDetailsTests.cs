@@ -6,7 +6,6 @@ using RepoGovernance.Core.Models;
 using RepoGovernance.Web.Controllers;
 using RepoGovernance.Web.Models;
 using RepoGovernance.Web.Services;
-using RepoGovernance.Core;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -18,7 +17,6 @@ namespace RepoGovernance.Tests
         private HomeController GetController()
         {
             ISummaryItemsServiceApiClient mockServiceClient = Substitute.For<ISummaryItemsServiceApiClient>();
-            IIgnoredRecommendationsDA mockIgnoredRecommendationsDA = Substitute.For<IIgnoredRecommendationsDA>();
             
             // Create test data
             List<SummaryItem> testSummaryItems = new List<SummaryItem>
@@ -41,12 +39,13 @@ namespace RepoGovernance.Tests
 
             mockServiceClient.GetSummaryItems(Arg.Any<string>()).Returns(testSummaryItems);
             
-            // Setup mock for ignored recommendations
-            mockIgnoredRecommendationsDA.IgnoreRecommendation(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(true);
-            mockIgnoredRecommendationsDA.UnignoreRecommendation(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(true);
-            mockIgnoredRecommendationsDA.GetIgnoredRecommendations(Arg.Any<string>()).Returns(new List<IgnoredRecommendation>());
+            // Setup mock for ignore/restore functionality
+            mockServiceClient.IgnoreRecommendation(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(true);
+            mockServiceClient.RestoreRecommendation(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(true);
+            mockServiceClient.GetIgnoredRecommendations(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(new List<IgnoredRecommendation>());
+            mockServiceClient.GetAllIgnoredRecommendations(Arg.Any<string>()).Returns(new List<IgnoredRecommendation>());
 
-            return new HomeController(mockServiceClient, mockIgnoredRecommendationsDA);
+            return new HomeController(mockServiceClient);
         }
 
         [TestMethod]

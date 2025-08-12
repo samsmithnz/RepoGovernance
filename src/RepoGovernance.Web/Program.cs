@@ -1,5 +1,4 @@
 using RepoGovernance.Web.Services;
-using RepoGovernance.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,14 +8,6 @@ builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPINSIG
 
 //Add DI for the service api client 
 builder.Services.AddScoped<ISummaryItemsServiceApiClient, SummaryItemsServiceApiClient>();
-
-//Add DI for the ignored recommendations data access 
-builder.Services.AddScoped<IIgnoredRecommendationsDA>(provider =>
-{
-    IConfiguration configuration = provider.GetRequiredService<IConfiguration>();
-    string connectionString = configuration.GetConnectionString("DefaultConnection") ?? "UseDevelopmentStorage=true";
-    return new IgnoredRecommendationsDA(connectionString);
-});
 
 var app = builder.Build();
 

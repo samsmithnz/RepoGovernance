@@ -5,19 +5,16 @@ using RepoGovernance.Web.Models;
 using RepoGovernance.Web.Services;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using RepoGovernance.Core;
 
 namespace RepoGovernance.Web.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ISummaryItemsServiceApiClient _ServiceApiClient;
-    private readonly IIgnoredRecommendationsDA _ignoredRecommendationsDA;
 
-    public HomeController(ISummaryItemsServiceApiClient ServiceApiClient, IIgnoredRecommendationsDA ignoredRecommendationsDA)
+    public HomeController(ISummaryItemsServiceApiClient ServiceApiClient)
     {
         _ServiceApiClient = ServiceApiClient;
-        _ignoredRecommendationsDA = ignoredRecommendationsDA;
     }
 
     /// <summary>
@@ -289,7 +286,7 @@ public class HomeController : Controller
         }
 
         // Filter out ignored recommendations
-        List<IgnoredRecommendation> ignoredRecommendations = await _ignoredRecommendationsDA.GetIgnoredRecommendations(currentUser);
+        List<IgnoredRecommendation> ignoredRecommendations = await _ServiceApiClient.GetAllIgnoredRecommendations(currentUser);
         List<string> ignoredIds = ignoredRecommendations.Select(ir => ir.GetUniqueId()).ToList();
         
         List<TaskItem> filteredTasks = tasks.Where(t => !ignoredIds.Contains(t.Id)).ToList();
@@ -373,7 +370,7 @@ public class HomeController : Controller
         }
 
         // Get ignored recommendations
-        List<IgnoredRecommendation> ignoredRecommendations = await _ignoredRecommendationsDA.GetIgnoredRecommendations(currentUser);
+        List<IgnoredRecommendation> ignoredRecommendations = await _ServiceApiClient.GetIgnoredRecommendations(currentUser, owner, repo);
         List<string> ignoredIds = ignoredRecommendations.Select(ir => ir.GetUniqueId()).ToList();
         
         // Separate active and ignored recommendations
@@ -400,7 +397,7 @@ public class HomeController : Controller
         }
 
         string currentUser = "samsmithnz";
-        bool success = await _ignoredRecommendationsDA.IgnoreRecommendation(currentUser, owner, repository, recommendationType, recommendationDetails);
+        bool success = await _ServiceApiClient.IgnoreRecommendation(currentUser, owner, repository, recommendationType, recommendationDetails);
         
         return Json(new { success = success });
     }
@@ -415,7 +412,7 @@ public class HomeController : Controller
         }
 
         string currentUser = "samsmithnz";
-        bool success = await _ignoredRecommendationsDA.UnignoreRecommendation(currentUser, owner, repository, recommendationType, recommendationDetails);
+        bool success = await _ServiceApiClient.RestoreRecommendation(currentUser, owner, repository, recommendationType, recommendationDetails);
         
         return Json(new { success = success });
     }

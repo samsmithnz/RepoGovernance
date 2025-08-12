@@ -33,6 +33,18 @@ namespace RepoGovernance.Core
             return ignoredRecommendations;
         }
 
+        public async Task<List<IgnoredRecommendation>> GetIgnoredRecommendations(string user, string owner, string repository)
+        {
+            List<IgnoredRecommendation> allIgnoredRecommendations = await GetIgnoredRecommendations(user);
+            
+            // Filter by owner and repository
+            List<IgnoredRecommendation> filteredRecommendations = allIgnoredRecommendations
+                .Where(ir => ir.Owner == owner && ir.Repository == repository)
+                .ToList();
+            
+            return filteredRecommendations;
+        }
+
         public async Task<bool> IgnoreRecommendation(string user, string owner, string repository, string recommendationType, string recommendationDetails)
         {
             IgnoredRecommendation ignoredRecommendation = new IgnoredRecommendation(user, owner, repository, recommendationType, recommendationDetails);

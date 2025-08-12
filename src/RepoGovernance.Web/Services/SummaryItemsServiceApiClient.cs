@@ -68,5 +68,45 @@ namespace RepoGovernance.Web.Services
             return await base.ReadMessageItem<bool>(url);
         }
 
+        public virtual async Task<bool> IgnoreRecommendation(string user, string owner, string repo, string recommendationType, string recommendationDetails)
+        {
+            Uri url = new($"api/SummaryItems/IgnoreRecommendation?user={Uri.EscapeDataString(user)}&owner={Uri.EscapeDataString(owner)}&repo={Uri.EscapeDataString(repo)}&recommendationType={Uri.EscapeDataString(recommendationType)}&recommendationDetails={Uri.EscapeDataString(recommendationDetails)}", UriKind.Relative);
+            return await base.ReadMessageItem<bool>(url);
+        }
+
+        public virtual async Task<bool> RestoreRecommendation(string user, string owner, string repo, string recommendationType, string recommendationDetails)
+        {
+            Uri url = new($"api/SummaryItems/RestoreRecommendation?user={Uri.EscapeDataString(user)}&owner={Uri.EscapeDataString(owner)}&repo={Uri.EscapeDataString(repo)}&recommendationType={Uri.EscapeDataString(recommendationType)}&recommendationDetails={Uri.EscapeDataString(recommendationDetails)}", UriKind.Relative);
+            return await base.ReadMessageItem<bool>(url);
+        }
+
+        public virtual async Task<List<IgnoredRecommendation>> GetIgnoredRecommendations(string user, string owner, string repo)
+        {
+            Uri url = new($"api/SummaryItems/GetIgnoredRecommendations?user={Uri.EscapeDataString(user)}&owner={Uri.EscapeDataString(owner)}&repo={Uri.EscapeDataString(repo)}", UriKind.Relative);
+            List<IgnoredRecommendation>? results = await base.ReadMessageList<IgnoredRecommendation>(url);
+            if (results == null)
+            {
+                return new List<IgnoredRecommendation>();
+            }
+            else
+            {
+                return results;
+            }
+        }
+
+        public virtual async Task<List<IgnoredRecommendation>> GetAllIgnoredRecommendations(string user)
+        {
+            Uri url = new($"api/SummaryItems/GetAllIgnoredRecommendations?user={Uri.EscapeDataString(user)}", UriKind.Relative);
+            List<IgnoredRecommendation>? results = await base.ReadMessageList<IgnoredRecommendation>(url);
+            if (results == null)
+            {
+                return new List<IgnoredRecommendation>();
+            }
+            else
+            {
+                return results;
+            }
+        }
+
     }
 }
