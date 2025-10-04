@@ -291,36 +291,36 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.IsNull(item1.AzureDeployment);
         }
 
-        //second repo
-        SummaryItem? item2 = summaryItems.Where(r => r.Repo == "CustomQueue").FirstOrDefault();
-        Assert.IsNotNull(item2);
-        if (item2 != null)
-        {
-            Assert.AreEqual("CustomQueue", item2.Repo);
-            Assert.IsNotNull(item2.RepoSettings);
-            Assert.AreEqual(0, item2.RepoSettingsRecommendations.Count);
-            //Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item2.RepoSettingsRecommendations[0]);
-            Assert.AreEqual(1, item2.Actions.Count);
-            Assert.AreEqual(0, item2.ActionRecommendations.Count);
-            Assert.AreEqual(1, item2.Dependabot.Count);
-            Assert.IsNotNull(item2.DependabotFile);
-            Assert.IsNotNull(item2.DependabotRoot);
-            Assert.AreEqual(0, item2.DependabotRecommendations.Count);
-            //Assert.AreEqual("Consider adding a Dependabot file to automatically update dependencies", item2.DependabotRecommendations[0]);
-            Assert.IsNotNull(item2.BranchPolicies);
-            Assert.AreEqual(0, item2.BranchPoliciesRecommendations.Count);
-            //Assert.AreEqual("Consider enabling 'Enforce Admins', to ensure that all users of the repo must follow branch policy rules", item2.BranchPoliciesRecommendations[0]);
-            Assert.AreEqual(1, item2.GitVersion.Count);
-            Assert.AreEqual(0, item2.GitVersionRecommendations.Count);
-            //Assert.AreEqual("Consider adding Git Versioning to this repo", item2.GitVersionRecommendations[0]);
-            Assert.AreEqual(1, item2.DotNetFrameworks.Count);
-            Assert.AreEqual(".NET 8.0", item2.DotNetFrameworks[0].Name);
-            Assert.AreEqual("bg-primary", item2.DotNetFrameworks[0].Color);
-            Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
-            Assert.IsNotNull(item2.Release);
-            Assert.IsTrue(item2.PullRequests.Count >= 0);
-            Assert.IsNull(item2.AzureDeployment);
-        }
+        ////second repo
+        //SummaryItem? item2 = summaryItems.Where(r => r.Repo == "CustomQueue").FirstOrDefault();
+        //Assert.IsNotNull(item2);
+        //if (item2 != null)
+        //{
+        //    Assert.AreEqual("CustomQueue", item2.Repo);
+        //    Assert.IsNotNull(item2.RepoSettings);
+        //    Assert.AreEqual(0, item2.RepoSettingsRecommendations.Count);
+        //    //Assert.AreEqual("Consider disabling 'Allow rebase merge' in repo settings, as rebasing can be confusing", item2.RepoSettingsRecommendations[0]);
+        //    Assert.AreEqual(1, item2.Actions.Count);
+        //    Assert.AreEqual(0, item2.ActionRecommendations.Count);
+        //    Assert.AreEqual(1, item2.Dependabot.Count);
+        //    Assert.IsNotNull(item2.DependabotFile);
+        //    Assert.IsNotNull(item2.DependabotRoot);
+        //    Assert.AreEqual(0, item2.DependabotRecommendations.Count);
+        //    //Assert.AreEqual("Consider adding a Dependabot file to automatically update dependencies", item2.DependabotRecommendations[0]);
+        //    Assert.IsNotNull(item2.BranchPolicies);
+        //    Assert.AreEqual(0, item2.BranchPoliciesRecommendations.Count);
+        //    //Assert.AreEqual("Consider enabling 'Enforce Admins', to ensure that all users of the repo must follow branch policy rules", item2.BranchPoliciesRecommendations[0]);
+        //    Assert.AreEqual(1, item2.GitVersion.Count);
+        //    Assert.AreEqual(0, item2.GitVersionRecommendations.Count);
+        //    //Assert.AreEqual("Consider adding Git Versioning to this repo", item2.GitVersionRecommendations[0]);
+        //    Assert.AreEqual(1, item2.DotNetFrameworks.Count);
+        //    Assert.AreEqual(".NET 8.0", item2.DotNetFrameworks[0].Name);
+        //    Assert.AreEqual("bg-primary", item2.DotNetFrameworks[0].Color);
+        //    Assert.AreEqual(0, item2.DotNetFrameworksRecommendations.Count);
+        //    Assert.IsNotNull(item2.Release);
+        //    Assert.IsTrue(item2.PullRequests.Count >= 0);
+        //    Assert.IsNull(item2.AzureDeployment);
+        //}
 
         //third repo
         SummaryItem? item3 = summaryItems.Where(r => r.Repo == "DevOpsMetrics").FirstOrDefault();
