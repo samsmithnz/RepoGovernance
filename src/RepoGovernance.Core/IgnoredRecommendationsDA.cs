@@ -10,12 +10,12 @@ namespace RepoGovernance.Core
 
         public IgnoredRecommendationsDA(string connectionString)
         {
-            _tableStorageDA = new TableStorageCommonDA(connectionString, "IgnoredRecommendations");
+            _tableStorageDA = new(connectionString, "IgnoredRecommendations");
         }
 
         public async Task<List<IgnoredRecommendation>> GetIgnoredRecommendations(string user)
         {
-            List<IgnoredRecommendation> ignoredRecommendations = new List<IgnoredRecommendation>();
+            List<IgnoredRecommendation> ignoredRecommendations = new();
             List<AzureStorageTableModel> items = await _tableStorageDA.GetItems(user);
             
             foreach (AzureStorageTableModel item in items)
@@ -50,11 +50,11 @@ namespace RepoGovernance.Core
             try
             {
                 Console.WriteLine($"IgnoreRecommendation called with user={user}, owner={owner}, repository={repository}, type={recommendationType}, details={recommendationDetails}");
-                IgnoredRecommendation ignoredRecommendation = new IgnoredRecommendation(user, owner, repository, recommendationType, recommendationDetails);
+                IgnoredRecommendation ignoredRecommendation = new(user, owner, repository, recommendationType, recommendationDetails);
                 string data = JsonSerializer.Serialize(ignoredRecommendation);
                 string uniqueId = ignoredRecommendation.GetUniqueId();
                 Console.WriteLine($"Generated uniqueId: {uniqueId}");
-                AzureStorageTableModel storageItem = new AzureStorageTableModel(user, uniqueId, data);
+                AzureStorageTableModel storageItem = new(user, uniqueId, data);
                 Console.WriteLine($"Saving item to table storage...");
                 bool result = await _tableStorageDA.SaveItem(storageItem);
                 Console.WriteLine($"SaveItem result: {result}");
@@ -69,7 +69,7 @@ namespace RepoGovernance.Core
 
         public async Task<bool> UnignoreRecommendation(string user, string owner, string repository, string recommendationType, string recommendationDetails)
         {
-            IgnoredRecommendation temp = new IgnoredRecommendation(user, owner, repository, recommendationType, recommendationDetails);
+            IgnoredRecommendation temp = new(user, owner, repository, recommendationType, recommendationDetails);
             string uniqueId = temp.GetUniqueId();
             
             // Get the item first to delete it
@@ -81,13 +81,13 @@ namespace RepoGovernance.Core
 
             // For now, we'll mark it as "deleted" by updating with empty data
             // This is a simple approach that works with the existing SaveItem method
-            AzureStorageTableModel updatedItem = new AzureStorageTableModel(user, uniqueId, "");
+            AzureStorageTableModel updatedItem = new(user, uniqueId, "");
             return await _tableStorageDA.SaveItem(updatedItem);
         }
 
         public async Task<bool> IsRecommendationIgnored(string user, string owner, string repository, string recommendationType, string recommendationDetails)
         {
-            IgnoredRecommendation temp = new IgnoredRecommendation(user, owner, repository, recommendationType, recommendationDetails);
+            IgnoredRecommendation temp = new(user, owner, repository, recommendationType, recommendationDetails);
             string uniqueId = temp.GetUniqueId();
             
             AzureStorageTableModel? item = await _tableStorageDA.GetItem(user, uniqueId);
