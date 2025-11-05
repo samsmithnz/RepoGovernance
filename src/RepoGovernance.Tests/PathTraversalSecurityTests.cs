@@ -132,52 +132,92 @@ namespace RepoGovernance.Tests
         public void BaseApi_ShouldRejectMaliciousUrls()
         {
             // Test path traversal sequences
-            Assert.ThrowsException<ArgumentException>(() =>
+            try
             {
                 // This should trigger the URL validation in BaseApi.GetResponse
                 TestHelper.CallBaseApiWithUrl("https://api.github.com/../../../admin");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
 
-            Assert.ThrowsException<ArgumentException>(() =>
+            try
             {
                 TestHelper.CallBaseApiWithUrl("https://api.github.com/repos/owner/repo/../../../admin");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
 
-            Assert.ThrowsException<ArgumentException>(() =>
+            try
             {
                 TestHelper.CallBaseApiWithUrl("https://example.com/%2e%2e%2f%2e%2e%2fadmin");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
         public void BaseApi_ShouldRejectPrivateNetworkUrls()
         {
             // Test localhost rejection
-            Assert.ThrowsException<ArgumentException>(() =>
+            try
             {
                 TestHelper.CallBaseApiWithUrl("http://localhost:8080/api");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
 
-            Assert.ThrowsException<ArgumentException>(() =>
+            try
             {
                 TestHelper.CallBaseApiWithUrl("http://127.0.0.1:8080/api");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
 
             // Test private IP ranges rejection
-            Assert.ThrowsException<ArgumentException>(() =>
+            try
             {
                 TestHelper.CallBaseApiWithUrl("http://192.168.1.1/api");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
 
-            Assert.ThrowsException<ArgumentException>(() =>
+            try
             {
                 TestHelper.CallBaseApiWithUrl("http://10.0.0.1/api");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
 
-            Assert.ThrowsException<ArgumentException>(() =>
+            try
             {
                 TestHelper.CallBaseApiWithUrl("http://172.16.0.1/api");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
@@ -218,28 +258,48 @@ namespace RepoGovernance.Tests
         public void BaseApi_ShouldRejectAdvancedPathTraversalAttacks()
         {
             // Test uppercase URL-encoded path traversal
-            Assert.ThrowsException<ArgumentException>(() =>
+            try
             {
                 TestHelper.CallBaseApiWithUrl("https://api.github.com/%2E%2E%2F%2E%2E%2Fadmin");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
 
             // Test double-encoded path traversal
-            Assert.ThrowsException<ArgumentException>(() =>
+            try
             {
                 TestHelper.CallBaseApiWithUrl("https://api.github.com/%252e%252e%252f%252e%252e%252fadmin");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
 
             // Test null byte injection
-            Assert.ThrowsException<ArgumentException>(() =>
+            try
             {
                 TestHelper.CallBaseApiWithUrl("https://api.github.com/api%00/../admin");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
 
             // Test protocol-relative URLs
-            Assert.ThrowsException<ArgumentException>(() =>
+            try
             {
                 TestHelper.CallBaseApiWithUrl("//malicious.com/steal-data");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
         }
 
 
