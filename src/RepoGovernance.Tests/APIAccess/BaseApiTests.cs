@@ -116,10 +116,15 @@ namespace RepoGovernance.Tests.APIAccess
             using HttpClient client = new HttpClient(handler);
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<HttpRequestException>(async () =>
+            try
             {
                 await BaseApi.GetResponse<TestModel>(client, "http://example.com", false);
-            });
+                Assert.Fail("Expected HttpRequestException was not thrown");
+            }
+            catch (HttpRequestException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
@@ -133,10 +138,15 @@ namespace RepoGovernance.Tests.APIAccess
             // Act & Assert
             // The BaseApi method doesn't handle JSON parsing errors gracefully
             // so this will throw an exception (which is the current behavior)
-            await Assert.ThrowsExceptionAsync<JsonReaderException>(async () =>
+            try
             {
                 await BaseApi.GetResponse<TestModel>(client, "http://example.com");
-            });
+                Assert.Fail("Expected JsonReaderException was not thrown");
+            }
+            catch (JsonReaderException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
@@ -146,10 +156,15 @@ namespace RepoGovernance.Tests.APIAccess
             using HttpClient client = new HttpClient();
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            try
             {
                 await BaseApi.GetResponse<TestModel>(client, "http://example.com/../../../etc/passwd");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
@@ -159,10 +174,15 @@ namespace RepoGovernance.Tests.APIAccess
             using HttpClient client = new HttpClient();
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            try
             {
                 await BaseApi.GetResponse<TestModel>(client, "http://localhost:8080/api/data");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
@@ -172,10 +192,15 @@ namespace RepoGovernance.Tests.APIAccess
             using HttpClient client = new HttpClient();
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            try
             {
                 await BaseApi.GetResponse<TestModel>(client, "http://192.168.1.1/api/data");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
@@ -185,10 +210,15 @@ namespace RepoGovernance.Tests.APIAccess
             using HttpClient client = new HttpClient();
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            try
             {
                 await BaseApi.GetResponse<TestModel>(client, "ftp://example.com/file.txt");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
@@ -218,10 +248,15 @@ namespace RepoGovernance.Tests.APIAccess
             using HttpClient client = new HttpClient();
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            try
             {
                 await BaseApi.GetResponse<TestModel>(client, "http://example.com/%2e%2e%2f%2e%2e%2fpasswd");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
@@ -231,10 +266,15 @@ namespace RepoGovernance.Tests.APIAccess
             using HttpClient client = new HttpClient();
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            try
             {
                 await BaseApi.GetResponse<TestModel>(client, "");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
@@ -244,10 +284,15 @@ namespace RepoGovernance.Tests.APIAccess
             using HttpClient client = new HttpClient();
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            try
             {
                 await BaseApi.GetResponse<TestModel>(client, "   ");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
@@ -257,10 +302,15 @@ namespace RepoGovernance.Tests.APIAccess
             using HttpClient client = new HttpClient();
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            try
             {
                 await BaseApi.GetResponse<TestModel>(client, "http://example.com/%2E%2E%2F%2E%2E%2Fpasswd");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
@@ -270,10 +320,15 @@ namespace RepoGovernance.Tests.APIAccess
             using HttpClient client = new HttpClient();
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            try
             {
                 await BaseApi.GetResponse<TestModel>(client, "http://example.com/%252e%252e%252f%252e%252e%252fpasswd");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
@@ -283,10 +338,15 @@ namespace RepoGovernance.Tests.APIAccess
             using HttpClient client = new HttpClient();
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            try
             {
                 await BaseApi.GetResponse<TestModel>(client, "http://example.com/api%00/../passwd");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
@@ -296,10 +356,15 @@ namespace RepoGovernance.Tests.APIAccess
             using HttpClient client = new HttpClient();
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            try
             {
                 await BaseApi.GetResponse<TestModel>(client, "//malicious.com/api");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
@@ -309,10 +374,15 @@ namespace RepoGovernance.Tests.APIAccess
             using HttpClient client = new HttpClient();
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
+            try
             {
                 await BaseApi.GetResponse<TestModel>(client, "http://example.com/../..\\..\\passwd");
-            });
+                Assert.Fail("Expected ArgumentException was not thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Expected exception
+            }
         }
     }
 
