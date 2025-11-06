@@ -210,9 +210,13 @@ namespace RepoGovernance.Core
                     }
                 }
 
-                //Get branch policies
+                //Get branch policies (traditional branch protection)
                 BranchProtectionPolicy? branchPolicies = await GitHubApiAccess.GetBranchProtectionPolicy(clientId, secret, owner, repo, "main");
-                if (branchPolicies == null)
+                
+                // Also check for Repository Rules (newer GitHub feature)
+                bool hasRepositoryRules = await GitHubRepositoryRulesApi.HasRepositoryRulesProtection(clientId, secret, owner, repo, "main");
+                
+                if (branchPolicies == null && !hasRepositoryRules)
                 {
                     summaryItem?.BranchPoliciesRecommendations.Add("Consider adding a branch policy to protect the main branch");
                 }
