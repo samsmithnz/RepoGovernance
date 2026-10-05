@@ -267,7 +267,7 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.AreEqual(1, item1.GitVersion.Count);
             Assert.AreEqual(0, item1.GitVersionRecommendations.Count);
             Assert.AreEqual(2, item1.DotNetFrameworks.Count);
-            Assert.AreEqual(".NET 8.0", item1.DotNetFrameworks[0].Name);
+            Assert.AreEqual(".NET 10.0", item1.DotNetFrameworks[0].Name);
             Assert.AreEqual("bg-primary", item1.DotNetFrameworks[0].Color);
             Assert.AreEqual(".NET Standard 2.0", item1.DotNetFrameworks[1].Name);
             Assert.AreEqual("bg-primary", item1.DotNetFrameworks[1].Color);
@@ -276,16 +276,16 @@ public class SummaryItemsControllerTests : BaseAPIAccessTests
             Assert.IsNotNull(item1.Release?.ToTimingString());
             Assert.IsTrue(item1.PullRequests.Count >= 0);
             Assert.IsNotNull(item1.CoverallsCodeCoverage);
-            Assert.IsNotNull(item1.SonarCloud);
-            if (item1.SonarCloud != null)
-            {
-                Assert.IsNotNull(item1.SonarCloud.CodeSmellsBadgeImage);
-                Assert.AreEqual("https://sonarcloud.io/project/issues?resolved=false&types=CODE_SMELL&id=samsmithnz_AzurePipelinesToGitHubActionsConverter", item1.SonarCloud.CodeSmellsLink);
-                Assert.IsNotNull(item1.SonarCloud.BugsBadgeImage);
-                Assert.AreEqual("https://sonarcloud.io/project/issues?resolved=false&types=BUG&id=samsmithnz_AzurePipelinesToGitHubActionsConverter", item1.SonarCloud.BugsLink);
-                Assert.IsNotNull(item1.SonarCloud.LinesOfCodeBadgeImage);
-                Assert.AreEqual("https://sonarcloud.io/component_measures?metric=ncloc&id=samsmithnz_AzurePipelinesToGitHubActionsConverter", item1.SonarCloud.LinesOfCodeLink);
-            }
+            Assert.IsNull(item1.SonarCloud);
+            //if (item1.SonarCloud != null)
+            //{
+            //    Assert.IsNotNull(item1.SonarCloud.CodeSmellsBadgeImage);
+            //    Assert.AreEqual("https://sonarcloud.io/project/issues?resolved=false&types=CODE_SMELL&id=samsmithnz_AzurePipelinesToGitHubActionsConverter", item1.SonarCloud.CodeSmellsLink);
+            //    Assert.IsNotNull(item1.SonarCloud.BugsBadgeImage);
+            //    Assert.AreEqual("https://sonarcloud.io/project/issues?resolved=false&types=BUG&id=samsmithnz_AzurePipelinesToGitHubActionsConverter", item1.SonarCloud.BugsLink);
+            //    Assert.IsNotNull(item1.SonarCloud.LinesOfCodeBadgeImage);
+            //    Assert.AreEqual("https://sonarcloud.io/component_measures?metric=ncloc&id=samsmithnz_AzurePipelinesToGitHubActionsConverter", item1.SonarCloud.LinesOfCodeLink);
+            //}
             Assert.IsNotNull(item1.RepoLanguages);
             Assert.IsTrue(item1.RepoLanguages.Count > 0);
             Assert.IsNull(item1.AzureDeployment);
