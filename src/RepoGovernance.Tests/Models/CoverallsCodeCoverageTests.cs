@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using RepoGovernance.Core.Models;
 using System.Diagnostics.CodeAnalysis;
 
@@ -41,6 +42,28 @@ namespace RepoGovernance.Tests.Models
             Assert.AreEqual("https://example.com/badge.svg", coverage.badge_url);
             Assert.AreEqual(5.5, coverage.coverage_change);
             Assert.AreEqual(85.7, coverage.covered_percent);
+        }
+
+        [TestMethod]
+        [DataRow("{}", 0.0, 0.0)]
+        [DataRow("{\"covered_percent\":null}", 0.0, 0.0)]
+        [DataRow("{\"coverage_change\":null}", 0.0, 0.0)]
+        [DataRow("{\"covered_percent\":null,\"coverage_change\":null}", 0.0, 0.0)]
+        [DataRow("{\"covered_percent\":null,\"coverage_change\":-3.2}", 0.0, -3.2)]
+        [DataRow("{\"covered_percent\":85.7,\"coverage_change\":null}", 85.7, 0.0)]
+        [DataRow("{\"covered_percent\":0,\"coverage_change\":0}", 0.0, 0.0)]
+        [DataRow("{\"covered_percent\":85.7,\"coverage_change\":5.5}", 85.7, 5.5)]
+        [DataRow("{\"covered_percent\":100,\"coverage_change\":-3.2}", 100.0, -3.2)]
+        public void DeserializeObject_NullMissingOrNumericMetrics_ReturnsExpectedValues(
+            string json, double expectedCoveredPercent, double expectedCoverageChange)
+        {
+            // Act
+            CoverallsCodeCoverage? coverage = JsonConvert.DeserializeObject<CoverallsCodeCoverage>(json);
+
+            // Assert
+            Assert.IsNotNull(coverage);
+            Assert.AreEqual(expectedCoveredPercent, coverage.covered_percent);
+            Assert.AreEqual(expectedCoverageChange, coverage.coverage_change);
         }
 
         [TestMethod]
