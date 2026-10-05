@@ -4,9 +4,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
+builder.Services.AddApplicationInsightsTelemetry(builder.Configuration);
 
-//Add DI for the service api client 
+//Add DI for the service api client
 builder.Services.AddScoped<ISummaryItemsServiceApiClient, SummaryItemsServiceApiClient>();
 
 var app = builder.Build();
