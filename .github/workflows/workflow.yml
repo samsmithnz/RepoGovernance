@@ -87,7 +87,7 @@ jobs:
         AppSettings.AzureClientId: "${{ secrets.AzureClientId }}" 
         AppSettings.AzureClientSecret: "${{ secrets.AzureClientSecret }}"
     #- run: echo "Tenant Id: $(env.AppSettings.AzureTenantId)"
-    - name: .NET restore
+    - name: .NET restore # This is important, don't remove - it speeds up the nuget tests from 15 minutes per test to less than a minute, but optimizing the NuGet cache with the restore
       run: dotnet restore src/RepoGovernance.Tests/RepoGovernance.Tests.csproj
     - name: .NET test
       run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj --configuration Debug --logger trx -e:CollectCoverage=true -e:CoverletOutput=TestResults/ -e:CoverletOutputFormat=lcov -l "console;verbosity=detailed"
