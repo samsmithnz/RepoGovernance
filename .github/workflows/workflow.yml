@@ -29,20 +29,20 @@ jobs:
         echo "Version: ${{ steps.gitversion.outputs.MajorMinorPatch }}"
         echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}"
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 10.0.x
     - name: .NET publish
       run: dotnet publish src/RepoGovernance.Core/RepoGovernance.Core.csproj -c Release -p:Version='${{ steps.gitversion.outputs.MajorMinorPatch }}'
     - name: Upload package back to GitHub
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: drop
         path: src/RepoGovernance.Core/bin/Release
     - name: .NET publish service
       run: dotnet publish src/RepoGovernance.Web/RepoGovernance.Web.csproj -c Release -p:Version='${{ steps.gitversion.outputs.MajorMinorPatch }}' --output ${{ github.workspace }}/web
     - name: Upload package back to GitHub
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: web
         path: ${{ github.workspace }}/web
@@ -50,7 +50,7 @@ jobs:
     - name: .NET publish website
       run: dotnet publish src/RepoGovernance.Service/RepoGovernance.Service.csproj -c Release -p:Version='${{ steps.gitversion.outputs.MajorMinorPatch }}' --output ${{ github.workspace }}/service
     - name: Upload package back to GitHub
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: service
         path: ${{ github.workspace }}/service
@@ -58,7 +58,7 @@ jobs:
     # - name: .NET publish function
     #   run: dotnet publish src/RepoGovernance.Function/RepoGovernance.Function.csproj -c Release -p:Version='${{ steps.gitversion.outputs.MajorMinorPatch }}' --output ${{ github.workspace }}/function
     # - name: Upload package back to GitHub
-    #   uses: actions/upload-artifact@v4
+    #   uses: actions/upload-artifact@v5
     #   with:
     #     name: function
     #     path: ${{ github.workspace }}/function
@@ -71,7 +71,7 @@ jobs:
     steps:
     - uses: actions/checkout@v5
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 10.0.x
     - name: Variable Substitution appsettings file for tests
@@ -138,12 +138,12 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: service
           path: service
       - name: Download artifact from build job
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: web
           path: web
@@ -185,7 +185,7 @@ jobs:
 
   #   steps:
   #     - name: Download artifact from build job
-  #       uses: actions/download-artifact@v5
+  #       uses: actions/download-artifact@v6
   #       with:
   #         name: function
   #         path: function
