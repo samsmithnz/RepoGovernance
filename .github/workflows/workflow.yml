@@ -18,12 +18,12 @@ jobs:
       with:
         fetch-depth: 0
     - name: Setup GitVersion
-      uses: gittools/actions/gitversion/setup@v4.2.0
+      uses: gittools/actions/gitversion/setup@v4.7.0
       with:
         versionSpec: 6.x
     - name: Determine Version
       id: gitversion
-      uses: gittools/actions/gitversion/execute@v4.2.0
+      uses: gittools/actions/gitversion/execute@v4.7.0
     - name: Display GitVersion outputs
       run: |
         echo "Version: ${{ steps.gitversion.outputs.MajorMinorPatch }}"
@@ -92,7 +92,7 @@ jobs:
     - name: .NET test
       run: dotnet test src/RepoGovernance.Tests/RepoGovernance.Tests.csproj --configuration Debug --logger trx -e:CollectCoverage=true -e:CoverletOutput=TestResults/ -e:CoverletOutputFormat=lcov -l "console;verbosity=detailed"
     - name: Publish coverage report to coveralls.io
-      uses: coverallsapp/github-action@v2.3.6
+      uses: coverallsapp/github-action@v2.3.8
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: src/RepoGovernance.Tests/TestResults/coverage.info 
