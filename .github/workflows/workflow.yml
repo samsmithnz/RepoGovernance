@@ -150,7 +150,7 @@ jobs:
           name: web
           path: web
       - name: Log into Azure
-        uses: azure/login@v2
+        uses: azure/login@v3
         with:
           creds: ${{ secrets.AZURE_SP }} 
       - name: Set service secrets
@@ -192,7 +192,7 @@ jobs:
   #         name: function
   #         path: function
   #     - name: Log into Azure
-  #       uses: azure/login@v2
+  #       uses: azure/login@v3
   #       with:
   #         creds: ${{ secrets.AZURE_SP }} 
   #     - name: Set function secrets
