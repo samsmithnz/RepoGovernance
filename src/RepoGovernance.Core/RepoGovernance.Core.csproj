@@ -11,10 +11,10 @@
     <PackageReference Include="Azure.Identity" Version="1.21.0" />
     <PackageReference Include="DotNetCensus.Core" Version="1.14.1" />
     <PackageReference Include="GitHubActionsDotNet" Version="1.5.9" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.12" />
-    <PackageReference Include="Microsoft.Graph" Version="6.8.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.13" />
+    <PackageReference Include="Microsoft.Graph" Version="6.9.0" />
     <PackageReference Include="RepoAutomation.Core" Version="1.9.1" />
-    <PackageReference Include="System.Text.Json" Version="10.0.12" />	  
+    <PackageReference Include="System.Text.Json" Version="10.0.13" />	  
   </ItemGroup>
 
 </Project>
